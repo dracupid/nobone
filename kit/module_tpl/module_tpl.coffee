@@ -11,7 +11,6 @@ class <%= class_name %> extends NB.Module
 	home: (req, res) =>
 		# Load sections.
 		data = {
-			title: @name
 			head: @r.render('assets/ejs/head.ejs')
 			foot: @r.render('assets/ejs/foot.ejs')
 			name: @name
