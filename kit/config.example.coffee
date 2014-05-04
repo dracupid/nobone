@@ -27,6 +27,12 @@ NB.conf = {
 
 }
 
+if NB.conf.mode == 'production'
+	NB.conf.auto_reload_page = false
+
+if NB.conf.auto_reload_page
+	NB.conf.enable_socket_io = true
+
 NB.conf.client_conf = {
 
 	url_prefix: NB.conf.url_prefix
@@ -37,9 +43,3 @@ NB.conf.client_conf = {
 	mode: NB.conf.mode
 
 }
-
-if NB.conf.mode == 'production'
-	NB.conf.auto_reload_page = false
-
-if NB.conf.auto_reload_page
-	NB.conf.enable_socket_io = true
