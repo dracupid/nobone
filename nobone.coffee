@@ -14,9 +14,6 @@ class NB.Nobone extends NB.Module
 
 		NB.nobone = @
 
-		# Must be init first.
-		@init_config()
-
 		@init_modules()
 
 		@init_global_router()
@@ -24,17 +21,13 @@ class NB.Nobone extends NB.Module
 		if NB.conf.auto_reload_page
 			@init_auto_reload_page()
 
-	init_config: ->
-		# Set the body parser.
-		NB.app.use(NB.express.json())
-		NB.app.use(NB.express.urlencoded())
-
 	init_global_router: ->
-		@set_static_dir('bower_components')
-		@set_static_dir('assets')
-		NB.app.use('/usr', NB.express.static('usr'))
+		@set_static_dir 'bower_components'
+		@set_static_dir 'assets'
+		NB.app.use '/usr', NB.express.static('usr')
 
-		NB.app.use(NB.express.favicon('assets/img/NB.png'))
+		NB.app.use '/favicon.ico', (req, res) ->
+			res.sendfile 'assets/img/NB.png'
 
 		NB.app.use(@show_404)
 

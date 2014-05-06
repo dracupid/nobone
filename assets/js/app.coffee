@@ -33,4 +33,4 @@ class NB.Nobone
 			sock.on 'code_reload', (path) ->
 				location.reload()
 
-		require [_u() + '/socket.io/socket.io.js'], init
+		require [_.u() + 'socket.io/socket.io.js'], init
