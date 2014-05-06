@@ -1,5 +1,6 @@
 #!node_modules/.bin/coffee
 
+_ = require 'underscore'
 require 'colors'
 Q = require 'q'
 os = require '../sys/os'
@@ -47,6 +48,11 @@ switch process.argv[2]
 				'-a', '-o', 'var/log/std.log', '-e', 'var/log/err.log' # log
 				'-c', coffee_bin, app_path
 			]
+			{
+				env: _.extend(
+					process.env, { NODE_ENV: 'production' }
+				)
+			}
 		)
 
 	when 'stop'
