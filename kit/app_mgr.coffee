@@ -10,6 +10,13 @@ coffee_bin = 'node_modules/.bin/coffee'
 forever_bin = 'node_modules/.bin/forever'
 app_path = process.cwd() + '/nobone.coffee'
 
+env_mode = (mode) ->
+	{
+		env: _.extend(
+			process.env, { NODE_ENV: mode }
+		)
+	}
+
 switch process.argv[2]
 	when 'setup'
 		conf_path = 'var/config.coffee'
@@ -29,7 +36,7 @@ switch process.argv[2]
 
 	when 'test'
 		# Redirect process io to stdio.
-		os.spawn coffee_bin, [app_path]
+		os.spawn coffee_bin, [app_path], env_mode 'development'
 
 	when 'debug'
 		global.NB = {}
@@ -37,6 +44,7 @@ switch process.argv[2]
 		os.spawn(
 			coffee_bin
 			['--nodejs', '--debug-brk=' + NB.conf.debug_port, app_path]
+			env_mode 'development'
 		)
 
 	when 'start'
@@ -48,11 +56,7 @@ switch process.argv[2]
 				'-a', '-o', 'var/log/std.log', '-e', 'var/log/err.log' # log
 				'-c', coffee_bin, app_path
 			]
-			{
-				env: _.extend(
-					process.env, { NODE_ENV: 'production' }
-				)
-			}
+			env_mode 'production'
 		)
 
 	when 'stop'
