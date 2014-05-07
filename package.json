@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "main": "nobone.coffee",
   "scripts": {
-    "setup": "node_modules/.bin/coffee kit/app_mgr.coffee setup",
-    "test": "node_modules/.bin/coffee kit/app_mgr.coffee test",
-    "start": "node_modules/.bin/coffee kit/app_mgr.coffee start",
-    "stop": "node_modules/.bin/coffee kit/app_mgr.coffee stop"
+    "setup": "coffee kit/app_mgr.coffee setup",
+    "test": "coffee kit/app_mgr.coffee test",
+    "start": "coffee kit/app_mgr.coffee start",
+    "stop": "coffee kit/app_mgr.coffee stop"
   },
   "dependencies": {
     "bower": "~1.3.3",
@@ -24,7 +24,8 @@
     "socket.io": "~0.9.16",
     "stylus": "~0.38.0",
     "underscore": "~1.5.2",
-    "underscore.string": "~2.3.3"
+    "underscore.string": "~2.3.3",
+    "which": "^1.0.5"
   },
   "devDependencies": {
     "gaze": "~0.4.3",

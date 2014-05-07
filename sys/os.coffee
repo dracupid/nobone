@@ -4,6 +4,7 @@ fs = require 'fs-extra'
 graceful = require 'graceful-fs'
 child_process = require 'child_process'
 glob = require 'glob'
+which = require 'which'
 
 module.exports =
 
@@ -11,6 +12,14 @@ module.exports =
 		deferred = Q.defer()
 
 		opts = _.defaults options, { stdio: 'inherit' }
+
+		# The Windows use something like `coffee.cmd` in `node_moduels/.bin` folder.
+		if process.platform == 'win32'
+			win_cmd = cmd + '.cmd'
+			if fs.existsSync win_cmd
+				cmd = win_cmd
+			else if not fs.existsSync cmd
+				cmd = which.sync(cmd)
 
 		ps = child_process.spawn cmd, args, opts
 
