@@ -1,5 +1,6 @@
 #!node_modules/.bin/coffee
 
+require 'coffee-script/register'
 _ = require 'underscore'
 require 'colors'
 Q = require 'q'

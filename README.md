@@ -55,8 +55,6 @@ Let's create a sample application with namespace `MOE` and named `App`.
 
     ```bash
     npm install
-    npm install -g coffee-script
-    npm run-script setup
     ```
 0. Create the module.
 
