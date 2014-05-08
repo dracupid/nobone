@@ -1,18 +1,33 @@
 #! node_modules/.bin/coffee
 
-Q = require 'Q'
+Q = require 'q'
 _ = require 'underscore'
 os = require '../sys/os'
 
-if not process.argv[2]
-	console.log 'Usage: make_module Namespace.Class_name'
-	return
-
-[namespace, class_name] = process.argv[2].split('.')
-
-pname = class_name.toLowerCase()
+namespace = ''
+class_name = ''
+pname = ''
 
 Q.fcall ->
+	os.prompt_get [{
+		name: 'namespace'
+		description: 'The namespace of the module:'
+		default: 'NB'
+	}, {
+		name: 'class_name'
+		description: 'The class name of the module:'
+		required: true
+		pattern: /[A-Z][a-zA-Z_]+/
+	}]
+.catch (e) ->
+	if e.message == 'canceled'
+		console.log "\n>> Canceled."
+		process.exit 0
+.then (result) ->
+	pname = result.class_name.toLowerCase()
+	namespace = result.namespace
+	class_name = result.class_name
+
 	os.remove pname
 .then ->
 	os.copy('kit/module_tpl', pname)

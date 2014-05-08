@@ -64,4 +64,4 @@ switch process.argv[2]
 		os.spawn forever_bin, ['stop', app_path]
 
 	else
-		console.error '>> No such command: ' + process.argv[2].red
+		console.error '>> No such command: ' + process.argv[2]

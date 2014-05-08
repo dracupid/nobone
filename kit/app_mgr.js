@@ -59,7 +59,7 @@
       os.spawn(forever_bin, ['stop', app_path]);
       break;
     default:
-      console.error('>> No such command: ' + process.argv[2].red);
+      console.error('>> No such command: ' + process.argv[2]);
   }
 
 }).call(this);

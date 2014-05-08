@@ -1,0 +1,4 @@
+require('coffee-script/register');
+
+task 'module', 'Make a new module', ->
+	require './kit/make_module'

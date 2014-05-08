@@ -5,6 +5,11 @@ graceful = require 'graceful-fs'
 child_process = require 'child_process'
 glob = require 'glob'
 which = require 'which'
+prompt = require 'prompt'
+
+prompt = require 'prompt'
+prompt.message = '>> '
+prompt.delimiter = ''
 
 module.exports =
 
@@ -50,3 +55,4 @@ module.exports =
 	remove: Q.denodeify fs.remove
 	chmod: Q.denodeify fs.chmod
 	glob: Q.denodeify glob
+	prompt_get: Q.denodeify prompt.get

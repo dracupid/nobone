@@ -56,10 +56,10 @@ Let's create a sample application with namespace `MOE` and named `App`.
     ```bash
     npm install
     ```
-0. Create the module.
+0. Create the module. (If you haven't installed coffee-script, install it first)
 
     ```bash
-    kit/make_module.coffee MOE.App
+    cake module
     ```
 
     You can look into the `app` folder and custom whatever you want.
