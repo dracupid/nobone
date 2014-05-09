@@ -83,7 +83,7 @@ class NB.Module
 
 	_load_confs: ->
 		NB.package ?= require '../package.json'
-		require '../var/config'
+		require '../var/NB_config'
 
 	_load_langs: ->
 		if not NB.langs

@@ -22,8 +22,8 @@
 
   switch (process.argv[2]) {
     case 'setup':
-      conf_path = 'var/config.coffee';
-      example_path = 'kit/config.example.coffee';
+      conf_path = 'var/NB_config.coffee';
+      example_path = 'kit/NB_config.example.coffee';
       Q.fcall(function() {
         console.log(">> Install bower...".cyan);
         return os.spawn('node_modules/.bin/bower', ['--allow-root', 'install']);
@@ -43,7 +43,7 @@
       break;
     case 'debug':
       global.NB = {};
-      require('../var/config');
+      require('../var/NB_config');
       os.spawn(coffee_bin, ['--nodejs', '--debug-brk=' + NB.conf.debug_port, app_path]);
       break;
     case 'start':

@@ -16,8 +16,8 @@ app_path = process.cwd() + '/nobone.coffee'
 
 switch process.argv[2]
 	when 'setup'
-		conf_path = 'var/config.coffee'
-		example_path = 'kit/config.example.coffee'
+		conf_path = 'var/NB_config.coffee'
+		example_path = 'kit/NB_config.example.coffee'
 
 		Q.fcall ->
 			console.log ">> Install bower...".cyan
@@ -37,7 +37,7 @@ switch process.argv[2]
 
 	when 'debug'
 		global.NB = {}
-		require '../var/config'
+		require '../var/NB_config'
 		os.spawn(
 			coffee_bin
 			['--nodejs', '--debug-brk=' + NB.conf.debug_port, app_path]
