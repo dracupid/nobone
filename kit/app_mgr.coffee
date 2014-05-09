@@ -35,7 +35,7 @@ switch process.argv[2]
 		.done ->
 			console.log '>> Setup finished.'.yellow
 
-	when 'test'
+	when 'dev'
 		# Redirect process io to stdio.
 		os.spawn coffee_bin, [app_path], env_mode 'development'
 

@@ -4,7 +4,6 @@
   "main": "nobone.coffee",
   "scripts": {
     "install": "node kit/app_mgr.js setup",
-    "test": "node kit/app_mgr.js test",
     "start": "node kit/app_mgr.js start",
     "stop": "node kit/app_mgr.js stop"
   },

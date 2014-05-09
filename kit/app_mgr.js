@@ -44,7 +44,7 @@
         return console.log('>> Setup finished.'.yellow);
       });
       break;
-    case 'test':
+    case 'dev':
       os.spawn(coffee_bin, [app_path], env_mode('development'));
       break;
     case 'debug':
