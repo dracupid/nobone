@@ -13,14 +13,14 @@ _.mixin
 		try
 			func()
 		catch e
-			console.error "\u0007\n" # Bell sound
-			console.error """>> #{err_msg}
+			_.log "\u0007\n", 'error' # Bell sound
+			_.log """>> #{err_msg}
 				>> #{e}
 				>> Stack: #{e.stack}
-			""".c('red')
+			""".c('red'), 'error'
 			if e.location
-				console.error JSON.stringify(e, null, 4).c('red')
-			console.error "<<".c('red')
+				_.log JSON.stringify(e, null, 4).c('red'), 'error'
+			_.log "<<".c('red'), 'error'
 
 	safe_extend: (objs...) ->
 		###
@@ -83,11 +83,9 @@ _.mixin
 					else
 						NB.code_cache_pool[path] = str
 
-					t = (new Date).toLocaleTimeString()
-
 					if !is_first_load
 						NB.nobone.emitter.emit 'code_reload', path
-						console.log (">> #{t} Reload: " + path).c('green')
+						_.log (">> Reload: " + path).c('green')
 				"Load error: " + path
 			)
 
@@ -101,9 +99,9 @@ _.mixin
 			gaze.on('deleted', =>
 				delete NB.code_cache_pool[path]
 				gaze.remove(path)
-				console.log ">> Watch removed: #{path}".c('yellow')
+				_.log ">> Watch removed: #{path}".c('yellow')
 			)
-			console.log (">> #{_.t} Watch: " + path).c('green')
+			_.log (">> Watch: " + path).c('green')
 
 		return NB.code_cache_pool[path]
 
@@ -136,6 +134,12 @@ _.mixin
 		_.each(tasks, (task, k) ->
 			task(check, k)
 		)
+
+	log: (msg, method = 'log') ->
+		if NB.conf.log_to_std
+			console[method] '[' + Date.now() + ']' + msg
+
+		NB.nobone.emitter.emit 'log', msg, method
 
 	l: (english) ->
 		###
@@ -173,11 +177,6 @@ _.mixin
 
 
 # Other helpers
-
-	# A getter for underscore to get current time string.
-	Object.defineProperty _, 't', {
-		get: -> '[' + new Date().toString() + ']'
-	}
 
 	# String color getter only works on none-production mode.
 	String.prototype.c = (color) ->

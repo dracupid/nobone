@@ -25,6 +25,8 @@ NB.conf = {
 
 	url_prefix: '/'
 
+	log_to_std: true
+
 }
 
 if NB.conf.mode == 'production'

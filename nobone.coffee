@@ -2,8 +2,6 @@
 	This is the main entrance of the project.
 ###
 
-_init_timestamp = Date.now()
-
 global.NB = {}
 
 require './sys/module'
@@ -42,7 +40,7 @@ class NB.Nobone extends NB.Module
 
 			ns[class_name.toLowerCase()] = new ns[class_name]
 
-			console.log ">> Load module: #{name}:#{path}".c('green')
+			_.log ">> Load module: #{name}:#{path}".c('green')
 
 	init_database: ->
 		require './sys/database'
@@ -79,11 +77,10 @@ class NB.Nobone extends NB.Module
 
 	launch: ->
 		NB.server.listen NB.conf.port
-		console.log ("""
+		_.log ("""
 			*** #{NB.package.name.toUpperCase()} #{NB.package.version} ***
 			>> Node version: #{process.version}
 			>> Start at port: #{NB.conf.port}
-			>> Date: #{_.t}
 		""").c('cyan')
 
 
@@ -91,5 +88,3 @@ class NB.Nobone extends NB.Module
 new NB.Nobone
 
 NB.nobone.launch()
-
-console.log ">> Took #{Date.now() - _init_timestamp}ms to startup.".c('cyan')
