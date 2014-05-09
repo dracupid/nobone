@@ -45,6 +45,14 @@ module.exports =
 			deferred.resolve exists
 		return deferred.promise
 
+
+	env_mode: (mode) ->
+		{
+			env: _.extend(
+				process.env, { NODE_ENV: mode }
+			)
+		}
+
 	path: require 'path'
 
 	# Use graceful-fs to prevent os max open file limit error.
