@@ -2,6 +2,8 @@
 (function() {
   var Q, app_path, coffee_bin, conf_path, example_path, forever_bin, os, _;
 
+  process.env.NODE_ENV = 'development';
+
   require('coffee-script/register');
 
   _ = require('underscore');
@@ -37,12 +39,12 @@
       });
       break;
     case 'dev':
-      os.spawn(coffee_bin, [app_path], os.env_mode('development'));
+      os.spawn(coffee_bin, [app_path]);
       break;
     case 'debug':
       global.NB = {};
       require('../var/config');
-      os.spawn(coffee_bin, ['--nodejs', '--debug-brk=' + NB.conf.debug_port, app_path], os.env_mode('development'));
+      os.spawn(coffee_bin, ['--nodejs', '--debug-brk=' + NB.conf.debug_port, app_path]);
       break;
     case 'start':
       os.spawn(forever_bin, ['start', '--minUptime', '5000', '--spinSleepTime', '5000', '-a', '-o', 'var/log/std.log', '-e', 'var/log/err.log', '-c', coffee_bin, app_path], os.env_mode('production'));

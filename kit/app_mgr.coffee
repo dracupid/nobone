@@ -1,5 +1,8 @@
 #!node_modules/.bin/coffee
 
+# Default ENV
+process.env.NODE_ENV = 'development'
+
 require 'coffee-script/register'
 _ = require 'underscore'
 require 'colors'
@@ -30,7 +33,7 @@ switch process.argv[2]
 
 	when 'dev'
 		# Redirect process io to stdio.
-		os.spawn coffee_bin, [app_path], os.env_mode 'development'
+		os.spawn coffee_bin, [app_path]
 
 	when 'debug'
 		global.NB = {}
@@ -38,7 +41,6 @@ switch process.argv[2]
 		os.spawn(
 			coffee_bin
 			['--nodejs', '--debug-brk=' + NB.conf.debug_port, app_path]
-			os.env_mode 'development'
 		)
 
 	when 'start'
