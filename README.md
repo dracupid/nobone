@@ -56,7 +56,8 @@ Let's create a sample application with namespace `MOE` and named `App`.
     ```bash
     npm install
     ```
-0. Create the module. (If you haven't installed coffee-script, install it first)
+
+0. Create the module. (If you haven't installed coffee-script globally, install it first)
 
     ```bash
     cake module
@@ -71,10 +72,10 @@ Let's create a sample application with namespace `MOE` and named `App`.
     'MOE.App': './app/app.coffee' # (The `.coffee` extension is optional.)
     ```
 
-0. Run the test server.
+0. Run the development server.
 
     ```bash
-    npm test
+    cake dev
     ```
 
 0. Visit the `http://127.0.0.1:8013` in browser, the framework should work.
@@ -84,6 +85,6 @@ Let's create a sample application with namespace `MOE` and named `App`.
 
 Just execute the command below:
 
-    kit/app_mgr.coffee debug
+    cake debug
 
 It will listen to a debug port.
