@@ -17,15 +17,15 @@
     "fs-extra": "~0.8.1",
     "glob": "~3.2.9",
     "graceful-fs": "~2.0.3",
-    "nedb": "~0.9.3",
-    "prompt": "^0.2.12",
+    "jdb": "~0.1.7",
+    "prompt": "~0.2.12",
     "q": "~1.0.1",
     "request": "~2.27.0",
     "socket.io": "~0.9.16",
     "stylus": "~0.38.0",
     "underscore": "~1.5.2",
     "underscore.string": "~2.3.3",
-    "which": "^1.0.5"
+    "which": "~1.0.5"
   },
   "devDependencies": {
     "gaze": "~0.4.3",

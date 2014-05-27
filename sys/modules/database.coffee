@@ -1,21 +1,13 @@
 
-Nedb = require 'nedb'
+require 'jdb'
 
 class NB.Database
 	constructor: ->
-		@nedb = new Nedb(
-			filename: NB.conf.db_filename
-			autoload: true
+		@jdb = new JDB.Jdb(
+			db_path: NB.conf.db_path
 		)
 
 		# Auto compact every week.
-		@nedb.persistence.setAutocompactionInterval(1000 * 60 * 60 * 24 * 7)
-
-		NB.app.get '/database', @test
-
-	test: (req, res) =>
-		data = { test: 200 }
-		@nedb.insert data, (err, doc) =>
-			@nedb.findOne data, (err, doc) =>
-				@nedb.remove data, (err, num) =>
-					res.send doc.test
+		setInterval(->
+			@jdb.compact_db_file()
+		, 1000 * 60 * 60 * 24 * 7)

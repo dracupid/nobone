@@ -15,7 +15,7 @@ NB.conf = {
 		'NB.Storage': './sys/modules/storage'
 	}
 
-	db_filename: 'var/NB.db'
+	db_path: 'var/NB.db'
 
 	load_langs: ['en', 'cn']
 
