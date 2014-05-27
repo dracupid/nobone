@@ -32,8 +32,24 @@ switch process.argv[2]
 			console.log '>> Setup finished.'.yellow
 
 	when 'dev'
+		ps = null
 		# Redirect process io to stdio.
-		os.spawn coffee_bin, [app_path]
+		start = ->
+			ps = os.spawn(coffee_bin, [
+				app_path
+			], os.env_mode 'development').process
+
+		start()
+
+		global.NB = {}
+		require '../var/NB_config'
+
+		gaze = new (require 'gaze') NB.conf.server_watch_pattern
+
+		gaze.on 'all', (action, path) ->
+			console.log ">> #{action}: ".yellow + path
+			ps.kill('SIGINT')
+			start()
 
 	when 'debug'
 		global.NB = {}

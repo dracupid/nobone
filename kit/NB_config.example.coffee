@@ -21,6 +21,8 @@ NB.conf = {
 
 	current_lang: ['cn']
 
+	server_watch_pattern: []
+
 	mode: process.env.NODE_ENV or 'production'
 
 	url_prefix: '/'

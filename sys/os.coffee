@@ -37,6 +37,8 @@ module.exports =
 			else
 				deferred.reject code
 
+		deferred.promise.process = ps
+
 		return deferred.promise
 
 	exists: (path) ->
