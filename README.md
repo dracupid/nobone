@@ -66,7 +66,6 @@ Let's create a sample application with namespace `MOE` and named `App`.
     You can look into the `app` folder and custom whatever you want.
 
 0. Edit the `var/config.coffee` file. Add your generated module to the `modules` array. You'd add this to the config file.
-   add the line below to the `modules`.
 
     ```coffee
     'MOE.App': './app/app.coffee' # (The `.coffee` extension is optional.)
