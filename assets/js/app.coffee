@@ -28,9 +28,10 @@ class NB.Nobone
 		)
 
 	init_auto_reload_page: ->
-		init = ->
+		init = (io) ->
 			sock = io.connect(location.origin + '/auto_reload_page')
 			sock.on 'code_reload', (path) ->
 				location.reload()
 
 		require [_.u() + 'socket.io/socket.io.js'], init
+
