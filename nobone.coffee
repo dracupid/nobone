@@ -63,10 +63,6 @@ class NB.Nobone extends NB.Module
 			io.emit 'code_reload', path
 
 	show_404: (req, res, next) =>
-		if _.find_route(NB.app.routes, req.path)
-			next()
-			return
-
 		data = {
 			head: @r.render('assets/ejs/head.ejs')
 			url: req.originalUrl
