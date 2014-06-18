@@ -53,7 +53,7 @@ Q.fcall ->
 .then ->
 	os.readFile(pname + "/#{pname}.coffee", 'utf8')
 .then (src) ->
-	code = _.template(src, { class_name: process.argv[2] })
+	code = _.template(src, { class_name })
 	os.outputFile(pname + "/#{pname}.coffee", code)
 .done ->
-	console.log '>> Module created: ' + process.argv[2]
+	console.log '>> Module created: ' + class_name
