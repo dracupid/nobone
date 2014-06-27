@@ -1,38 +1,15 @@
 {
   "name": "nobone",
   "version": "0.0.1",
-  "main": "nobone.coffee",
+  "description": "A lite server framework",
+  "main": "index.js",
   "scripts": {
-    "install": "node kit/app_mgr.js setup",
-    "start": "node kit/app_mgr.js start",
-    "stop": "node kit/app_mgr.js stop"
+    "test": "cake test"
   },
-  "dependencies": {
-    "bower": "~1.3.3",
-    "coffee-script": "~1.7.1",
-    "ejs": "~0.8.5",
-    "express": "~4.1.1",
-    "forever": "~0.10.9",
-    "formidable": "~1.0.14",
-    "fs-extra": "~0.8.1",
-    "glob": "~3.2.9",
-    "graceful-fs": "~2.0.3",
-    "jdb": "~0.1.8",
-    "prompt": "~0.2.12",
-    "q": "~1.0.1",
-    "request": "~2.27.0",
-    "socket.io": "~1.0.2",
-    "stylus": "~0.38.0",
-    "underscore": "~1.5.2",
-    "underscore.string": "~2.3.3",
-    "which": "~1.0.5"
-  },
-  "devDependencies": {
-    "gaze": "~0.5.1",
-    "colors": "~0.6.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  }
+  "keywords": [
+    "web",
+    "framework"
+  ],
+  "author": "http://ysmood.org",
+  "license": "BSD"
 }

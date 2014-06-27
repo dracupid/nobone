@@ -1,32 +1,23 @@
-_ = require 'underscore'
+_ = require 'lodash'
 Q = require 'q'
 fs = require 'fs-extra'
 graceful = require 'graceful-fs'
-child_process = require 'child_process'
+spawn = require 'win-spawn'
 glob = require 'glob'
-which = require 'which'
 prompt = require 'prompt'
 
 prompt = require 'prompt'
 prompt.message = '>> '
 prompt.delimiter = ''
 
-module.exports =
+kit =
 
 	spawn: (cmd, args = [], options = {}) ->
 		deferred = Q.defer()
 
 		opts = _.defaults options, { stdio: 'inherit' }
 
-		# The Windows use something like `coffee.cmd` in `node_moduels/.bin` folder.
-		if process.platform == 'win32'
-			win_cmd = cmd + '.cmd'
-			if fs.existsSync win_cmd
-				cmd = win_cmd
-			else if not fs.existsSync cmd
-				cmd = which.sync(cmd)
-
-		ps = child_process.spawn cmd, args, opts
+		ps = spawn cmd, args, opts
 
 		ps.on 'error', (data) ->
 			deferred.reject data
@@ -47,6 +38,16 @@ module.exports =
 			deferred.resolve exists
 		return deferred.promise
 
+	watch_files: (patterns, handler) ->
+		patterns.forEach (pattern) ->
+			kit.glob(pattern).then (paths) ->
+				paths.forEach (path) ->
+					fs.watchFile(
+						path
+						{ persistent: false, interval: 500 }
+						(curr, prev) ->
+							handler(path, curr, prev)
+					)
 
 	env_mode: (mode) ->
 		{
@@ -57,7 +58,7 @@ module.exports =
 
 	path: require 'path'
 
-	# Use graceful-fs to prevent os max open file limit error.
+	# Use graceful-fs to prevent kit max open file limit error.
 	readFile: Q.denodeify graceful.readFile
 	outputFile: Q.denodeify fs.outputFile
 	copy: Q.denodeify fs.copy
@@ -65,4 +66,7 @@ module.exports =
 	remove: Q.denodeify fs.remove
 	chmod: Q.denodeify fs.chmod
 	glob: Q.denodeify glob
+	watchFile: fs.watchFile
 	prompt_get: Q.denodeify prompt.get
+
+module.exports = kit
