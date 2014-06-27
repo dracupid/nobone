@@ -2,6 +2,7 @@
 
 A server library which will ease you life.
 
+[![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone)
 
 ## Usage
 
