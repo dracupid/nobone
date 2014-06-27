@@ -1,12 +1,13 @@
 _ = require './_'
 Q = require 'q'
-os = require './os'
+kit = require './kit'
 express = require 'express'
 { EventEmitter } = require 'events'
 
 coffee = require 'coffee-script'
 stylus = require 'stylus'
 stylus_render = Q.denodeify stylus.render
+ejs = require 'ejs'
 
 
 class Renderer extends EventEmitter then constructor: ->
@@ -15,27 +16,24 @@ class Renderer extends EventEmitter then constructor: ->
 
 	self = @
 
-	self.code_handlers = [
-		{
-			pathless: null  # path tath without extension
+	self.code_handlers = {
+		'.js': {
 			ext_src: '.coffee'
 			ext_bin: '.js'
 			compiler: (str) ->
 				coffee.compile(str, { bare: true })
 		}
-		{
-			pathless: null
+		'.css': {
 			ext_src: '.styl'
 			ext_bin: '.css'
 			compiler: (str, path) ->
 				stylus_render(str, { filename: path })
 		}
-		{
-			pathless: null
+		'.ejs': {
 			ext_src: '.ejs'
-			ext_bin: ''
+			ext_bin: '.ejs'
 			compiler: (str, path) ->
-				tpl = _.template str
+				tpl = ejs.compile str
 
 				(data, opts) ->
 					_.defaults data, {
@@ -47,14 +45,30 @@ class Renderer extends EventEmitter then constructor: ->
 
 					tpl data, opts
 		}
-	]
+		'': {
+			ext_src: '.ejs'
+			ext_bin: ''
+			compiler: (str, path) ->
+				tpl = ejs.compile str
+
+				(data, opts) ->
+					_.defaults data, {
+						_
+					}
+					_.defaults opts, {
+						sourceURL: path
+					}
+
+					tpl data, opts
+		}
+	}
 
 	cache_pool = {}
 
 	watch_file = (path, handler) ->
 		self.emit 'watch_file', path
 
-		os.watchFile(
+		kit.watchFile(
 			path
 			{ persistent: false, interval: 500 }
 			(curr, prev) ->
@@ -68,7 +82,7 @@ class Renderer extends EventEmitter then constructor: ->
 		path = handler.pathless + handler.ext_src
 
 		get_code = ->
-			os.readFile(path, 'utf8')
+			kit.readFile(path, 'utf8')
 			.then (str) ->
 				handler.compiler(str, path)
 			.catch (err) ->
@@ -91,6 +105,20 @@ class Renderer extends EventEmitter then constructor: ->
 
 				return code
 
+	get_handler = (path) ->
+		ext_bin = kit.path.extname path
+
+		handler = self.code_handlers[ext_bin]
+
+		if handler
+			handler.pathless = kit.path.join(
+				kit.path.dirname(path)
+				kit.path.basename(path, ext_bin)
+			)
+			handler
+		else
+			null
+
 	self.assets = (opts = {}) ->
 		_.defaults opts, {
 			root_dir: './assets'
@@ -100,25 +128,17 @@ class Renderer extends EventEmitter then constructor: ->
 
 		return (req, res, next) ->
 
-			ext_bin = os.path.extname req.path
-			pathless = os.path.join(
-				opts.root_dir
-				os.path.dirname(req.path)
-				os.path.basename(req.path, ext_bin)
-			)
-
-			handler = _.find self.code_handlers, (el) -> el.ext_bin == ext_bin
+			path = kit.path.join opts.root_dir, req.path
+			handler = get_handler path
 
 			if handler
-				handler.pathless = pathless
-
 				get_cached(handler)
 				.then (code) ->
 					if typeof code == 'string'
-						res.type ext_bin
+						res.type handler.ext_bin
 						res.send code
 					else
-						self.emit 'compile_error', pathless + ext_bin, code
+						self.emit 'compile_error', path, code
 						res.send 500, code.toString()
 
 				.catch (err) ->
@@ -126,14 +146,13 @@ class Renderer extends EventEmitter then constructor: ->
 			else
 				static_handler req, res, next
 
-	self.ejs = (path) ->
+	self.render = (path) ->
 		###
-			The promise it return only produces a compiled function.
+			Return a promise.
 		###
 
-		handler = self.code_handlers[2]
-		handler.pathless = path.replace /(\.ejs)$/, ''
+		handler = get_handler path
 		get_cached handler
 
 
-module.exports = Renderer
+module.exports = -> new Renderer
