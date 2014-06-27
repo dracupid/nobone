@@ -36,7 +36,10 @@ kit =
 	watch_file: (path, handler) ->
 		fs.watchFile(
 			path
-			{ persistent: false, interval: 500 }
+			{
+				persistent: false
+				interval: kit.watch_interval or 500
+			}
 			(curr, prev) ->
 				handler(path, curr, prev)
 		)
