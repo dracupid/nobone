@@ -1,0 +1,6 @@
+benchmark
+test
+Cakefile
+.*
+*.coffee
+*.db
