@@ -4,11 +4,6 @@ kit = require './kit'
 express = require 'express'
 { EventEmitter } = require 'events'
 
-coffee = require 'coffee-script'
-stylus = require 'stylus'
-stylus_render = Q.denodeify stylus.render
-ejs = require 'ejs'
-
 
 class Renderer extends EventEmitter then constructor: ->
 
@@ -19,36 +14,23 @@ class Renderer extends EventEmitter then constructor: ->
 	self.code_handlers = {
 		'.js': {
 			ext_src: '.coffee'
-			ext_bin: '.js'
 			compiler: (str) ->
+				coffee = require 'coffee-script'
 				coffee.compile(str, { bare: true })
 		}
 		'.css': {
 			ext_src: '.styl'
 			ext_bin: '.css'
 			compiler: (str, path) ->
+				stylus = require 'stylus'
+				stylus_render = Q.denodeify stylus.render
 				stylus_render(str, { filename: path })
 		}
 		'.ejs': {
+			default: true    # Whether it is a default handler
 			ext_src: '.ejs'
-			ext_bin: '.ejs'
 			compiler: (str, path) ->
-				tpl = ejs.compile str
-
-				(data, opts) ->
-					_.defaults data, {
-						_
-					}
-					_.defaults opts, {
-						sourceURL: path
-					}
-
-					tpl data, opts
-		}
-		'': {
-			ext_src: '.ejs'
-			ext_bin: ''
-			compiler: (str, path) ->
+				ejs = require 'ejs'
 				tpl = ejs.compile str
 
 				(data, opts) ->
@@ -65,9 +47,9 @@ class Renderer extends EventEmitter then constructor: ->
 
 	cache_pool = {}
 
-	self.assets = (opts = {}) ->
+	self.static = (opts = {}) ->
 		_.defaults opts, {
-			root_dir: './assets'
+			root_dir: '.'
 		}
 
 		static_handler = express.static opts.root_dir
@@ -100,44 +82,50 @@ class Renderer extends EventEmitter then constructor: ->
 		handler = get_handler path
 		get_cached handler
 
+	get_code = (handler) ->
+		path = handler.pathless + handler.ext_src
+
+		kit.readFile(path, 'utf8')
+		.then (str) ->
+			handler.compiler(str, path)
+		.catch (err) ->
+			if err.code == 'ENOENT'
+				throw err
+			else
+				err
+		.then (code) ->
+			cache_pool[path] = code
+
 	get_cached = (handler) ->
 		path = null
 		handler.compiler ?= (str) -> str
 
 		path = handler.pathless + handler.ext_src
 
-		get_code = ->
-			kit.readFile(path, 'utf8')
-			.then (str) ->
-				handler.compiler(str, path)
-			.catch (err) ->
-				if err.code == 'ENOENT'
-					throw err
-				else
-					err
-			.then (code) ->
-				cache_pool[path] = code
-
 		if cache_pool[path] != undefined
 			Q cache_pool[path]
 		else
-			get_code()
+			get_code(handler)
 			.then (code) ->
 				if process.env.NODE_ENV == 'development'
 					self.emit 'watch_file', path
 					kit.watch_file path, (path, curr, prev) ->
 						if curr.mtime != prev.mtime
 							self.emit 'file_modified', path
-							get_code()
+							get_code(handler)
 
 				return code
 
 	get_handler = (path) ->
 		ext_bin = kit.path.extname path
 
-		handler = self.code_handlers[ext_bin]
+		if ext_bin == ''
+			handler = _.find self.code_handlers, (el) -> el.default
+		else
+			handler = self.code_handlers[ext_bin]
 
 		if handler
+			handler.ext_bin = ext_bin
 			handler.pathless = kit.path.join(
 				kit.path.dirname(path)
 				kit.path.basename(path, ext_bin)
