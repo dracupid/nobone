@@ -1,14 +1,9 @@
+require 'colors'
 _ = require 'lodash'
 Q = require 'q'
 fs = require 'fs-extra'
-graceful = require 'graceful-fs'
 spawn = require 'win-spawn'
 glob = require 'glob'
-prompt = require 'prompt'
-
-prompt = require 'prompt'
-prompt.message = '>> '
-prompt.delimiter = ''
 
 kit =
 
@@ -38,16 +33,19 @@ kit =
 			deferred.resolve exists
 		return deferred.promise
 
+	watch_file: (path, handler) ->
+		fs.watchFile(
+			path
+			{ persistent: false, interval: 500 }
+			(curr, prev) ->
+				handler(path, curr, prev)
+		)
+
 	watch_files: (patterns, handler) ->
 		patterns.forEach (pattern) ->
 			kit.glob(pattern).then (paths) ->
 				paths.forEach (path) ->
-					fs.watchFile(
-						path
-						{ persistent: false, interval: 500 }
-						(curr, prev) ->
-							handler(path, curr, prev)
-					)
+					kit.watch_file path, handler
 
 	env_mode: (mode) ->
 		{
@@ -56,17 +54,47 @@ kit =
 			)
 		}
 
-	path: require 'path'
+	log: (msg, action = 'log') ->
+		if not kit.last_log_time
+			kit.last_log_time = new Date
+			if process.env.LOG
+				console.log '>> Log should match:', process.env.LOG
+				kit.log_reg = new RegExp(process.env.LOG)
 
-	# Use graceful-fs to prevent kit max open file limit error.
-	readFile: Q.denodeify graceful.readFile
+		time = new Date()
+		time_delta = (+time - +kit.last_log_time).toString().magenta + 'ms'
+		kit.last_log_time = time
+		time = time.toJSON().slice(0, -5).replace('T', ' ').grey
+
+		if kit.log_reg and not kit.log_reg.test(msg)
+			return
+
+		console[action] "[#{time}]", msg, time_delta
+
+		if action == 'error'
+			console.log "\u0007\n"
+
+	prompt_get: ->
+		prompt = require 'prompt'
+		prompt.message = '>> '
+		prompt.delimiter = ''
+
+		deferred = Q.defer()
+		prompt.get (err, res) ->
+			if err
+				deferred.reject err
+			else
+				deferred.resolve res
+
+		deferred.promise
+
+	path: require 'path'
+	readFile: Q.denodeify fs.readFile
 	outputFile: Q.denodeify fs.outputFile
 	copy: Q.denodeify fs.copy
 	rename: Q.denodeify fs.rename
 	remove: Q.denodeify fs.remove
 	chmod: Q.denodeify fs.chmod
 	glob: Q.denodeify glob
-	watchFile: fs.watchFile
-	prompt_get: Q.denodeify prompt.get
 
 module.exports = kit

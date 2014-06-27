@@ -1,4 +1,4 @@
-_ = require './_'
+_ = require 'lodash'
 Q = require 'q'
 kit = require './kit'
 express = require 'express'
@@ -65,61 +65,6 @@ class Renderer extends EventEmitter then constructor: ->
 
 	cache_pool = {}
 
-	watch_file = (path, handler) ->
-		self.emit 'watch_file', path
-
-		kit.watchFile(
-			path
-			{ persistent: false, interval: 500 }
-			(curr, prev) ->
-				handler(path, curr, prev)
-		)
-
-	get_cached = (handler) ->
-		path = null
-		handler.compiler ?= (str) -> str
-
-		path = handler.pathless + handler.ext_src
-
-		get_code = ->
-			kit.readFile(path, 'utf8')
-			.then (str) ->
-				handler.compiler(str, path)
-			.catch (err) ->
-				if err.code == 'ENOENT'
-					throw err
-				else
-					err
-			.then (code) ->
-				cache_pool[path] = code
-
-		if cache_pool[path] != undefined
-			Q cache_pool[path]
-		else
-			get_code()
-			.then (code) ->
-				if process.env.NODE_ENV == 'development'
-					watch_file path, (path, curr, prev) ->
-						if curr.mtime != prev.mtime
-							self.emit 'file_modified', path
-							get_code()
-
-				return code
-
-	get_handler = (path) ->
-		ext_bin = kit.path.extname path
-
-		handler = self.code_handlers[ext_bin]
-
-		if handler
-			handler.pathless = kit.path.join(
-				kit.path.dirname(path)
-				kit.path.basename(path, ext_bin)
-			)
-			handler
-		else
-			null
-
 	self.assets = (opts = {}) ->
 		_.defaults opts, {
 			root_dir: './assets'
@@ -154,6 +99,52 @@ class Renderer extends EventEmitter then constructor: ->
 
 		handler = get_handler path
 		get_cached handler
+
+	get_cached = (handler) ->
+		path = null
+		handler.compiler ?= (str) -> str
+
+		path = handler.pathless + handler.ext_src
+
+		get_code = ->
+			kit.readFile(path, 'utf8')
+			.then (str) ->
+				handler.compiler(str, path)
+			.catch (err) ->
+				if err.code == 'ENOENT'
+					throw err
+				else
+					err
+			.then (code) ->
+				cache_pool[path] = code
+
+		if cache_pool[path] != undefined
+			Q cache_pool[path]
+		else
+			get_code()
+			.then (code) ->
+				if process.env.NODE_ENV == 'development'
+					self.emit 'watch_file', path
+					kit.watch_file path, (path, curr, prev) ->
+						if curr.mtime != prev.mtime
+							self.emit 'file_modified', path
+							get_code()
+
+				return code
+
+	get_handler = (path) ->
+		ext_bin = kit.path.extname path
+
+		handler = self.code_handlers[ext_bin]
+
+		if handler
+			handler.pathless = kit.path.join(
+				kit.path.dirname(path)
+				kit.path.basename(path, ext_bin)
+			)
+			handler
+		else
+			null
 
 
 module.exports = -> new Renderer

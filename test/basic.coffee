@@ -35,7 +35,7 @@ describe 'basic test', ->
 	nb.service.use nb.renderer.assets({ root_dir: 'test' })
 
 	server = nb.service.listen port
-	nb._.log 'Listen port: ' + port
+	nb.kit.log 'Listen port: ' + port
 
 	it 'the compiler should work', (tdone) ->
 

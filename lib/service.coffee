@@ -1,4 +1,4 @@
-_ = require './_'
+_ = require 'lodash'
 express = require 'express'
 http = require 'http'
 socketio = require 'socket.io'
