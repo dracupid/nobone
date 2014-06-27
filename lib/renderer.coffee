@@ -98,10 +98,11 @@ class Renderer extends EventEmitter then constructor: ->
 		else
 			get_code()
 			.then (code) ->
-				watch_file path, (path, curr, prev) ->
-					if curr.mtime != prev.mtime
-						self.emit 'file_modified', path
-						get_code()
+				if process.env.NODE_ENV == 'development'
+					watch_file path, (path, curr, prev) ->
+						if curr.mtime != prev.mtime
+							self.emit 'file_modified', path
+							get_code()
 
 				return code
 
