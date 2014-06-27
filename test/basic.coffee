@@ -32,7 +32,7 @@ get = (path) ->
 
 describe 'basic test', ->
 
-	nb.service.use nb.renderer.assets({ root_dir: 'test' })
+	nb.service.use nb.renderer.static({ root_dir: 'test' })
 
 	server = nb.service.listen port
 	nb.kit.log 'Listen port: ' + port
@@ -46,6 +46,22 @@ describe 'basic test', ->
 		.then (results) ->
 			assert.equal results[0], "console.log('ok');\n"
 			assert.equal results[1], "a h1 {\n  background: #000;\n}\n"
+		.then ->
+			# Test the watcher
+			nb.kit.outputFile 'test/sample.coffee', "console.log 'no'"
+		.then ->
+			deferred = Q.defer()
+			setTimeout(->
+				get('/sample.js')
+				.catch (err) -> deferred.reject err
+				.then (code) ->
+					deferred.resolve code
+			, 1000)
+			deferred.promise
+		.then (code) ->
+			assert.equal code, "console.log('no');\n"
+		.then ->
+			nb.kit.outputFile 'test/sample.coffee', "console.log 'ok'"
 		.done ->
 			server.close()
 			tdone()
@@ -53,5 +69,5 @@ describe 'basic test', ->
 	it 'the render should work', (tdone) ->
 		nb.renderer.render('test/sample.ejs')
 		.done (tpl) ->
-			assert.equal tpl({ OK: 'ok' }), 'ok'
+			assert.equal tpl({ OK: 'ok' }), 'ok\n'
 			tdone()
