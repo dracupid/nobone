@@ -4,6 +4,7 @@ A server library which will ease you life.
 
 [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone)
 
+
 ## Usage
 
     nb = require 'nobone'
@@ -33,3 +34,8 @@ A server library which will ease you life.
 
     # Use socket.io
     nb.service.io.emit 'msg', 'NoBone'
+
+
+## BSD
+
+May 2014, Yad Smood
