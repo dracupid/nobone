@@ -5,7 +5,17 @@ fs = require 'fs-extra'
 spawn = require 'win-spawn'
 glob = require 'glob'
 
-kit =
+kit = {}
+
+# Denodeify fs.
+_.chain(fs)
+.functions()
+.filter (el) ->
+	el.slice(-4) != 'Sync'
+.each (name) ->
+	kit[name] = Q.denodeify fs[name]
+
+_.extend kit, {
 
 	spawn: (cmd, args = [], options = {}) ->
 		deferred = Q.defer()
@@ -92,12 +102,11 @@ kit =
 		deferred.promise
 
 	path: require 'path'
-	readFile: Q.denodeify fs.readFile
 	outputFile: Q.denodeify fs.outputFile
 	copy: Q.denodeify fs.copy
-	rename: Q.denodeify fs.rename
 	remove: Q.denodeify fs.remove
-	chmod: Q.denodeify fs.chmod
 	glob: Q.denodeify glob
+
+}
 
 module.exports = kit
