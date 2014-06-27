@@ -71,3 +71,16 @@ describe 'basic test', ->
 		.done (tpl) ->
 			assert.equal tpl({ OK: 'ok' }), 'ok\n'
 			tdone()
+
+	it 'the db should work', (tdone) ->
+		nb.db.exec({
+			command: (jdb) ->
+				jdb.doc.a = 1
+				jdb.save()
+		}).then ->
+			nb.db.exec({
+				command: (jdb) ->
+					jdb.send jdb.doc.a
+			}).then (d) ->
+				assert.equal d, 1
+				tdone()
