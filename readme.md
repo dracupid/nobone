@@ -18,8 +18,8 @@ nb = require 'nobone'
 
 port = 8013
 
-# All modules use default options to init.
-# If you want don't init a specific module,
+# All modules will init by default options.
+# If you don't want to init a specific module,
 # for example 'db' module, just exclude it:
 #	nb.init {
 #		renderer: null
