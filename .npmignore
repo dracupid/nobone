@@ -1,6 +1,7 @@
 benchmark
 test
 Cakefile
+lib
 .*
 *.coffee
 *.db

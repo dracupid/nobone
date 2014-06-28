@@ -2,7 +2,7 @@
   "name": "nobone",
   "version": "0.0.1",
   "description": "A lite server framework",
-  "main": "./lib/nobone.js",
+  "main": "./dist/nobone.js",
   "scripts": {
     "test": "node_modules/.bin/cake test",
     "prepublish": "node_modules/.bin/cake build",
