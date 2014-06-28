@@ -23,20 +23,41 @@ _.extend kit, {
 
 		opts = _.defaults options, { stdio: 'inherit' }
 
-		ps = spawn cmd, args, opts
+		try
+			ps = spawn cmd, args, opts
+		catch err
+			deferred.reject err
 
-		ps.on 'error', (data) ->
-			deferred.reject data
-
-		ps.on 'close', (code) ->
-			if code == 0
-				deferred.resolve code
-			else
-				deferred.reject code
+		ps.on 'error', (err) ->
+			deferred.reject err
 
 		deferred.promise.process = ps
 
 		return deferred.promise
+
+	monitor_app: (options) ->
+		opts = _.defaults options, {
+			bin: 'node'
+			app: 'app.coffee'
+			watch_list: ['app.coffee']
+			mode: 'development'
+		}
+
+		ps = null
+		start = ->
+			ps = kit.spawn(opts.bin, [
+				opts.app
+			], kit.env_mode opts.mode).process
+
+		start()
+
+		kit.watch_files opts.watch_list, (path, curr, prev) ->
+			if curr.mtime != prev.mtime
+				kit.log "Reload app, modified: ".yellow + path
+				ps.kill 'SIGINT'
+				start()
+
+		kit.log "Monitor: ".yellow + opts.app
 
 	exists: (path) ->
 		deferred = Q.defer()
@@ -45,6 +66,10 @@ _.extend kit, {
 		return deferred.promise
 
 	watch_file: (path, handler) ->
+		###
+			For samba server, we have to choose `watchFile` than `watch`
+		###
+
 		fs.watchFile(
 			path
 			{
