@@ -70,12 +70,12 @@ _.extend kit, {
 			For samba server, we have to choose `watchFile` than `watch`
 		###
 
-		if process.env.polling_watch == 'on'
+		if process.env.polling_watch != undefined
 			fs.watchFile(
 				path
 				{
 					persistent: false
-					interval: kit.watch_interval or 500
+					interval: +process.env.polling_watch or 500
 				}
 				(curr, prev) ->
 					handler(path, curr, prev)
