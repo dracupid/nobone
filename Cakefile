@@ -22,7 +22,7 @@ task 'test', 'Basic test', ->
 				process.exit code
 
 task 'build', 'Compile coffee to js', ->
-	console.log "Compile coffee..."
+	kit.log "Compile coffee..."
 
 	kit.spawn 'node_modules/.bin/coffee', [
 		'-o', 'dist'
@@ -31,6 +31,6 @@ task 'build', 'Compile coffee to js', ->
 
 
 task 'clean', 'Clean js', ->
-	console.log ">> Clean js..."
+	kit.log ">> Clean js..."
 
 	kit.remove('dist').done()
