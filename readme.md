@@ -16,8 +16,20 @@ A server library which will ease you life.
 ```coffeescript
 nb = require 'nobone'
 
-
 port = 8013
+
+# All modules use default options to init.
+# If you want don't init a specific module,
+# for example 'db' module, just exclude it:
+#	nb.init {
+#		renderer: null
+#		service: null
+#	}
+nb.init {
+	db: null
+	renderer: null
+	service: null
+}
 
 # Server
 nb.service.get '/', (req, res) ->
@@ -57,6 +69,7 @@ nb.db.exec({
 		jdb.save('OK')
 }).done (data) ->
 	nb.kit.log data
+
 ```
 
 
