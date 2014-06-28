@@ -82,6 +82,25 @@ class Renderer extends EventEmitter then constructor: ->
 		handler = get_handler path
 		get_cached handler
 
+	self.auto_reload = ->
+		'''
+			<!-- Auto reload page helper. -->
+			<script type="text/javascript">
+				if (!window.io) {
+					document.write(unescape('%3Cscript%20src%3D%22/socket.io/socket.io.js%22%3E%3C/script%3E'));
+				}
+			</script>
+			<script type="text/javascript">
+				(function () {
+					var sock = io();
+					sock.on('file_modified', function (data) {
+						console.log(">> Reload: " + data);
+						location.reload();
+					});
+				})();
+			</script>
+		'''
+
 	get_code = (handler) ->
 		path = handler.pathless + handler.ext_src
 
@@ -133,6 +152,5 @@ class Renderer extends EventEmitter then constructor: ->
 			handler
 		else
 			null
-
 
 module.exports = -> new Renderer
