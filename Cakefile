@@ -10,20 +10,16 @@ task 'dev', 'Run a development server.', ->
 	}
 
 task 'test', 'Basic test', ->
-	list = [
+	[
 		'test/basic.coffee'
-	]
-
-	list.map (file) ->
+	].forEach (file) ->
 		kit.spawn('node_modules/.bin/mocha', [
 			'-r'
 			'coffee-script/register'
 			file
-		], { stdio: 'inherit' }).process
-		.on 'exit', (code) ->
+		]).process.on 'exit', (code) ->
 			if code != 0
 				process.exit code
-
 
 task 'build', 'Compile coffee to js', ->
 	console.log "Compile coffee..."
@@ -31,9 +27,7 @@ task 'build', 'Compile coffee to js', ->
 	kit.spawn 'node_modules/.bin/coffee', [
 		'-o', 'dist'
 		'-cb', 'lib'
-	], {
-		stdio: 'inherit'
-	}
+	]
 
 
 task 'clean', 'Clean js', ->
