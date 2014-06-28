@@ -1,9 +1,15 @@
 
-module.exports = {
+module.exports = nb = {
 
-	db: require('./db')()
-	service: require('./service')()
-	renderer: require('./renderer')()
+	init: (opts) ->
+		opts ?= {
+			service: undefined
+			renderer: undefined
+		}
+
+		for k, v of opts
+			nb[k] = require('./' + k)(v)
+
 	kit: require './kit'
 
 }

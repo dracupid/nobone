@@ -5,6 +5,12 @@ http = require 'http'
 Q = require 'q'
 nb = require '../lib/nobone'
 
+nb.init {
+	db: null
+	renderer: null
+	service: null
+}
+
 port = 8022
 
 get = (path) ->
