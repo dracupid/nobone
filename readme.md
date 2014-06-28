@@ -24,7 +24,7 @@ nb.service.get '/', (req, res) ->
     # You can also render coffee, stylus, or define custom handlers.
     nb.renderer.render('test/sample.ejs')
     .done (tpl_func) ->
-        res.send tpl_func({ OK: "NoBone" })
+        res.send tpl_func({ auto_reload: nb.renderer })
 
 port = 8013
 nb.service.listen port

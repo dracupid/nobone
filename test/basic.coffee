@@ -69,7 +69,7 @@ describe 'basic test', ->
 	it 'the render should work', (tdone) ->
 		nb.renderer.render('test/sample.ejs')
 		.done (tpl) ->
-			assert.equal tpl({ OK: 'ok' }), 'ok\n'
+			assert.equal tpl({ auto_reload: 'ok' }), '<h1>Nobone</h1>\nok\n'
 			tdone()
 
 	it 'the db should work', (tdone) ->
