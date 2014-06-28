@@ -10,7 +10,7 @@ A server library which will ease you life.
     npm install nobone
 
 
-## Usage
+## Quick Start
 
 
 ```coffeescript
@@ -41,7 +41,6 @@ nb.service.get '/', (req, res) ->
 		res.send tpl_func({ auto_reload: nb.renderer.auto_reload() })
 
 # Launch socket.io and express.js
-# Launch only express.js: "nb.service.listen port"
 nb.service.server.listen port
 
 # Kit
@@ -70,6 +69,15 @@ nb.db.exec({
 }).done (data) ->
 	nb.kit.log data
 
+```
+
+
+## CLI
+
+```bash
+# Use regex to filter the log info.
+# Print out all the log if it contains '.ejs'
+log_reg='.ejs' cake dev
 ```
 
 

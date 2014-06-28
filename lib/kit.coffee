@@ -116,7 +116,7 @@ _.extend kit, {
 		kit.last_log_time = time
 		time = time.toJSON().slice(0, -5).replace('T', ' ').grey
 
-		if kit.log_reg and not kit.log_reg.test(msg)
+		if kit.log_reg and not msg.match(kit.log_reg)
 			return
 
 		console[action] "[#{time}]", msg, time_delta
