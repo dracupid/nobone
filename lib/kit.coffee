@@ -70,15 +70,26 @@ _.extend kit, {
 			For samba server, we have to choose `watchFile` than `watch`
 		###
 
-		fs.watchFile(
-			path
-			{
-				persistent: false
-				interval: kit.watch_interval or 500
-			}
-			(curr, prev) ->
-				handler(path, curr, prev)
-		)
+		if process.env.polling_watch == 'on'
+			fs.watchFile(
+				path
+				{
+					persistent: false
+					interval: kit.watch_interval or 500
+				}
+				(curr, prev) ->
+					handler(path, curr, prev)
+			)
+		else
+			kit.stat(path).done (stats) ->
+				prev = stats
+				fs.watch(
+					path
+					{ persistent: false }
+					->
+						kit.stat(path).done (curr) ->
+							handler path, curr, prev
+				)
 
 	watch_files: (patterns, handler) ->
 		patterns.forEach (pattern) ->
@@ -96,9 +107,9 @@ _.extend kit, {
 	log: (msg, action = 'log') ->
 		if not kit.last_log_time
 			kit.last_log_time = new Date
-			if process.env.LOG
-				console.log '>> Log should match:', process.env.LOG
-				kit.log_reg = new RegExp(process.env.LOG)
+			if process.env.log_reg
+				console.log '>> Log should match:', process.env.log_reg
+				kit.log_reg = new RegExp(process.env.log_reg)
 
 		time = new Date()
 		time_delta = (+time - +kit.last_log_time).toString().magenta + 'ms'
