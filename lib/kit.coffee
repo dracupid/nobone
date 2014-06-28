@@ -11,8 +11,9 @@ kit = {}
 _.chain(fs)
 .functions()
 .filter (el) ->
-	el.slice(-4) != 'Sync'
+	el.slice(-4) == 'Sync'
 .each (name) ->
+	name = name.slice(0, -4)
 	kit[name] = Q.denodeify fs[name]
 
 _.extend kit, {
