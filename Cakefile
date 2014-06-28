@@ -15,7 +15,7 @@ task 'test', 'Basic test', ->
 	]
 
 	list.map (file) ->
-		kit.spawn('mocha', [
+		kit.spawn('node_modules/.bin/mocha', [
 			'-r'
 			'coffee-script/register'
 			file
@@ -28,7 +28,7 @@ task 'test', 'Basic test', ->
 task 'build', 'Compile coffee to js', ->
 	console.log "Compile coffee..."
 
-	kit.spawn 'coffee', [
+	kit.spawn 'node_modules/.bin/coffee', [
 		'-cb'
 		'lib'
 	], {
