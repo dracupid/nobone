@@ -36,7 +36,7 @@ get = (path) ->
 
 	deferred.promise
 
-describe 'basic test', ->
+describe 'Basic:', ->
 
 	nb.service.use nb.renderer.static({ root_dir: 'test' })
 
@@ -50,8 +50,8 @@ describe 'basic test', ->
 			get '/sample.css'
 		])
 		.then (results) ->
-			assert.equal results[0], "console.log('ok');\n"
-			assert.equal results[1], "a h1 {\n  background: #000;\n}\n"
+			assert.equal results[0], "var elem;\n\nelem = document.createElement('h1');\n\nelem.textContent = 'Nobone';\n\ndocument.body.appendChild(elem);\n"
+			assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
 		.then ->
 			# Test the watcher
 			nb.kit.outputFile 'test/sample.coffee', "console.log 'no'"
@@ -67,7 +67,11 @@ describe 'basic test', ->
 		.then (code) ->
 			assert.equal code, "console.log('no');\n"
 		.then ->
-			nb.kit.outputFile 'test/sample.coffee', "console.log 'ok'"
+			nb.kit.outputFile 'test/sample.coffee', """
+				elem = document.createElement 'h1'
+				elem.textContent = 'Nobone'
+				document.body.appendChild elem
+			"""
 		.done ->
 			server.close()
 			tdone()
@@ -75,7 +79,7 @@ describe 'basic test', ->
 	it 'the render should work', (tdone) ->
 		nb.renderer.render('test/sample.ejs')
 		.done (tpl) ->
-			assert.equal tpl({ auto_reload: 'ok' }), '<h1>Nobone</h1>\nok\n'
+			assert.equal tpl({ auto_reload: 'ok' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>Nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/sample.css">\n</head>\n<body>\n\tok\n\t<script type="text/javascript" src="/sample.js"></script>\n</body>\n</html>\n'
 			tdone()
 
 	it 'the db should work', (tdone) ->
