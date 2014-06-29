@@ -12,7 +12,6 @@ A server library which will ease you life.
 
 ## Quick Start
 
-
 ```coffeescript
 nb = require 'nobone'
 
@@ -70,6 +69,20 @@ nb.db.exec({
 		jdb.save('OK')
 }).done (data) ->
 	nb.kit.log data
+```
+
+Kit usage
+
+```coffeescript
+# Monitor app. Watch and restart app automatically.
+# It a light weight monitor, for server test.
+# For further info see the 'Cakefile' of this project.
+app_path = 'app.coffee'
+nb.kit.monitor_app {
+	bin: 'coffee'
+	app: app_path
+	watch_list: [app_path, 'lib/**/*.coffee']
+}
 ```
 
 
