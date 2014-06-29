@@ -1,5 +1,6 @@
 require 'coffee-script/register'
 kit = require './lib/kit'
+Q = require 'q'
 
 task 'dev', 'Run a development server.', ->
 	app_path = 'test/usage.coffee'
@@ -20,6 +21,17 @@ task 'test', 'Basic test', ->
 		]).process.on 'exit', (code) ->
 			if code != 0
 				process.exit code
+
+task 'setup', 'Setup project.', ->
+	socketio_index_path = 'node_modules/socket.io/lib/index.js'
+	Q.fcall ->
+		kit.log "Fix socket.io etag bug.".cyan
+		kit.readFile socketio_index_path, 'utf8'
+	.then (str) ->
+		str = str.replace 'req.headers.etag', 'req.headers["if-none-match"]'
+		kit.outputFile socketio_index_path, str
+	.done ->
+		kit.log 'Setup finished.'.yellow
 
 task 'build', 'Compile coffee to js', ->
 	kit.log "Compile coffee..."

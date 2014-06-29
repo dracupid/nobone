@@ -1,12 +1,13 @@
 {
   "name": "nobone",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A lite server framework",
   "main": "dist/nobone.js",
   "bin": {
     "nobone": "bin/nobone.js"
   },
   "scripts": {
+    "install": "cake setup",
     "test": "node_modules/.bin/cake test",
     "prepublish": "node_modules/.bin/cake build",
     "publish": "node_modules/.bin/cake clean"
