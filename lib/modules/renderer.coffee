@@ -7,6 +7,7 @@ express = require 'express'
 module.exports = (opts) -> new Renderer(opts)
 
 module.exports.defaults = {
+	enable_watcher: process.env.NODE_ENV == 'development'
 	code_handlers: {
 		'.js': {
 			ext_src: '.coffee'
@@ -134,7 +135,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		else
 			get_code(handler)
 			.then (code) ->
-				if process.env.NODE_ENV == 'development'
+				if opts.enable_watcher
 					self.emit 'watch_file', path
 					kit.watch_file path, (path, curr, prev) ->
 						if curr.mtime != prev.mtime
