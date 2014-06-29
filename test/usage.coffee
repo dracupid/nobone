@@ -14,6 +14,10 @@ nb.init {
 	renderer: null
 	service: null
 }
+# Print all available modules.
+nb.available_modules().done (list) ->
+	nb.kit.log 'available_modules'
+	nb.kit.log list, 'inspect', { depth: 3, colors: true }
 
 # Server
 nb.service.get '/', (req, res) ->
@@ -33,10 +37,7 @@ nb.service.server.listen port
 nb.kit.log 'Listen port ' + port
 
 # Static folder to automatically serve coffeescript and stylus.
-# nb.service.use nb.renderer.static()
-
-# Log out all the handlers. You can define your own.
-console.dir nb.renderer.code_handlers
+nb.service.use nb.renderer.static({ root_dir: 'test' })
 
 # Use socket.io to trigger reaload page.
 # Edit the 'test/sample.ejs' file, the page should auto reload.

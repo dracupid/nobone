@@ -1,17 +1,13 @@
 _ = require 'lodash'
 Q = require 'q'
-kit = require './kit'
+kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
 
+module.exports = (opts) -> new Renderer(opts)
 
-class Renderer extends EventEmitter then constructor: ->
-
-	super
-
-	self = @
-
-	self.code_handlers = {
+module.exports.defaults = {
+	code_handlers: {
 		'.js': {
 			ext_src: '.coffee'
 			compiler: (str) ->
@@ -44,6 +40,18 @@ class Renderer extends EventEmitter then constructor: ->
 					tpl data, opts
 		}
 	}
+}
+
+
+class Renderer extends EventEmitter then constructor: (opts = {}) ->
+
+	super
+
+	_.defaults opts, module.exports.defaults
+
+	self = @
+
+	self.code_handlers = opts.code_handlers
 
 	cache_pool = {}
 
@@ -152,5 +160,3 @@ class Renderer extends EventEmitter then constructor: ->
 			handler
 		else
 			null
-
-module.exports = -> new Renderer
