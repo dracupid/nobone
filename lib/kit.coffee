@@ -70,26 +70,15 @@ _.extend kit, {
 			For samba server, we have to choose `watchFile` than `watch`
 		###
 
-		if process.env.polling_watch != undefined
-			fs.watchFile(
-				path
-				{
-					persistent: false
-					interval: +process.env.polling_watch or 500
-				}
-				(curr, prev) ->
-					handler(path, curr, prev)
-			)
-		else
-			kit.stat(path).done (stats) ->
-				prev = stats
-				fs.watch(
-					path
-					{ persistent: false }
-					->
-						kit.stat(path).done (curr) ->
-							handler path, curr, prev
-				)
+		fs.watchFile(
+			path
+			{
+				persistent: false
+				interval: +process.env.polling_watch or 500
+			}
+			(curr, prev) ->
+				handler(path, curr, prev)
+		)
 
 	watch_files: (patterns, handler) ->
 		patterns.forEach (pattern) ->
@@ -104,11 +93,11 @@ _.extend kit, {
 			)
 		}
 
-	log: (msg, action = 'log') ->
+	log: (msg, action = 'log', opts = {}) ->
 		if not kit.last_log_time
 			kit.last_log_time = new Date
 			if process.env.log_reg
-				console.log '>> Log should match:', process.env.log_reg
+				console.log '>> Log should match:'.yellow, process.env.log_reg
 				kit.log_reg = new RegExp(process.env.log_reg)
 
 		time = new Date()
@@ -119,7 +108,11 @@ _.extend kit, {
 		if kit.log_reg and not msg.match(kit.log_reg)
 			return
 
-		console[action] "[#{time}]", msg, time_delta
+		if action == 'inspect'
+			util = require 'util'
+			console.log "[#{time}]", time_delta, '\n' + util.inspect(msg, opts)
+		else
+			console[action] "[#{time}] ", msg, time_delta
 
 		if action == 'error'
 			console.log "\u0007\n"
