@@ -17,7 +17,6 @@ module.exports.defaults = {
 		}
 		'.css': {
 			ext_src: '.styl'
-			ext_bin: '.css'
 			compiler: (str, path) ->
 				stylus = require 'stylus'
 				stylus_render = Q.denodeify stylus.render
@@ -28,17 +27,11 @@ module.exports.defaults = {
 			ext_src: '.ejs'
 			compiler: (str, path) ->
 				ejs = require 'ejs'
-				tpl = ejs.compile str
+				tpl = ejs.compile str, { filename: path }
 
-				(data, opts) ->
-					_.defaults data, {
-						_
-					}
-					_.defaults opts, {
-						sourceURL: path
-					}
-
-					tpl data, opts
+				(data = {}) ->
+					_.defaults data, { _ }
+					tpl data
 		}
 	}
 }
@@ -71,15 +64,27 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if handler
 				get_cached(handler)
 				.then (code) ->
-					if typeof code == 'string'
-						res.type handler.ext_bin
-						res.send code
-					else
-						self.emit 'compile_error', path, code
-						res.send 500, code.toString()
+					switch typeof code
+						when 'string'
+							res.type handler.ext_bin
+							res.send code
+
+						when 'function'
+							res.type 'html'
+							res.send code()
+
+						else
+							throw new Erorr('unknown_code_type')
 
 				.catch (err) ->
-					static_handler req, res, next
+					if err.code == 'ENOENT'
+						static_handler req, res, next
+					else
+						if self.listeners('compile_error').length == 0
+							kit.log err.toString().red, 'error'
+						else
+							self.emit 'compile_error', path, code
+						res.send 500, 'compile_error'
 			else
 				static_handler req, res, next
 
@@ -116,11 +121,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		kit.readFile(path, 'utf8')
 		.then (str) ->
 			handler.compiler(str, path)
-		.catch (err) ->
-			if err.code == 'ENOENT'
-				throw err
-			else
-				err
 		.then (code) ->
 			cache_pool[path] = code
 
