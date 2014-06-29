@@ -18,8 +18,8 @@ nb = require 'nobone'
 
 port = 8013
 
-# All modules will init by default options.
-# If you don't want to init a specific module,
+# All modules use default options to init.
+# If you want don't init a specific module,
 # for example 'db' module, just exclude it:
 #	nb.init {
 #		renderer: null
@@ -27,9 +27,13 @@ port = 8013
 #	}
 nb.init {
 	db: null
-	renderer: null
+	renderer: { enable_watcher: true }
 	service: null
 }
+# Print all available modules.
+nb.available_modules().done (list) ->
+	nb.kit.log 'available_modules'
+	nb.kit.log list, 'inspect', { depth: 3, colors: true }
 
 # Server
 nb.service.get '/', (req, res) ->
@@ -41,6 +45,7 @@ nb.service.get '/', (req, res) ->
 		res.send tpl_func({ auto_reload: nb.renderer.auto_reload() })
 
 # Launch socket.io and express.js
+# Launch only express.js: "nb.service.listen port"
 nb.service.server.listen port
 
 # Kit
@@ -48,10 +53,7 @@ nb.service.server.listen port
 nb.kit.log 'Listen port ' + port
 
 # Static folder to automatically serve coffeescript and stylus.
-# nb.service.use nb.renderer.static()
-
-# Log out all the handlers. You can define your own.
-console.dir nb.renderer.code_handlers
+nb.service.use nb.renderer.static({ root_dir: 'test' })
 
 # Use socket.io to trigger reaload page.
 # Edit the 'test/sample.ejs' file, the page should auto reload.
@@ -68,17 +70,22 @@ nb.db.exec({
 		jdb.save('OK')
 }).done (data) ->
 	nb.kit.log data
-
 ```
 
 
 ## CLI
 
+Install nobone globally: `npm install -g nobone`
+
 ```bash
+# Help info
+nobone -h
+
 # Use regex to filter the log info.
 # Print out all the log if it contains '.ejs'
-log_reg='.ejs' cake dev
+log_reg='.ejs' nobone
 ```
+
 
 
 ## BSD
