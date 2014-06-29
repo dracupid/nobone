@@ -11,7 +11,7 @@ port = 8013
 #	}
 nb.init {
 	db: null
-	renderer: null
+	renderer: { enable_watcher: true }
 	service: null
 }
 # Print all available modules.
