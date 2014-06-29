@@ -10,6 +10,8 @@ module.exports = nb = {
 		for k, v of opts
 			nb[k] = require('./modules/' + k)(v)
 
+		nb
+
 	available_modules: ->
 		nb.kit.glob(__dirname + '/modules/*')
 		.then (paths) ->
@@ -20,6 +22,7 @@ module.exports = nb = {
 				list[name] = (require './modules/' + name).defaults
 			list
 
+	_: require 'lodash'
 	kit: require './kit'
 
 }
