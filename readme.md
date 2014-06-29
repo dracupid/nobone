@@ -81,9 +81,16 @@ Install nobone globally: `npm install -g nobone`
 # Help info
 nobone -h
 
+# Use it as a static file server for current directory.
+nobone
+
 # Use regex to filter the log info.
 # Print out all the log if it contains '.ejs'
 log_reg='.ejs' nobone
+
+# Use custom logic to start up.
+nobone app.js
+
 ```
 
 
