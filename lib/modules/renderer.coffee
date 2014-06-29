@@ -57,36 +57,37 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		static_handler = express.static opts.root_dir
 
 		return (req, res, next) ->
-
 			path = kit.path.join opts.root_dir, req.path
-			handler = get_handler path
 
-			if handler
-				get_cached(handler)
-				.then (code) ->
-					switch typeof code
-						when 'string'
-							res.type handler.ext_bin
-							res.send code
+			# Try to send the bin file first.
+			static_handler req, res, ->
+				handler = get_handler path
+				if handler
+					get_cached(handler)
+					.then (code) ->
+						switch typeof code
+							when 'string'
+								res.type handler.ext_bin
+								res.send code
 
-						when 'function'
-							res.type 'html'
-							res.send code()
+							when 'function'
+								res.type 'html'
+								res.send code()
 
+							else
+								throw new Erorr('unknown_code_type')
+
+					.catch (err) ->
+						if err.code == 'ENOENT'
+							next()
 						else
-							throw new Erorr('unknown_code_type')
-
-				.catch (err) ->
-					if err.code == 'ENOENT'
-						static_handler req, res, next
-					else
-						if self.listeners('compile_error').length == 0
-							kit.log err.toString().red, 'error'
-						else
-							self.emit 'compile_error', path, code
-						res.send 500, 'compile_error'
-			else
-				static_handler req, res, next
+							if self.listeners('compile_error').length == 0
+								kit.log err.toString().red, 'error'
+							else
+								self.emit 'compile_error', path, code
+							res.send 500, 'compile_error'
+				else
+					next()
 
 	self.render = (path) ->
 		###
