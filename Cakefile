@@ -6,7 +6,7 @@ task 'dev', 'Run a development server.', ->
 	kit.monitor_app {
 		bin: 'coffee'
 		app: app_path
-		watch_list: [app_path, 'lib/*.coffee']
+		watch_list: [app_path, 'lib/**/*.coffee']
 	}
 
 task 'test', 'Basic test', ->
