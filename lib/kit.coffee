@@ -151,6 +151,38 @@ _.extend kit, {
 
 		deferred.promise
 
+	generate_bone: (opts) ->
+		###
+			It will treat all the files in the path as an ejs file
+		###
+		_.defaults opts, {
+			prompt: null
+			src_dir: null
+			pattern: '**'
+			dest_dir: null
+			compile: (str, data, path) ->
+				ejs = kit._require 'ejs'
+				data.filename = path
+				ejs.render str, data
+		}
+
+		kit.prompt_get(opts.prompt)
+		.then (data) ->
+			kit.glob(opts.pattern, { cwd: opts.src_dir })
+			.then (paths) ->
+				Q.all paths.map (path) ->
+					src_path = kit.path.join opts.src_dir, path
+					dest_path = kit.path.join opts.dest_dir, path
+
+					kit.readFile(src_path, 'utf8')
+					.then (str) ->
+						opts.compile str, data, src_path
+					.then (code) ->
+						kit.outputFile dest_path, code
+					.catch (err) ->
+						if err.code != 'EISDIR'
+							throw err
+
 	path: require 'path'
 	url: require 'url'
 	outputFile: Q.denodeify fs.outputFile
