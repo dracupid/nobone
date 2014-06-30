@@ -38,7 +38,7 @@ get = (path) ->
 
 describe 'Basic:', ->
 
-	nb.service.use nb.renderer.static({ root_dir: 'test' })
+	nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
 
 	server = nb.service.listen port
 	nb.kit.log 'Listen port: ' + port
@@ -46,19 +46,19 @@ describe 'Basic:', ->
 	it 'the compiler should work', (tdone) ->
 
 		Q.all([
-			get '/sample.js'
-			get '/sample.css'
+			get '/main.js'
+			get '/default.css'
 		])
 		.then (results) ->
 			assert.equal results[0], "var elem;\n\nelem = document.createElement('h1');\n\nelem.textContent = 'Nobone';\n\ndocument.body.appendChild(elem);\n"
 			assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
 		.then ->
 			# Test the watcher
-			nb.kit.outputFile 'test/sample.coffee', "console.log 'no'"
+			nb.kit.outputFile 'tpl/client/main.coffee', "console.log 'no'"
 		.then ->
 			deferred = Q.defer()
 			setTimeout(->
-				get('/sample.js')
+				get('/main.js')
 				.catch (err) -> deferred.reject err
 				.then (code) ->
 					deferred.resolve code
@@ -67,7 +67,7 @@ describe 'Basic:', ->
 		.then (code) ->
 			assert.equal code, "console.log('no');\n"
 		.then ->
-			nb.kit.outputFile 'test/sample.coffee', """
+			nb.kit.outputFile 'tpl/client/main.coffee', """
 				elem = document.createElement 'h1'
 				elem.textContent = 'Nobone'
 				document.body.appendChild elem
@@ -77,9 +77,9 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'the render should work', (tdone) ->
-		nb.renderer.render('test/sample.ejs')
+		nb.renderer.render('tpl/client/index.ejs')
 		.done (tpl) ->
-			assert.equal tpl({ auto_reload: 'ok' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>Nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/sample.css">\n</head>\n<body>\n\tok\n\t<script type="text/javascript" src="/sample.js"></script>\n</body>\n</html>\n'
+			assert.equal tpl({ auto_reload: 'ok' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>Nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\tok\n\t<script type="text/javascript" src="/main.js"></script>\n</body>\n</html>\n'
 			tdone()
 
 	it 'the db should work', (tdone) ->
