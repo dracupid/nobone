@@ -51,16 +51,18 @@ _.extend kit, {
 	monitor_app: (options) ->
 		opts = _.defaults options, {
 			bin: 'node'
-			app: 'app.coffee'
-			watch_list: ['app.coffee']
+			args: ['app.js']
+			watch_list: ['app.js']
 			mode: 'development'
 		}
 
 		ps = null
 		start = ->
-			ps = kit.spawn(opts.bin, [
-				opts.app
-			], kit.env_mode opts.mode).process
+			ps = kit.spawn(
+				opts.bin
+				opts.args
+				kit.env_mode opts.mode
+			).process
 
 		start()
 
@@ -71,7 +73,7 @@ _.extend kit, {
 				ps.kill 'SIGINT'
 				start()
 
-		kit.log "Monitor: ".yellow + opts.app
+		kit.log "Monitor: ".yellow + opts.watch_list
 
 	exists: (path) ->
 		deferred = Q.defer()

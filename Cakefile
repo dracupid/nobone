@@ -13,7 +13,7 @@ task 'dev', 'Run a development server.', ->
 	app_path = 'test/usage.coffee'
 	kit.monitor_app {
 		bin: coffee_bin
-		app: app_path
+		args: [app_path]
 		watch_list: [app_path, 'lib/**/*.coffee']
 	}
 
