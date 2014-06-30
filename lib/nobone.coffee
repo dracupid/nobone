@@ -1,14 +1,18 @@
+_ = require 'lodash'
 
 module.exports = nb = {
 
 	init: (opts) ->
 		opts ?= {
-			service: undefined
-			renderer: undefined
+			db: null
+			proxy: null
+			service: {}
+			renderer: {}
 		}
 
 		for k, v of opts
-			nb[k] = require('./modules/' + k)(v)
+			if opts[k]
+				nb[k] = require('./modules/' + k)(v)
 
 		nb
 
@@ -22,7 +26,7 @@ module.exports = nb = {
 				list[name] = (require './modules/' + name).defaults
 			list
 
-	_: require 'lodash'
+	_: _
 	kit: require './kit'
 
 }
