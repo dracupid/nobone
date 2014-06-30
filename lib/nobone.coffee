@@ -14,6 +14,10 @@ module.exports = nb = {
 			if opts[k]
 				nb[k] = require('./modules/' + k)(v)
 
+		if nb.service and nb.service.io and nb.renderer
+			nb.renderer.on 'file_modified', (path) ->
+				nb.service.io.emit 'file_modified', path
+
 		nb
 
 	available_modules: ->

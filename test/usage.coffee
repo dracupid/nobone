@@ -43,7 +43,7 @@ nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
 # Use socket.io to trigger reaload page.
 # Edit the 'test/sample.ejs' file, the page should auto reload.
 nb.renderer.on 'file_modified', (path) ->
-	nb.service.io.emit 'file_modified', path
+	nb.kit.log 'Modifed: '.cyan + path
 
 # Database
 # Nobone has a build-in file database.
