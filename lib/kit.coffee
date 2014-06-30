@@ -19,12 +19,16 @@ _.extend kit, {
 
 	_require_cache: {}
 
-	_require: (path) ->
+	_require: (path, done) ->
 		###
 			For better performance.
 		###
 
-		kit._require_cache[path] ?= require path
+		if not kit._require_cache[path]
+			kit._require_cache[path] = require path
+			done? kit._require_cache[path]
+
+		kit._require_cache[path]
 
 	spawn: (cmd, args = [], options = {}) ->
 		spawn = kit._require 'win-spawn'
