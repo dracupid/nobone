@@ -2,5 +2,4 @@ benchmark
 test
 lib
 .*
-*.coffee
 *.db
