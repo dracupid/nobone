@@ -133,13 +133,13 @@ _.extend kit, {
 		if action == 'error'
 			console.log "\u0007\n"
 
-	prompt_get: ->
-		prompt = kit._require 'prompt'
-		prompt.message = '>> '
-		prompt.delimiter = ''
+	prompt_get: (opts) ->
+		prompt = kit._require 'prompt', (prompt) ->
+			prompt.message = '>> '
+			prompt.delimiter = ''
 
 		deferred = Q.defer()
-		prompt.get (err, res) ->
+		prompt.get opts, (err, res) ->
 			if err
 				deferred.reject err
 			else
