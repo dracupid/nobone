@@ -25,6 +25,7 @@ module.exports.defaults = {
 		'.ejs': {
 			default: true    # Whether it is a default handler
 			ext_src: '.ejs'
+			type: 'html'
 			compiler: (str, path) ->
 				ejs = require 'ejs'
 				tpl = ejs.compile str, { filename: path }
@@ -67,11 +68,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					.then (code) ->
 						switch typeof code
 							when 'string'
-								res.type handler.ext_bin
+								res.type handler.type or handler.ext_bin
 								res.send code
 
 							when 'function'
-								res.type 'html'
+								res.type handler.type or 'html'
 								res.send code()
 
 							else
