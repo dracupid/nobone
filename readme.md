@@ -75,7 +75,7 @@ Kit usage
 
 ```coffeescript
 # Monitor app. Watch and restart app automatically.
-# It a light weight monitor, for server test.
+# It's a light weight monitor, for server test.
 # For further info see the 'Cakefile' of this project.
 app_path = 'app.coffee'
 nb.kit.monitor_app {
