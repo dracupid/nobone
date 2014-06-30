@@ -1,5 +1,9 @@
 require 'coffee-script/register'
-kit = require './lib/kit'
+try
+	kit = require './lib/kit'
+catch e
+	kit = require './dist/kit'
+
 Q = require 'q'
 
 coffee_bin = 'node_modules/.bin/coffee'
