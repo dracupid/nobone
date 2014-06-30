@@ -6,9 +6,9 @@ Q = require 'q'
 nb = require '../lib/nobone'
 
 nb.init {
-	db: null
-	renderer: null
-	service: null
+	db: {}
+	renderer: {}
+	service: {}
 }
 
 port = 8022
