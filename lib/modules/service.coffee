@@ -3,11 +3,6 @@ http = require 'http'
 { EventEmitter } = require('events')
 
 
-module.exports.defaults = {
-	enable_socketio: process.env.NODE_ENV == 'development'
-	express: {}
-}
-
 module.exports = (opts = {}) ->
 	_.defaults opts, module.exports.defaults
 
@@ -24,3 +19,8 @@ module.exports = (opts = {}) ->
 		io
 		server
 	}
+
+module.exports.defaults = {
+	enable_socketio: process.env.NODE_ENV == 'development'
+	express: {}
+}
