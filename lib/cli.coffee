@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'development'
 
 _ = require 'lodash'
 cmder = require 'commander'
@@ -61,7 +62,11 @@ init = ->
 			node_lib_path = nb.kit.path.normalize "#{__dirname}/../../"
 			if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
 				process.env.NODE_PATH += ':' + lib_path + ':' + node_lib_path
-				nb.kit.spawn 'node', process.argv[1..]
+				args = process.argv[1..]
+				nb.kit.monitor_app {
+					args
+					watch_list: [args[1]]
+				}
 				return
 
 			require 'coffee-script/register'
