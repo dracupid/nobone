@@ -2,7 +2,6 @@ require 'colors'
 _ = require 'lodash'
 Q = require 'q'
 fs = require 'fs-extra'
-spawn = require 'win-spawn'
 glob = require 'glob'
 
 kit = {}
@@ -18,7 +17,17 @@ _.chain(fs)
 
 _.extend kit, {
 
+	_require_cache: {}
+
+	_require: (path) ->
+		###
+			For better performance.
+		###
+
+		kit._require_cache[path] ?= require path
+
 	spawn: (cmd, args = [], options = {}) ->
+		spawn = kit._require 'win-spawn'
 		deferred = Q.defer()
 
 		opts = _.defaults options, { stdio: 'inherit' }
@@ -93,6 +102,13 @@ _.extend kit, {
 			)
 		}
 
+	inspect: (obj, opts) ->
+		util = kit._require 'util'
+
+		_.defaults opts, { colors: true, depth: 3 }
+
+		str = util.inspect obj, opts
+
 	log: (msg, action = 'log', opts = {}) ->
 		if not kit.last_log_time
 			kit.last_log_time = new Date
@@ -108,17 +124,16 @@ _.extend kit, {
 		if kit.log_reg and not msg.match(kit.log_reg)
 			return
 
-		if action == 'inspect'
-			util = require 'util'
-			console.log "[#{time}]", time_delta, '\n' + util.inspect(msg, opts)
+		if typeof msg != 'string'
+			console[action] "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
 		else
-			console[action] "[#{time}] ", msg, time_delta
+			console[action] "[#{time}]", msg, time_delta
 
 		if action == 'error'
 			console.log "\u0007\n"
 
 	prompt_get: ->
-		prompt = require 'prompt'
+		prompt = kit._require 'prompt'
 		prompt.message = '>> '
 		prompt.delimiter = ''
 
