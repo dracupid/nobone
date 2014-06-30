@@ -25,7 +25,7 @@ nb.service.get '/', (req, res) ->
 
 	# Renderer
 	# You can also render coffee, stylus, or define custom handlers.
-	nb.renderer.render('test/sample.ejs')
+	nb.renderer.render('tpl/client/index.ejs')
 	.done (tpl_func) ->
 		res.send tpl_func({ auto_reload: nb.renderer.auto_reload() })
 
@@ -38,7 +38,7 @@ nb.service.server.listen port
 nb.kit.log 'Listen port ' + port
 
 # Static folder to automatically serve coffeescript and stylus.
-nb.service.use nb.renderer.static({ root_dir: 'test' })
+nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
 
 # Use socket.io to trigger reaload page.
 # Edit the 'test/sample.ejs' file, the page should auto reload.
