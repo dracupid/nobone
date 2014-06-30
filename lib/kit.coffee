@@ -62,7 +62,8 @@ _.extend kit, {
 
 		kit.watch_files opts.watch_list, (path, curr, prev) ->
 			if curr.mtime != prev.mtime
-				kit.log "Reload app, modified: ".yellow + path
+				kit.log "Reload app, modified: ".yellow + path +
+					'\n' + _.times(64, ->'*').join('').yellow
 				ps.kill 'SIGINT'
 				start()
 
@@ -147,6 +148,7 @@ _.extend kit, {
 		deferred.promise
 
 	path: require 'path'
+	url: require 'url'
 	outputFile: Q.denodeify fs.outputFile
 	copy: Q.denodeify fs.copy
 	remove: Q.denodeify fs.remove
