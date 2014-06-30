@@ -38,6 +38,7 @@
     "win-spawn": "^2.0.0"
   },
   "devDependencies": {
+    "benchmark": "^1.0.0",
     "coffee-script": "^1.7.1",
     "mocha": "^1.20.1"
   }
