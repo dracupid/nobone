@@ -7,5 +7,5 @@ module.exports = (opts = {}) ->
 
 module.exports.defaults = {
 	promise: true
-	db_path: './.nobone2.db'
+	db_path: './nobone.db'
 }
