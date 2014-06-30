@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Nobone</title>
+	<title><%= typeof(name) == 'undefined' ? 'NoBone' : name %></title>
 	<link rel="stylesheet" type="text/css" href="/default.css">
 </head>
 <body>
-	<%- auto_reload %>
-	<script type="text/javascript" src="/main.js"></script>
+
+<%- auto_reload %>
+<script type="text/javascript" src="/main.js"></script>
+
 </body>
 </html>

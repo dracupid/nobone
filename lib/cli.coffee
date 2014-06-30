@@ -24,7 +24,9 @@ cmder
 	.action (dest_dir, opts) ->
 		is_action = true
 
-		{ kit } = require './nobone'
+		nb = require './nobone'
+
+		{ kit, renderer } = nb.init()
 
 		kit.generate_bone({
 			prompt: [{
@@ -35,6 +37,11 @@ cmder
 			src_dir: kit.path.normalize(__dirname + '/../tpl')
 			dest_dir
 			pattern: opts.pattern or '**'
+			compile: (str, data, path) ->
+				ejs = kit._require 'ejs'
+				data.filename = path
+				data.auto_reload = renderer.auto_reload()
+				ejs.render str, data
 		})
 		.catch (err) ->
 			if err.message == 'canceled'
