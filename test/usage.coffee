@@ -12,7 +12,7 @@ port = 8013
 nb.init {
 	db: { db_path: './test.db' }
 	renderer: { enable_watcher: true }
-	service: null
+	service: {}
 }
 # Print all available modules.
 nb.available_modules().done (list) ->
