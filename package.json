@@ -1,6 +1,6 @@
 {
   "name": "nobone",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A lite server library",
   "main": "dist/nobone.js",
   "bin": {
