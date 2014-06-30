@@ -10,14 +10,14 @@ port = 8013
 #		service: null
 #	}
 nb.init {
-	db: null
+	db: { db_path: './test.db' }
 	renderer: { enable_watcher: true }
 	service: null
 }
 # Print all available modules.
 nb.available_modules().done (list) ->
 	nb.kit.log 'available_modules'
-	nb.kit.log list, 'inspect', { depth: 3, colors: true }
+	nb.kit.log list
 
 # Server
 nb.service.get '/', (req, res) ->
