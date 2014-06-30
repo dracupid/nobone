@@ -2,6 +2,8 @@
 
 A server library which will ease you life.
 
+Now NoBone is based on express.js and some other useful libraries.
+
 [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone)
 
 
