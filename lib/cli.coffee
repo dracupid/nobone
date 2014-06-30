@@ -2,6 +2,8 @@
 _ = require 'lodash'
 cmder = require 'commander'
 
+is_action = false
+
 defaults = {
 	port: 8013
 	host: '0.0.0.0'
@@ -9,12 +11,38 @@ defaults = {
 }
 
 cmder
-.usage '[options] [root_dir or coffee_file or js_file]. Default root_dir is current folder.'
-.option '-p, --port <port>', "Server port. Default is #{defaults.port}.", (d) -> +d
-.option '--host <host>', "Host to listen to. Default is #{defaults.host} only."
-.option '-v, --ver', 'Print version.'
-.parse process.argv
+	.usage '[action] [options] [root_dir or coffee_file or js_file]. Default root_dir is current folder.'
+	.option '-p, --port <port>', "Server port. Default is #{defaults.port}.", (d) -> +d
+	.option '--host <host>', "Host to listen to. Default is #{defaults.host} only."
+	.option '-v, --ver', 'Print version.'
 
+cmder
+	.command 'bone <dest_dir>'
+	.description 'A guid to create server scaffolding.'
+	.option '--pattern <minimatch>', "The file match pattern."
+	.action (dest_dir, opts) ->
+		is_action = true
+
+		{ kit } = require './nobone'
+
+		kit.generate_bone({
+			prompt: [{
+				name: 'name'
+				description: 'The name of the app:'
+				required: true
+			}]
+			src_dir: kit.path.normalize(__dirname + '/../tpl')
+			dest_dir
+			pattern: opts.pattern or '**'
+		})
+		.catch (err) ->
+			if err.message == 'canceled'
+				kit.log 'Canceled'.yellow
+			else
+				throw err
+		.done()
+
+cmder.parse process.argv
 
 init = ->
 	if cmder.ver
@@ -43,7 +71,7 @@ init = ->
 			cmder.root_dir = cmder.args[0]
 
 	nb.init {
-		service: null
+		service: {}
 		renderer: {
 			enable_watcher: true
 		}
@@ -65,4 +93,5 @@ init = ->
 	nb.service.server.listen cmder.port, cmder.host
 	nb.kit.log "Listen: " + "#{cmder.host}:#{cmder.port}".cyan
 
-init()
+if not is_action
+	init()

@@ -17,6 +17,7 @@ The `kit` lib of NoBone will load is not optinal, and will load automatically.
 All the async functions in `kit` return promise object.
 Most time I use it to handle files and system staffs.
 
+
 ## Install
 
     npm install nobone
@@ -111,6 +112,9 @@ log_reg='.ejs' nobone
 
 # Use custom logic to start up.
 nobone app.js
+
+# Scaffolding helper
+nobone bone -h
 
 ```
 
