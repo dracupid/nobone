@@ -1,13 +1,23 @@
 _ = require 'lodash'
+kit = require './kit'
 
-module.exports = nb = {
+module.exports = {
 
-	init: (opts) ->
+	_
+
+	kit
+
+	create: (opts) ->
 		opts ?= {
 			db: null
 			proxy: null
 			service: {}
 			renderer: {}
+		}
+
+		nb = {
+			_
+			kit
 		}
 
 		for k, v of opts
@@ -20,17 +30,14 @@ module.exports = nb = {
 
 		nb
 
+	# return promise
 	available_modules: ->
-		nb.kit.glob(__dirname + '/modules/*')
+		kit.glob(__dirname + '/modules/*')
 		.then (paths) ->
 			list = {}
 			paths.forEach (p) ->
-				ext = nb.kit.path.extname p
-				name = nb.kit.path.basename p, ext
+				ext = kit.path.extname p
+				name = kit.path.basename p, ext
 				list[name] = (require './modules/' + name).defaults
 			list
-
-	_: _
-	kit: require './kit'
-
 }

@@ -3,9 +3,9 @@ process.env.NODE_ENV = 'development'
 assert = require 'assert'
 http = require 'http'
 Q = require 'q'
-nb = require '../lib/nobone'
+nobone = require '../lib/nobone'
 
-nb.init {
+nb = nobone.create {
 	db: {}
 	renderer: {}
 	service: {}
@@ -94,3 +94,14 @@ describe 'Basic:', ->
 			}).then (d) ->
 				assert.equal d, 1
 				tdone()
+
+	it 'the custom code_handler should work', (tdone) ->
+		{ renderer: rr } = nobone.create()
+
+		rr.code_handlers['.js'].compiler = (str) ->
+			str.length
+
+		rr.render 'tpl/client/main.coffee'
+		.done (len) ->
+			assert.equal len, 93
+			tdone()

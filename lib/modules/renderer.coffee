@@ -95,7 +95,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			Return a promise.
 		###
 
-		handler = get_handler path
+		handler = get_handler path, true
 		get_cached handler
 
 	self.auto_reload = ->
@@ -146,10 +146,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 				return code
 
-	get_handler = (path) ->
+	get_handler = (path, is_direct = false) ->
 		ext_bin = kit.path.extname path
 
-		if ext_bin == ''
+		if is_direct
+			handler = _.find self.code_handlers, (el) -> el.ext_src == ext_bin
+		else if ext_bin == ''
 			handler = _.find self.code_handlers, (el) -> el.default
 		else
 			handler = self.code_handlers[ext_bin]
