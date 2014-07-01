@@ -1,6 +1,6 @@
-nb = require 'nobone'
+nobone = require 'nobone'
 
-nb.init()
+nb = nobone.create()
 
 nb.service.use(
 	nb.renderer.static({ root_dir: __dirname + '/client' })
