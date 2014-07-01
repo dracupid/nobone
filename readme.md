@@ -26,7 +26,7 @@ Most time I use it to handle files and system staffs.
 ## Quick Start
 
 ```coffeescript
-nb = require 'nobone'
+nobone = require 'nobone'
 
 port = 8013
 
@@ -37,14 +37,14 @@ port = 8013
 #		renderer: {}
 #	}
 # By default it load two module: service, renderer
-nb.init {
+nb = nobone.create {
 	db: { db_path: './test.db' }
 	proxy: {}
 	renderer: {}
 	service: {}
 }
 # Print all available modules.
-nb.available_modules().done (list) ->
+nobone.available_modules().done (list) ->
 	nb.kit.log 'available_modules'
 	nb.kit.log list
 
