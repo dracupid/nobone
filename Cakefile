@@ -48,7 +48,6 @@ task 'build', 'Compile coffee to js', ->
 		'-cb', 'lib'
 	]
 
-
 task 'clean', 'Clean js', ->
 	kit.log ">> Clean js..."
 
