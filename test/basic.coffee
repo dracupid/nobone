@@ -11,9 +11,7 @@ nb = nobone.create {
 	service: {}
 }
 
-port = 8022
-
-get = (path) ->
+get = (path, port) ->
 	deferred = Q.defer()
 
 	req = http.request {
@@ -40,14 +38,15 @@ describe 'Basic:', ->
 
 	nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
 
+	port = 8022
 	server = nb.service.listen port
 	nb.kit.log 'Listen port: ' + port
 
 	it 'the compiler should work', (tdone) ->
 
 		Q.all([
-			get '/main.js'
-			get '/default.css'
+			get '/main.js', port
+			get '/default.css', port
 		])
 		.then (results) ->
 			assert.equal results[0], "var elem;\n\nelem = document.createElement('h1');\n\nelem.textContent = 'Nobone';\n\ndocument.body.appendChild(elem);\n"
@@ -58,7 +57,7 @@ describe 'Basic:', ->
 		.then ->
 			deferred = Q.defer()
 			setTimeout(->
-				get('/main.js')
+				get '/main.js', port
 				.catch (err) -> deferred.reject err
 				.then (code) ->
 					deferred.resolve code
@@ -105,3 +104,20 @@ describe 'Basic:', ->
 		.done (len) ->
 			assert.equal len, 93
 			tdone()
+
+
+	it 'the cli should work', (tdone) ->
+		port = 8223
+		ps = nb.kit.spawn('bin/nobone.js', [
+			'-p', port
+			'tpl/client'
+		]).process
+
+		setTimeout(->
+			get '/default.css', port
+			.then (res) ->
+				assert.equal res, "h1 {\n  color: #126dd0;\n}\n"
+				tdone()
+			.fin ->
+				ps.kill 'SIGINT'
+		, 500)
