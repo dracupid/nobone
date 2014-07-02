@@ -18,6 +18,8 @@ module.exports = (opts = {}) ->
 	_.extend service, {
 		io
 		server
+		listen: ->
+			server.listen.apply server, arguments
 	}
 
 module.exports.defaults = {
