@@ -120,4 +120,4 @@ describe 'Basic:', ->
 				tdone()
 			.fin ->
 				ps.kill 'SIGINT'
-		, 500)
+		, 1000)

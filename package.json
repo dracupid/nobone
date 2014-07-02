@@ -8,7 +8,7 @@
   },
   "scripts": {
     "install": "node_modules/.bin/cake setup",
-    "test": "node_modules/.bin/cake build test",
+    "test": "node_modules/.bin/cake build test clean",
     "prepublish": "node_modules/.bin/cake build",
     "publish": "node_modules/.bin/cake clean"
   },
