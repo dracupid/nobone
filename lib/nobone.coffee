@@ -1,5 +1,6 @@
 _ = require 'lodash'
 kit = require './kit'
+Q = require 'q'
 
 module.exports = {
 
@@ -24,6 +25,16 @@ module.exports = {
 		if nb.service and nb.service.io and nb.renderer
 			nb.renderer.on 'file_modified', (path) ->
 				nb.service.io.emit 'file_modified', path
+
+		nb.close = ->
+			Q.all _.map(opts, (v, k) ->
+				mod = nb[k]
+				if v and mod.close
+					if mod.close.length > 0
+						Q.ninvoke mod, 'close'
+					else
+						mod.close()
+			)
 
 		nb
 

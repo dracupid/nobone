@@ -105,6 +105,12 @@ describe 'Basic:', ->
 			assert.equal len, 93
 			tdone()
 
+	it 'the close should work.', (tdone) ->
+		port = 8398
+		nb = nobone.create()
+		nb.service.listen port, ->
+			nb.close().done ->
+				tdone()
 
 	it 'the cli should work', (tdone) ->
 		port = 8223

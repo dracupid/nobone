@@ -117,6 +117,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			</script>
 		'''
 
+	self.close = ->
+		fs = require 'fs'
+		for k, v of cache_pool
+			fs.unwatchFile(k)
+
 	get_code = (handler) ->
 		path = handler.pathless + handler.ext_src
 

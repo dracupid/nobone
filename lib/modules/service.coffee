@@ -20,6 +20,8 @@ module.exports = (opts = {}) ->
 		server
 		listen: ->
 			server.listen.apply server, arguments
+		close: (callback) ->
+			server.close callback
 	}
 
 module.exports.defaults = {
