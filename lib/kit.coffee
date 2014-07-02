@@ -6,14 +6,27 @@ glob = require 'glob'
 
 kit = {}
 
-# Denodeify fs.
-_.chain(fs)
-.functions()
-.filter (el) ->
-	el.slice(-4) == 'Sync'
-.each (name) ->
-	name = name.slice(0, -4)
-	kit[name] = Q.denodeify fs[name]
+###*
+ * Create promise wrap for all the functions that has
+ * Sync version. For more info see node official doc of `fs`
+ * There are some extra `fs` functions here,
+ * see: https://github.com/jprichardson/node-fs-extra
+ * You can call `fs.readFile` like `kit.readFile`, it will
+ * return a promise object.
+ * @example
+ * kit.readFile('a.coffee').done (code) ->
+ * 	kit.log code
+###
+denodeify_fs = ->
+	_.chain(fs)
+	.functions()
+	.filter (el) ->
+		el.slice(-4) == 'Sync'
+	.each (name) ->
+		name = name.slice(0, -4)
+		kit[name] = Q.denodeify fs[name]
+
+denodeify_fs()
 
 _.extend kit, {
 
@@ -30,6 +43,30 @@ _.extend kit, {
 
 		kit._require_cache[path]
 
+	###*
+	 * Node native module
+	###
+	path: require 'path'
+
+	###*
+	 * Node native module
+	###
+	url: require 'url'
+
+	###*
+	 * See the https://github.com/isaacs/node-glob
+	 * @type {promise}
+	###
+	glob: Q.denodeify glob
+
+	###*
+	 * Safe version of `child_process.spawn` a process on Windows or Linux.
+	 * @param  {string} cmd Path of an executable program.
+	 * @param  {array} args CLI arguments.
+	 * @param  {object} options Process options.
+	 * Default will inherit the parent's stdio.
+	 * @return {promise} The `promise.process` is the child process object.
+	###
 	spawn: (cmd, args = [], options = {}) ->
 		if process.platform == 'win32'
 			cmd_ext = cmd + '.cmd'
@@ -57,6 +94,17 @@ _.extend kit, {
 
 		return deferred.promise
 
+	###*
+	 * Monitor an application and automatically restart it when file changed.
+	 * @param  {object} options Defaults:
+	 * {
+	 *     bin: 'node'
+	 *     args: ['app.js']
+	 *     watch_list: ['app.js']
+	 *     mode: 'development'
+	 * }
+	 * @return {process} The child process.
+	###
 	monitor_app: (options) ->
 		opts = _.defaults options, {
 			bin: 'node'
@@ -110,12 +158,24 @@ _.extend kit, {
 				handler(path, curr, prev)
 		)
 
+	###*
+	 * Watch files, when file changes, the handler will be invoked.
+	 * @param  {array} patterns String array with minimatch syntax.
+	 * Such as ['./* /**.js', '*.css']
+	 * @param  {function} handler
+	###
 	watch_files: (patterns, handler) ->
 		patterns.forEach (pattern) ->
 			kit.glob(pattern).then (paths) ->
 				paths.forEach (path) ->
 					kit.watch_file path, handler
 
+	###*
+	 * A shortcut to set process option with specific mode,
+	 * and keep the current env varialbes.
+	 * @param  {string} mode 'development', 'production', etc.
+	 * @return {object} `process.env` object.
+	###
 	env_mode: (mode) ->
 		{
 			env: _.extend(
@@ -123,6 +183,13 @@ _.extend kit, {
 			)
 		}
 
+	###*
+	 * For debugging use. Dump a colorful object.
+	 * @param  {object} obj Your target object.
+	 * @param  {object} opts Options. Default:
+	 * { colors: true, depth: 5 }
+	 * @return {string}
+	###
 	inspect: (obj, opts) ->
 		util = kit._require 'util'
 
@@ -130,6 +197,12 @@ _.extend kit, {
 
 		str = util.inspect obj, opts
 
+	###*
+	 * A better log for debugging, it uses the `kit.inspect` to log.
+	 * @param  {any} msg Your log message.
+	 * @param  {string} action 'log', 'error', 'warn'.
+	 * @param  {object} opts Default is same with `kit.inspect`
+	###
 	log: (msg, action = 'log', opts = {}) ->
 		if not kit.last_log_time
 			kit.last_log_time = new Date
@@ -153,6 +226,11 @@ _.extend kit, {
 		if action == 'error'
 			console.log "\u0007\n"
 
+	###*
+	 * Block terminal and wait for user inputs.
+	 * @param  {object} opts See the https://github.com/flatiron/prompt
+	 * @return {promise} Contains the results of prompt.
+	###
 	prompt_get: (opts) ->
 		prompt = kit._require 'prompt', (prompt) ->
 			prompt.message = '>> '
@@ -167,6 +245,13 @@ _.extend kit, {
 
 		deferred.promise
 
+	###*
+	 * An throttle version of `Q.all`, it runs all the tasks under
+	 * a limitation.
+	 * @param  {array} list A list of functions. Each will return a promise.
+	 * @param  {int} limit The max task to run at the same time.
+	 * @return {promise}
+	###
 	async_limit: (list, limit) ->
 		from = 0
 		resutls = []
@@ -185,6 +270,26 @@ _.extend kit, {
 
 		round()
 
+	###*
+	 * A comments parser for coffee-script.
+	 * Used to generate documantation automatically.
+	 * @param  {string} module_name The name of the module it belongs to.
+	 * @param  {string} code Coffee source code.
+	 * @return {array} The parsed comments. Something like:
+	 * {
+	 * 		module: 'nobone'
+	 * 		name: 'parse_comment'
+	 * 		description: A comments parser for coffee-script.
+	 * 		tags: [
+	 * 			{
+	 * 				tag: 'param'
+	 * 				type: 'string'
+	 * 				name: 'module_name'
+	 * 				description: 'The name of the module it belongs to.'
+	 * 			}
+	 * 		]
+	 * }
+	###
 	parse_comment: (module_name, code) ->
 		comment_reg = /###\*([\s\S]+?)###\s+(\w+)/g
 		split_reg = /^\s+\* @/m
@@ -242,6 +347,22 @@ _.extend kit, {
 
 		return comments
 
+	###*
+	 * A scaffolding helper to generate template project.
+	 * The `lib/cli.coffee` used it as an example.
+	 * @param  {object} opts Defaults:
+	 * {
+	 * 		prompt: null
+	 * 		src_dir: null
+	 * 		pattern: '**'
+	 * 		dest_dir: null
+	 * 		compile: (str, data, path) ->
+	 * 			ejs = kit._require 'ejs'
+	 * 			data.filename = path
+	 * 			ejs.render str, data
+	 * }
+	 * @return {promise}
+	###
 	generate_bone: (opts) ->
 		###
 			It will treat all the files in the path as an ejs file
@@ -273,13 +394,6 @@ _.extend kit, {
 					.catch (err) ->
 						if err.code != 'EISDIR'
 							throw err
-
-	path: require 'path'
-	url: require 'url'
-	outputFile: Q.denodeify fs.outputFile
-	copy: Q.denodeify fs.copy
-	remove: Q.denodeify fs.remove
-	glob: Q.denodeify glob
 
 }
 
