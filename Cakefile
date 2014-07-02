@@ -1,4 +1,5 @@
 require 'coffee-script/register'
+_ = require 'lodash'
 try
 	kit = require './lib/kit'
 catch e
@@ -47,6 +48,18 @@ task 'build', 'Compile coffee to js', ->
 		'-o', 'dist'
 		'-cb', 'lib'
 	]
+
+	# Build readme
+	kit.log 'Make readme...'
+	Q.all([
+		kit.readFile 'doc/readme.ejs.md', 'utf8'
+		kit.readFile 'test/usage.coffee', 'utf8'
+	])
+	.then (rets) ->
+		usage = rets[1].replace "nobone = require '../lib/nobone'", "nobone = require 'nobone'"
+		out = _.template rets[0], { usage }
+		kit.outputFile 'readme.md', out
+	.done()
 
 task 'clean', 'Clean js', ->
 	kit.log ">> Clean js..."
