@@ -1,22 +1,10 @@
 ## Overview
 
-A server library which will ease you life.
+A server library which will ease you development life.
 
 Now NoBone is based on express.js and some other useful libraries.
 
 [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone)
-
-NoBone has four main modules, they are all optional.
-
-* db
-* proxy
-* renderer
-* service
-
-The `kit` lib of NoBone will load is not optinal, and will load automatically.
-All the async functions in `kit` return promise object.
-Most time I use it to handle files and system staffs.
-
 
 ## Install
 
@@ -125,6 +113,40 @@ nobone bone -h
 
 ```
 
+
+## Modules
+
+NoBone has four main modules, they are all optional.
+
+### db
+
+See my JDB project: https://github.com/ysmood/jdb
+
+### proxy
+
+For test, page injection development.
+
+### renderer
+
+A abstract renderer for any string resources, such as template, source code, etc.
+It automatically uses high performance memory cache. You can run the benchmark to see the what differences it makes. Even for huge project its memory usage is negligible.
+
+### service
+
+It is just a Express.js wrap with build in Socket.io (optional).
+
+### kit
+
+The `kit` lib of NoBone will load by default and is not optinal.
+All the async functions in `kit` return promise object.
+Most time I use it to handle files and system staffs.
+
+
+## Road Map
+
+API doc.
+
+Better test coverage.
 
 
 ## BSD

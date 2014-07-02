@@ -6,6 +6,7 @@ module.exports = {
 
 	kit
 
+	# Create a `nobone` instance, and return it.
 	create: (opts) ->
 		opts ?= {
 			db: null
@@ -38,7 +39,7 @@ module.exports = {
 
 		nb
 
-	# return promise
+	# Return a promise object with a hash table, the key is module name, the value is the module's default option object.
 	available_modules: ->
 		kit.glob(__dirname + '/modules/*')
 		.then (paths) ->
