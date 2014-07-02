@@ -6,7 +6,11 @@ module.exports = {
 
 	kit
 
-	# Create a `nobone` instance, and return it.
+	###*
+	 * Main constructor.
+	 * @param  {object} opts
+	 * @return {object} A nobone instance.
+	###
 	create: (opts) ->
 		opts ?= {
 			db: null
@@ -39,14 +43,22 @@ module.exports = {
 
 		nb
 
-	# Return a promise object with a hash table, the key is module name, the value is the module's default option object.
-	available_modules: ->
+	###*
+	 * Help you to get the default options of moduels.
+	 * @param {string} name Module name, if not set, return all modules' defaults.
+	 * @return {promise} A promise object with defaults.
+	###
+	module_defaults: (name) ->
 		kit.glob(__dirname + '/modules/*')
 		.then (paths) ->
-			list = {}
+			list = []
 			paths.forEach (p) ->
 				ext = kit.path.extname p
-				name = kit.path.basename p, ext
-				list[name] = (require './modules/' + name).defaults
-			list
+				mod = kit.path.basename p, ext
+				list[mod] = (require './modules/' + mod).defaults
+
+			if name
+				list[name]
+			else
+				list
 }

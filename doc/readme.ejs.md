@@ -70,6 +70,11 @@ All the async functions in `kit` return promise object.
 Most time I use it to handle files and system staffs.
 
 
+## Unit Test
+
+	npm test
+
+
 ## Road Map
 
 API doc.
