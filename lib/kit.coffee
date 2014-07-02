@@ -126,7 +126,7 @@ _.extend kit, {
 	inspect: (obj, opts) ->
 		util = kit._require 'util'
 
-		_.defaults opts, { colors: true, depth: 3 }
+		_.defaults opts, { colors: true, depth: 5 }
 
 		str = util.inspect obj, opts
 
@@ -184,6 +184,63 @@ _.extend kit, {
 				Q(resutls)
 
 		round()
+
+	parse_comment: (module_name, code) ->
+		comment_reg = /###\*([\s\S]+?)###\s+(\w+)/g
+		split_reg = /^\s+\* @/m
+		tag_name_reg = /^(\w+)\s*/
+		tag_2_reg = /^(\w+)\s*([\s\S]*)/
+		tag_3_reg = /^(\w+)\s+\{(\w+)\}\s*([\s\S]*)/
+		tag_4_reg = /^(\w+)\s+\{(\w+)\}\s+(\w+)\s*([\s\S]*)/
+
+		parse_info = (block) ->
+			arr = block.split(split_reg).map (el) ->
+				el.replace(/^.+\* /mg, '').trim()
+
+			description = arr[0]
+			tags = arr[1..].map (el) ->
+				tag = el.match(tag_name_reg)[1]
+
+				switch tag
+					when 'return', 'type'
+						m = el.match tag_3_reg
+						{
+							tag: m[1]
+							type: m[2]
+							description: m[3]
+						}
+					when 'param'
+						m = el.match tag_4_reg
+						{
+							tag: m[1]
+							type: m[2]
+							name: m[3]
+							description: m[4]
+						}
+					else
+						m = el.match tag_2_reg
+						console.log m
+						{
+							tag: m[1]
+							description: m[2]
+						}
+			{
+				description
+				tags
+			}
+
+		comments = []
+		m = null
+		while (m = comment_reg.exec(code)) != null
+			info = parse_info m[1]
+			comments.push {
+				module: module_name
+				name: m[2]
+				description: info.description
+				tags: info.tags
+			}
+
+		return comments
 
 	generate_bone: (opts) ->
 		###

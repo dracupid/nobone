@@ -1,8 +1,8 @@
 nobone = require '../lib/nobone'
 
-nb = nobone.create()
+{ kit } = nobone.create()
 
-nb.service.get '/', (req, res) ->
-	res.send 'ok'
 
-nb.service.listen '8013'
+kit.readFile 'lib/nobone.coffee'
+.then (code) ->
+	kit.log kit.parse_comment('nobone', code)
