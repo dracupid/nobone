@@ -291,7 +291,7 @@ _.extend kit, {
 	 * }
 	###
 	parse_comment: (module_name, code) ->
-		comment_reg = /###\*([\s\S]+?)###\s+(\w+)/g
+		comment_reg = /###\*([\s\S]+?)###\s+([\w\.]+)/g
 		split_reg = /^\s+\* @/m
 		tag_name_reg = /^(\w+)\s*/
 		tag_2_reg = /^(\w+)\s*([\s\S]*)/
