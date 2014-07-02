@@ -48,20 +48,19 @@ NoBone has four main modules, they are all optional.
 
 ### db
 
-See my JDB project: https://github.com/ysmood/jdb
+
 
 ### proxy
 
-For test, page injection development.
+
 
 ### renderer
 
-A abstract renderer for any string resources, such as template, source code, etc.
-It automatically uses high performance memory cache. You can run the benchmark to see the what differences it makes. Even for huge project its memory usage is negligible.
+
 
 ### service
 
-It is just a Express.js wrap with build in Socket.io (optional).
+
 
 ### kit
 

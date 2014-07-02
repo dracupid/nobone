@@ -1,6 +1,14 @@
 _ = require 'lodash'
 
-
+###*
+ * See my JDB project: https://github.com/ysmood/jdb
+ * @param  {object} opts Defaults:
+ * {
+ * 	promise: true
+ * 	db_path: './nobone.db'
+ * }
+ * @return {jdb}
+###
 module.exports = (opts = {}) ->
 	_.defaults opts, module.exports.defaults
 

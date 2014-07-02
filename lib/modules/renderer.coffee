@@ -4,6 +4,44 @@ kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
 
+###*
+ * A abstract renderer for any string resources, such as template, source code, etc.
+ * It automatically uses high performance memory cache.
+ * You can run the benchmark to see the what differences it makes.
+ * Even for huge project its memory usage is negligible.
+ * @param  {object} opts Defaults:
+ * {
+ * 	enable_watcher: process.env.NODE_ENV == 'development'
+ * 	code_handlers: {
+ * 		'.js': {
+ * 			ext_src: '.coffee'
+ * 			compiler: (str) ->
+ * 				coffee = require 'coffee-script'
+ * 				coffee.compile(str, { bare: true })
+ * 		}
+ * 		'.css': {
+ * 			ext_src: '.styl'
+ * 			compiler: (str, path) ->
+ * 				stylus = require 'stylus'
+ * 				stylus_render = Q.denodeify stylus.render
+ * 				stylus_render(str, { filename: path })
+ * 		}
+ * 		'.ejs': {
+ * 			default: true    # Whether it is a default handler
+ * 			ext_src: '.ejs'
+ * 			type: 'html'
+ * 			compiler: (str, path) ->
+ * 				ejs = require 'ejs'
+ * 				tpl = ejs.compile str, { filename: path }
+ *
+ * 				(data = {}) ->
+ * 					_.defaults data, { _ }
+ * 					tpl data
+ * 		}
+ * 	}
+ * }
+ * @return {renderer}
+###
 module.exports = (opts) -> new Renderer(opts)
 
 module.exports.defaults = {

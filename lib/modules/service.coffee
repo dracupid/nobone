@@ -2,7 +2,15 @@ _ = require 'lodash'
 http = require 'http'
 { EventEmitter } = require('events')
 
-
+###*
+ * It is just a Express.js wrap with build in Socket.io (optional).
+ * @param  {object} opts Defaults:
+ * {
+ * 	enable_socketio: process.env.NODE_ENV == 'development'
+ * 	express: {}
+ * }
+ * @return {service}
+###
 module.exports = (opts = {}) ->
 	_.defaults opts, module.exports.defaults
 
