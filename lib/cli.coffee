@@ -15,6 +15,11 @@ cmder
 	.usage '[action] [options] [root_dir or coffee_file or js_file]. Default root_dir is current folder.'
 	.option '-p, --port <port>', "Server port. Default is #{defaults.port}.", (d) -> +d
 	.option '--host <host>', "Host to listen to. Default is #{defaults.host} only."
+	.option '-w, --watch <list>', "Watch list to auto-restart server. String or JSON array.", (list) ->
+		try
+			return JSON.parse list
+		catch
+			return [list]
 	.option '-v, --ver', 'Print version.'
 
 cmder
@@ -65,15 +70,20 @@ init = ->
 	if cmder.args[0]
 		fs = require 'fs'
 		stats = fs.statSync(cmder.args[0])
+
 		if stats.isFile()
 			lib_path = kit.path.normalize "#{__dirname}/../node_modules"
 			node_lib_path = kit.path.normalize "#{__dirname}/../../"
+
 			if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
 				process.env.NODE_PATH += ':' + lib_path + ':' + node_lib_path
 				args = process.argv[1..]
+				watch_list = args[-1..]
+				if cmder.watch
+					watch_list = watch_list.concat cmder.watch
 				kit.monitor_app {
 					args
-					watch_list: [args[1]]
+					watch_list
 				}
 				return
 
@@ -83,28 +93,16 @@ init = ->
 		else
 			cmder.root_dir = cmder.args[0]
 
-	nb = nobone.create {
-		service: {}
-		renderer: {
-			enable_watcher: true
-		}
+	kit.monitor_app {
+		args: [
+			__dirname + '/static_server.js'
+			cmder.host
+			cmder.port
+			cmder.root_dir
+		]
+		watch_list: cmder.watch
 	}
 
-	nb.service.use nb.renderer.static({ root_dir: cmder.root_dir })
-	kit.log "Static folder: " + cmder.root_dir.cyan
-
-	nb.renderer.on 'watch_file', (path) ->
-		kit.log "Watch: #{path}".cyan
-
-	nb.renderer.on 'file_modified', (path) ->
-		kit.log "Modified: #{path}".cyan
-
-	nb.renderer.on 'compile_error', (path, err) ->
-		kit.log (path + '\n' + err.toString()).red, 'error'
-
-
-	nb.service.listen cmder.port, cmder.host
-	kit.log "Listen: " + "#{cmder.host}:#{cmder.port}".cyan
 
 if not is_action
 	init()
