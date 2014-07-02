@@ -3,8 +3,6 @@ kit = require './kit'
 
 module.exports = {
 
-	_
-
 	kit
 
 	create: (opts) ->
@@ -16,7 +14,6 @@ module.exports = {
 		}
 
 		nb = {
-			_
 			kit
 		}
 
