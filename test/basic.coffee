@@ -75,6 +75,11 @@ describe 'Basic:', ->
 			server.close()
 			tdone()
 
+	it 'module_defaults should work', (tdone) ->
+		nobone.module_defaults('renderer').done (d) ->
+			assert.equal d.code_handlers['.js'].ext_src, '.coffee'
+			tdone()
+
 	it 'the render should work', (tdone) ->
 		nb.renderer.render('tpl/client/index.ejs')
 		.done (tpl) ->
