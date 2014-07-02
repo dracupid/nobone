@@ -31,11 +31,19 @@ _.extend kit, {
 		kit._require_cache[path]
 
 	spawn: (cmd, args = [], options = {}) ->
-		spawn = kit._require 'win-spawn'
+		if process.platform == 'win32'
+			cmd_ext = cmd + '.cmd'
+			if fs.existsSync cmd_ext
+				cmd = cmd_ext
+			else
+				which = kit._require 'which'
+				cmd = which.sync(cmd)
+
 		deferred = Q.defer()
 
 		opts = _.defaults options, { stdio: 'inherit' }
 
+		{ spawn } = kit._require 'child_process'
 		try
 			ps = spawn cmd, args, opts
 		catch err
@@ -66,6 +74,9 @@ _.extend kit, {
 
 		start()
 
+		process.on 'SIGINT', ->
+			ps.kill 'SIGINT'
+
 		kit.watch_files opts.watch_list, (path, curr, prev) ->
 			if curr.mtime != prev.mtime
 				kit.log "Reload app, modified: ".yellow + path +
@@ -74,6 +85,8 @@ _.extend kit, {
 				start()
 
 		kit.log "Monitor: ".yellow + opts.watch_list
+
+		ps
 
 	exists: (path) ->
 		deferred = Q.defer()
