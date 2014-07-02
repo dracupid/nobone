@@ -76,7 +76,11 @@ init = ->
 			node_lib_path = kit.path.normalize "#{__dirname}/../../"
 
 			if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
-				process.env.NODE_PATH += ':' + lib_path + ':' + node_lib_path
+				path_arr = [lib_path, node_lib_path]
+				if process.env.NODE_PATH
+					path_arr.push process.env.NODE_PATH
+				process.env.NODE_PATH = path_arr.join kit.path.delimiter
+
 				args = process.argv[1..]
 				watch_list = args[-1..]
 				if cmder.watch
