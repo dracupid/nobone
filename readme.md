@@ -26,6 +26,8 @@ Most time I use it to handle files and system staffs.
 ## Quick Start
 
 ```coffeescript
+process.env.NODE_ENV = 'development'
+
 nobone = require 'nobone'
 
 port = 8013
@@ -58,7 +60,7 @@ nb.service.get '/', (req, res) ->
 		res.send tpl_func({ auto_reload: nb.renderer.auto_reload() })
 
 # Launch socket.io and express.js
-nb.service.listen port
+s = nb.service.listen port
 
 # Kit
 # Print out time, log message, time span between two log.
@@ -91,6 +93,12 @@ nb.service.get '/proxy.*', (req, res) ->
 	# it'll return the "http://127.0.0.1:8013/sample.js" from the remote server,
 	# though here we just use a local server for test.
 	nb.proxy.url req, res, "http://127.0.0.1:#{port}/sample." + req.params[0]
+
+close = ->
+	# Release all the resources.
+	nb.close().done ->
+		nb.kit.log 'Peacefully closed.'
+
 ```
 
 
