@@ -153,6 +153,24 @@ _.extend kit, {
 
 		deferred.promise
 
+	async_limit: (list, limit) ->
+		from = 0
+		resutls = []
+
+		round = ->
+			to = from + limit
+			curr = list[from ... to].map (el) -> el()
+			from = to
+			if curr.length > 0
+				Q.all curr
+				.then (res) ->
+					resutls = resutls.concat res
+					round()
+			else
+				Q(resutls)
+
+		round()
+
 	generate_bone: (opts) ->
 		###
 			It will treat all the files in the path as an ejs file
