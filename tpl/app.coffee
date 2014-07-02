@@ -14,5 +14,5 @@ nb.service.get '/', (req, res) ->
 		})
 
 port = 8013
-nb.service.server.listen port
+nb.service.listen port
 nb.kit.log 'Listen port ' + port

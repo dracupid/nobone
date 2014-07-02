@@ -103,7 +103,7 @@ init = ->
 		kit.log (path + '\n' + err.toString()).red, 'error'
 
 
-	nb.service.server.listen cmder.port, cmder.host
+	nb.service.listen cmder.port, cmder.host
 	kit.log "Listen: " + "#{cmder.host}:#{cmder.port}".cyan
 
 if not is_action
