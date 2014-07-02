@@ -1,3 +1,12 @@
+###
+
+Memory cache is faster than direct file streaming even on SSD machine.
+
+* memory x 1,167 ops/sec ±4.11% (68 runs sampled)
+* stream x 759 ops/sec ±2.77% (79 runs sampled)
+
+###
+
 Q = require 'q'
 http = require 'http'
 Benchmark = require('benchmark')
@@ -49,14 +58,6 @@ server = nb.service.listen port, ->
 
 	suite
 
-	.add('* stream', {
-		defer: true
-		fn: (deferred) ->
-			get '/stream', port
-			.done (data) ->
-				deferred.resolve data
-	})
-
 	.add('* memory', {
 		defer: true
 		fn: (deferred) ->
@@ -65,8 +66,16 @@ server = nb.service.listen port, ->
 				deferred.resolve data
 	})
 
+	.add('* stream', {
+		defer: true
+		fn: (deferred) ->
+			get '/stream', port
+			.done (data) ->
+				deferred.resolve data
+	})
+
 	.on 'cycle', (e) ->
 		console.log e.target.toString()
 	.on 'complete', (e) ->
 		server.close()
-	.run()
+	.run({ 'async': true })
