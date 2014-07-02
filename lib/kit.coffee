@@ -38,6 +38,7 @@ _.extend kit, {
 			else
 				which = kit._require 'which'
 				cmd = which.sync(cmd)
+			cmd = kit.path.normalize cmd
 
 		deferred = Q.defer()
 

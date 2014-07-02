@@ -119,7 +119,8 @@ describe 'Basic:', ->
 
 	it 'the cli should work', (tdone) ->
 		port = 8223
-		ps = nb.kit.spawn('bin/nobone.js', [
+		ps = nb.kit.spawn('node', [
+			'bin/nobone.js'
 			'-p', port
 			'tpl/client'
 		]).process
