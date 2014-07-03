@@ -6,6 +6,7 @@ Now NoBone is based on express.js and some other useful libraries.
 
 [![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
 
+
 ## Install
 
     npm install nobone
@@ -94,6 +95,10 @@ NoBone has four main modules, they are all optional.
 <hr>
 
 <% }); %>
+
+## Changelog
+
+See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/changelog.md) file.
 
 
 ## Unit Test
