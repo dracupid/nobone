@@ -26,7 +26,7 @@ nobone.module_defaults().done (list) ->
 nb.service.get '/', (req, res) ->
 	# Renderer
 	# You can also render coffee, stylus, or define custom handlers.
-	nb.renderer.render('tpl/client/index.ejs')
+	nb.renderer.render('bone/client/index.ejs')
 	.done (tpl_func) ->
 		res.send tpl_func({ auto_reload: nb.renderer.auto_reload() })
 
@@ -38,9 +38,9 @@ s = nb.service.listen port
 nb.kit.log 'Listen port ' + port
 
 # Static folder to automatically serve coffeescript and stylus.
-nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
+nb.service.use nb.renderer.static({ root_dir: 'bone/client' })
 
-# Edit the 'tpl/client/index.ejs' file, the page should auto reload.
+# Edit the 'bone/client/index.ejs' file, the page should auto reload.
 nb.renderer.on 'watch_file', (path) ->
 	nb.kit.log 'Watch: '.cyan + path
 nb.renderer.on 'file_modified', (path) ->

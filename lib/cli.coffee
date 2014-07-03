@@ -39,7 +39,7 @@ cmder
 				description: 'The name of the app:'
 				required: true
 			}]
-			src_dir: kit.path.normalize(__dirname + '/../tpl')
+			src_dir: kit.path.normalize(__dirname + '/../bone')
 			dest_dir
 			pattern: opts.pattern or '**'
 			compile: (str, data, path) ->

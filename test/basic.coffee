@@ -36,7 +36,7 @@ get = (path, port) ->
 
 describe 'Basic:', ->
 
-	nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
+	nb.service.use nb.renderer.static({ root_dir: 'bone/client' })
 
 	port = 8022
 	server = nb.service.listen port
@@ -53,7 +53,7 @@ describe 'Basic:', ->
 			assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
 		.then ->
 			# Test the watcher
-			nb.kit.outputFile 'tpl/client/main.coffee', "console.log 'no'"
+			nb.kit.outputFile 'bone/client/main.coffee', "console.log 'no'"
 		.then ->
 			deferred = Q.defer()
 			setTimeout(->
@@ -66,7 +66,7 @@ describe 'Basic:', ->
 		.then (code) ->
 			assert.equal code, "console.log('no');\n"
 		.then ->
-			nb.kit.outputFile 'tpl/client/main.coffee', """
+			nb.kit.outputFile 'bone/client/main.coffee', """
 				elem = document.createElement 'h1'
 				elem.textContent = 'Nobone'
 				document.body.appendChild elem
@@ -81,7 +81,7 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'the render should work', (tdone) ->
-		nb.renderer.render('tpl/client/index.ejs')
+		nb.renderer.render('bone/client/index.ejs')
 		.done (tpl) ->
 			assert.equal tpl({ auto_reload: 'ok' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>NoBone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\nok\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
 			tdone()
@@ -105,7 +105,7 @@ describe 'Basic:', ->
 		rr.code_handlers['.js'].compiler = (str) ->
 			str.length
 
-		rr.render 'tpl/client/main.coffee'
+		rr.render 'bone/client/main.coffee'
 		.done (len) ->
 			assert.equal len, 93
 			tdone()
@@ -126,7 +126,7 @@ describe 'Basic:', ->
 		ps = nb.kit.spawn('node', [
 			'bin/nobone.js'
 			'-p', port
-			'tpl/client'
+			'bone/client'
 		]).process
 
 		setTimeout(->
