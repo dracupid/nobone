@@ -107,10 +107,10 @@ _.extend kit, {
 	 * Monitor an application and automatically restart it when file changed.
 	 * @param  {object} options Defaults:
 	 * <pre>{
-	 *     bin: 'node'
-	 *     args: ['app.js']
-	 *     watch_list: ['app.js']
-	 *     mode: 'development'
+	 * 	bin: 'node'
+	 * 	args: ['app.js']
+	 * 	watch_list: ['app.js']
+	 * 	mode: 'development'
 	 * }</pre>
 	 * @return {process} The child process.
 	###
@@ -317,20 +317,20 @@ _.extend kit, {
 	 * }</pre>
 	 * @return {array} The parsed comments. Something like:
 	 * <pre>{
-	 * 		module: 'nobone'
-	 * 		name: 'parse_comment'
-	 * 		description: A comments parser for coffee-script.
-	 * 		tags: [
-	 * 			{
-	 * 				tag: 'param'
-	 * 				type: 'string'
-	 * 				name: 'module_name'
-	 * 				description: 'The name of the module it belongs to.'
-	 * 				path: 'http://the_path_of_source_code'
-	 * 				index: 256 # The target char index in the file.
-	 * 				line: 29 # The line number of the target in the file.
-	 * 			}
-	 * 		]
+	 * 	module: 'nobone'
+	 * 	name: 'parse_comment'
+	 * 	description: A comments parser for coffee-script.
+	 * 	tags: [
+	 * 		{
+	 * 			tag: 'param'
+	 * 			type: 'string'
+	 * 			name: 'module_name'
+	 * 			description: 'The name of the module it belongs to.'
+	 * 			path: 'http://the_path_of_source_code'
+	 * 			index: 256 # The target char index in the file.
+	 * 			line: 29 # The line number of the target in the file.
+	 * 		}
+	 * 	]
 	 * }</pre>
 	###
 	parse_comment: (module_name, code, path = '', opts = {}) ->
@@ -348,7 +348,7 @@ _.extend kit, {
 			arr = block.split(opts.split_reg)
 			.map (el) ->
 				# Clean the prefix '*'
-				el.replace(/^.+\*(\b)?/mg, '').trim()
+				el.replace(/^[ \t]+\*[ \t]?/mg, '').trim()
 			.map (el) ->
 				# Auto create <code> tag.
 				el.replace opts.code_reg, (m, c) ->
@@ -409,15 +409,15 @@ _.extend kit, {
 	 * The `lib/cli.coffee` used it as an example.
 	 * @param  {object} opts Defaults:
 	 * <pre>{
-	 * 		prompt: null
-	 * 		src_dir: null
-	 * 		pattern: '**'
-	 * 		dest_dir: null
-	 * 		compile: (str, data, path) ->
-	 * 			ejs = kit._require 'ejs'
-	 * 			data.filename = path
-	 * 			ejs.render str, data
-	 * }<pre>
+	 * 	prompt: null
+	 * 	src_dir: null
+	 * 	pattern: '**'
+	 * 	dest_dir: null
+	 * 	compile: (str, data, path) ->
+	 * 		ejs = kit._require 'ejs'
+	 * 		data.filename = path
+	 * 		ejs.render str, data
+	 * }</pre>
 	 * @return {promise}
 	###
 	generate_bone: (opts) ->

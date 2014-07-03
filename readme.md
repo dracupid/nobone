@@ -143,14 +143,16 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Defaults:
- {
- 	promise: true
- 	db_path: './nobone.db'
- }</p>
+{
+	promise: true
+	db_path: './nobone.db'
+}</p>
 			</li>
 
 			
@@ -158,7 +160,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ jdb }</em>
 				</p>
 				<p></p>
@@ -196,10 +198,12 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
-				<p>Defaults: {}</p>
+				<p>Defaults: <code>{}</code></p>
 			</li>
 
 			
@@ -207,12 +211,12 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ proxy }</em>
 				</p>
 				<p>See https://github.com/nodejitsu/node-http-proxy
- I extend only on function to it <code>url</code>. Use it to proxy one url
- to another.</p>
+I extend only on function to it <code>url</code>. Use it to proxy one url
+to another.</p>
 			</li>
 
 			
@@ -240,9 +244,9 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>A abstract renderer for any string resources, such as template, source code, etc.
- It automatically uses high performance memory cache.
- You can run the benchmark to see the what differences it makes.
- Even for huge project its memory usage is negligible.</p>
+It automatically uses high performance memory cache.
+You can run the benchmark to see the what differences it makes.
+Even for huge project its memory usage is negligible.</p>
 
 		<ul>
 			
@@ -250,40 +254,42 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Defaults:
- <pre>{
- 	enable_watcher: process.env.NODE_ENV == 'development'
- 	code_handlers: {
- 		'.js': {
- 			ext_src: '.coffee'
- 			compiler: (str) ->
- 				coffee = require 'coffee-script'
- 				coffee.compile(str, { bare: true })
- 		}
- 		'.css': {
- 			ext_src: '.styl'
- 			compiler: (str, path) ->
- 				stylus = require 'stylus'
- 				stylus_render = Q.denodeify stylus.render
- 				stylus_render(str, { filename: path })
- 		}
- 		'.ejs': {
- 			default: true    # Whether it is a default handler
- 			ext_src: '.ejs'
- 			type: 'html'
- 			compiler: (str, path) ->
- 				ejs = require 'ejs'
- 				tpl = ejs.compile str, { filename: path }
+<pre>{
+enable_watcher: process.env.NODE_ENV == 'development'
+code_handlers: {
+'.js': {
+	ext_src: '.coffee'
+	compiler: (str) ->
+		coffee = require 'coffee-script'
+		coffee.compile(str, { bare: true })
+}
+'.css': {
+	ext_src: '.styl'
+	compiler: (str, path) ->
+		stylus = require 'stylus'
+		stylus_render = Q.denodeify stylus.render
+		stylus_render(str, { filename: path })
+}
+'.ejs': {
+	default: true    # Whether it is a default handler
+	ext_src: '.ejs'
+	type: 'html'
+	compiler: (str, path) ->
+		ejs = require 'ejs'
+		tpl = ejs.compile str, { filename: path }
 
- 				(data = {}) ->
- 					_.defaults data, { _ }
- 					tpl data
- 		}
- 	}
- }</pre></p>
+		(data = {}) ->
+			_.defaults data, { _ }
+			tpl data
+}
+}
+}</pre></p>
 			</li>
 
 			
@@ -291,7 +297,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ renderer }</em>
 				</p>
 				<p></p>
@@ -313,7 +319,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>The compiler should fulfil two interface.
- It should return a promise object. Only handles string.</p>
+It should return a promise object. Only handles string.</p>
 
 		<ul>
 			
@@ -321,7 +327,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>str</code></b>
+					
+						<b><code>str</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>Source code.</p>
@@ -332,7 +340,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>path</code></b>
+					
+						<b><code>path</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>For debug info.</p>
@@ -343,7 +353,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p>Contains the compiled code.</p>
@@ -365,7 +375,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>Set a static directory.
- Static folder to automatically serve coffeescript and stylus.</p>
+Static folder to automatically serve coffeescript and stylus.</p>
 
 		<ul>
 			
@@ -373,10 +383,12 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>Defaults</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
-				<p>: { root_dir: '.' }</p>
+				<p>Defaults: <code>{ root_dir: '.' }</code></p>
 			</li>
 
 			
@@ -384,7 +396,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ middleware }</em>
 				</p>
 				<p>Experss.js middleware.</p>
@@ -406,7 +418,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>Render a file. It will auto detect the file extension and
- choose the right compiler to handle the code.</p>
+choose the right compiler to handle the code.</p>
 
 		<ul>
 			
@@ -414,7 +426,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>path</code></b>
+					
+						<b><code>path</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>The file path</p>
@@ -425,7 +439,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p>Contains the compiled code.</p>
@@ -447,7 +461,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>The browser javascript to support the auto page reload.
- You can use the socket.io event to custom you own.</p>
+You can use the socket.io event to custom you own.</p>
 
 		<ul>
 			
@@ -455,7 +469,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>Returns html.</p>
@@ -511,14 +525,16 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Defaults:
- <pre>{
- 	enable_socketio: process.env.NODE_ENV == 'development'
- 	express: {}
- }</pre></p>
+<pre>{
+	enable_socketio: process.env.NODE_ENV == 'development'
+	express: {}
+}</pre></p>
 			</li>
 
 			
@@ -526,7 +542,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ service }</em>
 				</p>
 				<p></p>
@@ -557,8 +573,8 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>The <code>kit</code> lib of NoBone will load by default and is not optional.
- All the async functions in <code>kit</code> return promise object.
- Most time I use it to handle files and system staffs.</p>
+All the async functions in <code>kit</code> return promise object.
+Most time I use it to handle files and system staffs.</p>
 
 		<ul>
 			
@@ -566,7 +582,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>type</u>:
-					<b><code></code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p></p>
@@ -588,11 +604,11 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>Create promise wrap for all the functions that has
- Sync version. For more info see node official doc of <code>fs</code>
- There are some extra <code>fs</code> functions here,
- see: https://github.com/jprichardson/node-fs-extra
- You can call <code>fs.readFile</code> like <code>kit.readFile</code>, it will
- return a promise object.</p>
+Sync version. For more info see node official doc of <code>fs</code>
+There are some extra <code>fs</code> functions here,
+see: https://github.com/jprichardson/node-fs-extra
+You can call <code>fs.readFile</code> like <code>kit.readFile</code>, it will
+return a promise object.</p>
 
 		<ul>
 			
@@ -600,13 +616,13 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>example</u>:
-					<b><code></code></b>
+					
 					<em>{  }</em>
 				</p>
 				<p><pre>
- kit.readFile('a.coffee').done (code) ->
- 	kit.log code
- </pre></p>
+kit.readFile('a.coffee').done (code) ->
+	kit.log code
+</pre></p>
 			</li>
 
 			
@@ -668,7 +684,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>pattern</code></b>
+					
+						<b><code>pattern</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>Minimatch pattern.</p>
@@ -679,7 +697,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p></p>
@@ -708,7 +726,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>cmd</code></b>
+					
+						<b><code>cmd</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>Path of an executable program.</p>
@@ -719,7 +739,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>args</code></b>
+					
+						<b><code>args</code></b>
+					
 					<em>{ array }</em>
 				</p>
 				<p>CLI arguments.</p>
@@ -730,11 +752,13 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>options</code></b>
+					
+						<b><code>options</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Process options.
- Default will inherit the parent's stdio.</p>
+Default will inherit the parent's stdio.</p>
 			</li>
 
 			
@@ -742,7 +766,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p>The <code>promise.process</code> is the child process object.</p>
@@ -771,16 +795,18 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>options</code></b>
+					
+						<b><code>options</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Defaults:
- <pre>{
-     bin: 'node'
-     args: ['app.js']
-     watch_list: ['app.js']
-     mode: 'development'
- }</pre></p>
+<pre>{
+	bin: 'node'
+	args: ['app.js']
+	watch_list: ['app.js']
+	mode: 'development'
+}</pre></p>
 			</li>
 
 			
@@ -788,7 +814,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ process }</em>
 				</p>
 				<p>The child process.</p>
@@ -817,11 +843,13 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>patterns</code></b>
+					
+						<b><code>patterns</code></b>
+					
 					<em>{ array }</em>
 				</p>
 				<p>String array with minimatch syntax.
-.css']</p>
+Such as ['./* /**.js', '*.css']</p>
 			</li>
 
 			
@@ -829,7 +857,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>handler</code></b>
+					
+						<b><code>handler</code></b>
+					
 					<em>{ function }</em>
 				</p>
 				<p></p>
@@ -851,7 +881,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>A shortcut to set process option with specific mode,
- and keep the current env variables.</p>
+and keep the current env variables.</p>
 
 		<ul>
 			
@@ -859,7 +889,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>mode</code></b>
+					
+						<b><code>mode</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>'development', 'production', etc.</p>
@@ -870,7 +902,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p><code>process.env</code> object.</p>
@@ -899,7 +931,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>obj</code></b>
+					
+						<b><code>obj</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Your target object.</p>
@@ -910,11 +944,13 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Options. Default:
- { colors: true, depth: 5 }</p>
+{ colors: true, depth: 5 }</p>
 			</li>
 
 			
@@ -922,7 +958,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p></p>
@@ -944,10 +980,10 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>A better log for debugging, it uses the <code>kit.inspect</code> to log.
- You can use terminal command like <code>log_reg='pattern' node app.js</code> to
- filter the log info.
- You can use <code>log_trace='on' node app.js</code> to force each log end with a
- stack trace.</p>
+You can use terminal command like <code>log_reg='pattern' node app.js</code> to
+filter the log info.
+You can use <code>log_trace='on' node app.js</code> to force each log end with a
+stack trace.</p>
 
 		<ul>
 			
@@ -955,7 +991,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>msg</code></b>
+					
+						<b><code>msg</code></b>
+					
 					<em>{ any }</em>
 				</p>
 				<p>Your log message.</p>
@@ -966,7 +1004,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>action</code></b>
+					
+						<b><code>action</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>'log', 'error', 'warn'.</p>
@@ -977,7 +1017,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Default is same with <code>kit.inspect</code></p>
@@ -1006,7 +1048,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>msg</code></b>
+					
+						<b><code>msg</code></b>
+					
 					<em>{ any }</em>
 				</p>
 				<p></p>
@@ -1017,7 +1061,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p></p>
@@ -1039,7 +1085,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>Block terminal and wait for user inputs. Useful when you need
- user interaction.</p>
+user interaction.</p>
 
 		<ul>
 			
@@ -1047,7 +1093,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>See the https://github.com/flatiron/prompt</p>
@@ -1058,7 +1106,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p>Contains the results of prompt.</p>
@@ -1080,7 +1128,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>An throttle version of <code>Q.all</code>, it runs all the tasks under
- a concurrent limitation.</p>
+a concurrent limitation.</p>
 
 		<ul>
 			
@@ -1088,7 +1136,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>list</code></b>
+					
+						<b><code>list</code></b>
+					
 					<em>{ array }</em>
 				</p>
 				<p>A list of functions. Each will return a promise.</p>
@@ -1099,7 +1149,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>limit</code></b>
+					
+						<b><code>limit</code></b>
+					
 					<em>{ int }</em>
 				</p>
 				<p>The max task to run at the same time.</p>
@@ -1110,7 +1162,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p></p>
@@ -1132,7 +1184,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>A comments parser for coffee-script.
- Used to generate documentation automatically.</p>
+Used to generate documentation automatically.</p>
 
 		<ul>
 			
@@ -1140,7 +1192,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>module_name</code></b>
+					
+						<b><code>module_name</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>The name of the module it belongs to.</p>
@@ -1151,7 +1205,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>code</code></b>
+					
+						<b><code>code</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>Coffee source code.</p>
@@ -1162,7 +1218,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>sting</code></b>
+					
+						<b><code>sting</code></b>
+					
 					<em>{ path }</em>
 				</p>
 				<p>The path of the source code.</p>
@@ -1173,19 +1231,21 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Parser options:
- <pre>{
- 	reg: RegExp
- 	split_reg: RegExp
- 	tag_name_reg: RegExp
- 	tag_2_reg: RegExp
- 	tag_3_reg: RegExp
- 	tag_4_reg: RegExp
- 	code_reg: RegExp
- }</pre></p>
+<pre>{
+	reg: RegExp
+	split_reg: RegExp
+	tag_name_reg: RegExp
+	tag_2_reg: RegExp
+	tag_3_reg: RegExp
+	tag_4_reg: RegExp
+	code_reg: RegExp
+}</pre></p>
 			</li>
 
 			
@@ -1193,26 +1253,26 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ array }</em>
 				</p>
 				<p>The parsed comments. Something like:
- <pre>{
- 		module: 'nobone'
- 		name: 'parse_comment'
- 		description: A comments parser for coffee-script.
- 		tags: [
- 			{
- 				tag: 'param'
- 				type: 'string'
- 				name: 'module_name'
- 				description: 'The name of the module it belongs to.'
- 				path: 'http://the_path_of_source_code'
- 				index: 256 # The target char index in the file.
- 				line: 29 # The line number of the target in the file.
- 			}
- 		]
- }</pre></p>
+<pre>{
+	module: 'nobone'
+	name: 'parse_comment'
+	description: A comments parser for coffee-script.
+	tags: [
+		{
+			tag: 'param'
+			type: 'string'
+			name: 'module_name'
+			description: 'The name of the module it belongs to.'
+			path: 'http://the_path_of_source_code'
+			index: 256 # The target char index in the file.
+			line: 29 # The line number of the target in the file.
+		}
+	]
+}</pre></p>
 			</li>
 
 			
@@ -1231,7 +1291,7 @@ NoBone has four main modules, they are all optional.
 			</a>
 		</h4>
 		<p>A scaffolding helper to generate template project.
- The <code>lib/cli.coffee</code> used it as an example.</p>
+The <code>lib/cli.coffee</code> used it as an example.</p>
 
 		<ul>
 			
@@ -1239,20 +1299,22 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>Defaults:
- <pre>{
- 		prompt: null
- 		src_dir: null
-'
- 		dest_dir: null
- 		compile: (str, data, path) ->
- 			ejs = kit._require 'ejs'
- 			data.filename = path
- 			ejs.render str, data
- }<pre></p>
+<pre>{
+	prompt: null
+	src_dir: null
+	pattern: '**'
+	dest_dir: null
+	compile: (str, data, path) ->
+		ejs = kit._require 'ejs'
+		data.filename = path
+		ejs.render str, data
+}</pre></p>
 			</li>
 
 			
@@ -1260,7 +1322,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p></p>
@@ -1298,7 +1360,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>opts</code></b>
+					
+						<b><code>opts</code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p></p>
@@ -1309,7 +1373,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ object }</em>
 				</p>
 				<p>A nobone instance.</p>
@@ -1338,7 +1402,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p></p>
@@ -1367,7 +1431,9 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>param</u>:
-					<b><code>name</code></b>
+					
+						<b><code>name</code></b>
+					
 					<em>{ string }</em>
 				</p>
 				<p>Module name, if not set, return all modules' defaults.</p>
@@ -1378,7 +1444,7 @@ NoBone has four main modules, they are all optional.
 			<li>
 				<p>
 					<u>return</u>:
-					<b><code></code></b>
+					
 					<em>{ promise }</em>
 				</p>
 				<p>A promise object with defaults.</p>
