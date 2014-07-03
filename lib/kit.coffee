@@ -99,6 +99,9 @@ _.extend kit, {
 		ps.on 'error', (err) ->
 			deferred.reject err
 
+		ps.on 'exit', (worker, code, signal) ->
+			deferred.resolve worker, code, signal
+
 		deferred.promise.process = ps
 
 		return deferred.promise
