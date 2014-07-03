@@ -6,6 +6,7 @@ Now NoBone is based on express.js and some other useful libraries.
 
 [![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
 
+
 ## Install
 
     npm install nobone
@@ -1461,13 +1462,17 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 
 
+## Changelog
+
+See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/changelog.md) file.
+
 
 ## Unit Test
 
 	npm test
 
 
-# Benchmark
+## Benchmark
 
 Memory cache is faster than direct file streaming even on SSD machine.
 <pre>
@@ -1483,8 +1488,8 @@ Decouple libs.
 Better test coverage.
 
 
-# Lisence
+## Lisence
 
-## BSD
+### BSD
 
 May 2014, Yad Smood
