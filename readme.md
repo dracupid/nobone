@@ -150,10 +150,10 @@ NoBone has four main modules, they are all optional.
 					<em>{ object }</em>
 				</b></p>
 				<p>Defaults:
-{
+<pre>{
 	promise: true
 	db_path: './nobone.db'
-}</p>
+}</pre></p>
 			</li>
 
 			
@@ -783,7 +783,7 @@ Default will inherit the parent's stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L117">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L120">
 				
 				<b>monitor_app()</b>
 			</a>
@@ -831,7 +831,7 @@ Default will inherit the parent's stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L176">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L179">
 				
 				<b>watch_files</b>
 			</a>
@@ -876,7 +876,7 @@ Such as ['./* /**.js', '*.css']</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L188">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L191">
 				
 				<b>env_mode()</b>
 			</a>
@@ -919,7 +919,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L202">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L205">
 				
 				<b>inspect()</b>
 			</a>
@@ -975,7 +975,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L219">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L222">
 				
 				<b>log</b>
 			</a>
@@ -1036,7 +1036,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L254">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L257">
 				
 				<b>err</b>
 			</a>
@@ -1080,7 +1080,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L263">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L266">
 				
 				<b>prompt_get()</b>
 			</a>
@@ -1123,7 +1123,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L284">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L287">
 				
 				<b>async_limit()</b>
 			</a>
@@ -1179,7 +1179,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L336">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L339">
 				
 				<b>parse_comment()</b>
 			</a>
@@ -1286,7 +1286,7 @@ Used to generate documentation automatically.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L423">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L426">
 				
 				<b>generate_bone()</b>
 			</a>
