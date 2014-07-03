@@ -130,14 +130,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								throw new Erorr('unknown_code_type')
 
 					.catch (err) ->
-						if err.code == 'ENOENT'
-							next()
-						else
-							if self.listeners('compile_error').length == 0
-								kit.log err.toString().red, 'error'
-							else
-								self.emit 'compile_error', path, code
-							res.send 500, 'compile_error'
+						next()
 				else
 					next()
 
@@ -191,6 +184,15 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.compiler(str, path)
 		.then (code) ->
 			cache_pool[path] = code
+		.catch (err) ->
+			if err.code == 'ENOENT'
+				throw err
+			else
+				if self.listeners('compile_error').length == 0
+					kit.err '->\n' + err.toString().red
+				else
+					self.emit 'compile_error', path, code
+				res.send 500, 'compile_error'
 
 	get_cached = (handler) ->
 		path = null
