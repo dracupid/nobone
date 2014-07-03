@@ -10,6 +10,8 @@ Q = require 'q'
 coffee_bin = 'node_modules/.bin/coffee'
 mocha_bin = 'node_modules/.bin/mocha'
 
+option '-n', '--no-server', 'Test without standalone test'
+
 task 'dev', 'Run a development server.', ->
 	app_path = 'test/usage.coffee'
 	kit.monitor_app {
@@ -18,7 +20,10 @@ task 'dev', 'Run a development server.', ->
 		watch_list: [app_path, 'lib/**/*.coffee']
 	}
 
-task 'test', 'Basic test', ->
+task 'test', 'Basic test', (options) ->
+	if options['no-server']
+		process.env.no_server_test = 'on'
+
 	[
 		'test/basic.coffee'
 	].forEach (file) ->
