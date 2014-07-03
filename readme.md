@@ -40,7 +40,6 @@ nobone.module_defaults().done (list) ->
 
 # Server
 nb.service.get '/', (req, res) ->
-
 	# Renderer
 	# You can also render coffee, stylus, or define custom handlers.
 	nb.renderer.render('tpl/client/index.ejs')
@@ -57,8 +56,9 @@ nb.kit.log 'Listen port ' + port
 # Static folder to automatically serve coffeescript and stylus.
 nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
 
-# Use socket.io to trigger reaload page.
-# Edit the 'test/sample.ejs' file, the page should auto reload.
+# Edit the 'tpl/client/index.ejs' file, the page should auto reload.
+nb.renderer.on 'watch_file', (path) ->
+	nb.kit.log 'Watch: '.cyan + path
 nb.renderer.on 'file_modified', (path) ->
 	nb.kit.log 'Modifed: '.cyan + path
 
@@ -74,13 +74,14 @@ nb.db.exec({
 }).done (data) ->
 	nb.kit.log data
 
+# Proxy
 # Proxy path to specific url.
 # For more info, see here: https://github.com/nodejitsu/node-http-proxy
 nb.service.get '/proxy.*', (req, res) ->
 	# If you visit "http://127.0.0.1:8013/proxy.js",
-	# it'll return the "http://127.0.0.1:8013/sample.js" from the remote server,
+	# it'll return the "http://127.0.0.1:8013/main.js" from the remote server,
 	# though here we just use a local server for test.
-	nb.proxy.url req, res, "http://127.0.0.1:#{port}/sample." + req.params[0]
+	nb.proxy.url req, res, "http://127.0.0.1:#{port}/main." + req.params[0]
 
 close = ->
 	# Release all the resources.
@@ -706,7 +707,9 @@ and keep the current env variables.</p>
 		</h4>
 		<p>A better log for debugging, it uses the `kit.inspect` to log.
 You can use terminal command like `log_reg='pattern' node app.js` to
-filter the log info.</p>
+filter the log info.
+You can use `log_trace='on' node app.js` to force each log end with a
+stack trace.</p>
 
 		<ul>
 			
@@ -728,6 +731,33 @@ filter the log info.</p>
 			<li>
 				<p><b>@param: opts { object }</b></p>
 				<pre>Default is same with `kit.inspect`</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>err</b>
+		</h4>
+		<p>A log error shortcut for `kit.log`</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: msg { any }</b></p>
+				<pre></pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre></pre>
 			</li>
 
 			
