@@ -208,6 +208,8 @@ _.extend kit, {
 	 * A better log for debugging, it uses the `kit.inspect` to log.
 	 * You can use terminal command like `log_reg='pattern' node app.js` to
 	 * filter the log info.
+	 * You can use `log_trace='on' node app.js` to force each log end with a
+	 * stack trace.
 	 * @param  {any} msg Your log message.
 	 * @param  {string} action 'log', 'error', 'warn'.
 	 * @param  {object} opts Default is same with `kit.inspect`
@@ -227,10 +229,17 @@ _.extend kit, {
 		if kit.log_reg and not msg.match(kit.log_reg)
 			return
 
+		log = ->
+			str = _.toArray(arguments).join ' '
+			console[action] str.replace /\n/g, '\n  '
+
 		if typeof msg != 'string'
-			console[action] "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
+			log "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
 		else
-			console[action] "[#{time}]", msg, time_delta
+			log "[#{time}]", msg, time_delta
+
+		if process.env.log_trace == 'on'
+			log (new Error).stack.replace('Error:', '\nStack trace:').grey
 
 		if action == 'error'
 			console.log "\u0007\n"
