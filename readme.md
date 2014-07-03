@@ -186,12 +186,14 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L11">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L13">
 				
 				<b>module.exports()</b>
 			</a>
 		</h4>
-		<p>For test, page injection development.</p>
+		<p>For test, page injection development.
+A cross platform Fiddler alternative.
+Most time used with SwitchySharp.</p>
 
 		<ul>
 			
@@ -228,7 +230,7 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L23">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L25">
 				
 				<b>url</b>
 			</a>

@@ -5,6 +5,8 @@ http = require 'http'
 
 ###*
  * For test, page injection development.
+ * A cross platform Fiddler alternative.
+ * Most time used with SwitchySharp.
  * @param  {object} opts Defaults: `{}`
  * @return {proxy} For more, see https://github.com/nodejitsu/node-http-proxy
 ###
