@@ -274,7 +274,7 @@ _.extend kit, {
 
 	###*
 	 * An throttle version of `Q.all`, it runs all the tasks under
-	 * a limitation.
+	 * a concurrent limitation.
 	 * @param  {array} list A list of functions. Each will return a promise.
 	 * @param  {int} limit The max task to run at the same time.
 	 * @return {promise}
