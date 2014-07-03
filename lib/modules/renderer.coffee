@@ -223,6 +223,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler = self.code_handlers[ext_bin]
 
 		if handler
+			handler = _.clone(handler)
 			handler.ext_bin = ext_bin
 			handler.pathless = kit.path.join(
 				kit.path.dirname(path)
