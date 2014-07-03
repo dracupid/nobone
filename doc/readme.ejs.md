@@ -101,12 +101,19 @@ NoBone has four main modules, they are all optional.
 	npm test
 
 
+# Benchmark
+
+<%- benchmark[0].description %>
+
+
 ## Road Map
 
-API doc.
+Decouple libs.
 
 Better test coverage.
 
+
+# Lisence
 
 ## BSD
 

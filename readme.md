@@ -1256,7 +1256,7 @@ Used to generate documentation automatically.</p>
 					
 					<em>{ array }</em>
 				</b></p>
-				<p>The parsed comments. Something like:
+				<p>The parsed comments. Each item is something like:
 <pre>{
 	module: 'nobone'
 	name: 'parse_comment'
@@ -1469,10 +1469,20 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 ## Road Map
 
-API doc.
+Decouple libs.
 
 Better test coverage.
 
+
+# Benchmark
+
+Memory cache is faster than direct file streaming even on SSD machine.
+<pre>
+* memory x 1,167 ops/sec ±4.11% (68 runs sampled)
+* stream x   759 ops/sec ±2.77% (79 runs sampled)
+</pre>
+
+# Lisence
 
 ## BSD
 

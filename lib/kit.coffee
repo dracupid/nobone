@@ -315,7 +315,7 @@ _.extend kit, {
 	 * 	tag_4_reg: RegExp
 	 * 	code_reg: RegExp
 	 * }</pre>
-	 * @return {array} The parsed comments. Something like:
+	 * @return {array} The parsed comments. Each item is something like:
 	 * <pre>{
 	 * 	module: 'nobone'
 	 * 	name: 'parse_comment'
