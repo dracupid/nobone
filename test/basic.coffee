@@ -81,9 +81,9 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'the render should work', (tdone) ->
-		nb.renderer.render('bone/client/index.ejs')
+		nb.renderer.render('bone/index.ejs')
 		.done (tpl) ->
-			assert.equal tpl({ auto_reload: 'ok' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>NoBone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\nok\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
+			assert.equal tpl({ body: 'ok' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>NoBone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\nok\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
 			tdone()
 
 	it 'the db should work', (tdone) ->

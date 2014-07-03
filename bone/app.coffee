@@ -3,10 +3,10 @@ nobone = require 'nobone'
 nb = nobone.create()
 
 nb.service.get '/', (req, res) ->
-	nb.renderer.render(__dirname + '/client/index.ejs')
+	nb.renderer.render(__dirname + '/index.ejs')
 	.done (tpl_func) ->
 		res.send tpl_func({
-			auto_reload: nb.renderer.auto_reload()
+			body: nb.renderer.auto_reload()
 		})
 
 port = 8013
