@@ -6,9 +6,7 @@ http = require 'http'
 ###*
  * For test, page injection development.
  * @param  {object} opts Defaults: `{}`
- * @return {proxy} See https://github.com/nodejitsu/node-http-proxy
- * I extend only on function to it `url`. Use it to proxy one url
- * to another.
+ * @return {proxy} For more, see https://github.com/nodejitsu/node-http-proxy
 ###
 module.exports = (opts = {}) ->
 	_.defaults opts, module.exports.defaults
@@ -16,6 +14,12 @@ module.exports = (opts = {}) ->
 	proxy = http_proxy.createProxyServer opts.proxy
 
 	_.extend proxy, {
+		###*
+		 * Use it to proxy one url to another.
+		 * @param  {http.IncomingMessage} req
+		 * @param  {http.ServerResponse} res
+		 * @param  {string} url The target url
+		###
 		url: (req, res, url) ->
 			if typeof url == 'string'
 				url = kit.url.parse url

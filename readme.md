@@ -186,7 +186,7 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L13">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L11">
 				
 				<b>module.exports()</b>
 			</a>
@@ -215,9 +215,64 @@ NoBone has four main modules, they are all optional.
 					
 					<em>{ proxy }</em>
 				</b></p>
-				<p>See https://github.com/nodejitsu/node-http-proxy
-I extend only on function to it <code>url</code>. Use it to proxy one url
-to another.</p>
+				<p>For more, see https://github.com/nodejitsu/node-http-proxy</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L23">
+				
+				<b>url</b>
+			</a>
+		</h4>
+		<p>Use it to proxy one url to another.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>req</code>
+					
+					<em>{ http.IncomingMessage }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>res</code>
+					
+					<em>{ http.ServerResponse }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>url</code>
+					
+					<em>{ string }</em>
+				</b></p>
+				<p>The target url</p>
 			</li>
 
 			

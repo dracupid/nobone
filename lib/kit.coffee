@@ -340,10 +340,10 @@ _.extend kit, {
 		_.defaults opts, {
 			reg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
 			split_reg: /^\s+\* @/m
-			tag_name_reg: /^(\w+)\s*/
-			tag_2_reg: /^(\w+)\s*([\s\S]*)/
-			tag_3_reg: /^(\w+)\s+\{(\w+)\}\s*([\s\S]*)/
-			tag_4_reg: /^(\w+)\s+\{(\w+)\}\s+(\w+)\s*([\s\S]*)/
+			tag_name_reg: /^([\w\.]+)\s*/
+			tag_2_reg: /^([\w\.]+)\s*([\s\S]*)/
+			tag_3_reg: /^([\w\.]+)\s+\{([\w\.]+)\}\s*([\s\S]*)/
+			tag_4_reg: /^([\w\.]+)\s+\{([\w\.]+)\}\s+([\w\.]+)\s*([\s\S]*)/
 			code_reg: /`(.+?)`/g
 		}
 
