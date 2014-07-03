@@ -1348,7 +1348,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L14">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L20">
 				
 				<b>create()</b>
 			</a>
@@ -1366,7 +1366,13 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p></p>
+				<p>Defaults:
+{
+	db: null
+	proxy: null
+	service: {}
+	renderer: {}
+}</p>
 			</li>
 
 			
@@ -1390,7 +1396,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L38">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L44">
 				
 				<b>nb.close()</b>
 			</a>
@@ -1419,7 +1425,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L55">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L61">
 				
 				<b>module_defaults()</b>
 			</a>
@@ -1448,7 +1454,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 					<em>{ promise }</em>
 				</b></p>
-				<p>A promise object with defaults.</p>
+				<p>A promise object which will produce the defaults.</p>
 			</li>
 
 			
