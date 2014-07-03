@@ -206,11 +206,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			Q cache_pool[path]
 		else
 			if opts.enable_watcher
-				self.emit 'watch_file', path
-				kit.watch_file path, (path, curr, prev) ->
-					if curr.mtime != prev.mtime
-						self.emit 'file_modified', path
-						get_code(handler)
+				kit.exists(path).then (exists) ->
+					return if not exists
+
+					self.emit 'watch_file', path
+					kit.watch_file path, (path, curr, prev) ->
+						if curr.mtime != prev.mtime
+							self.emit 'file_modified', path
+							get_code(handler)
 
 			get_code(handler)
 
