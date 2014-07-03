@@ -54,11 +54,34 @@ task 'build', 'Compile coffee to js', ->
 	Q.all([
 		kit.readFile 'doc/readme.ejs.md', 'utf8'
 		kit.readFile 'test/usage.coffee', 'utf8'
-	])
-	.then (rets) ->
+		kit.glob 'lib/modules/*.coffee'
+	]).then (rets) ->
 		usage = rets[1].replace "nobone = require '../lib/nobone'", "nobone = require 'nobone'"
-		out = _.template rets[0], { usage }
+		{
+			tpl: rets[0]
+			usage
+			mods: rets[2].concat [
+				'lib/kit.coffee'
+				'lib/nobone.coffee'
+			]
+		}
+	.then (data) ->
+		Q.all data.mods.map (path) ->
+			name = kit.path.basename path, '.coffee'
+			kit.readFile path, 'utf8'
+			.then (code) ->
+				kit.parse_comment name, code
+		.then (rets) ->
+			data.mods = _.groupBy _.flatten(rets, true), (el) -> el.module
+			data
+	.then (data) ->
+		ejs = require 'ejs'
+		data._ = _
+
+		out = ejs.render data.tpl, data
+
 		kit.outputFile 'readme.md', out
+
 	.done()
 
 task 'clean', 'Clean js', ->

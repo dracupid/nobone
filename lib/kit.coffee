@@ -4,6 +4,12 @@ Q = require 'q'
 fs = require 'fs-extra'
 glob = require 'glob'
 
+###*
+ * The `kit` lib of NoBone will load by default and is not optinal.
+ * All the async functions in `kit` return promise object.
+ * Most time I use it to handle files and system staffs.
+ * @type {object}
+###
 kit = {}
 
 ###*
@@ -55,7 +61,8 @@ _.extend kit, {
 
 	###*
 	 * See the https://github.com/isaacs/node-glob
-	 * @type {promise}
+	 * @param {string} pattern Minimatch pattern.
+	 * @return {promise}
 	###
 	glob: Q.denodeify glob
 
@@ -324,7 +331,6 @@ _.extend kit, {
 						}
 					else
 						m = el.match tag_2_reg
-						console.log m
 						{
 							tag: m[1]
 							description: m[2]

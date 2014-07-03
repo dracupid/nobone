@@ -114,32 +114,714 @@ nobone bone -h
 ```
 
 
-## Modules
+## Modules API
 
 NoBone has four main modules, they are all optional.
 
-### db
 
-See my JDB project: https://github.com/ysmood/jdb
 
-### proxy
 
-For test, page injection development.
+<h3>db</h3>
+<ul>
+	
 
-### renderer
+	<li>
+		<h4>
+			<b>module.exports</b>
+		</h4>
+		<p>See my JDB project: https://github.com/ysmood/jdb</p>
 
-A abstract renderer for any string resources, such as template, source code, etc.
-It automatically uses high performance memory cache. You can run the benchmark to see the what differences it makes. Even for huge project its memory usage is negligible.
+		<ul>
+			
 
-### service
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>Defaults:
+{
+	promise: true
+	db_path: './nobone.db'
+}</pre>
+			</li>
 
-It is just a Express.js wrap with build in Socket.io (optional).
+			
 
-### kit
+			<li>
+				<p><b>@return:  { jdb }</b></p>
+				<pre></pre>
+			</li>
 
-The `kit` lib of NoBone will load by default and is not optinal.
+			
+		</ul>
+	</li>
+
+	
+</ul>
+
+
+
+
+<h3>proxy</h3>
+<ul>
+	
+
+	<li>
+		<h4>
+			<b>module.exports</b>
+		</h4>
+		<p>For test, page injection development.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>Defaults: {}</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { proxy }</b></p>
+				<pre>See https://github.com/nodejitsu/node-http-proxy
+I extend only on function to it `url`. Use it to proxy one url
+to another.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+</ul>
+
+
+
+
+<h3>renderer</h3>
+<ul>
+	
+
+	<li>
+		<h4>
+			<b>module.exports</b>
+		</h4>
+		<p>A abstract renderer for any string resources, such as template, source code, etc.
+It automatically uses high performance memory cache.
+You can run the benchmark to see the what differences it makes.
+Even for huge project its memory usage is negligible.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>Defaults:
+{
+	enable_watcher: process.env.NODE_ENV == 'development'
+	code_handlers: {
+		'.js': {
+			ext_src: '.coffee'
+			compiler: (str) ->
+				coffee = require 'coffee-script'
+				coffee.compile(str, { bare: true })
+		}
+		'.css': {
+			ext_src: '.styl'
+			compiler: (str, path) ->
+				stylus = require 'stylus'
+				stylus_render = Q.denodeify stylus.render
+				stylus_render(str, { filename: path })
+		}
+		'.ejs': {
+			default: true    # Whether it is a default handler
+			ext_src: '.ejs'
+			type: 'html'
+			compiler: (str, path) ->
+				ejs = require 'ejs'
+				tpl = ejs.compile str, { filename: path }
+ *
+				(data = {}) ->
+					_.defaults data, { _ }
+					tpl data
+		}
+	}
+}</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { renderer }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+</ul>
+
+
+
+
+<h3>service</h3>
+<ul>
+	
+
+	<li>
+		<h4>
+			<b>module.exports</b>
+		</h4>
+		<p>It is just a Express.js wrap with build in Socket.io (optional).</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>Defaults:
+{
+	enable_socketio: process.env.NODE_ENV == 'development'
+	express: {}
+}</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { service }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+</ul>
+
+
+
+
+<h3>kit</h3>
+<ul>
+	
+
+	<li>
+		<h4>
+			<b>kit</b>
+		</h4>
+		<p>The `kit` lib of NoBone will load by default and is not optinal.
 All the async functions in `kit` return promise object.
-Most time I use it to handle files and system staffs.
+Most time I use it to handle files and system staffs.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@type:  { object }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>denodeify_fs</b>
+		</h4>
+		<p>Create promise wrap for all the functions that has
+Sync version. For more info see node official doc of `fs`
+There are some extra `fs` functions here,
+see: https://github.com/jprichardson/node-fs-extra
+You can call `fs.readFile` like `kit.readFile`, it will
+return a promise object.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@example:  {  }</b></p>
+				<pre>kit.readFile('a.coffee').done (code) ->
+	kit.log code</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>path</b>
+		</h4>
+		<p>Node native module</p>
+
+		<ul>
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>url</b>
+		</h4>
+		<p>Node native module</p>
+
+		<ul>
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>glob</b>
+		</h4>
+		<p>See the https://github.com/isaacs/node-glob</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: pattern { string }</b></p>
+				<pre>Minimatch pattern.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>spawn</b>
+		</h4>
+		<p>Safe version of `child_process.spawn` a process on Windows or Linux.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: cmd { string }</b></p>
+				<pre>Path of an executable program.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: args { array }</b></p>
+				<pre>CLI arguments.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: options { object }</b></p>
+				<pre>Process options.
+Default will inherit the parent's stdio.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre>The `promise.process` is the child process object.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>monitor_app</b>
+		</h4>
+		<p>Monitor an application and automatically restart it when file changed.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: options { object }</b></p>
+				<pre>Defaults:
+{
+    bin: 'node'
+    args: ['app.js']
+    watch_list: ['app.js']
+    mode: 'development'
+}</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { process }</b></p>
+				<pre>The child process.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>watch_files</b>
+		</h4>
+		<p>Watch files, when file changes, the handler will be invoked.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: patterns { array }</b></p>
+				<pre>String array with minimatch syntax.
+/**.js', '*.css']</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: handler { function }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>env_mode</b>
+		</h4>
+		<p>A shortcut to set process option with specific mode,
+and keep the current env varialbes.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: mode { string }</b></p>
+				<pre>'development', 'production', etc.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { object }</b></p>
+				<pre>`process.env` object.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>inspect</b>
+		</h4>
+		<p>For debugging use. Dump a colorful object.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: obj { object }</b></p>
+				<pre>Your target object.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>Options. Default:
+{ colors: true, depth: 5 }</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { string }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>log</b>
+		</h4>
+		<p>A better log for debugging, it uses the `kit.inspect` to log.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: msg { any }</b></p>
+				<pre>Your log message.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: action { string }</b></p>
+				<pre>'log', 'error', 'warn'.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>Default is same with `kit.inspect`</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>prompt_get</b>
+		</h4>
+		<p>Block terminal and wait for user inputs.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>See the https://github.com/flatiron/prompt</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre>Contains the results of prompt.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>async_limit</b>
+		</h4>
+		<p>An throttle version of `Q.all`, it runs all the tasks under
+a limitation.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: list { array }</b></p>
+				<pre>A list of functions. Each will return a promise.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: limit { int }</b></p>
+				<pre>The max task to run at the same time.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>parse_comment</b>
+		</h4>
+		<p>A comments parser for coffee-script.
+Used to generate documantation automatically.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: module_name { string }</b></p>
+				<pre>The name of the module it belongs to.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: code { string }</b></p>
+				<pre>Coffee source code.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { array }</b></p>
+				<pre>The parsed comments. Something like:
+{
+		module: 'nobone'
+		name: 'parse_comment'
+		description: A comments parser for coffee-script.
+		tags: [
+			{
+				tag: 'param'
+				type: 'string'
+				name: 'module_name'
+				description: 'The name of the module it belongs to.'
+			}
+		]
+}</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>generate_bone</b>
+		</h4>
+		<p>A scaffolding helper to generate template project.
+The `lib/cli.coffee` used it as an example.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre>Defaults:
+{
+		prompt: null
+		src_dir: null
+		pattern: '**'
+		dest_dir: null
+		compile: (str, data, path) ->
+			ejs = kit._require 'ejs'
+			data.filename = path
+			ejs.render str, data
+}</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre></pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+</ul>
+
+
+
+
+<h3>nobone</h3>
+<ul>
+	
+
+	<li>
+		<h4>
+			<b>create</b>
+		</h4>
+		<p>Main constructor.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: opts { object }</b></p>
+				<pre></pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { object }</b></p>
+				<pre>A nobone instance.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>module_defaults</b>
+		</h4>
+		<p>Help you to get the default options of moduels.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: name { string }</b></p>
+				<pre>Module name, if not set, return all modules' defaults.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre>A promise object with defaults.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+</ul>
+
+
+
 
 
 ## Unit Test

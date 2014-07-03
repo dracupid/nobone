@@ -14,7 +14,7 @@ Now NoBone is based on express.js and some other useful libraries.
 ## Quick Start
 
 ```coffeescript
-<%= usage %>
+<%- usage %>
 ```
 
 
@@ -42,31 +42,40 @@ nobone bone -h
 ```
 
 
-## Modules
+## Modules API
 
 NoBone has four main modules, they are all optional.
 
-### db
+
+<% _.each(mods, function(mod, name) { %>
+
+<h3><%- name %></h3>
+<ul>
+	<% _.each(mod, function(el) { %>
+
+	<li>
+		<h4>
+			<b><%- el.name %></b>
+		</h4>
+		<p><%- el.description %></p>
+
+		<ul>
+			<% _.each(el.tags, function(tag) { %>
+
+			<li>
+				<p><b>@<%- tag.tag %>: <%- tag.name %> { <%- tag.type %> }</b></p>
+				<pre><%- tag.description %></pre>
+			</li>
+
+			<% }); %>
+		</ul>
+	</li>
+
+	<% }); %>
+</ul>
 
 
-
-### proxy
-
-
-
-### renderer
-
-
-
-### service
-
-
-
-### kit
-
-The `kit` lib of NoBone will load by default and is not optinal.
-All the async functions in `kit` return promise object.
-Most time I use it to handle files and system staffs.
+<% }); %>
 
 
 ## Unit Test
