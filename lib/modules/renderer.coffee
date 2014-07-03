@@ -11,7 +11,8 @@ module_dir = __dirname + '/../../node_modules/'
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project its memory usage is negligible.
  * @param {object} opts Defaults:
- * <pre>{
+ * ```coffee
+ * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
  * 	code_handlers: {
  * 		'.html': {
@@ -34,7 +35,7 @@ module_dir = __dirname + '/../../node_modules/'
  * 			compiler: (str, path) -> ...
  * 		}
  * 	}
- * }</pre>
+ * }```
  * @return {renderer}
 ###
 module.exports = (opts) -> new Renderer(opts)

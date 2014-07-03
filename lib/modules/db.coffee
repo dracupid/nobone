@@ -3,10 +3,11 @@ _ = require 'lodash'
 ###*
  * See my JDB project: https://github.com/ysmood/jdb
  * @param  {object} opts Defaults:
- * <pre>{
+ * ```coffee
+ * {
  * 	promise: true
  * 	db_path: './nobone.db'
- * }</pre>
+ * }```
  * @return {jdb}
 ###
 module.exports = (opts = {}) ->

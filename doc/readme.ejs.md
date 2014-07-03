@@ -14,7 +14,7 @@ Now NoBone is based on express.js and some other useful libraries.
 
 ## Quick Start
 
-```coffeescript
+```coffee
 <%- usage %>
 ```
 

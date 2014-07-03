@@ -14,7 +14,7 @@ Now NoBone is based on express.js and some other useful libraries.
 
 ## Quick Start
 
-```coffeescript
+```coffee
 process.env.NODE_ENV = 'development'
 
 nobone = require 'nobone'
@@ -42,10 +42,10 @@ nobone.module_defaults().done (list) ->
 # Server
 nb.service.get '/', (req, res) ->
 	# Renderer
-	# You can also render coffee, stylus, or define custom handlers.
-	nb.renderer.render('tpl/client/index.ejs')
+	# You can also render coffee, stylus, markdown, or define custom handlers.
+	nb.renderer.render('bone/index.ejs')
 	.done (tpl_func) ->
-		res.send tpl_func({ auto_reload: nb.renderer.auto_reload() })
+		res.send tpl_func({ body: nb.renderer.auto_reload() })
 
 # Launch socket.io and express.js
 s = nb.service.listen port
@@ -55,9 +55,9 @@ s = nb.service.listen port
 nb.kit.log 'Listen port ' + port
 
 # Static folder to automatically serve coffeescript and stylus.
-nb.service.use nb.renderer.static({ root_dir: 'tpl/client' })
+nb.service.use nb.renderer.static({ root_dir: 'bone/client' })
 
-# Edit the 'tpl/client/index.ejs' file, the page should auto reload.
+# Edit the 'bone/index.ejs' file, the page should auto reload.
 nb.renderer.on 'watch_file', (path) ->
 	nb.kit.log 'Watch: '.cyan + path
 nb.renderer.on 'file_modified', (path) ->
@@ -131,12 +131,13 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L12">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L13">
 				
 				<b>module.exports()</b>
 			</a>
 		</h4>
-		<p>See my JDB project: https://github.com/ysmood/jdb</p>
+		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
+</p>
 
 		<ul>
 			
@@ -149,11 +150,13 @@ NoBone has four main modules, they are all optional.
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults:
-<pre>{
-	promise: true
-	db_path: './nobone.db'
-}</pre></p>
+				<p><p>Defaults:</p>
+<pre><code class="lang-coffee">{
+    promise: true
+    db_path: &#39;./nobone.db&#39;
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -191,9 +194,10 @@ NoBone has four main modules, they are all optional.
 				<b>module.exports()</b>
 			</a>
 		</h4>
-		<p>For test, page injection development.
+		<p><p>For test, page injection development.
 A cross platform Fiddler alternative.
 Most time used with SwitchySharp.</p>
+</p>
 
 		<ul>
 			
@@ -206,7 +210,8 @@ Most time used with SwitchySharp.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults: <code>{}</code></p>
+				<p><p>Defaults: <code>{}</code></p>
+</p>
 			</li>
 
 			
@@ -215,9 +220,11 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>return</u>:
 					
+						<code>For more, see https://github.com/nodejitsu/node-http-proxy</code>
+					
 					<em>{ proxy }</em>
 				</b></p>
-				<p>For more, see https://github.com/nodejitsu/node-http-proxy</p>
+				<p></p>
 			</li>
 
 			
@@ -235,7 +242,8 @@ Most time used with SwitchySharp.</p>
 				<b>url</b>
 			</a>
 		</h4>
-		<p>Use it to proxy one url to another.</p>
+		<p><p>Use it to proxy one url to another.</p>
+</p>
 
 		<ul>
 			
@@ -274,7 +282,8 @@ Most time used with SwitchySharp.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>The target url</p>
+				<p><p>The target url</p>
+</p>
 			</li>
 
 			
@@ -296,15 +305,16 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L45">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L41">
 				
 				<b>module.exports()</b>
 			</a>
 		</h4>
-		<p>A abstract renderer for any string resources, such as template, source code, etc.
+		<p><p>A abstract renderer for any string resources, such as template, source code, etc.
 It automatically uses high performance memory cache.
 You can run the benchmark to see the what differences it makes.
 Even for huge project its memory usage is negligible.</p>
+</p>
 
 		<ul>
 			
@@ -317,37 +327,33 @@ Even for huge project its memory usage is negligible.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults:
-<pre>{
-	enable_watcher: process.env.NODE_ENV == 'development'
-	code_handlers: {
-		'.js': {
-			ext_src: '.coffee'
-			compiler: (str) ->
-				coffee = require 'coffee-script'
-				coffee.compile(str, { bare: true })
-		}
-		'.css': {
-			ext_src: '.styl'
-			compiler: (str, path) ->
-				stylus = require 'stylus'
-				stylus_render = Q.denodeify stylus.render
-				stylus_render(str, { filename: path })
-		}
-		'.ejs': {
-			default: true    # Whether it is a default handler
-			ext_src: '.ejs'
-			type: 'html'
-			compiler: (str, path) ->
-				ejs = require 'ejs'
-				tpl = ejs.compile str, { filename: path }
-
-				(data = {}) ->
-					_.defaults data, { _ }
-					tpl data
-		}
-	}
-}</pre></p>
+				<p><p>Defaults:</p>
+<pre><code class="lang-coffee">{
+    enable_watcher: process.env.NODE_ENV == &#39;development&#39;
+    code_handlers: {
+        &#39;.html&#39;: {
+            default: true
+            ext_src: &#39;.ejs&#39;
+            type: &#39;html&#39;
+            compiler: (str, path) -&gt; ...
+        }
+        &#39;.js&#39;: {
+            ext_src: &#39;.coffee&#39;
+            compiler: (str, path) -&gt; ...
+        }
+        &#39;.css&#39;: {
+            ext_src: &#39;.styl&#39;
+            compiler: (str, path) -&gt; ...
+        }
+        &#39;.mdx&#39;: {
+            ext_src: &#39;.md&#39;
+            type: &#39;html&#39;
+            compiler: (str, path) -&gt; ...
+        }
+    }
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -371,13 +377,14 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L59">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L57">
 				
 				<b>compiler()</b>
 			</a>
 		</h4>
-		<p>The compiler should fulfil two interface.
+		<p><p>The compiler should fulfil two interface.
 It should return a promise object. Only handles string.</p>
+</p>
 
 		<ul>
 			
@@ -390,7 +397,8 @@ It should return a promise object. Only handles string.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>Source code.</p>
+				<p><p>Source code.</p>
+</p>
 			</li>
 
 			
@@ -403,7 +411,8 @@ It should return a promise object. Only handles string.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>For debug info.</p>
+				<p><p>For debug info.</p>
+</p>
 			</li>
 
 			
@@ -412,9 +421,11 @@ It should return a promise object. Only handles string.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+						<code>Promise or any thing that contains the compiled code.</code>
+					
+					<em>{ any }</em>
 				</b></p>
-				<p>Contains the compiled code.</p>
+				<p></p>
 			</li>
 
 			
@@ -427,13 +438,14 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L104">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L113">
 				
 				<b>static()</b>
 			</a>
 		</h4>
-		<p>Set a static directory.
+		<p><p>Set a static directory.
 Static folder to automatically serve coffeescript and stylus.</p>
+</p>
 
 		<ul>
 			
@@ -446,7 +458,8 @@ Static folder to automatically serve coffeescript and stylus.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults: <code>{ root_dir: '.' }</code></p>
+				<p><p>Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
+</p>
 			</li>
 
 			
@@ -454,53 +467,12 @@ Static folder to automatically serve coffeescript and stylus.</p>
 			<li>
 				<p><b>
 					<u>return</u>:
+					
+						<code>Experss.js middleware.</code>
 					
 					<em>{ middleware }</em>
 				</b></p>
-				<p>Experss.js middleware.</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L150">
-				
-				<b>render()</b>
-			</a>
-		</h4>
-		<p>Render a file. It will auto detect the file extension and
-choose the right compiler to handle the code.</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ string }</em>
-				</b></p>
-				<p>The file path</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ promise }</em>
-				</b></p>
-				<p>Contains the compiled code.</p>
+				<p></p>
 			</li>
 
 			
@@ -515,22 +487,39 @@ choose the right compiler to handle the code.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L159">
 				
-				<b>auto_reload()</b>
+				<b>render()</b>
 			</a>
 		</h4>
-		<p>The browser javascript to support the auto page reload.
-You can use the socket.io event to custom you own.</p>
+		<p><p>Render a file. It will auto detect the file extension and
+choose the right compiler to handle the code.</p>
+</p>
 
 		<ul>
 			
 
 			<li>
 				<p><b>
-					<u>return</u>:
+					<u>param</u>:
+					
+						<code>path</code>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>Returns html.</p>
+				<p><p>The file path</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+						<code>Contains the compiled code.</code>
+					
+					<em>{ promise }</em>
+				</b></p>
+				<p></p>
 			</li>
 
 			
@@ -543,12 +532,46 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L181">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L168">
+				
+				<b>auto_reload()</b>
+			</a>
+		</h4>
+		<p><p>The browser javascript to support the auto page reload.
+You can use the socket.io event to custom you own.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+						<code>Returns html.</code>
+					
+					<em>{ string }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L174">
 				
 				<b>close</b>
 			</a>
 		</h4>
-		<p>Release the resources.</p>
+		<p><p>Release the resources.</p>
+</p>
 
 		<ul>
 			
@@ -570,12 +593,13 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L14">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L15">
 				
 				<b>module.exports()</b>
 			</a>
 		</h4>
-		<p>It is just a Express.js wrap with build in Socket.io (optional).</p>
+		<p><p>It is just a Express.js wrap with build in Socket.io (optional).</p>
+</p>
 
 		<ul>
 			
@@ -588,11 +612,13 @@ You can use the socket.io event to custom you own.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults:
-<pre>{
-	enable_socketio: process.env.NODE_ENV == 'development'
-	express: {}
-}</pre></p>
+				<p><p>Defaults:</p>
+<pre><code class="lang-coffee">{
+    enable_socketio: process.env.NODE_ENV == &#39;development&#39;
+    express: {}
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -630,9 +656,10 @@ You can use the socket.io event to custom you own.</p>
 				<b>kit</b>
 			</a>
 		</h4>
-		<p>The <code>kit</code> lib of NoBone will load by default and is not optional.
+		<p><p>The <code>kit</code> lib of NoBone will load by default and is not optional.
 All the async functions in <code>kit</code> return promise object.
 Most time I use it to handle files and system staffs.</p>
+</p>
 
 		<ul>
 			
@@ -661,12 +688,13 @@ Most time I use it to handle files and system staffs.</p>
 				<b>denodeify_fs</b>
 			</a>
 		</h4>
-		<p>Create promise wrap for all the functions that has
+		<p><p>Create promise wrap for all the functions that has
 Sync version. For more info see node official doc of <code>fs</code>
 There are some extra <code>fs</code> functions here,
-see: https://github.com/jprichardson/node-fs-extra
+see: <a href="https://github.com/jprichardson/node-fs-extra">https://github.com/jprichardson/node-fs-extra</a>
 You can call <code>fs.readFile</code> like <code>kit.readFile</code>, it will
 return a promise object.</p>
+</p>
 
 		<ul>
 			
@@ -675,12 +703,12 @@ return a promise object.</p>
 				<p><b>
 					<u>example</u>:
 					
-					<em>{  }</em>
-				</b></p>
-				<p><pre>
+					<em>{ ```coffee
 kit.readFile('a.coffee').done (code) ->
 	kit.log code
-</pre></p>
+``` }</em>
+				</b></p>
+				<p></p>
 			</li>
 
 			
@@ -693,12 +721,74 @@ kit.readFile('a.coffee').done (code) ->
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L57">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L50">
+				
+				<b>require()</b>
+			</a>
+		</h4>
+		<p><p>Much much faster than the native require of node, but
+you should follow some rules to use it safely.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ string }</em>
+				</b></p>
+				<p><p>Absolute path of the module.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>done</code>
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>Run only the first time after the module loaded.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+						<code>The module that you require.</code>
+					
+					<em>{ module }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L70">
 				
 				<b>path</b>
 			</a>
 		</h4>
-		<p>Node native module</p>
+		<p><p>Node native module</p>
+</p>
 
 		<ul>
 			
@@ -711,12 +801,13 @@ kit.readFile('a.coffee').done (code) ->
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L62">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L75">
 				
 				<b>url</b>
 			</a>
 		</h4>
-		<p>Node native module</p>
+		<p><p>Node native module</p>
+</p>
 
 		<ul>
 			
@@ -729,12 +820,13 @@ kit.readFile('a.coffee').done (code) ->
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L69">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L82">
 				
 				<b>glob()</b>
 			</a>
 		</h4>
-		<p>See the https://github.com/isaacs/node-glob</p>
+		<p><p>See the <a href="https://github.com/isaacs/node-glob">https://github.com/isaacs/node-glob</a></p>
+</p>
 
 		<ul>
 			
@@ -747,7 +839,8 @@ kit.readFile('a.coffee').done (code) ->
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>Minimatch pattern.</p>
+				<p><p>Minimatch pattern.</p>
+</p>
 			</li>
 
 			
@@ -771,12 +864,13 @@ kit.readFile('a.coffee').done (code) ->
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L79">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L92">
 				
 				<b>spawn()</b>
 			</a>
 		</h4>
-		<p>Safe version of <code>child_process.spawn</code> a process on Windows or Linux.</p>
+		<p><p>Safe version of <code>child_process.spawn</code> a process on Windows or Linux.</p>
+</p>
 
 		<ul>
 			
@@ -789,7 +883,8 @@ kit.readFile('a.coffee').done (code) ->
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>Path of an executable program.</p>
+				<p><p>Path of an executable program.</p>
+</p>
 			</li>
 
 			
@@ -802,7 +897,8 @@ kit.readFile('a.coffee').done (code) ->
 					
 					<em>{ array }</em>
 				</b></p>
-				<p>CLI arguments.</p>
+				<p><p>CLI arguments.</p>
+</p>
 			</li>
 
 			
@@ -815,8 +911,9 @@ kit.readFile('a.coffee').done (code) ->
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Process options.
-Default will inherit the parent's stdio.</p>
+				<p><p>Process options.
+Default will inherit the parent&#39;s stdio.</p>
+</p>
 			</li>
 
 			
@@ -825,9 +922,11 @@ Default will inherit the parent's stdio.</p>
 				<p><b>
 					<u>return</u>:
 					
+						<code>The `promise.process` is the child process object.</code>
+					
 					<em>{ promise }</em>
 				</b></p>
-				<p>The <code>promise.process</code> is the child process object.</p>
+				<p></p>
 			</li>
 
 			
@@ -840,12 +939,13 @@ Default will inherit the parent's stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L120">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L134">
 				
 				<b>monitor_app()</b>
 			</a>
 		</h4>
-		<p>Monitor an application and automatically restart it when file changed.</p>
+		<p><p>Monitor an application and automatically restart it when file changed.</p>
+</p>
 
 		<ul>
 			
@@ -858,13 +958,15 @@ Default will inherit the parent's stdio.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults:
-<pre>{
-	bin: 'node'
-	args: ['app.js']
-	watch_list: ['app.js']
-	mode: 'development'
-}</pre></p>
+				<p><p>Defaults:</p>
+<pre><code class="lang-coffee">{
+    bin: &#39;node&#39;
+    args: [&#39;app.js&#39;]
+    watch_list: [&#39;app.js&#39;]
+    mode: &#39;development&#39;
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -873,9 +975,11 @@ Default will inherit the parent's stdio.</p>
 				<p><b>
 					<u>return</u>:
 					
+						<code>The child process.</code>
+					
 					<em>{ process }</em>
 				</b></p>
-				<p>The child process.</p>
+				<p></p>
 			</li>
 
 			
@@ -888,12 +992,13 @@ Default will inherit the parent's stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L179">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L193">
 				
 				<b>watch_files</b>
 			</a>
 		</h4>
-		<p>Watch files, when file changes, the handler will be invoked.</p>
+		<p><p>Watch files, when file changes, the handler will be invoked.</p>
+</p>
 
 		<ul>
 			
@@ -906,8 +1011,9 @@ Default will inherit the parent's stdio.</p>
 					
 					<em>{ array }</em>
 				</b></p>
-				<p>String array with minimatch syntax.
-Such as <code>['./* /**.js', '*.css']</code></p>
+				<p><p>String array with minimatch syntax.
+Such as <code>[&#39;./* /**.js&#39;, &#39;*.css&#39;]</code></p>
+</p>
 			</li>
 
 			
@@ -933,13 +1039,14 @@ Such as <code>['./* /**.js', '*.css']</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L191">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L205">
 				
 				<b>env_mode()</b>
 			</a>
 		</h4>
-		<p>A shortcut to set process option with specific mode,
+		<p><p>A shortcut to set process option with specific mode,
 and keep the current env variables.</p>
+</p>
 
 		<ul>
 			
@@ -952,7 +1059,8 @@ and keep the current env variables.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>'development', 'production', etc.</p>
+				<p><p>&#39;development&#39;, &#39;production&#39;, etc.</p>
+</p>
 			</li>
 
 			
@@ -961,9 +1069,11 @@ and keep the current env variables.</p>
 				<p><b>
 					<u>return</u>:
 					
+						<code>`process.env` object.</code>
+					
 					<em>{ object }</em>
 				</b></p>
-				<p><code>process.env</code> object.</p>
+				<p></p>
 			</li>
 
 			
@@ -976,12 +1086,13 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L205">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L219">
 				
 				<b>inspect()</b>
 			</a>
 		</h4>
-		<p>For debugging use. Dump a colorful object.</p>
+		<p><p>For debugging use. Dump a colorful object.</p>
+</p>
 
 		<ul>
 			
@@ -994,7 +1105,8 @@ and keep the current env variables.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Your target object.</p>
+				<p><p>Your target object.</p>
+</p>
 			</li>
 
 			
@@ -1007,8 +1119,9 @@ and keep the current env variables.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Options. Default:
+				<p><p>Options. Default:
 { colors: true, depth: 5 }</p>
+</p>
 			</li>
 
 			
@@ -1032,16 +1145,17 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L222">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L236">
 				
 				<b>log</b>
 			</a>
 		</h4>
-		<p>A better log for debugging, it uses the <code>kit.inspect</code> to log.
-You can use terminal command like <code>log_reg='pattern' node app.js</code> to
+		<p><p>A better log for debugging, it uses the <code>kit.inspect</code> to log.
+You can use terminal command like <code>log_reg=&#39;pattern&#39; node app.js</code> to
 filter the log info.
-You can use <code>log_trace='on' node app.js</code> to force each log end with a
+You can use <code>log_trace=&#39;on&#39; node app.js</code> to force each log end with a
 stack trace.</p>
+</p>
 
 		<ul>
 			
@@ -1054,7 +1168,8 @@ stack trace.</p>
 					
 					<em>{ any }</em>
 				</b></p>
-				<p>Your log message.</p>
+				<p><p>Your log message.</p>
+</p>
 			</li>
 
 			
@@ -1067,7 +1182,8 @@ stack trace.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>'log', 'error', 'warn'.</p>
+				<p><p>&#39;log&#39;, &#39;error&#39;, &#39;warn&#39;.</p>
+</p>
 			</li>
 
 			
@@ -1080,7 +1196,8 @@ stack trace.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Default is same with <code>kit.inspect</code></p>
+				<p><p>Default is same with <code>kit.inspect</code></p>
+</p>
 			</li>
 
 			
@@ -1093,12 +1210,13 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L257">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L271">
 				
 				<b>err</b>
 			</a>
 		</h4>
-		<p>A log error shortcut for <code>kit.log</code></p>
+		<p><p>A log error shortcut for <code>kit.log</code></p>
+</p>
 
 		<ul>
 			
@@ -1137,13 +1255,14 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L266">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L280">
 				
 				<b>prompt_get()</b>
 			</a>
 		</h4>
-		<p>Block terminal and wait for user inputs. Useful when you need
+		<p><p>Block terminal and wait for user inputs. Useful when you need
 user interaction.</p>
+</p>
 
 		<ul>
 			
@@ -1156,7 +1275,8 @@ user interaction.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>See the https://github.com/flatiron/prompt</p>
+				<p><p>See the <a href="https://github.com/flatiron/prompt">https://github.com/flatiron/prompt</a></p>
+</p>
 			</li>
 
 			
@@ -1165,9 +1285,11 @@ user interaction.</p>
 				<p><b>
 					<u>return</u>:
 					
+						<code>Contains the results of prompt.</code>
+					
 					<em>{ promise }</em>
 				</b></p>
-				<p>Contains the results of prompt.</p>
+				<p></p>
 			</li>
 
 			
@@ -1180,13 +1302,14 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L287">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L301">
 				
 				<b>async_limit()</b>
 			</a>
 		</h4>
-		<p>An throttle version of <code>Q.all</code>, it runs all the tasks under
+		<p><p>An throttle version of <code>Q.all</code>, it runs all the tasks under
 a concurrent limitation.</p>
+</p>
 
 		<ul>
 			
@@ -1199,7 +1322,8 @@ a concurrent limitation.</p>
 					
 					<em>{ array }</em>
 				</b></p>
-				<p>A list of functions. Each will return a promise.</p>
+				<p><p>A list of functions. Each will return a promise.</p>
+</p>
 			</li>
 
 			
@@ -1212,7 +1336,8 @@ a concurrent limitation.</p>
 					
 					<em>{ int }</em>
 				</b></p>
-				<p>The max task to run at the same time.</p>
+				<p><p>The max task to run at the same time.</p>
+</p>
 			</li>
 
 			
@@ -1236,13 +1361,14 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L339">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L354">
 				
 				<b>parse_comment()</b>
 			</a>
 		</h4>
-		<p>A comments parser for coffee-script.
+		<p><p>A comments parser for coffee-script.
 Used to generate documentation automatically.</p>
+</p>
 
 		<ul>
 			
@@ -1255,7 +1381,8 @@ Used to generate documentation automatically.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>The name of the module it belongs to.</p>
+				<p><p>The name of the module it belongs to.</p>
+</p>
 			</li>
 
 			
@@ -1268,7 +1395,8 @@ Used to generate documentation automatically.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>Coffee source code.</p>
+				<p><p>Coffee source code.</p>
+</p>
 			</li>
 
 			
@@ -1281,7 +1409,8 @@ Used to generate documentation automatically.</p>
 					
 					<em>{ path }</em>
 				</b></p>
-				<p>The path of the source code.</p>
+				<p><p>The path of the source code.</p>
+</p>
 			</li>
 
 			
@@ -1294,16 +1423,17 @@ Used to generate documentation automatically.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Parser options:
-<pre>{
-	reg: RegExp
-	split_reg: RegExp
-	tag_name_reg: RegExp
-	tag_2_reg: RegExp
-	tag_3_reg: RegExp
-	tag_4_reg: RegExp
-	code_reg: RegExp
-}</pre></p>
+				<p><p>Parser options:</p>
+<pre><code class="lang-coffee">{
+    reg: RegExp
+    split_reg: RegExp
+    tag_name_reg: RegExp
+    tag_2_reg: RegExp
+    tag_3_reg: RegExp
+    tag_4_reg: RegExp
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -1312,10 +1442,9 @@ Used to generate documentation automatically.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ array }</em>
-				</b></p>
-				<p>The parsed comments. Each item is something like:
-<pre>{
+						<code>The parsed comments. Each item is something like:
+```coffee
+{
 	module: 'nobone'
 	name: 'parse_comment'
 	description: A comments parser for coffee-script.
@@ -1330,7 +1459,11 @@ Used to generate documentation automatically.</p>
 			line: 29 # The line number of the target in the file.
 		}
 	]
-}</pre></p>
+}```</code>
+					
+					<em>{ array }</em>
+				</b></p>
+				<p></p>
 			</li>
 
 			
@@ -1343,13 +1476,14 @@ Used to generate documentation automatically.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L426">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L432">
 				
 				<b>generate_bone()</b>
 			</a>
 		</h4>
-		<p>A scaffolding helper to generate template project.
+		<p><p>A scaffolding helper to generate template project.
 The <code>lib/cli.coffee</code> used it as an example.</p>
+</p>
 
 		<ul>
 			
@@ -1362,17 +1496,17 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults:
-<pre>{
-	prompt: null
-	src_dir: null
-	pattern: '**'
-	dest_dir: null
-	compile: (str, data, path) ->
-		ejs = kit._require 'ejs'
-		data.filename = path
-		ejs.render str, data
-}</pre></p>
+				<p><p>Defaults:</p>
+<pre><code class="lang-coffee">{
+    prompt: null
+    src_dir: null
+    pattern: &#39;**&#39;
+    dest_dir: null
+    compile: (str, data, path) -&gt;
+        compile str
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -1405,12 +1539,13 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L20">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L21">
 				
 				<b>create()</b>
 			</a>
 		</h4>
-		<p>Main constructor.</p>
+		<p><p>Main constructor.</p>
+</p>
 
 		<ul>
 			
@@ -1423,13 +1558,15 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p>Defaults:
-{
-	db: null
-	proxy: null
-	service: {}
-	renderer: {}
-}</p>
+				<p><p>Defaults:</p>
+<pre><code class="lang-coffee">{
+    db: null
+    proxy: null
+    service: {}
+    renderer: {}
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -1438,9 +1575,11 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
+						<code>A nobone instance.</code>
+					
 					<em>{ object }</em>
 				</b></p>
-				<p>A nobone instance.</p>
+				<p></p>
 			</li>
 
 			
@@ -1453,12 +1592,13 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L44">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L45">
 				
 				<b>nb.close()</b>
 			</a>
 		</h4>
-		<p>Release the resources.</p>
+		<p><p>Release the resources.</p>
+</p>
 
 		<ul>
 			
@@ -1482,12 +1622,13 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L61">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L62">
 				
 				<b>module_defaults()</b>
 			</a>
 		</h4>
-		<p>Help you to get the default options of moduels.</p>
+		<p><p>Help you to get the default options of moduels.</p>
+</p>
 
 		<ul>
 			
@@ -1500,7 +1641,8 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p>Module name, if not set, return all modules' defaults.</p>
+				<p><p>Module name, if not set, return all modules&#39; defaults.</p>
+</p>
 			</li>
 
 			
@@ -1509,9 +1651,11 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
+						<code>A promise object which will produce the defaults.</code>
+					
 					<em>{ promise }</em>
 				</b></p>
-				<p>A promise object which will produce the defaults.</p>
+				<p></p>
 			</li>
 
 			
@@ -1537,7 +1681,7 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 
 ## Benchmark
 
-Memory cache is faster than direct file streaming even on SSD machine.
+<p>Memory cache is faster than direct file streaming even on SSD machine.</p>
 <pre>
 * memory x 1,167 ops/sec ±4.11% (68 runs sampled)
 * stream x   759 ops/sec ±2.77% (79 runs sampled)

@@ -9,12 +9,13 @@ module.exports = {
 	###*
 	 * Main constructor.
 	 * @param  {object} opts Defaults:
+	 * ```coffee
 	 * {
 	 * 	db: null
 	 * 	proxy: null
 	 * 	service: {}
 	 * 	renderer: {}
-	 * }
+	 * }```
 	 * @return {object} A nobone instance.
 	###
 	create: (opts) ->

@@ -20,10 +20,10 @@ kit = {}
  * You can call `fs.readFile` like `kit.readFile`, it will
  * return a promise object.
  * @example
- * <pre>
+ * ```coffee
  * kit.readFile('a.coffee').done (code) ->
  * 	kit.log code
- * </pre>
+ * ```
 ###
 denodeify_fs = ->
 	_.chain(fs)
@@ -122,12 +122,13 @@ _.extend kit, {
 	###*
 	 * Monitor an application and automatically restart it when file changed.
 	 * @param  {object} options Defaults:
-	 * <pre>{
+	 * ```coffee
+	 * {
 	 * 	bin: 'node'
 	 * 	args: ['app.js']
 	 * 	watch_list: ['app.js']
 	 * 	mode: 'development'
-	 * }</pre>
+	 * }```
 	 * @return {process} The child process.
 	###
 	monitor_app: (options) ->
@@ -322,16 +323,18 @@ _.extend kit, {
 	 * @param  {string} code Coffee source code.
 	 * @param  {path} sting The path of the source code.
 	 * @param  {object} opts Parser options:
-	 * <pre>{
+	 * ```coffee
+	 * {
 	 * 	reg: RegExp
 	 * 	split_reg: RegExp
 	 * 	tag_name_reg: RegExp
 	 * 	tag_2_reg: RegExp
 	 * 	tag_3_reg: RegExp
 	 * 	tag_4_reg: RegExp
-	 * }</pre>
+	 * }```
 	 * @return {array} The parsed comments. Each item is something like:
-	 * <pre>{
+	 * ```coffee
+	 * {
 	 * 	module: 'nobone'
 	 * 	name: 'parse_comment'
 	 * 	description: A comments parser for coffee-script.
@@ -346,7 +349,7 @@ _.extend kit, {
 	 * 			line: 29 # The line number of the target in the file.
 	 * 		}
 	 * 	]
-	 * }</pre>
+	 * }```
 	###
 	parse_comment: (module_name, code, path = '', opts = {}) ->
 		_.defaults opts, {
@@ -415,14 +418,15 @@ _.extend kit, {
 	 * A scaffolding helper to generate template project.
 	 * The `lib/cli.coffee` used it as an example.
 	 * @param  {object} opts Defaults:
-	 * <pre>{
+	 * ```coffee
+	 * {
 	 * 	prompt: null
 	 * 	src_dir: null
 	 * 	pattern: '**'
 	 * 	dest_dir: null
 	 * 	compile: (str, data, path) ->
 	 * 		compile str
-	 * }</pre>
+	 * }```
 	 * @return {promise}
 	###
 	generate_bone: (opts) ->
