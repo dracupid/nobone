@@ -263,7 +263,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<b>self.static</b>
+			<b>static</b>
 		</h4>
 		<p>Set a static directory.
 Static folder to automatically serve coffeescript and stylus.</p>
@@ -291,7 +291,7 @@ Static folder to automatically serve coffeescript and stylus.</p>
 
 	<li>
 		<h4>
-			<b>self.render</b>
+			<b>render</b>
 		</h4>
 		<p>Render a file. It will auto detect the file extension and
 choose the right compiler to handle the code.</p>
@@ -319,7 +319,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<b>self.auto_reload</b>
+			<b>auto_reload</b>
 		</h4>
 		<p>The browser javascript to support the auto page reload.
 You can use the socket.io event to custom you own.</p>
@@ -340,7 +340,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<b>self.close</b>
+			<b>close</b>
 		</h4>
 		<p>Release the resources.</p>
 
