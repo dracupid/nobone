@@ -173,7 +173,7 @@ _.extend kit, {
 	###*
 	 * Watch files, when file changes, the handler will be invoked.
 	 * @param  {array} patterns String array with minimatch syntax.
-	 * Such as ['./* /**.js', '*.css']
+	 * Such as `['./* /**.js', '*.css']`
 	 * @param  {function} handler
 	###
 	watch_files: (patterns, handler) ->

@@ -850,7 +850,7 @@ Default will inherit the parent's stdio.</p>
 					<em>{ array }</em>
 				</b></p>
 				<p>String array with minimatch syntax.
-Such as ['./* /**.js', '*.css']</p>
+Such as <code>['./* /**.js', '*.css']</code></p>
 			</li>
 
 			
