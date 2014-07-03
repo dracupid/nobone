@@ -101,7 +101,7 @@ NoBone has four main modules, they are all optional.
 	npm test
 
 
-# Benchmark
+## Benchmark
 
 <%- benchmark[0].description %>
 
