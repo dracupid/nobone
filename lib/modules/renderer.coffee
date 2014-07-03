@@ -3,40 +3,48 @@ Q = require 'q'
 kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
+module_dir = __dirname + '/../../node_modules/'
 
 ###*
  * A abstract renderer for any string resources, such as template, source code, etc.
  * It automatically uses high performance memory cache.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project its memory usage is negligible.
- * @param  {object} opts Defaults:
+ * @param {object} opts Defaults:
  * <pre>{
  * 	enable_watcher: process.env.NODE_ENV == 'development'
  * 	code_handlers: {
- * 		'.js': {
- * 			ext_src: '.coffee'
- * 			compiler: (str) ->
- * 				coffee = require 'coffee-script'
- * 				coffee.compile(str, { bare: true })
- * 		}
- * 		'.css': {
- * 			ext_src: '.styl'
- * 			compiler: (str, path) ->
- * 				stylus = require 'stylus'
- * 				stylus_render = Q.denodeify stylus.render
- * 				stylus_render(str, { filename: path })
- * 		}
  * 		'.ejs': {
  * 			default: true    # Whether it is a default handler
  * 			ext_src: '.ejs'
  * 			type: 'html'
  * 			compiler: (str, path) ->
- * 				ejs = require 'ejs'
+ * 				ejs = kit.require module_dir +  'ejs'
  * 				tpl = ejs.compile str, { filename: path }
  *
  * 				(data = {}) ->
  * 					_.defaults data, { _ }
  * 					tpl data
+ * 		}
+ * 		'.js': {
+ * 			ext_src: '.coffee'
+ * 			compiler: (str, path) ->
+ * 				coffee = kit.require module_dir + 'coffee-script'
+ * 				coffee.compile(str, { bare: true })
+ * 		}
+ * 		'.css': {
+ * 			ext_src: '.styl'
+ * 			compiler: (str, path) ->
+ * 				stylus = kit.require module_dir +  'stylus'
+ * 				stylus_render = Q.denodeify stylus.render
+ * 				stylus_render(str, { filename: path })
+ * 		}
+ * 		'.mdx': {
+ * 			ext_src: '.md'
+ * 			type: 'html'
+ * 			compiler: (str, path) ->
+ * 				marked = kit.require module_dir +  'marked'
+ * 				marked(str)
  * 		}
  * 	}
  * }</pre>
@@ -47,37 +55,44 @@ module.exports = (opts) -> new Renderer(opts)
 module.exports.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
 	code_handlers: {
-		'.js': {
-			ext_src: '.coffee'
+		'.ejs': {
+			default: true    # Whether it is a default handler
+			ext_src: '.ejs'
+			type: 'html'
 			###*
 			 * The compiler should fulfil two interface.
 			 * It should return a promise object. Only handles string.
 			 * @param  {string} str Source code.
 			 * @param  {string} path For debug info.
-			 * @return {promise} Contains the compiled code.
+			 * @return {any} Promise or any thing that contains the compiled code.
 			###
 			compiler: (str, path) ->
-				coffee = require 'coffee-script'
-				coffee.compile(str, { bare: true })
-		}
-		'.css': {
-			ext_src: '.styl'
-			compiler: (str, path) ->
-				stylus = require 'stylus'
-				stylus_render = Q.denodeify stylus.render
-				stylus_render(str, { filename: path })
-		}
-		'.ejs': {
-			default: true    # Whether it is a default handler
-			ext_src: '.ejs'
-			type: 'html'
-			compiler: (str, path) ->
-				ejs = require 'ejs'
+				ejs = kit.require module_dir +  'ejs'
 				tpl = ejs.compile str, { filename: path }
 
 				(data = {}) ->
 					_.defaults data, { _ }
 					tpl data
+		}
+		'.js': {
+			ext_src: '.coffee'
+			compiler: (str, path) ->
+				coffee = kit.require module_dir + 'coffee-script'
+				coffee.compile(str, { bare: true })
+		}
+		'.css': {
+			ext_src: '.styl'
+			compiler: (str, path) ->
+				stylus = kit.require module_dir +  'stylus'
+				stylus_render = Q.denodeify stylus.render
+				stylus_render(str, { filename: path })
+		}
+		'.mdx': {
+			ext_src: '.md'
+			type: 'html'
+			compiler: (str, path) ->
+				marked = kit.require module_dir +  'marked'
+				marked(str)
 		}
 	}
 }
