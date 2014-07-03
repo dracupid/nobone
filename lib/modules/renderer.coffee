@@ -192,7 +192,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if self.listeners('compile_error').length == 0
 				kit.err '->\n' + err.toString().red
 			else
-				self.emit 'compile_error', path, code
+				self.emit 'compile_error', path, err
 
 			cache_pool[path] = null
 
@@ -213,7 +213,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					kit.watch_file path, (path, curr, prev) ->
 						if curr.mtime != prev.mtime
 							self.emit 'file_modified', path
-							get_code(handler)
+							get_code(handler).done()
 
 			get_code(handler)
 
