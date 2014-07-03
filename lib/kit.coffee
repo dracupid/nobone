@@ -330,8 +330,9 @@ _.extend kit, {
 		tag_4_reg = /^(\w+)\s+\{(\w+)\}\s+(\w+)\s*([\s\S]*)/
 
 		parse_info = (block) ->
+			# Clean the prefix '*'
 			arr = block.split(split_reg).map (el) ->
-				el.replace(/^.+\* /mg, '').trim()
+				el.replace(/^.+\*(\b)?/mg, '').trim()
 
 			description = arr[0]
 			tags = arr[1..].map (el) ->
