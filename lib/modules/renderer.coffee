@@ -117,6 +117,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if handler
 					get_cached(handler)
 					.then (code) ->
+						if code == null
+							res.send 500, 'compile_error'
+							return
+
 						switch typeof code
 							when 'string'
 								res.type handler.type or handler.ext_bin
@@ -130,7 +134,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								throw new Erorr('unknown_code_type')
 
 					.catch (err) ->
-						next()
+						if err.code == 'ENOENT'
+							next()
+						else
+							throw err
 				else
 					next()
 
@@ -187,12 +194,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		.catch (err) ->
 			if err.code == 'ENOENT'
 				throw err
+
+			if self.listeners('compile_error').length == 0
+				kit.err '->\n' + err.toString().red
 			else
-				if self.listeners('compile_error').length == 0
-					kit.err '->\n' + err.toString().red
-				else
-					self.emit 'compile_error', path, code
-				res.send 500, 'compile_error'
+				self.emit 'compile_error', path, code
+
+			cache_pool[path] = null
 
 	get_cached = (handler) ->
 		path = null
@@ -203,16 +211,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if cache_pool[path] != undefined
 			Q cache_pool[path]
 		else
-			get_code(handler)
-			.then (code) ->
-				if opts.enable_watcher
-					self.emit 'watch_file', path
-					kit.watch_file path, (path, curr, prev) ->
-						if curr.mtime != prev.mtime
-							self.emit 'file_modified', path
-							get_code(handler)
+			if opts.enable_watcher
+				self.emit 'watch_file', path
+				kit.watch_file path, (path, curr, prev) ->
+					if curr.mtime != prev.mtime
+						self.emit 'file_modified', path
+						get_code(handler)
 
-				return code
+			get_code(handler)
 
 	get_handler = (path, is_direct = false) ->
 		ext_bin = kit.path.extname path
