@@ -260,6 +260,96 @@ Even for huge project its memory usage is negligible.</p>
 	</li>
 
 	
+
+	<li>
+		<h4>
+			<b>self.static</b>
+		</h4>
+		<p>Set a static directory.
+Static folder to automatically serve coffeescript and stylus.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: Defaults { object }</b></p>
+				<pre>: { root_dir: '.' }</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { middleware }</b></p>
+				<pre>Experss.js middleware.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>self.render</b>
+		</h4>
+		<p>Render a file. It will auto detect the file extension and
+choose the right compiler to handle the code.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: path { string }</b></p>
+				<pre>The file path</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre>Contains the compiled code.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>self.auto_reload</b>
+		</h4>
+		<p>The browser javascript to support the auto page reload.
+You can use the socket.io event to custom you own.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@return:  { string }</b></p>
+				<pre>Returns html.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
+			<b>self.close</b>
+		</h4>
+		<p>Release the resources.</p>
+
+		<ul>
+			
+		</ul>
+	</li>
+
+	
 </ul>
 
 

@@ -88,6 +88,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	cache_pool = {}
 
+	###*
+	 * Set a static directory.
+	 * Static folder to automatically serve coffeescript and stylus.
+	 * @param  {object} Defaults: { root_dir: '.' }
+	 * @return {middleware} Experss.js middleware.
+	###
 	self.static = (opts = {}) ->
 		_.defaults opts, {
 			root_dir: '.'
@@ -128,14 +134,21 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					next()
 
+	###*
+	 * Render a file. It will auto detect the file extension and
+	 * choose the right compiler to handle the code.
+	 * @param  {string} path The file path
+	 * @return {promise} Contains the compiled code.
+	###
 	self.render = (path) ->
-		###
-			Return a promise.
-		###
-
 		handler = get_handler path, true
 		get_cached handler
 
+	###*
+	 * The browser javascript to support the auto page reload.
+	 * You can use the socket.io event to custom you own.
+	 * @return {string} Returns html.
+	###
 	self.auto_reload = ->
 		'''
 			<!-- Auto reload page helper. -->
@@ -155,6 +168,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			</script>
 		'''
 
+	###*
+	 * Release the resources.
+	###
 	self.close = ->
 		fs = require 'fs'
 		for k, v of cache_pool
