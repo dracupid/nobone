@@ -8,7 +8,13 @@ module.exports = {
 
 	###*
 	 * Main constructor.
-	 * @param  {object} opts
+	 * @param  {object} opts Defaults:
+	 * {
+	 * 	db: null
+	 * 	proxy: null
+	 * 	service: {}
+	 * 	renderer: {}
+	 * }
 	 * @return {object} A nobone instance.
 	###
 	create: (opts) ->
@@ -50,7 +56,7 @@ module.exports = {
 	###*
 	 * Help you to get the default options of moduels.
 	 * @param {string} name Module name, if not set, return all modules' defaults.
-	 * @return {promise} A promise object with defaults.
+	 * @return {promise} A promise object which will produce the defaults.
 	###
 	module_defaults: (name) ->
 		kit.glob(__dirname + '/modules/*')
