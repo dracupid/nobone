@@ -55,7 +55,9 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<b><%- el.name.replace('self.', '') %></b>
+			<a href="https://github.com/ysmood/nobone/blob/master/<%= el.path %>#L<%= el.line %>">
+				<b><%- el.name.replace('self.', '') %></b>
+			</a>
 		</h4>
 		<p><%- el.description %></p>
 

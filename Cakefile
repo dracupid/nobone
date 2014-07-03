@@ -75,7 +75,7 @@ task 'build', 'Compile coffee to js', ->
 			name = kit.path.basename path, '.coffee'
 			kit.readFile path, 'utf8'
 			.then (code) ->
-				kit.parse_comment name, code
+				kit.parse_comment name, code, path
 		.then (rets) ->
 			data.mods = _.groupBy _.flatten(rets, true), (el) -> el.module
 			data
