@@ -5,7 +5,7 @@ fs = require 'fs-extra'
 glob = require 'glob'
 
 ###*
- * The `kit` lib of NoBone will load by default and is not optinal.
+ * The `kit` lib of NoBone will load by default and is not optional.
  * All the async functions in `kit` return promise object.
  * Most time I use it to handle files and system staffs.
  * @type {object}
@@ -179,7 +179,7 @@ _.extend kit, {
 
 	###*
 	 * A shortcut to set process option with specific mode,
-	 * and keep the current env varialbes.
+	 * and keep the current env variables.
 	 * @param  {string} mode 'development', 'production', etc.
 	 * @return {object} `process.env` object.
 	###
@@ -206,6 +206,8 @@ _.extend kit, {
 
 	###*
 	 * A better log for debugging, it uses the `kit.inspect` to log.
+	 * You can use terminal command like `log_reg='pattern' node app.js` to
+	 * filter the log info.
 	 * @param  {any} msg Your log message.
 	 * @param  {string} action 'log', 'error', 'warn'.
 	 * @param  {object} opts Default is same with `kit.inspect`
@@ -234,7 +236,8 @@ _.extend kit, {
 			console.log "\u0007\n"
 
 	###*
-	 * Block terminal and wait for user inputs.
+	 * Block terminal and wait for user inputs. Useful when you need
+	 * user interaction.
 	 * @param  {object} opts See the https://github.com/flatiron/prompt
 	 * @return {promise} Contains the results of prompt.
 	###
@@ -279,7 +282,7 @@ _.extend kit, {
 
 	###*
 	 * A comments parser for coffee-script.
-	 * Used to generate documantation automatically.
+	 * Used to generate documentation automatically.
 	 * @param  {string} module_name The name of the module it belongs to.
 	 * @param  {string} code Coffee source code.
 	 * @return {array} The parsed comments. Something like:

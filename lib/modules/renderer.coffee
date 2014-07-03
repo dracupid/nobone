@@ -49,7 +49,14 @@ module.exports.defaults = {
 	code_handlers: {
 		'.js': {
 			ext_src: '.coffee'
-			compiler: (str) ->
+			###*
+			 * The compiler should fulfil two interface.
+			 * It should return a promise object. Only handles string.
+			 * @param  {string} str Source code.
+			 * @param  {string} path For debug info.
+			 * @return {promise} Contains the compiled code.
+			###
+			compiler: (str, path) ->
 				coffee = require 'coffee-script'
 				coffee.compile(str, { bare: true })
 		}

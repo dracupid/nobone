@@ -263,6 +263,41 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
+			<b>compiler</b>
+		</h4>
+		<p>The compiler should fulfil two interface.
+It should return a promise object. Only handles string.</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>@param: str { string }</b></p>
+				<pre>Source code.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@param: path { string }</b></p>
+				<pre>For debug info.</pre>
+			</li>
+
+			
+
+			<li>
+				<p><b>@return:  { promise }</b></p>
+				<pre>Contains the compiled code.</pre>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<li>
+		<h4>
 			<b>static</b>
 		</h4>
 		<p>Set a static directory.
@@ -402,7 +437,7 @@ You can use the socket.io event to custom you own.</p>
 		<h4>
 			<b>kit</b>
 		</h4>
-		<p>The `kit` lib of NoBone will load by default and is not optinal.
+		<p>The `kit` lib of NoBone will load by default and is not optional.
 All the async functions in `kit` return promise object.
 Most time I use it to handle files and system staffs.</p>
 
@@ -607,7 +642,7 @@ Default will inherit the parent's stdio.</pre>
 			<b>env_mode</b>
 		</h4>
 		<p>A shortcut to set process option with specific mode,
-and keep the current env varialbes.</p>
+and keep the current env variables.</p>
 
 		<ul>
 			
@@ -669,7 +704,9 @@ and keep the current env varialbes.</p>
 		<h4>
 			<b>log</b>
 		</h4>
-		<p>A better log for debugging, it uses the `kit.inspect` to log.</p>
+		<p>A better log for debugging, it uses the `kit.inspect` to log.
+You can use terminal command like `log_reg='pattern' node app.js` to
+filter the log info.</p>
 
 		<ul>
 			
@@ -703,7 +740,8 @@ and keep the current env varialbes.</p>
 		<h4>
 			<b>prompt_get</b>
 		</h4>
-		<p>Block terminal and wait for user inputs.</p>
+		<p>Block terminal and wait for user inputs. Useful when you need
+user interaction.</p>
 
 		<ul>
 			
@@ -766,7 +804,7 @@ a limitation.</p>
 			<b>parse_comment</b>
 		</h4>
 		<p>A comments parser for coffee-script.
-Used to generate documantation automatically.</p>
+Used to generate documentation automatically.</p>
 
 		<ul>
 			
