@@ -245,6 +245,14 @@ _.extend kit, {
 			console.log "\u0007\n"
 
 	###*
+	 * A log error shortcut for `kit.log`
+	 * @param  {any} msg
+	 * @param  {object} opts
+	###
+	err: (msg, opts = {}) ->
+		kit.log msg, 'error', opts
+
+	###*
 	 * Block terminal and wait for user inputs. Useful when you need
 	 * user interaction.
 	 * @param  {object} opts See the https://github.com/flatiron/prompt
