@@ -302,6 +302,7 @@ _.extend kit, {
 	 * Used to generate documentation automatically.
 	 * @param  {string} module_name The name of the module it belongs to.
 	 * @param  {string} code Coffee source code.
+	 * @param  {path} sting The path of the source code.
 	 * @return {array} The parsed comments. Something like:
 	 * {
 	 * 		module: 'nobone'
@@ -313,11 +314,14 @@ _.extend kit, {
 	 * 				type: 'string'
 	 * 				name: 'module_name'
 	 * 				description: 'The name of the module it belongs to.'
+	 * 				path: 'http://the_path_of_source_code'
+	 * 				index: 256 # The target char index in the file.
+	 * 				line: 29 # The line number of the target in the file.
 	 * 			}
 	 * 		]
 	 * }
 	###
-	parse_comment: (module_name, code) ->
+	parse_comment: (module_name, code, path = '') ->
 		comment_reg = /###\*([\s\S]+?)###\s+([\w\.]+)/g
 		split_reg = /^\s+\* @/m
 		tag_name_reg = /^(\w+)\s*/
@@ -369,6 +373,12 @@ _.extend kit, {
 				name: m[2]
 				description: info.description
 				tags: info.tags
+				path
+				index: comment_reg.lastIndex
+				line: _.reduce(code[...comment_reg.lastIndex], (count, char) ->
+					count++ if char == '\n'
+					count
+				, 1)
 			}
 
 		return comments
