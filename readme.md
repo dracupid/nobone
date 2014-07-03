@@ -4,7 +4,7 @@ A server library which will ease you development life.
 
 Now NoBone is based on express.js and some other useful libraries.
 
-[![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
+[![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone)
 
 ## Install
 
@@ -34,8 +34,8 @@ nb = nobone.create {
 	service: {}
 }
 # Print all available modules.
-nobone.available_modules().done (list) ->
-	nb.kit.log 'available_modules'
+nobone.module_defaults().done (list) ->
+	nb.kit.log 'module_defaults'
 	nb.kit.log list
 
 # Server

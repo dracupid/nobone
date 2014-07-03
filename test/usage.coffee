@@ -18,8 +18,8 @@ nb = nobone.create {
 	service: {}
 }
 # Print all available modules.
-nobone.available_modules().done (list) ->
-	nb.kit.log 'available_modules'
+nobone.module_defaults().done (list) ->
+	nb.kit.log 'module_defaults'
 	nb.kit.log list
 
 # Server
