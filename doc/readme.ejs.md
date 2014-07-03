@@ -74,13 +74,13 @@ NoBone has four main modules, they are all optional.
 			<% _.each(el.tags, function(tag) { %>
 
 			<li>
-				<p>
+				<p><b>
 					<u><%- tag.tag %></u>:
 					<% if (tag.name) { %>
-						<b><code><%- tag.name %></code></b>
+						<code><%- tag.name %></code>
 					<% } %>
 					<em>{ <%- tag.type %> }</em>
-				</p>
+				</b></p>
 				<p><%- tag.description %></p>
 			</li>
 

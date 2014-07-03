@@ -11,34 +11,34 @@ express = require 'express'
  * Even for huge project its memory usage is negligible.
  * @param  {object} opts Defaults:
  * <pre>{
- * enable_watcher: process.env.NODE_ENV == 'development'
- * code_handlers: {
- * '.js': {
- * 	ext_src: '.coffee'
- * 	compiler: (str) ->
- * 		coffee = require 'coffee-script'
- * 		coffee.compile(str, { bare: true })
- * }
- * '.css': {
- * 	ext_src: '.styl'
- * 	compiler: (str, path) ->
- * 		stylus = require 'stylus'
- * 		stylus_render = Q.denodeify stylus.render
- * 		stylus_render(str, { filename: path })
- * }
- * '.ejs': {
- * 	default: true    # Whether it is a default handler
- * 	ext_src: '.ejs'
- * 	type: 'html'
- * 	compiler: (str, path) ->
- * 		ejs = require 'ejs'
- * 		tpl = ejs.compile str, { filename: path }
+ * 	enable_watcher: process.env.NODE_ENV == 'development'
+ * 	code_handlers: {
+ * 		'.js': {
+ * 			ext_src: '.coffee'
+ * 			compiler: (str) ->
+ * 				coffee = require 'coffee-script'
+ * 				coffee.compile(str, { bare: true })
+ * 		}
+ * 		'.css': {
+ * 			ext_src: '.styl'
+ * 			compiler: (str, path) ->
+ * 				stylus = require 'stylus'
+ * 				stylus_render = Q.denodeify stylus.render
+ * 				stylus_render(str, { filename: path })
+ * 		}
+ * 		'.ejs': {
+ * 			default: true    # Whether it is a default handler
+ * 			ext_src: '.ejs'
+ * 			type: 'html'
+ * 			compiler: (str, path) ->
+ * 				ejs = require 'ejs'
+ * 				tpl = ejs.compile str, { filename: path }
  *
- * 		(data = {}) ->
- * 			_.defaults data, { _ }
- * 			tpl data
- * }
- * }
+ * 				(data = {}) ->
+ * 					_.defaults data, { _ }
+ * 					tpl data
+ * 		}
+ * 	}
  * }</pre>
  * @return {renderer}
 ###

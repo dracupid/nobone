@@ -141,13 +141,13 @@ NoBone has four main modules, they are all optional.
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Defaults:
 {
 	promise: true
@@ -158,11 +158,11 @@ NoBone has four main modules, they are all optional.
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ jdb }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -196,24 +196,24 @@ NoBone has four main modules, they are all optional.
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Defaults: <code>{}</code></p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ proxy }</em>
-				</p>
+				</b></p>
 				<p>See https://github.com/nodejitsu/node-http-proxy
 I extend only on function to it <code>url</code>. Use it to proxy one url
 to another.</p>
@@ -252,54 +252,54 @@ Even for huge project its memory usage is negligible.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Defaults:
 <pre>{
-enable_watcher: process.env.NODE_ENV == 'development'
-code_handlers: {
-'.js': {
-	ext_src: '.coffee'
-	compiler: (str) ->
-		coffee = require 'coffee-script'
-		coffee.compile(str, { bare: true })
-}
-'.css': {
-	ext_src: '.styl'
-	compiler: (str, path) ->
-		stylus = require 'stylus'
-		stylus_render = Q.denodeify stylus.render
-		stylus_render(str, { filename: path })
-}
-'.ejs': {
-	default: true    # Whether it is a default handler
-	ext_src: '.ejs'
-	type: 'html'
-	compiler: (str, path) ->
-		ejs = require 'ejs'
-		tpl = ejs.compile str, { filename: path }
+	enable_watcher: process.env.NODE_ENV == 'development'
+	code_handlers: {
+		'.js': {
+			ext_src: '.coffee'
+			compiler: (str) ->
+				coffee = require 'coffee-script'
+				coffee.compile(str, { bare: true })
+		}
+		'.css': {
+			ext_src: '.styl'
+			compiler: (str, path) ->
+				stylus = require 'stylus'
+				stylus_render = Q.denodeify stylus.render
+				stylus_render(str, { filename: path })
+		}
+		'.ejs': {
+			default: true    # Whether it is a default handler
+			ext_src: '.ejs'
+			type: 'html'
+			compiler: (str, path) ->
+				ejs = require 'ejs'
+				tpl = ejs.compile str, { filename: path }
 
-		(data = {}) ->
-			_.defaults data, { _ }
-			tpl data
-}
-}
+				(data = {}) ->
+					_.defaults data, { _ }
+					tpl data
+		}
+	}
 }</pre></p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ renderer }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -325,37 +325,37 @@ It should return a promise object. Only handles string.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>str</code></b>
+						<code>str</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>Source code.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>path</code></b>
+						<code>path</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>For debug info.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p>Contains the compiled code.</p>
 			</li>
 
@@ -381,24 +381,24 @@ Static folder to automatically serve coffeescript and stylus.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Defaults: <code>{ root_dir: '.' }</code></p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ middleware }</em>
-				</p>
+				</b></p>
 				<p>Experss.js middleware.</p>
 			</li>
 
@@ -424,24 +424,24 @@ choose the right compiler to handle the code.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>path</code></b>
+						<code>path</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>The file path</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p>Contains the compiled code.</p>
 			</li>
 
@@ -467,11 +467,11 @@ You can use the socket.io event to custom you own.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>Returns html.</p>
 			</li>
 
@@ -523,13 +523,13 @@ You can use the socket.io event to custom you own.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Defaults:
 <pre>{
 	enable_socketio: process.env.NODE_ENV == 'development'
@@ -540,11 +540,11 @@ You can use the socket.io event to custom you own.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ service }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -580,11 +580,11 @@ Most time I use it to handle files and system staffs.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>type</u>:
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -614,11 +614,11 @@ return a promise object.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>example</u>:
 					
 					<em>{  }</em>
-				</p>
+				</b></p>
 				<p><pre>
 kit.readFile('a.coffee').done (code) ->
 	kit.log code
@@ -682,24 +682,24 @@ kit.readFile('a.coffee').done (code) ->
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>pattern</code></b>
+						<code>pattern</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>Minimatch pattern.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -724,39 +724,39 @@ kit.readFile('a.coffee').done (code) ->
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>cmd</code></b>
+						<code>cmd</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>Path of an executable program.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>args</code></b>
+						<code>args</code>
 					
 					<em>{ array }</em>
-				</p>
+				</b></p>
 				<p>CLI arguments.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>options</code></b>
+						<code>options</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Process options.
 Default will inherit the parent's stdio.</p>
 			</li>
@@ -764,11 +764,11 @@ Default will inherit the parent's stdio.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p>The <code>promise.process</code> is the child process object.</p>
 			</li>
 
@@ -793,13 +793,13 @@ Default will inherit the parent's stdio.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>options</code></b>
+						<code>options</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Defaults:
 <pre>{
 	bin: 'node'
@@ -812,11 +812,11 @@ Default will inherit the parent's stdio.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ process }</em>
-				</p>
+				</b></p>
 				<p>The child process.</p>
 			</li>
 
@@ -841,13 +841,13 @@ Default will inherit the parent's stdio.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>patterns</code></b>
+						<code>patterns</code>
 					
 					<em>{ array }</em>
-				</p>
+				</b></p>
 				<p>String array with minimatch syntax.
 Such as ['./* /**.js', '*.css']</p>
 			</li>
@@ -855,13 +855,13 @@ Such as ['./* /**.js', '*.css']</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>handler</code></b>
+						<code>handler</code>
 					
 					<em>{ function }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -887,24 +887,24 @@ and keep the current env variables.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>mode</code></b>
+						<code>mode</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>'development', 'production', etc.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p><code>process.env</code> object.</p>
 			</li>
 
@@ -929,26 +929,26 @@ and keep the current env variables.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>obj</code></b>
+						<code>obj</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Your target object.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Options. Default:
 { colors: true, depth: 5 }</p>
 			</li>
@@ -956,11 +956,11 @@ and keep the current env variables.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -989,39 +989,39 @@ stack trace.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>msg</code></b>
+						<code>msg</code>
 					
 					<em>{ any }</em>
-				</p>
+				</b></p>
 				<p>Your log message.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>action</code></b>
+						<code>action</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>'log', 'error', 'warn'.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Default is same with <code>kit.inspect</code></p>
 			</li>
 
@@ -1046,26 +1046,26 @@ stack trace.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>msg</code></b>
+						<code>msg</code>
 					
 					<em>{ any }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -1091,24 +1091,24 @@ user interaction.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>See the https://github.com/flatiron/prompt</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p>Contains the results of prompt.</p>
 			</li>
 
@@ -1134,37 +1134,37 @@ a concurrent limitation.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>list</code></b>
+						<code>list</code>
 					
 					<em>{ array }</em>
-				</p>
+				</b></p>
 				<p>A list of functions. Each will return a promise.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>limit</code></b>
+						<code>limit</code>
 					
 					<em>{ int }</em>
-				</p>
+				</b></p>
 				<p>The max task to run at the same time.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -1190,52 +1190,52 @@ Used to generate documentation automatically.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>module_name</code></b>
+						<code>module_name</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>The name of the module it belongs to.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>code</code></b>
+						<code>code</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>Coffee source code.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>sting</code></b>
+						<code>sting</code>
 					
 					<em>{ path }</em>
-				</p>
+				</b></p>
 				<p>The path of the source code.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Parser options:
 <pre>{
 	reg: RegExp
@@ -1251,11 +1251,11 @@ Used to generate documentation automatically.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ array }</em>
-				</p>
+				</b></p>
 				<p>The parsed comments. Something like:
 <pre>{
 	module: 'nobone'
@@ -1297,13 +1297,13 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>Defaults:
 <pre>{
 	prompt: null
@@ -1320,11 +1320,11 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -1358,24 +1358,24 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>opts</code></b>
+						<code>opts</code>
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ object }</em>
-				</p>
+				</b></p>
 				<p>A nobone instance.</p>
 			</li>
 
@@ -1400,11 +1400,11 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p></p>
 			</li>
 
@@ -1429,24 +1429,24 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>param</u>:
 					
-						<b><code>name</code></b>
+						<code>name</code>
 					
 					<em>{ string }</em>
-				</p>
+				</b></p>
 				<p>Module name, if not set, return all modules' defaults.</p>
 			</li>
 
 			
 
 			<li>
-				<p>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ promise }</em>
-				</p>
+				</b></p>
 				<p>A promise object with defaults.</p>
 			</li>
 
