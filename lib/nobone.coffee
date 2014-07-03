@@ -31,6 +31,10 @@ module.exports = {
 			nb.renderer.on 'file_modified', (path) ->
 				nb.service.io.emit 'file_modified', path
 
+		###*
+		 * Release the resources.
+		 * @return {promise}
+		###
 		nb.close = ->
 			Q.all _.map(opts, (v, k) ->
 				mod = nb[k]

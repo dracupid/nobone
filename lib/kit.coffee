@@ -20,8 +20,10 @@ kit = {}
  * You can call `fs.readFile` like `kit.readFile`, it will
  * return a promise object.
  * @example
+ * <pre>
  * kit.readFile('a.coffee').done (code) ->
  * 	kit.log code
+ * </pre>
 ###
 denodeify_fs = ->
 	_.chain(fs)
@@ -104,12 +106,12 @@ _.extend kit, {
 	###*
 	 * Monitor an application and automatically restart it when file changed.
 	 * @param  {object} options Defaults:
-	 * {
+	 * <pre>{
 	 *     bin: 'node'
 	 *     args: ['app.js']
 	 *     watch_list: ['app.js']
 	 *     mode: 'development'
-	 * }
+	 * }</pre>
 	 * @return {process} The child process.
 	###
 	monitor_app: (options) ->
@@ -303,8 +305,18 @@ _.extend kit, {
 	 * @param  {string} module_name The name of the module it belongs to.
 	 * @param  {string} code Coffee source code.
 	 * @param  {path} sting The path of the source code.
+	 * @param  {object} opts Parser options:
+	 * <pre>{
+	 * 	reg: RegExp
+	 * 	split_reg: RegExp
+	 * 	tag_name_reg: RegExp
+	 * 	tag_2_reg: RegExp
+	 * 	tag_3_reg: RegExp
+	 * 	tag_4_reg: RegExp
+	 * 	code_reg: RegExp
+	 * }</pre>
 	 * @return {array} The parsed comments. Something like:
-	 * {
+	 * <pre>{
 	 * 		module: 'nobone'
 	 * 		name: 'parse_comment'
 	 * 		description: A comments parser for coffee-script.
@@ -319,35 +331,43 @@ _.extend kit, {
 	 * 				line: 29 # The line number of the target in the file.
 	 * 			}
 	 * 		]
-	 * }
+	 * }</pre>
 	###
-	parse_comment: (module_name, code, path = '') ->
-		comment_reg = /###\*([\s\S]+?)###\s+([\w\.]+)/g
-		split_reg = /^\s+\* @/m
-		tag_name_reg = /^(\w+)\s*/
-		tag_2_reg = /^(\w+)\s*([\s\S]*)/
-		tag_3_reg = /^(\w+)\s+\{(\w+)\}\s*([\s\S]*)/
-		tag_4_reg = /^(\w+)\s+\{(\w+)\}\s+(\w+)\s*([\s\S]*)/
+	parse_comment: (module_name, code, path = '', opts = {}) ->
+		_.defaults opts, {
+			reg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
+			split_reg: /^\s+\* @/m
+			tag_name_reg: /^(\w+)\s*/
+			tag_2_reg: /^(\w+)\s*([\s\S]*)/
+			tag_3_reg: /^(\w+)\s+\{(\w+)\}\s*([\s\S]*)/
+			tag_4_reg: /^(\w+)\s+\{(\w+)\}\s+(\w+)\s*([\s\S]*)/
+			code_reg: /`(.+?)`/g
+		}
 
 		parse_info = (block) ->
-			# Clean the prefix '*'
-			arr = block.split(split_reg).map (el) ->
+			arr = block.split(opts.split_reg)
+			.map (el) ->
+				# Clean the prefix '*'
 				el.replace(/^.+\*(\b)?/mg, '').trim()
+			.map (el) ->
+				# Auto create <code> tag.
+				el.replace opts.code_reg, (m, c) ->
+					"<code>#{c}</code>"
 
 			description = arr[0]
 			tags = arr[1..].map (el) ->
-				tag = el.match(tag_name_reg)[1]
+				tag = el.match(opts.tag_name_reg)[1]
 
 				switch tag
 					when 'return', 'type'
-						m = el.match tag_3_reg
+						m = el.match opts.tag_3_reg
 						{
 							tag: m[1]
 							type: m[2]
 							description: m[3]
 						}
 					when 'param'
-						m = el.match tag_4_reg
+						m = el.match opts.tag_4_reg
 						{
 							tag: m[1]
 							type: m[2]
@@ -355,7 +375,7 @@ _.extend kit, {
 							description: m[4]
 						}
 					else
-						m = el.match tag_2_reg
+						m = el.match opts.tag_2_reg
 						{
 							tag: m[1]
 							description: m[2]
@@ -367,7 +387,7 @@ _.extend kit, {
 
 		comments = []
 		m = null
-		while (m = comment_reg.exec(code)) != null
+		while (m = opts.reg.exec(code)) != null
 			info = parse_info m[1]
 			comments.push {
 				module: module_name
@@ -375,8 +395,8 @@ _.extend kit, {
 				description: info.description
 				tags: info.tags
 				path
-				index: comment_reg.lastIndex
-				line: _.reduce(code[...comment_reg.lastIndex], (count, char) ->
+				index: opts.reg.lastIndex
+				line: _.reduce(code[...opts.reg.lastIndex], (count, char) ->
 					count++ if char == '\n'
 					count
 				, 1)
@@ -388,7 +408,7 @@ _.extend kit, {
 	 * A scaffolding helper to generate template project.
 	 * The `lib/cli.coffee` used it as an example.
 	 * @param  {object} opts Defaults:
-	 * {
+	 * <pre>{
 	 * 		prompt: null
 	 * 		src_dir: null
 	 * 		pattern: '**'
@@ -397,7 +417,7 @@ _.extend kit, {
 	 * 			ejs = kit._require 'ejs'
 	 * 			data.filename = path
 	 * 			ejs.render str, data
-	 * }
+	 * }<pre>
 	 * @return {promise}
 	###
 	generate_bone: (opts) ->

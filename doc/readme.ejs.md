@@ -4,7 +4,7 @@ A server library which will ease you development life.
 
 Now NoBone is based on express.js and some other useful libraries.
 
-[![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
+[![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
 
 ## Install
 
@@ -47,16 +47,25 @@ nobone bone -h
 NoBone has four main modules, they are all optional.
 
 
-<% _.each(mods, function(mod, name) { %>
+<% _.each(mods, function(mod, mod_name) { %>
 
-<h3><%- name %></h3>
+<h3><%- mod_name %></h3>
 <ul>
 	<% _.each(mod, function(el) { %>
+
+	<hr>
 
 	<li>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/<%= el.path %>#L<%= el.line %>">
-				<b><%- el.name.replace('self.', '') %></b>
+				<%
+					var name = el.name.replace('self.', '');
+					if (_.find(el.tags, function (el) {
+						return el.tag == 'return';
+					}))
+						name += '()'
+				%>
+				<b><%= name %></b>
 			</a>
 		</h4>
 		<p><%- el.description %></p>
@@ -65,8 +74,12 @@ NoBone has four main modules, they are all optional.
 			<% _.each(el.tags, function(tag) { %>
 
 			<li>
-				<p><b>@<%- tag.tag %>: <%- tag.name %> { <%- tag.type %> }</b></p>
-				<pre><%- tag.description %></pre>
+				<p>
+					<u><%- tag.tag %></u>:
+					<b><code><%- tag.name %></code></b>
+					<em>{ <%- tag.type %> }</em>
+				</p>
+				<p><%- tag.description %></p>
 			</li>
 
 			<% }); %>
@@ -76,6 +89,7 @@ NoBone has four main modules, they are all optional.
 	<% }); %>
 </ul>
 
+<hr>
 
 <% }); %>
 

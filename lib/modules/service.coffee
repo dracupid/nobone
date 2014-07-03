@@ -5,10 +5,10 @@ http = require 'http'
 ###*
  * It is just a Express.js wrap with build in Socket.io (optional).
  * @param  {object} opts Defaults:
- * {
+ * <pre>{
  * 	enable_socketio: process.env.NODE_ENV == 'development'
  * 	express: {}
- * }
+ * }</pre>
  * @return {service}
 ###
 module.exports = (opts = {}) ->

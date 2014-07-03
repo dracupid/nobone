@@ -10,7 +10,7 @@ express = require 'express'
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project its memory usage is negligible.
  * @param  {object} opts Defaults:
- * {
+ * <pre>{
  * 	enable_watcher: process.env.NODE_ENV == 'development'
  * 	code_handlers: {
  * 		'.js': {
@@ -39,7 +39,7 @@ express = require 'express'
  * 					tpl data
  * 		}
  * 	}
- * }
+ * }</pre>
  * @return {renderer}
 ###
 module.exports = (opts) -> new Renderer(opts)
