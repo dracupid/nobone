@@ -38,18 +38,31 @@ denodeify_fs()
 
 _.extend kit, {
 
-	_require_cache: {}
+	require_cache: {}
+
+	###*
+	 * Much much faster than the native require of node, but
+	 * you should follow some rules to use it safely.
+	 * @param  {string}   path Absolute path of the module.
+	 * @param  {Function} done Run only the first time after the module loaded.
+	 * @return {module} The module that you require.
+	###
+	require: (path, done) ->
+		if not kit.require_cache[path]
+			if path[0] != '/'
+				throw new Error('Only absolute path is allowed: ' + path)
+
+			kit.require_cache[path] = require path
+			done? kit.require_cache[path]
+
+		kit.require_cache[path]
 
 	_require: (path, done) ->
-		###
-			For better performance.
-		###
+		if not kit.require_cache[path]
+			kit.require_cache[path] = require path
+			done? kit.require_cache[path]
 
-		if not kit._require_cache[path]
-			kit._require_cache[path] = require path
-			done? kit._require_cache[path]
-
-		kit._require_cache[path]
+		kit.require_cache[path]
 
 	###*
 	 * Node native module
@@ -316,7 +329,6 @@ _.extend kit, {
 	 * 	tag_2_reg: RegExp
 	 * 	tag_3_reg: RegExp
 	 * 	tag_4_reg: RegExp
-	 * 	code_reg: RegExp
 	 * }</pre>
 	 * @return {array} The parsed comments. Each item is something like:
 	 * <pre>{
@@ -344,8 +356,9 @@ _.extend kit, {
 			tag_2_reg: /^([\w\.]+)\s*([\s\S]*)/
 			tag_3_reg: /^([\w\.]+)\s+\{([\w\.]+)\}\s*([\s\S]*)/
 			tag_4_reg: /^([\w\.]+)\s+\{([\w\.]+)\}\s+([\w\.]+)\s*([\s\S]*)/
-			code_reg: /`(.+?)`/g
 		}
+
+		marked = kit._require 'marked'
 
 		parse_info = (block) ->
 			arr = block.split(opts.split_reg)
@@ -357,36 +370,27 @@ _.extend kit, {
 				el.replace opts.code_reg, (m, c) ->
 					"<code>#{c}</code>"
 
-			description = arr[0]
+			description = marked(arr[0] or '')
 			tags = arr[1..].map (el) ->
 				tag = el.match(opts.tag_name_reg)[1]
 
 				switch tag
 					when 'return', 'type'
 						m = el.match opts.tag_3_reg
-						{
-							tag: m[1]
-							type: m[2]
-							description: m[3]
-						}
 					when 'param'
 						m = el.match opts.tag_4_reg
-						{
-							tag: m[1]
-							type: m[2]
-							name: m[3]
-							description: m[4]
-						}
 					else
 						m = el.match opts.tag_2_reg
-						{
-							tag: m[1]
-							description: m[2]
-						}
-			{
-				description
-				tags
-			}
+
+				{
+					tag: m[1]
+					type: m[2]
+					name: m[3]
+					description: marked(m[4] or '')
+				}
+
+
+			{ description, tags }
 
 		comments = []
 		m = null
@@ -417,9 +421,7 @@ _.extend kit, {
 	 * 	pattern: '**'
 	 * 	dest_dir: null
 	 * 	compile: (str, data, path) ->
-	 * 		ejs = kit._require 'ejs'
-	 * 		data.filename = path
-	 * 		ejs.render str, data
+	 * 		compile str
 	 * }</pre>
 	 * @return {promise}
 	###

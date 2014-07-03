@@ -14,37 +14,24 @@ module_dir = __dirname + '/../../node_modules/'
  * <pre>{
  * 	enable_watcher: process.env.NODE_ENV == 'development'
  * 	code_handlers: {
- * 		'.ejs': {
- * 			default: true    # Whether it is a default handler
+ * 		'.html': {
+ * 			default: true
  * 			ext_src: '.ejs'
  * 			type: 'html'
- * 			compiler: (str, path) ->
- * 				ejs = kit.require module_dir +  'ejs'
- * 				tpl = ejs.compile str, { filename: path }
- *
- * 				(data = {}) ->
- * 					_.defaults data, { _ }
- * 					tpl data
+ * 			compiler: (str, path) -> ...
  * 		}
  * 		'.js': {
  * 			ext_src: '.coffee'
- * 			compiler: (str, path) ->
- * 				coffee = kit.require module_dir + 'coffee-script'
- * 				coffee.compile(str, { bare: true })
+ * 			compiler: (str, path) -> ...
  * 		}
  * 		'.css': {
  * 			ext_src: '.styl'
- * 			compiler: (str, path) ->
- * 				stylus = kit.require module_dir +  'stylus'
- * 				stylus_render = Q.denodeify stylus.render
- * 				stylus_render(str, { filename: path })
+ * 			compiler: (str, path) -> ...
  * 		}
  * 		'.mdx': {
  * 			ext_src: '.md'
  * 			type: 'html'
- * 			compiler: (str, path) ->
- * 				marked = kit.require module_dir +  'marked'
- * 				marked(str)
+ * 			compiler: (str, path) -> ...
  * 		}
  * 	}
  * }</pre>
@@ -55,10 +42,10 @@ module.exports = (opts) -> new Renderer(opts)
 module.exports.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
 	code_handlers: {
-		'.ejs': {
-			default: true    # Whether it is a default handler
+		'.html': {
+			default: true    # Whether it is a default handler, optional.
 			ext_src: '.ejs'
-			type: 'html'
+			type: 'html'	 # Force type, optional.
 			###*
 			 * The compiler should fulfil two interface.
 			 * It should return a promise object. Only handles string.
@@ -92,7 +79,13 @@ module.exports.defaults = {
 			type: 'html'
 			compiler: (str, path) ->
 				marked = kit.require module_dir +  'marked'
-				marked(str)
+				"""
+				<!DOCTYPE html>
+				<html>
+				<head><title>#{path}</title></head>
+				<body> #{marked(str)} #{Renderer.auto_reload} </body>
+				</html>
+				"""
 		}
 	}
 }
@@ -172,23 +165,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @return {string} Returns html.
 	###
 	self.auto_reload = ->
-		'''
-			<!-- Auto reload page helper. -->
-			<script type="text/javascript">
-				if (!window.io) {
-					document.write(unescape('%3Cscript%20src%3D%22/socket.io/socket.io.js%22%3E%3C/script%3E'));
-				}
-			</script>
-			<script type="text/javascript">
-				(function () {
-					var sock = io();
-					sock.on('file_modified', function (data) {
-						console.log(">> Reload: " + data);
-						location.reload();
-					});
-				})();
-			</script>
-		'''
+		Renderer.auto_reload
 
 	###*
 	 * Release the resources.
@@ -255,3 +232,21 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler
 		else
 			null
+
+	Renderer.auto_reload = '''
+		<!-- Auto reload page helper. -->
+		<script type="text/javascript">
+			if (!window.io) {
+				document.write(unescape('%3Cscript%20src%3D%22/socket.io/socket.io.js%22%3E%3C/script%3E'));
+			}
+		</script>
+		<script type="text/javascript">
+			(function () {
+				var sock = io();
+				sock.on('file_modified', function (data) {
+					console.log(">> Reload: " + data);
+					location.reload();
+				});
+			})();
+		</script>
+	'''
