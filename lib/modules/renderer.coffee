@@ -126,7 +126,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if handler
 					get_cached(handler)
 					.then (code) ->
-						if code == null
+						if code == null or code == undefined
 							res.send 500, 'compile_error'
 							return
 
@@ -140,13 +140,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								res.send code()
 
 							else
-								throw new Erorr('unknown_code_type')
+								throw new Error('unknown_code_type')
 
 					.catch (err) ->
 						if err.code == 'ENOENT'
 							next()
 						else
 							throw err
+					.done()
 				else
 					next()
 
