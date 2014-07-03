@@ -2,10 +2,6 @@ nobone = require 'nobone'
 
 nb = nobone.create()
 
-nb.service.use(
-	nb.renderer.static({ root_dir: __dirname + '/client' })
-)
-
 nb.service.get '/', (req, res) ->
 	nb.renderer.render(__dirname + '/client/index.ejs')
 	.done (tpl_func) ->
