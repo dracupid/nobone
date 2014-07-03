@@ -43,7 +43,7 @@ task 'setup', 'Setup project.', ->
 	.then (str) ->
 		str = str.replace 'req.headers.etag', 'req.headers["if-none-match"]'
 		kit.outputFile socketio_index_path, str
-	.then ->
+	.done ->
 		kit.log 'Setup finished.'.yellow
 
 task 'build', 'Compile coffee to js', build = ->
@@ -89,9 +89,9 @@ task 'build', 'Compile coffee to js', build = ->
 
 		kit.outputFile 'readme.md', out
 
-	.then()
+	.done()
 
 task 'clean', 'Clean js', ->
 	kit.log ">> Clean js..."
 
-	kit.remove('dist').then()
+	kit.remove('dist').done()
