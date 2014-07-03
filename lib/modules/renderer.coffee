@@ -79,14 +79,8 @@ module.exports.defaults = {
 			ext_src: '.md'
 			type: 'html'
 			compiler: (str, path) ->
-				marked = kit.require module_dir +  'marked'
-				"""
-				<!DOCTYPE html>
-				<html>
-				<head><title>#{path}</title></head>
-				<body> #{marked(str)} #{Renderer.auto_reload} </body>
-				</html>
-				"""
+				marked = kit.require module_dir + 'marked'
+				marked str
 		}
 	}
 }
@@ -159,7 +153,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.render = (path) ->
 		handler = get_handler path, true
-		get_cached handler
+
+		if handler
+			get_cached handler
+		else
+			throw new Error('No matched code handler for:' + path)
 
 	###*
 	 * The browser javascript to support the auto page reload.
