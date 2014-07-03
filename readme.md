@@ -1467,13 +1467,6 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 	npm test
 
 
-## Road Map
-
-Decouple libs.
-
-Better test coverage.
-
-
 # Benchmark
 
 Memory cache is faster than direct file streaming even on SSD machine.
@@ -1481,6 +1474,14 @@ Memory cache is faster than direct file streaming even on SSD machine.
 * memory x 1,167 ops/sec ±4.11% (68 runs sampled)
 * stream x   759 ops/sec ±2.77% (79 runs sampled)
 </pre>
+
+
+## Road Map
+
+Decouple libs.
+
+Better test coverage.
+
 
 # Lisence
 
