@@ -1,6 +1,6 @@
 ## Overview
 
-A server library which will ease you development life.
+A server library knows what developer really needs.
 
 Now NoBone is based on express.js and some other useful libraries.
 
