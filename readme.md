@@ -55,7 +55,7 @@ s = nb.service.listen port
 nb.kit.log 'Listen port ' + port
 
 # Static folder to automatically serve coffeescript and stylus.
-nb.service.use nb.renderer.static({ root_dir: 'bone/client' })
+nb.service.use nb.renderer.static('bone/client')
 
 # Edit the 'bone/index.ejs' file, the page should auto reload.
 nb.renderer.on 'watch_file', (path) ->
@@ -436,7 +436,83 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L106">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L108">
+				
+				<b>code_handlers</b>
+			</a>
+		</h4>
+		<p><p>You can access all the code_handlers here.
+Manipulate them at runtime.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><pre><code class="lang-coffee"># We return js directly.
+renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
+</code></pre>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ object }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L114">
+				
+				<b>cache_pool</b>
+			</a>
+		</h4>
+		<p><p>The cache pool of the result of <code>code_handlers.compiler</code></p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ object }</em>
+				</b></p>
+				<p><p>Key is the file path.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L123">
 				
 				<b>static()</b>
 			</a>
@@ -454,9 +530,10 @@ Static folder to automatically serve coffeescript and stylus.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ string | object }</em>
 				</b></p>
-				<p><p>Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
+				<p><p>If it&#39;s a string it represents the root_dir
+of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 </p>
 			</li>
 
@@ -482,7 +559,7 @@ Static folder to automatically serve coffeescript and stylus.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L153">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L175">
 				
 				<b>render()</b>
 			</a>
@@ -528,7 +605,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L166">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L188">
 				
 				<b>auto_reload()</b>
 			</a>
@@ -560,7 +637,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L172">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L194">
 				
 				<b>close</b>
 			</a>
