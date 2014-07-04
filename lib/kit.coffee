@@ -49,7 +49,7 @@ _.extend kit, {
 	###
 	require: (path, done) ->
 		if not kit.require_cache[path]
-			if path[0] != '/'
+			if path[0] != '/' and path[1] != ':'
 				throw new Error('Only absolute path is allowed: ' + path)
 
 			kit.require_cache[path] = require path
