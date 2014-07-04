@@ -1,3 +1,7 @@
+* v0.1.5
+
+  * Change markdown extension from `mdx` to `md`.
+
 * v0.1.4
 
   * Fixed some minor renderer bugs.
