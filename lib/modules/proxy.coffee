@@ -10,8 +10,8 @@ http = require 'http'
  * @param  {object} opts Defaults: `{}`
  * @return {proxy} For more, see https://github.com/nodejitsu/node-http-proxy
 ###
-module.exports = (opts = {}) ->
-	_.defaults opts, module.exports.defaults
+proxy = (opts = {}) ->
+	_.defaults opts, proxy.defaults
 
 	proxy = http_proxy.createProxyServer opts.proxy
 
@@ -33,4 +33,6 @@ module.exports = (opts = {}) ->
 			}
 	}
 
-module.exports.defaults = {}
+proxy.defaults = {}
+
+module.exports = proxy

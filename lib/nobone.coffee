@@ -2,57 +2,58 @@ _ = require 'lodash'
 kit = require './kit'
 Q = require 'q'
 
-module.exports = {
 
-	kit
+###*
+ * Main constructor.
+ * @param  {object} opts Defaults:
+ * ```coffee
+ * {
+ * 	db: null
+ * 	proxy: null
+ * 	service: {}
+ * 	renderer: {}
+ * }```
+ * @return {object} A nobone instance.
+###
+nobone = (opts) ->
+	opts ?= {
+		db: null
+		proxy: null
+		service: {}
+		renderer: {}
+	}
+
+	nb = {
+		kit
+	}
+
+	for k, v of opts
+		if opts[k]
+			nb[k] = require('./modules/' + k)(v)
+
+	if nb.service and nb.service.io and nb.renderer
+		nb.renderer.on 'file_modified', (path) ->
+			nb.service.io.emit 'file_modified', path
 
 	###*
-	 * Main constructor.
-	 * @param  {object} opts Defaults:
-	 * ```coffee
-	 * {
-	 * 	db: null
-	 * 	proxy: null
-	 * 	service: {}
-	 * 	renderer: {}
-	 * }```
-	 * @return {object} A nobone instance.
+	 * Release the resources.
+	 * @return {promise}
 	###
-	create: (opts) ->
-		opts ?= {
-			db: null
-			proxy: null
-			service: {}
-			renderer: {}
-		}
+	nb.close = ->
+		Q.all _.map(opts, (v, k) ->
+			mod = nb[k]
+			if v and mod.close
+				if mod.close.length > 0
+					Q.ninvoke mod, 'close'
+				else
+					mod.close()
+		)
 
-		nb = {
-			kit
-		}
+	nb
 
-		for k, v of opts
-			if opts[k]
-				nb[k] = require('./modules/' + k)(v)
+_.extend nobone, {
 
-		if nb.service and nb.service.io and nb.renderer
-			nb.renderer.on 'file_modified', (path) ->
-				nb.service.io.emit 'file_modified', path
-
-		###*
-		 * Release the resources.
-		 * @return {promise}
-		###
-		nb.close = ->
-			Q.all _.map(opts, (v, k) ->
-				mod = nb[k]
-				if v and mod.close
-					if mod.close.length > 0
-						Q.ninvoke mod, 'close'
-					else
-						mod.close()
-			)
-
-		nb
+	kit
 
 	###*
 	 * Help you to get the default options of moduels.
@@ -73,3 +74,5 @@ module.exports = {
 			else
 				list
 }
+
+module.exports = nobone

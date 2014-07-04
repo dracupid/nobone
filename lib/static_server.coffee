@@ -1,7 +1,7 @@
 nobone = require './nobone'
 marked = require 'marked'
 
-{ kit, renderer, service } = nobone.create {
+{ kit, renderer, service } = nobone {
 	service: {}
 	renderer: {
 		enable_watcher: true

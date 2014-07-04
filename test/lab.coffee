@@ -1,6 +1,6 @@
 nobone = require '../lib/nobone'
 
-{ kit } = nobone.create()
+{ kit } = nobone()
 
 
 kit.readFile 'lib/kit.coffee'

@@ -1,6 +1,6 @@
 nobone = require 'nobone'
 
-nb = nobone.create()
+nb = nobone()
 
 nb.service.get '/', (req, res) ->
 	nb.renderer.render(__dirname + '/index.ejs')

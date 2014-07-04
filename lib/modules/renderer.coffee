@@ -38,9 +38,9 @@ module_dir = __dirname + '/../../node_modules/'
  * }```
  * @return {renderer}
 ###
-module.exports = (opts) -> new Renderer(opts)
+renderer = (opts) -> new Renderer(opts)
 
-module.exports.defaults = {
+renderer.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
 	code_handlers: {
 		'.html': {
@@ -90,7 +90,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	super
 
-	_.defaults opts, module.exports.defaults
+	_.defaults opts, renderer.defaults
 
 	self = @
 
@@ -253,3 +253,5 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			})();
 		</script>
 	'''
+
+module.exports = renderer

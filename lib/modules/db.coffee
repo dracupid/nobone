@@ -10,12 +10,14 @@ _ = require 'lodash'
  * }```
  * @return {jdb}
 ###
-module.exports = (opts = {}) ->
-	_.defaults opts, module.exports.defaults
+db = (opts = {}) ->
+	_.defaults opts, db.defaults
 
 	new (require 'jdb')(opts)
 
-module.exports.defaults = {
+db.defaults = {
 	promise: true
 	db_path: './nobone.db'
 }
+
+module.exports = db

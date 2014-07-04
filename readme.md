@@ -1,6 +1,6 @@
 ## Overview
 
-A server library which will ease you development life.
+A server library knows what developer really needs.
 
 Now NoBone is based on express.js and some other useful libraries.
 
@@ -28,7 +28,7 @@ port = 8013
 #		renderer: {}
 #	}
 # By default it load two module: service, renderer
-nb = nobone.create {
+nb = nobone {
 	db: { db_path: './test.db' }
 	proxy: {}
 	renderer: {}
@@ -133,7 +133,7 @@ NoBone has four main modules, they are all optional.
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L13">
 				
-				<b>module.exports()</b>
+				<b>db()</b>
 			</a>
 		</h4>
 		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
@@ -191,7 +191,7 @@ NoBone has four main modules, they are all optional.
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L13">
 				
-				<b>module.exports()</b>
+				<b>proxy()</b>
 			</a>
 		</h4>
 		<p><p>For test, page injection development.
@@ -306,7 +306,7 @@ Most time used with SwitchySharp.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L41">
 				
-				<b>module.exports()</b>
+				<b>renderer()</b>
 			</a>
 		</h4>
 		<p><p>A abstract renderer for any string resources, such as template, source code, etc.
@@ -590,7 +590,7 @@ You can use the socket.io event to custom you own.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L15">
 				
-				<b>module.exports()</b>
+				<b>service()</b>
 			</a>
 		</h4>
 		<p><p>It is just a Express.js wrap with build in Socket.io (optional).</p>
@@ -1528,9 +1528,9 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L21">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L18">
 				
-				<b>create()</b>
+				<b>nobone()</b>
 			</a>
 		</h4>
 		<p><p>Main constructor.</p>
@@ -1580,7 +1580,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L45">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L42">
 				
 				<b>nb.close()</b>
 			</a>
@@ -1610,7 +1610,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L62">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L63">
 				
 				<b>module_defaults()</b>
 			</a>

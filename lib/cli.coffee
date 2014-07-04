@@ -31,7 +31,7 @@ cmder
 
 		nobone = require './nobone'
 
-		{ kit, renderer } = nobone.create()
+		{ kit, renderer } = nobone()
 
 		kit.generate_bone({
 			prompt: [{

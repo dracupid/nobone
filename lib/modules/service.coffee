@@ -12,19 +12,19 @@ http = require 'http'
  * }```
  * @return {service}
 ###
-module.exports = (opts = {}) ->
-	_.defaults opts, module.exports.defaults
+service = (opts = {}) ->
+	_.defaults opts, service.defaults
 
 	express = require 'express'
-	service = express opts.express
+	srv = express opts.express
 
-	server = http.Server service
+	server = http.Server srv
 
 	if opts.enable_socketio
 		socketio = require 'socket.io'
 		io = socketio server
 
-	_.extend service, {
+	_.extend srv, {
 		io
 		server
 		listen: ->
@@ -33,7 +33,9 @@ module.exports = (opts = {}) ->
 			server.close callback
 	}
 
-module.exports.defaults = {
+service.defaults = {
 	enable_socketio: process.env.NODE_ENV == 'development'
 	express: {}
 }
+
+module.exports = service

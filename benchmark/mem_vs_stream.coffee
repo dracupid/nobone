@@ -13,7 +13,7 @@ suite = new Benchmark.Suite
 Benchmark.support.timeout = false
 
 nobone = require '../lib/nobone'
-nb = nobone.create()
+nb = nobone()
 
 port = 8013
 file_path = 'readme.md'

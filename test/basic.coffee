@@ -5,7 +5,7 @@ http = require 'http'
 Q = require 'q'
 nobone = require '../lib/nobone'
 
-nb = nobone.create {
+nb = nobone {
 	db: {}
 	renderer: {}
 	service: {}
@@ -100,7 +100,7 @@ describe 'Basic:', ->
 				tdone()
 
 	it 'the custom code_handler should work', (tdone) ->
-		{ renderer: rr } = nobone.create()
+		{ renderer: rr } = nobone()
 
 		rr.code_handlers['.js'].compiler = (str) ->
 			str.length
@@ -112,7 +112,7 @@ describe 'Basic:', ->
 
 	it 'the close should work.', (tdone) ->
 		port = 8398
-		nb = nobone.create()
+		nb = nobone()
 		nb.service.listen port, ->
 			nb.close().done ->
 				tdone()

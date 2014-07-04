@@ -11,7 +11,7 @@ port = 8013
 #		renderer: {}
 #	}
 # By default it load two module: service, renderer
-nb = nobone.create {
+nb = nobone {
 	db: { db_path: './test.db' }
 	proxy: {}
 	renderer: {}
