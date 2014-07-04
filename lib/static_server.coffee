@@ -40,14 +40,5 @@ service.get '/nobone', (req, res) ->
 			body: marked md
 		})
 
-renderer.on 'watch_file', (path) ->
-	kit.log "Watch: #{path}".cyan
-
-renderer.on 'file_modified', (path) ->
-	kit.log "Modified: #{path}".cyan
-
-renderer.on 'compile_error', (path, err) ->
-	kit.log (path + '\n' + err.toString()).red, 'error'
-
 service.listen port, host
 kit.log "Listen: " + "#{host}:#{port}".cyan

@@ -4,13 +4,14 @@ http = require 'http'
 
 ###*
  * It is just a Express.js wrap with build in Socket.io (optional).
+ * @extends {Express}
  * @param  {Object} opts Defaults:
  * ```coffee
  * {
  * 	enable_socketio: process.env.NODE_ENV == 'development'
  * 	express: {}
  * }```
- * @return {Service <- Express}
+ * @return {Service}
 ###
 service = (opts = {}) ->
 	_.defaults opts, service.defaults

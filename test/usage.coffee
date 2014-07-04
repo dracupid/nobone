@@ -40,12 +40,6 @@ nb.kit.log 'Listen port ' + port
 # Static folder to automatically serve coffeescript and stylus.
 nb.service.use nb.renderer.static('bone/client')
 
-# Edit the 'bone/index.ejs' file, the page should auto reload.
-nb.renderer.on 'watch_file', (path) ->
-	nb.kit.log 'Watch: '.cyan + path
-nb.renderer.on 'file_modified', (path) ->
-	nb.kit.log 'Modifed: '.cyan + path
-
 # Database
 # Nobone has a build-in file database.
 # For more info see: https://github.com/ysmood/jdb
