@@ -304,7 +304,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L41">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L40">
 				
 				<b>renderer()</b>
 			</a>
@@ -376,7 +376,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L57">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L56">
 				
 				<b>compiler()</b>
 			</a>
@@ -436,7 +436,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L107">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L106">
 				
 				<b>static()</b>
 			</a>
@@ -482,7 +482,7 @@ Static folder to automatically serve coffeescript and stylus.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L154">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L153">
 				
 				<b>render()</b>
 			</a>
@@ -528,7 +528,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L167">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L166">
 				
 				<b>auto_reload()</b>
 			</a>
@@ -560,7 +560,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L173">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L172">
 				
 				<b>close</b>
 			</a>
@@ -732,11 +732,11 @@ you should follow some rules to use it safely.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>path</code>
+						<code>module_name</code>
 					
 					<em>{ string }</em>
 				</b></p>
-				<p><p>Absolute path of the module.</p>
+				<p><p>Moudle path is not allowed!</p>
 </p>
 			</li>
 
@@ -776,7 +776,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L70">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L63">
 				
 				<b>path</b>
 			</a>
@@ -795,7 +795,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L75">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L68">
 				
 				<b>url</b>
 			</a>
@@ -814,7 +814,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L82">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L75">
 				
 				<b>glob()</b>
 			</a>
@@ -859,7 +859,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L101">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L94">
 				
 				<b>spawn()</b>
 			</a>
@@ -933,7 +933,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L143">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L136">
 				
 				<b>monitor_app()</b>
 			</a>
@@ -985,7 +985,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L202">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L195">
 				
 				<b>watch_files</b>
 			</a>
@@ -1032,7 +1032,7 @@ Such as <code>[&#39;./* /**.js&#39;, &#39;*.css&#39;]</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L214">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L207">
 				
 				<b>env_mode()</b>
 			</a>
@@ -1078,7 +1078,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L228">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L222">
 				
 				<b>inspect()</b>
 			</a>
@@ -1137,7 +1137,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L245">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L239">
 				
 				<b>log</b>
 			</a>
@@ -1202,7 +1202,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L280">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L274">
 				
 				<b>err</b>
 			</a>
@@ -1247,7 +1247,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L289">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L283">
 				
 				<b>prompt_get()</b>
 			</a>
@@ -1293,7 +1293,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L310">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L304">
 				
 				<b>async_limit()</b>
 			</a>
@@ -1352,7 +1352,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L363">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L357">
 				
 				<b>parse_comment()</b>
 			</a>
@@ -1466,7 +1466,7 @@ Used to generate documentation automatically.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L448">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L442">
 				
 				<b>generate_bone()</b>
 			</a>
