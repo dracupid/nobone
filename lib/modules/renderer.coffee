@@ -9,10 +9,12 @@ express = require 'express'
  * It automatically uses high performance memory cache.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project its memory usage is negligible.
+ * @extends {events.EventEmitter}
  * @param {Object} opts Defaults:
  * ```coffee
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
+ * 	auto_log: process.env.NODE_ENV == 'development'
  * 	code_handlers: {
  * 		'.html': {
  * 			default: true
@@ -35,13 +37,13 @@ express = require 'express'
  * 		}
  * 	}
  * }```
- * @return {Renderer <- events.EventEmitter}
+ * @return {Renderer}
 ###
 renderer = (opts) -> new Renderer(opts)
 
 renderer.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
-	auto_log: true
+	auto_log: process.env.NODE_ENV == 'development'
 	code_handlers: {
 		'.html': {
 			default: true    # Whether it is a default handler, optional.
@@ -141,7 +143,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				get_cached(handler)
 				.then (code) ->
 					if code == null
-						return res.send 500, 'compile_error'
+						return res.send 500, self.e.compile_error
 
 					if code == undefined
 						return rnext()
@@ -197,7 +199,43 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		for k, v of cache_pool
 			fs.unwatchFile(k)
 
+	self.e = {}
+
+	###*
+	 * @event compile_error
+	 * @param {string} path The error file.
+	 * @param {Error} err The error info.
+	###
+	self.e.compile_error = 'compile_error'
+
+	###*
+	 * @event watch_file
+	 * @param {string} path The path of the file.
+	 * @param {fs.Stats} curr Current state.
+	 * @param {fs.Stats} prev Previous state.
+	###
+	self.e.watch_file = 'watch_file'
+
+	###*
+	 * @event file_deleted
+	 * @param {string} path The path of the file.
+	###
+	self.e.file_deleted = 'file_deleted'
+
+	###*
+	 * @event file_modified
+	 * @param {string} path The path of the file.
+	###
+	self.e.file_modified = 'file_modified'
+
 	emit = ->
+		if opts.auto_log
+			name = arguments[0]
+			if name == 'compile_error'
+				kit.err arguments[1].yellow + '\n' + arguments[2].toString().red
+			else
+				kit.log "#{name}: ".cyan + arguments[1]
+
 		self.emit.apply self, arguments
 
 	get_code = (handler) ->
@@ -219,10 +257,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.catch (err) ->
 					throw err
 			else
-				if self.listeners('compile_error').length == 0
+				if self.listeners(self.e.compile_error).length == 0 and
+				not opts.auto_log
 					kit.err '->\n' + err.toString().red
-				else
-					emit 'compile_error', path, err
+
+				emit self.e.compile_error, path, err
 
 				cache_pool[path] = null
 
@@ -249,18 +288,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else if not rets[0]
 						return
 
-					emit 'watch_file', path
+					emit self.e.watch_file, path
 					kit.watch_file path, (path, curr, prev) ->
 						# If moved or deleted
 						if curr.dev == 0
 							fs = kit.require 'fs'
-							emit 'file_deleted', path
+							emit self.e.file_deleted, path
 							delete cache_pool[path]
 							fs.unwatchFile(path)
 							return
 
 						if curr.mtime != prev.mtime
-							emit 'file_modified', path
+							emit self.e.file_modified, path
 							get_code(handler).done()
 
 			get_code(handler)
