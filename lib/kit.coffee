@@ -378,20 +378,27 @@ _.extend kit, {
 				tag = el.match(opts.tag_name_reg)[1]
 
 				switch tag
-					when 'return', 'type'
-						m = el.match opts.tag_3_reg
 					when 'param'
 						m = el.match opts.tag_4_reg
+						{
+							tag: m[1]
+							type: m[2]
+							name: m[3]
+							description: marked(m[4] or '')
+						}
+					when 'return', 'type'
+						m = el.match opts.tag_3_reg
+						{
+							tag: m[1]
+							type: m[2]
+							description: marked m[3]
+						}
 					else
 						m = el.match opts.tag_2_reg
-
-				{
-					tag: m[1]
-					type: m[2]
-					name: m[3]
-					description: marked(m[4] or '')
-				}
-
+						{
+							tag: m[1]
+							description: marked m[2]
+						}
 
 			{ description, tags }
 
