@@ -158,7 +158,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							throw new Error('unknown_code_type')
 
 				.catch (err) ->
-					if err.code == 'ENOENT'
+					if err.code == 'ENOENT' or err.code == 'EISDIR'
 						rnext()
 					else
 						throw err
@@ -204,14 +204,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		.then (str) ->
 			handler.compiler(str, path)
 		.then (code) ->
-			cache_pool[pathless] = code
+			cache_pool[path] = code
 		.catch (err) ->
-			if err.code == 'ENOENT'
+			if err.code == 'ENOENT' or err.code == 'EISDIR'
 				alt_path = handler.pathless + handler.ext_bin
 				kit.readFile alt_path, 'utf8'
 				.then (code) ->
 					path = alt_path
-					cache_pool[pathless] = code
+					cache_pool[path] = code
 				.catch (err) ->
 					throw err
 			else
@@ -220,7 +220,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					self.emit 'compile_error', path, err
 
-				cache_pool[pathless] = null
+				cache_pool[path] = null
 
 	get_cached = (handler) ->
 		path = null
@@ -230,13 +230,15 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		path = pathless + handler.ext_src
 		alt_path = pathless + handler.ext_bin
 
-		if cache_pool[pathless] != undefined
-			Q cache_pool[pathless]
+		if cache_pool[path] != undefined
+			Q cache_pool[path]
+		else if cache_pool[alt_path] != undefined
+			Q cache_pool[alt_path]
 		else
 			if opts.enable_watcher
 				Q.all([
-					kit.exists path
-					kit.exists alt_path
+					kit.is_file_exists path
+					kit.is_file_exists alt_path
 				]).then (rets) ->
 					if rets[1]
 						path = alt_path
@@ -249,7 +251,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						if curr.dev == 0
 							fs = kit.require 'fs'
 							self.emit 'file_deleted', path
-							delete cache_pool[pathless]
+							delete cache_pool[path]
 							fs.unwatchFile(path)
 							return
 
