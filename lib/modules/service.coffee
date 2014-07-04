@@ -10,7 +10,7 @@ http = require 'http'
  * 	enable_socketio: process.env.NODE_ENV == 'development'
  * 	express: {}
  * }```
- * @return {Service}
+ * @return {Service <- Express}
 ###
 service = (opts = {}) ->
 	_.defaults opts, service.defaults

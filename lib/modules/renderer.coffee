@@ -35,12 +35,13 @@ express = require 'express'
  * 		}
  * 	}
  * }```
- * @return {Renderer}
+ * @return {Renderer <- events.EventEmitter}
 ###
 renderer = (opts) -> new Renderer(opts)
 
 renderer.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
+	auto_log: true
 	code_handlers: {
 		'.html': {
 			default: true    # Whether it is a default handler, optional.
@@ -196,6 +197,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		for k, v of cache_pool
 			fs.unwatchFile(k)
 
+	emit = ->
+		self.emit.apply self, arguments
+
 	get_code = (handler) ->
 		pathless = handler.pathless
 		path = pathless + handler.ext_src
@@ -218,7 +222,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if self.listeners('compile_error').length == 0
 					kit.err '->\n' + err.toString().red
 				else
-					self.emit 'compile_error', path, err
+					emit 'compile_error', path, err
 
 				cache_pool[path] = null
 
@@ -245,18 +249,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else if not rets[0]
 						return
 
-					self.emit 'watch_file', path
+					emit 'watch_file', path
 					kit.watch_file path, (path, curr, prev) ->
 						# If moved or deleted
 						if curr.dev == 0
 							fs = kit.require 'fs'
-							self.emit 'file_deleted', path
+							emit 'file_deleted', path
 							delete cache_pool[path]
 							fs.unwatchFile(path)
 							return
 
 						if curr.mtime != prev.mtime
-							self.emit 'file_modified', path
+							emit 'file_modified', path
 							get_code(handler).done()
 
 			get_code(handler)
