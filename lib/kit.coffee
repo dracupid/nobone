@@ -471,6 +471,36 @@ _.extend kit, {
 						if err.code != 'EISDIR'
 							throw err
 
+	###*
+	 * Check if a file path exists.
+	 * @param  {string}  path
+	 * @return {Boolean}
+	###
+	is_file_exists: (path) ->
+		kit.exists path
+		.then (exists) ->
+			if exists
+				kit.stat(path)
+				.then (stats) ->
+					stats.isFile()
+			else
+				false
+
+	###*
+	 * Check if a directory path exists.
+	 * @param  {string}  path
+	 * @return {Boolean}
+	###
+	is_dir_exists: (path) ->
+		kit.exists path
+		.then (exists) ->
+			if exists
+				kit.stat(path)
+				.then (stats) ->
+					stats.isDirectory()
+			else
+				false
+
 }
 
 module.exports = kit
