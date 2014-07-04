@@ -829,9 +829,9 @@ you should follow some rules to use it safely.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>pattern</code>
+						<code>patterns</code>
 					
-					<em>{ string }</em>
+					<em>{ string | array }</em>
 				</b></p>
 				<p><p>Minimatch pattern.</p>
 </p>
@@ -845,7 +845,8 @@ you should follow some rules to use it safely.</p>
 					
 					<em>{ promise }</em>
 				</b></p>
-				<p></p>
+				<p><p>Contains the path list.</p>
+</p>
 			</li>
 
 			
@@ -858,12 +859,12 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L92">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L101">
 				
 				<b>spawn()</b>
 			</a>
 		</h4>
-		<p><p>Safe version of <code>child_process.spawn</code> a process on Windows or Linux.</p>
+		<p><p>Safe version of <code>child_process.spawn</code> to run a process on Windows or Linux.</p>
 </p>
 
 		<ul>
@@ -901,11 +902,11 @@ you should follow some rules to use it safely.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>options</code>
+						<code>opts</code>
 					
 					<em>{ object }</em>
 				</b></p>
-				<p><p>Process options.
+				<p><p>Process options. Same with the Node.js official doc.
 Default will inherit the parent&#39;s stdio.</p>
 </p>
 			</li>
@@ -932,7 +933,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L134">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L143">
 				
 				<b>monitor_app()</b>
 			</a>
@@ -947,7 +948,7 @@ Default will inherit the parent&#39;s stdio.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>options</code>
+						<code>opts</code>
 					
 					<em>{ object }</em>
 				</b></p>
@@ -984,7 +985,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L193">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L202">
 				
 				<b>watch_files</b>
 			</a>
@@ -1031,7 +1032,7 @@ Such as <code>[&#39;./* /**.js&#39;, &#39;*.css&#39;]</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L205">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L214">
 				
 				<b>env_mode()</b>
 			</a>
@@ -1077,7 +1078,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L219">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L228">
 				
 				<b>inspect()</b>
 			</a>
@@ -1136,7 +1137,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L236">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L245">
 				
 				<b>log</b>
 			</a>
@@ -1201,7 +1202,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L271">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L280">
 				
 				<b>err</b>
 			</a>
@@ -1246,7 +1247,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L280">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L289">
 				
 				<b>prompt_get()</b>
 			</a>
@@ -1292,7 +1293,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L301">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L310">
 				
 				<b>async_limit()</b>
 			</a>
@@ -1351,7 +1352,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L354">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L363">
 				
 				<b>parse_comment()</b>
 			</a>
@@ -1465,7 +1466,7 @@ Used to generate documentation automatically.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L439">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L448">
 				
 				<b>generate_bone()</b>
 			</a>
