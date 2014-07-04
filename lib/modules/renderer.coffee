@@ -3,7 +3,6 @@ Q = require 'q'
 kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
-module_dir = __dirname + '/../../node_modules/'
 
 ###*
  * A abstract renderer for any string resources, such as template, source code, etc.
@@ -55,7 +54,7 @@ renderer.defaults = {
 			 * @return {any} Promise or any thing that contains the compiled code.
 			###
 			compiler: (str, path) ->
-				ejs = kit.require module_dir +  'ejs'
+				ejs = kit.require 'ejs'
 				tpl = ejs.compile str, { filename: path }
 
 				(data = {}) ->
@@ -65,13 +64,13 @@ renderer.defaults = {
 		'.js': {
 			ext_src: '.coffee'
 			compiler: (str, path) ->
-				coffee = kit.require module_dir + 'coffee-script'
+				coffee = kit.require 'coffee-script'
 				coffee.compile(str, { bare: true })
 		}
 		'.css': {
 			ext_src: '.styl'
 			compiler: (str, path) ->
-				stylus = kit.require module_dir +  'stylus'
+				stylus = kit.require 'stylus'
 				stylus_render = Q.denodeify stylus.render
 				stylus_render(str, { filename: path })
 		}
@@ -79,7 +78,7 @@ renderer.defaults = {
 			ext_src: '.md'
 			type: 'html'
 			compiler: (str, path) ->
-				marked = kit.require module_dir + 'marked'
+				marked = kit.require 'marked'
 				marked str
 		}
 	}

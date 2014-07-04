@@ -43,26 +43,19 @@ _.extend kit, {
 	###*
 	 * Much much faster than the native require of node, but
 	 * you should follow some rules to use it safely.
-	 * @param  {string}   path Absolute path of the module.
+	 * @param  {string}   module_name Moudle path is not allowed!
 	 * @param  {Function} done Run only the first time after the module loaded.
 	 * @return {module} The module that you require.
 	###
-	require: (path, done) ->
-		if not kit.require_cache[path]
-			if path[0] != '/' and path[1] != ':'
-				throw new Error('Only absolute path is allowed: ' + path)
+	require: (module_name, done) ->
+		if not kit.require_cache[module_name]
+			if module_name[0] == '.'
+				throw new Error('Only module name is allowed: ' + module_name)
 
-			kit.require_cache[path] = require path
-			done? kit.require_cache[path]
+			kit.require_cache[module_name] = require module_name
+			done? kit.require_cache[module_name]
 
-		kit.require_cache[path]
-
-	_require: (path, done) ->
-		if not kit.require_cache[path]
-			kit.require_cache[path] = require path
-			done? kit.require_cache[path]
-
-		kit.require_cache[path]
+		kit.require_cache[module_name]
 
 	###*
 	 * Node native module
@@ -106,13 +99,13 @@ _.extend kit, {
 			if fs.existsSync cmd_ext
 				cmd = cmd_ext
 			else
-				which = kit._require 'which'
+				which = kit.require 'which'
 				cmd = which.sync(cmd)
 			cmd = kit.path.normalize cmd
 
 		deferred = Q.defer()
 
-		{ spawn } = kit._require 'child_process'
+		{ spawn } = kit.require 'child_process'
 		try
 			ps = spawn cmd, args, opts
 		catch err
@@ -227,7 +220,7 @@ _.extend kit, {
 	 * @return {string}
 	###
 	inspect: (obj, opts) ->
-		util = kit._require 'util'
+		util = kit.require 'util'
 
 		_.defaults opts, { colors: true, depth: 5 }
 
@@ -288,7 +281,7 @@ _.extend kit, {
 	 * @return {promise} Contains the results of prompt.
 	###
 	prompt_get: (opts) ->
-		prompt = kit._require 'prompt', (prompt) ->
+		prompt = kit.require 'prompt', (prompt) ->
 			prompt.message = '>> '
 			prompt.delimiter = ''
 
@@ -371,7 +364,7 @@ _.extend kit, {
 			tag_4_reg: /^([\w\.]+)\s+\{(.+?)\}\s+([\w\.]+)\s*([\s\S]*)/
 		}
 
-		marked = kit._require 'marked'
+		marked = kit.require 'marked'
 
 		parse_info = (block) ->
 			arr = block.split(opts.split_reg)
@@ -456,7 +449,7 @@ _.extend kit, {
 			pattern: '**'
 			dest_dir: null
 			compile: (str, data, path) ->
-				ejs = kit._require 'ejs'
+				ejs = kit.require 'ejs'
 				data.filename = path
 				ejs.render str, data
 		}
