@@ -93,9 +93,22 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	self = @
 
+	cache_pool = {}
+
+	###*
+	 * You can access all the code_handlers here.
+	 * Manipulate them at runtime.
+	 * @example
+	 * ```coffee
+	 * # We return js directly.
+	 * renderer.code_handlers['.js'].compiler = (str) -> str
+	 * ```
+	 * @type {object}
+	###
 	self.code_handlers = opts.code_handlers
 
-	cache_pool = {}
+	self.cache_pool = cache_pool
+
 
 	###*
 	 * Set a static directory.
