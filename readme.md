@@ -438,7 +438,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L113">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L107">
 				
 				<b>static()</b>
 			</a>
@@ -485,7 +485,7 @@ Static folder to automatically serve coffeescript and stylus.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L159">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L154">
 				
 				<b>render()</b>
 			</a>
@@ -532,7 +532,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L168">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L167">
 				
 				<b>auto_reload()</b>
 			</a>
@@ -565,7 +565,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L174">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L173">
 				
 				<b>close</b>
 			</a>
