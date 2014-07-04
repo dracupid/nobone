@@ -76,20 +76,31 @@ _.extend kit, {
 
 	###*
 	 * See the https://github.com/isaacs/node-glob
-	 * @param {string} pattern Minimatch pattern.
-	 * @return {promise}
+	 * @param {string | array} patterns Minimatch pattern.
+	 * @return {promise} Contains the path list.
 	###
-	glob: Q.denodeify glob
+	glob: (patterns, opts) ->
+		if _.isString patterns
+			patterns = [patterns]
+
+		Q.all patterns.map (p) ->
+			kit._glob p
+		.then (rets) ->
+			_.flatten rets
+
+	_glob: Q.denodeify glob
 
 	###*
-	 * Safe version of `child_process.spawn` a process on Windows or Linux.
+	 * Safe version of `child_process.spawn` to run a process on Windows or Linux.
 	 * @param  {string} cmd Path of an executable program.
 	 * @param  {array} args CLI arguments.
-	 * @param  {object} options Process options.
+	 * @param  {object} opts Process options. Same with the Node.js official doc.
 	 * Default will inherit the parent's stdio.
 	 * @return {promise} The `promise.process` is the child process object.
 	###
-	spawn: (cmd, args = [], options = {}) ->
+	spawn: (cmd, args = [], opts = {}) ->
+		_.defaults opts, { stdio: 'inherit' }
+
 		if process.platform == 'win32'
 			cmd_ext = cmd + '.cmd'
 			if fs.existsSync cmd_ext
@@ -100,8 +111,6 @@ _.extend kit, {
 			cmd = kit.path.normalize cmd
 
 		deferred = Q.defer()
-
-		opts = _.defaults options, { stdio: 'inherit' }
 
 		{ spawn } = kit._require 'child_process'
 		try
@@ -121,7 +130,7 @@ _.extend kit, {
 
 	###*
 	 * Monitor an application and automatically restart it when file changed.
-	 * @param  {object} options Defaults:
+	 * @param  {object} opts Defaults:
 	 * ```coffee
 	 * {
 	 * 	bin: 'node'
@@ -131,8 +140,8 @@ _.extend kit, {
 	 * }```
 	 * @return {process} The child process.
 	###
-	monitor_app: (options) ->
-		opts = _.defaults options, {
+	monitor_app: (opts) ->
+		_.defaults opts, {
 			bin: 'node'
 			args: ['app.js']
 			watch_list: ['app.js']
@@ -357,8 +366,8 @@ _.extend kit, {
 			split_reg: /^\s+\* @/m
 			tag_name_reg: /^([\w\.]+)\s*/
 			tag_2_reg: /^([\w\.]+)\s*([\s\S]*)/
-			tag_3_reg: /^([\w\.]+)\s+\{([\w\.]+)\}\s*([\s\S]*)/
-			tag_4_reg: /^([\w\.]+)\s+\{([\w\.]+)\}\s+([\w\.]+)\s*([\s\S]*)/
+			tag_3_reg: /^([\w\.]+)\s+\{(.+?)\}\s*([\s\S]*)/
+			tag_4_reg: /^([\w\.]+)\s+\{(.+?)\}\s+([\w\.]+)\s*([\s\S]*)/
 		}
 
 		marked = kit._require 'marked'
