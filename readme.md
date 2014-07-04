@@ -57,12 +57,6 @@ nb.kit.log 'Listen port ' + port
 # Static folder to automatically serve coffeescript and stylus.
 nb.service.use nb.renderer.static('bone/client')
 
-# Edit the 'bone/index.ejs' file, the page should auto reload.
-nb.renderer.on 'watch_file', (path) ->
-	nb.kit.log 'Watch: '.cyan + path
-nb.renderer.on 'file_modified', (path) ->
-	nb.kit.log 'Modifed: '.cyan + path
-
 # Database
 # Nobone has a build-in file database.
 # For more info see: https://github.com/ysmood/jdb
@@ -189,7 +183,7 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L13">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L14">
 				
 				<b>proxy()</b>
 			</a>
@@ -200,6 +194,18 @@ Most time used with SwitchySharp.</p>
 </p>
 
 		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>extends</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>{http-proxy.ProxyServer}</p>
+</p>
+			</li>
+
 			
 
 			<li>
@@ -236,7 +242,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L25">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L26">
 				
 				<b>url</b>
 			</a>
@@ -304,7 +310,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L40">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L42">
 				
 				<b>renderer()</b>
 			</a>
@@ -320,6 +326,18 @@ Even for huge project its memory usage is negligible.</p>
 
 			<li>
 				<p><b>
+					<u>extends</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>{events.EventEmitter}</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>param</u>:
 					
 						<code>opts</code>
@@ -329,6 +347,7 @@ Even for huge project its memory usage is negligible.</p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
     enable_watcher: process.env.NODE_ENV == &#39;development&#39;
+    auto_log: process.env.NODE_ENV == &#39;development&#39;
     code_handlers: {
         &#39;.html&#39;: {
             default: true
@@ -376,7 +395,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L56">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L59">
 				
 				<b>compiler()</b>
 			</a>
@@ -436,7 +455,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L108">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L111">
 				
 				<b>code_handlers</b>
 			</a>
@@ -481,7 +500,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L114">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L117">
 				
 				<b>cache_pool</b>
 			</a>
@@ -512,7 +531,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L123">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L126">
 				
 				<b>static()</b>
 			</a>
@@ -559,7 +578,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L175">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L178">
 				
 				<b>render()</b>
 			</a>
@@ -605,7 +624,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L188">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L191">
 				
 				<b>auto_reload()</b>
 			</a>
@@ -637,7 +656,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L194">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L197">
 				
 				<b>close</b>
 			</a>
@@ -646,6 +665,224 @@ You can use the socket.io event to custom you own.</p>
 </p>
 
 		<ul>
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L209">
+				
+				<b>e.compile_error</b>
+			</a>
+		</h4>
+		<p></p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>compile_error</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ string }</em>
+				</b></p>
+				<p><p>The error file.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>err</code>
+					
+					<em>{ Error }</em>
+				</b></p>
+				<p><p>The error info.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L217">
+				
+				<b>e.watch_file</b>
+			</a>
+		</h4>
+		<p></p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>watch_file</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ string }</em>
+				</b></p>
+				<p><p>The path of the file.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>curr</code>
+					
+					<em>{ fs.Stats }</em>
+				</b></p>
+				<p><p>Current state.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>prev</code>
+					
+					<em>{ fs.Stats }</em>
+				</b></p>
+				<p><p>Previous state.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L223">
+				
+				<b>e.file_deleted</b>
+			</a>
+		</h4>
+		<p></p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>file_deleted</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ string }</em>
+				</b></p>
+				<p><p>The path of the file.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L229">
+				
+				<b>e.file_modified</b>
+			</a>
+		</h4>
+		<p></p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>file_modified</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ string }</em>
+				</b></p>
+				<p><p>The path of the file.</p>
+</p>
+			</li>
+
 			
 		</ul>
 	</li>
@@ -665,7 +902,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L15">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L16">
 				
 				<b>service()</b>
 			</a>
@@ -674,6 +911,18 @@ You can use the socket.io event to custom you own.</p>
 </p>
 
 		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>extends</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>{Express}</p>
+</p>
+			</li>
+
 			
 
 			<li>
