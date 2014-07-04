@@ -363,7 +363,7 @@ Even for huge project its memory usage is negligible.</p>
             ext_src: &#39;.styl&#39;
             compiler: (str, path) -&gt; ...
         }
-        &#39;.mdx&#39;: {
+        &#39;.md&#39;: {
             ext_src: &#39;.md&#39;
             type: &#39;html&#39;
             compiler: (str, path) -&gt; ...

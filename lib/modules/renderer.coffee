@@ -30,7 +30,7 @@ express = require 'express'
  * 			ext_src: '.styl'
  * 			compiler: (str, path) -> ...
  * 		}
- * 		'.mdx': {
+ * 		'.md': {
  * 			ext_src: '.md'
  * 			type: 'html'
  * 			compiler: (str, path) -> ...
@@ -77,7 +77,7 @@ renderer.defaults = {
 				stylus_render = Q.denodeify stylus.render
 				stylus_render(str, { filename: path })
 		}
-		'.mdx': {
+		'.md': {
 			ext_src: '.md'
 			type: 'html'
 			compiler: (str, path) ->
