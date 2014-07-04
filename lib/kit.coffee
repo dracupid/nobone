@@ -213,8 +213,9 @@ _.extend kit, {
 	###
 	env_mode: (mode) ->
 		{
-			env: _.extend(
-				process.env, { NODE_ENV: mode }
+			env: _.defaults(
+				{ NODE_ENV: mode }
+				process.env
 			)
 		}
 
