@@ -7,7 +7,7 @@ port = 8013
 # All modules use default options to init.
 # If you want don't init a specific module,
 # for example 'db' and 'service' module, just exclude it:
-#	nb.init {
+#	nobone {
 #		renderer: {}
 #	}
 # By default it load two module: service, renderer
