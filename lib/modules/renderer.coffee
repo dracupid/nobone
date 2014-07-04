@@ -107,8 +107,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.code_handlers = opts.code_handlers
 
+	###*
+	 * The cache pool of the result of `code_handlers.compiler`
+	 * @type {object} Key is the file path.
+	###
 	self.cache_pool = cache_pool
-
 
 	###*
 	 * Set a static directory.
