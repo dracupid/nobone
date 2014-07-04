@@ -148,7 +148,7 @@ NoBone has four main modules, they are all optional.
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
@@ -165,7 +165,7 @@ NoBone has four main modules, they are all optional.
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ jdb }</em>
+					<em>{ Jdb }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -208,7 +208,7 @@ Most time used with SwitchySharp.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults: <code>{}</code></p>
 </p>
@@ -220,7 +220,7 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ proxy }</em>
+					<em>{ Proxy }</em>
 				</b></p>
 				<p><p>For more, see <a href="https://github.com/nodejitsu/node-http-proxy">https://github.com/nodejitsu/node-http-proxy</a></p>
 </p>
@@ -279,7 +279,7 @@ Most time used with SwitchySharp.</p>
 					
 						<code>url</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>The target url</p>
 </p>
@@ -324,7 +324,7 @@ Even for huge project its memory usage is negligible.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
@@ -361,7 +361,7 @@ Even for huge project its memory usage is negligible.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ renderer }</em>
+					<em>{ Renderer }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -394,7 +394,7 @@ It should return a promise object. Only handles string.</p>
 					
 						<code>str</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>Source code.</p>
 </p>
@@ -408,7 +408,7 @@ It should return a promise object. Only handles string.</p>
 					
 						<code>path</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>For debug info.</p>
 </p>
@@ -420,7 +420,7 @@ It should return a promise object. Only handles string.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ any }</em>
+					<em>{ Any }</em>
 				</b></p>
 				<p><p>Promise or any thing that contains the compiled code.</p>
 </p>
@@ -466,7 +466,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 				<p><b>
 					<u>type</u>:
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -496,7 +496,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 				<p><b>
 					<u>type</u>:
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Key is the file path.</p>
 </p>
@@ -530,7 +530,7 @@ Static folder to automatically serve coffeescript and stylus.</p>
 					
 						<code>opts</code>
 					
-					<em>{ string | object }</em>
+					<em>{ String | Object }</em>
 				</b></p>
 				<p><p>If it&#39;s a string it represents the root_dir
 of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
@@ -543,7 +543,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ middleware }</em>
+					<em>{ Middleware }</em>
 				</b></p>
 				<p><p>Experss.js middleware.</p>
 </p>
@@ -577,7 +577,7 @@ choose the right compiler to handle the code.</p>
 					
 						<code>path</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>The file path</p>
 </p>
@@ -589,7 +589,7 @@ choose the right compiler to handle the code.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
 				</b></p>
 				<p><p>Contains the compiled code.</p>
 </p>
@@ -621,7 +621,7 @@ You can use the socket.io event to custom you own.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>Returns html.</p>
 </p>
@@ -682,7 +682,7 @@ You can use the socket.io event to custom you own.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
@@ -699,7 +699,7 @@ You can use the socket.io event to custom you own.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ service }</em>
+					<em>{ Service }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -740,7 +740,7 @@ Most time I use it to handle files and system staffs.</p>
 				<p><b>
 					<u>type</u>:
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -811,7 +811,7 @@ you should follow some rules to use it safely.</p>
 					
 						<code>module_name</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>Moudle path is not allowed!</p>
 </p>
@@ -837,7 +837,7 @@ you should follow some rules to use it safely.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ module }</em>
+					<em>{ Module }</em>
 				</b></p>
 				<p><p>The module that you require.</p>
 </p>
@@ -908,7 +908,7 @@ you should follow some rules to use it safely.</p>
 					
 						<code>patterns</code>
 					
-					<em>{ string | array }</em>
+					<em>{ String | Array }</em>
 				</b></p>
 				<p><p>Minimatch pattern.</p>
 </p>
@@ -920,7 +920,7 @@ you should follow some rules to use it safely.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
 				</b></p>
 				<p><p>Contains the path list.</p>
 </p>
@@ -953,7 +953,7 @@ you should follow some rules to use it safely.</p>
 					
 						<code>cmd</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>Path of an executable program.</p>
 </p>
@@ -967,7 +967,7 @@ you should follow some rules to use it safely.</p>
 					
 						<code>args</code>
 					
-					<em>{ array }</em>
+					<em>{ Array }</em>
 				</b></p>
 				<p><p>CLI arguments.</p>
 </p>
@@ -981,7 +981,7 @@ you should follow some rules to use it safely.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Process options. Same with the Node.js official doc.
 Default will inherit the parent&#39;s stdio.</p>
@@ -994,7 +994,7 @@ Default will inherit the parent&#39;s stdio.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
 				</b></p>
 				<p><p>The <code>promise.process</code> is the child process object.</p>
 </p>
@@ -1027,7 +1027,7 @@ Default will inherit the parent&#39;s stdio.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
@@ -1046,7 +1046,7 @@ Default will inherit the parent&#39;s stdio.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ process }</em>
+					<em>{ Process }</em>
 				</b></p>
 				<p><p>The child process.</p>
 </p>
@@ -1079,7 +1079,7 @@ Default will inherit the parent&#39;s stdio.</p>
 					
 						<code>patterns</code>
 					
-					<em>{ array }</em>
+					<em>{ Array }</em>
 				</b></p>
 				<p><p>String array with minimatch syntax.
 Such as <code>[&#39;./* /**.js&#39;, &#39;*.css&#39;]</code></p>
@@ -1094,7 +1094,7 @@ Such as <code>[&#39;./* /**.js&#39;, &#39;*.css&#39;]</code></p>
 					
 						<code>handler</code>
 					
-					<em>{ function }</em>
+					<em>{ Function }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -1127,7 +1127,7 @@ and keep the current env variables.</p>
 					
 						<code>mode</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>&#39;development&#39;, &#39;production&#39;, etc.</p>
 </p>
@@ -1139,7 +1139,7 @@ and keep the current env variables.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p><code>process.env</code> object.</p>
 </p>
@@ -1172,7 +1172,7 @@ and keep the current env variables.</p>
 					
 						<code>obj</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Your target object.</p>
 </p>
@@ -1186,7 +1186,7 @@ and keep the current env variables.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Options. Default:
 { colors: true, depth: 5 }</p>
@@ -1199,7 +1199,7 @@ and keep the current env variables.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -1235,7 +1235,7 @@ stack trace.</p>
 					
 						<code>msg</code>
 					
-					<em>{ any }</em>
+					<em>{ Any }</em>
 				</b></p>
 				<p><p>Your log message.</p>
 </p>
@@ -1249,7 +1249,7 @@ stack trace.</p>
 					
 						<code>action</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>&#39;log&#39;, &#39;error&#39;, &#39;warn&#39;.</p>
 </p>
@@ -1263,7 +1263,7 @@ stack trace.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Default is same with <code>kit.inspect</code></p>
 </p>
@@ -1296,7 +1296,7 @@ stack trace.</p>
 					
 						<code>msg</code>
 					
-					<em>{ any }</em>
+					<em>{ Any }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -1309,7 +1309,7 @@ stack trace.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -1342,7 +1342,7 @@ user interaction.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>See the <a href="https://github.com/flatiron/prompt">https://github.com/flatiron/prompt</a></p>
 </p>
@@ -1354,7 +1354,7 @@ user interaction.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
 				</b></p>
 				<p><p>Contains the results of prompt.</p>
 </p>
@@ -1388,7 +1388,7 @@ a concurrent limitation.</p>
 					
 						<code>list</code>
 					
-					<em>{ array }</em>
+					<em>{ Array }</em>
 				</b></p>
 				<p><p>A list of functions. Each will return a promise.</p>
 </p>
@@ -1402,7 +1402,7 @@ a concurrent limitation.</p>
 					
 						<code>limit</code>
 					
-					<em>{ int }</em>
+					<em>{ Int }</em>
 				</b></p>
 				<p><p>The max task to run at the same time.</p>
 </p>
@@ -1414,7 +1414,7 @@ a concurrent limitation.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -1447,7 +1447,7 @@ Used to generate documentation automatically.</p>
 					
 						<code>module_name</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>The name of the module it belongs to.</p>
 </p>
@@ -1461,7 +1461,7 @@ Used to generate documentation automatically.</p>
 					
 						<code>code</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>Coffee source code.</p>
 </p>
@@ -1475,7 +1475,7 @@ Used to generate documentation automatically.</p>
 					
 						<code>sting</code>
 					
-					<em>{ path }</em>
+					<em>{ Path }</em>
 				</b></p>
 				<p><p>The path of the source code.</p>
 </p>
@@ -1489,7 +1489,7 @@ Used to generate documentation automatically.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Parser options:</p>
 <pre><code class="lang-coffee">{
@@ -1510,7 +1510,7 @@ Used to generate documentation automatically.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ array }</em>
+					<em>{ Array }</em>
 				</b></p>
 				<p><p>The parsed comments. Each item is something like:</p>
 <pre><code class="lang-coffee">{
@@ -1561,7 +1561,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
@@ -1582,7 +1582,93 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L479">
+				
+				<b>is_file_exists()</b>
+			</a>
+		</h4>
+		<p><p>Check if a file path exists.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Boolean }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L494">
+				
+				<b>is_dir_exists()</b>
+			</a>
+		</h4>
+		<p><p>Check if a directory path exists.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Boolean }</em>
 				</b></p>
 				<p></p>
 			</li>

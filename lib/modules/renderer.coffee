@@ -9,7 +9,7 @@ express = require 'express'
  * It automatically uses high performance memory cache.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project its memory usage is negligible.
- * @param {object} opts Defaults:
+ * @param {Object} opts Defaults:
  * ```coffee
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
@@ -35,7 +35,7 @@ express = require 'express'
  * 		}
  * 	}
  * }```
- * @return {renderer}
+ * @return {Renderer}
 ###
 renderer = (opts) -> new Renderer(opts)
 
@@ -49,9 +49,9 @@ renderer.defaults = {
 			###*
 			 * The compiler should fulfil two interface.
 			 * It should return a promise object. Only handles string.
-			 * @param  {string} str Source code.
-			 * @param  {string} path For debug info.
-			 * @return {any} Promise or any thing that contains the compiled code.
+			 * @param  {String} str Source code.
+			 * @param  {String} path For debug info.
+			 * @return {Any} Promise or any thing that contains the compiled code.
 			###
 			compiler: (str, path) ->
 				ejs = kit.require 'ejs'
@@ -103,22 +103,22 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * # We return js directly.
 	 * renderer.code_handlers['.js'].compiler = (str) -> str
 	 * ```
-	 * @type {object}
+	 * @type {Object}
 	###
 	self.code_handlers = opts.code_handlers
 
 	###*
 	 * The cache pool of the result of `code_handlers.compiler`
-	 * @type {object} Key is the file path.
+	 * @type {Object} Key is the file path.
 	###
 	self.cache_pool = cache_pool
 
 	###*
 	 * Set a static directory.
 	 * Static folder to automatically serve coffeescript and stylus.
-	 * @param  {string | object} opts If it's a string it represents the root_dir
+	 * @param  {String | Object} opts If it's a string it represents the root_dir
 	 * of this static directory. Defaults: `{ root_dir: '.' }`
-	 * @return {middleware} Experss.js middleware.
+	 * @return {Middleware} Experss.js middleware.
 	###
 	self.static = (opts = {}) ->
 		if _.isString opts
@@ -169,8 +169,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * Render a file. It will auto detect the file extension and
 	 * choose the right compiler to handle the code.
-	 * @param  {string} path The file path
-	 * @return {promise} Contains the compiled code.
+	 * @param  {String} path The file path
+	 * @return {Promise} Contains the compiled code.
 	###
 	self.render = (path) ->
 		handler = get_handler path, true
@@ -183,7 +183,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * The browser javascript to support the auto page reload.
 	 * You can use the socket.io event to custom you own.
-	 * @return {string} Returns html.
+	 * @return {String} Returns html.
 	###
 	self.auto_reload = ->
 		Renderer.auto_reload

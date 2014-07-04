@@ -8,7 +8,7 @@ glob = require 'glob'
  * The `kit` lib of NoBone will load by default and is not optional.
  * All the async functions in `kit` return promise object.
  * Most time I use it to handle files and system staffs.
- * @type {object}
+ * @type {Object}
 ###
 kit = {}
 
@@ -43,9 +43,9 @@ _.extend kit, {
 	###*
 	 * Much much faster than the native require of node, but
 	 * you should follow some rules to use it safely.
-	 * @param  {string}   module_name Moudle path is not allowed!
+	 * @param  {String}   module_name Moudle path is not allowed!
 	 * @param  {Function} done Run only the first time after the module loaded.
-	 * @return {module} The module that you require.
+	 * @return {Module} The module that you require.
 	###
 	require: (module_name, done) ->
 		if not kit.require_cache[module_name]
@@ -69,8 +69,8 @@ _.extend kit, {
 
 	###*
 	 * See the https://github.com/isaacs/node-glob
-	 * @param {string | array} patterns Minimatch pattern.
-	 * @return {promise} Contains the path list.
+	 * @param {String | Array} patterns Minimatch pattern.
+	 * @return {Promise} Contains the path list.
 	###
 	glob: (patterns, opts) ->
 		if _.isString patterns
@@ -85,11 +85,11 @@ _.extend kit, {
 
 	###*
 	 * Safe version of `child_process.spawn` to run a process on Windows or Linux.
-	 * @param  {string} cmd Path of an executable program.
-	 * @param  {array} args CLI arguments.
-	 * @param  {object} opts Process options. Same with the Node.js official doc.
+	 * @param  {String} cmd Path of an executable program.
+	 * @param  {Array} args CLI arguments.
+	 * @param  {Object} opts Process options. Same with the Node.js official doc.
 	 * Default will inherit the parent's stdio.
-	 * @return {promise} The `promise.process` is the child process object.
+	 * @return {Promise} The `promise.process` is the child process object.
 	###
 	spawn: (cmd, args = [], opts = {}) ->
 		_.defaults opts, { stdio: 'inherit' }
@@ -123,7 +123,7 @@ _.extend kit, {
 
 	###*
 	 * Monitor an application and automatically restart it when file changed.
-	 * @param  {object} opts Defaults:
+	 * @param  {Object} opts Defaults:
 	 * ```coffee
 	 * {
 	 * 	bin: 'node'
@@ -131,7 +131,7 @@ _.extend kit, {
 	 * 	watch_list: ['app.js']
 	 * 	mode: 'development'
 	 * }```
-	 * @return {process} The child process.
+	 * @return {Process} The child process.
 	###
 	monitor_app: (opts) ->
 		_.defaults opts, {
@@ -188,9 +188,9 @@ _.extend kit, {
 
 	###*
 	 * Watch files, when file changes, the handler will be invoked.
-	 * @param  {array} patterns String array with minimatch syntax.
+	 * @param  {Array} patterns String array with minimatch syntax.
 	 * Such as `['./* /**.js', '*.css']`
-	 * @param  {function} handler
+	 * @param  {Function} handler
 	###
 	watch_files: (patterns, handler) ->
 		patterns.forEach (pattern) ->
@@ -201,8 +201,8 @@ _.extend kit, {
 	###*
 	 * A shortcut to set process option with specific mode,
 	 * and keep the current env variables.
-	 * @param  {string} mode 'development', 'production', etc.
-	 * @return {object} `process.env` object.
+	 * @param  {String} mode 'development', 'production', etc.
+	 * @return {Object} `process.env` object.
 	###
 	env_mode: (mode) ->
 		{
@@ -214,10 +214,10 @@ _.extend kit, {
 
 	###*
 	 * For debugging use. Dump a colorful object.
-	 * @param  {object} obj Your target object.
-	 * @param  {object} opts Options. Default:
+	 * @param  {Object} obj Your target object.
+	 * @param  {Object} opts Options. Default:
 	 * { colors: true, depth: 5 }
-	 * @return {string}
+	 * @return {String}
 	###
 	inspect: (obj, opts) ->
 		util = kit.require 'util'
@@ -232,9 +232,9 @@ _.extend kit, {
 	 * filter the log info.
 	 * You can use `log_trace='on' node app.js` to force each log end with a
 	 * stack trace.
-	 * @param  {any} msg Your log message.
-	 * @param  {string} action 'log', 'error', 'warn'.
-	 * @param  {object} opts Default is same with `kit.inspect`
+	 * @param  {Any} msg Your log message.
+	 * @param  {String} action 'log', 'error', 'warn'.
+	 * @param  {Object} opts Default is same with `kit.inspect`
 	###
 	log: (msg, action = 'log', opts = {}) ->
 		if not kit.last_log_time
@@ -268,8 +268,8 @@ _.extend kit, {
 
 	###*
 	 * A log error shortcut for `kit.log`
-	 * @param  {any} msg
-	 * @param  {object} opts
+	 * @param  {Any} msg
+	 * @param  {Object} opts
 	###
 	err: (msg, opts = {}) ->
 		kit.log msg, 'error', opts
@@ -277,8 +277,8 @@ _.extend kit, {
 	###*
 	 * Block terminal and wait for user inputs. Useful when you need
 	 * user interaction.
-	 * @param  {object} opts See the https://github.com/flatiron/prompt
-	 * @return {promise} Contains the results of prompt.
+	 * @param  {Object} opts See the https://github.com/flatiron/prompt
+	 * @return {Promise} Contains the results of prompt.
 	###
 	prompt_get: (opts) ->
 		prompt = kit.require 'prompt', (prompt) ->
@@ -297,9 +297,9 @@ _.extend kit, {
 	###*
 	 * An throttle version of `Q.all`, it runs all the tasks under
 	 * a concurrent limitation.
-	 * @param  {array} list A list of functions. Each will return a promise.
-	 * @param  {int} limit The max task to run at the same time.
-	 * @return {promise}
+	 * @param  {Array} list A list of functions. Each will return a promise.
+	 * @param  {Int} limit The max task to run at the same time.
+	 * @return {Promise}
 	###
 	async_limit: (list, limit) ->
 		from = 0
@@ -322,10 +322,10 @@ _.extend kit, {
 	###*
 	 * A comments parser for coffee-script.
 	 * Used to generate documentation automatically.
-	 * @param  {string} module_name The name of the module it belongs to.
-	 * @param  {string} code Coffee source code.
-	 * @param  {path} sting The path of the source code.
-	 * @param  {object} opts Parser options:
+	 * @param  {String} module_name The name of the module it belongs to.
+	 * @param  {String} code Coffee source code.
+	 * @param  {Path} sting The path of the source code.
+	 * @param  {Object} opts Parser options:
 	 * ```coffee
 	 * {
 	 * 	reg: RegExp
@@ -335,7 +335,7 @@ _.extend kit, {
 	 * 	tag_3_reg: RegExp
 	 * 	tag_4_reg: RegExp
 	 * }```
-	 * @return {array} The parsed comments. Each item is something like:
+	 * @return {Array} The parsed comments. Each item is something like:
 	 * ```coffee
 	 * {
 	 * 	module: 'nobone'
@@ -427,7 +427,7 @@ _.extend kit, {
 	###*
 	 * A scaffolding helper to generate template project.
 	 * The `lib/cli.coffee` used it as an example.
-	 * @param  {object} opts Defaults:
+	 * @param  {Object} opts Defaults:
 	 * ```coffee
 	 * {
 	 * 	prompt: null
@@ -437,7 +437,7 @@ _.extend kit, {
 	 * 	compile: (str, data, path) ->
 	 * 		compile str
 	 * }```
-	 * @return {promise}
+	 * @return {Promise}
 	###
 	generate_bone: (opts) ->
 		###
@@ -473,7 +473,7 @@ _.extend kit, {
 
 	###*
 	 * Check if a file path exists.
-	 * @param  {string}  path
+	 * @param  {String}  path
 	 * @return {Boolean}
 	###
 	is_file_exists: (path) ->
@@ -488,7 +488,7 @@ _.extend kit, {
 
 	###*
 	 * Check if a directory path exists.
-	 * @param  {string}  path
+	 * @param  {String}  path
 	 * @return {Boolean}
 	###
 	is_dir_exists: (path) ->

@@ -7,8 +7,8 @@ http = require 'http'
  * For test, page injection development.
  * A cross platform Fiddler alternative.
  * Most time used with SwitchySharp.
- * @param  {object} opts Defaults: `{}`
- * @return {proxy} For more, see https://github.com/nodejitsu/node-http-proxy
+ * @param  {Object} opts Defaults: `{}`
+ * @return {Proxy} For more, see https://github.com/nodejitsu/node-http-proxy
 ###
 proxy = (opts = {}) ->
 	_.defaults opts, proxy.defaults
@@ -20,7 +20,7 @@ proxy = (opts = {}) ->
 		 * Use it to proxy one url to another.
 		 * @param  {http.IncomingMessage} req
 		 * @param  {http.ServerResponse} res
-		 * @param  {string} url The target url
+		 * @param  {String} url The target url
 		###
 		url: (req, res, url) ->
 			if typeof url == 'string'

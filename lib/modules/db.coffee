@@ -2,13 +2,13 @@ _ = require 'lodash'
 
 ###*
  * See my JDB project: https://github.com/ysmood/jdb
- * @param  {object} opts Defaults:
+ * @param  {Object} opts Defaults:
  * ```coffee
  * {
  * 	promise: true
  * 	db_path: './nobone.db'
  * }```
- * @return {jdb}
+ * @return {Jdb}
 ###
 db = (opts = {}) ->
 	_.defaults opts, db.defaults
