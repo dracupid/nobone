@@ -36,7 +36,7 @@ get = (path, port) ->
 
 describe 'Basic:', ->
 
-	nb.service.use nb.renderer.static({ root_dir: 'bone/client' })
+	nb.service.use nb.renderer.static('bone/client')
 
 	port = 8022
 	server = nb.service.listen port

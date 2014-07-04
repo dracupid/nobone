@@ -13,10 +13,8 @@ assets_dir = __dirname + '/../assets'
 marked_ejs =  __dirname + '/../assets/marked.ejs'
 nobone_readme = __dirname + '/../readme.md'
 
-service.use renderer.static({ root_dir })
-service.use renderer.static({
-	root_dir: __dirname + '/../assets'
-})
+service.use renderer.static(root_dir)
+service.use renderer.static(__dirname + '/../assets')
 kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
 
 # Markdown support

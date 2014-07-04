@@ -116,49 +116,55 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * Set a static directory.
 	 * Static folder to automatically serve coffeescript and stylus.
-	 * @param  {object} opts Defaults: `{ root_dir: '.' }`
+	 * @param  {string | object} opts If it's a string it represents the root_dir
+	 * of this static directory. Defaults: `{ root_dir: '.' }`
 	 * @return {middleware} Experss.js middleware.
 	###
 	self.static = (opts = {}) ->
-		_.defaults opts, {
-			root_dir: '.'
-		}
+		if _.isString opts
+			opts = { root_dir: opts }
+		else
+			_.defaults opts, {
+				root_dir: '.'
+			}
 
 		static_handler = express.static opts.root_dir
 
 		return (req, res, next) ->
 			path = kit.path.join opts.root_dir, req.path
 
-			# Try to send the bin file first.
-			static_handler req, res, ->
-				handler = get_handler path
-				if handler
-					get_cached(handler)
-					.then (code) ->
-						if code == null or code == undefined
-							res.send 500, 'compile_error'
-							return
+			rnext = -> static_handler req, res, next
 
-						switch typeof code
-							when 'string'
-								res.type handler.type or handler.ext_bin
-								res.send code
+			handler = get_handler path
+			if handler
+				get_cached(handler)
+				.then (code) ->
+					if code == null
+						return res.send 500, 'compile_error'
 
-							when 'function'
-								res.type handler.type or 'html'
-								res.send code()
+					if code == undefined
+						return rnext()
 
-							else
-								throw new Error('unknown_code_type')
+					res.type handler.type or handler.ext_bin
 
-					.catch (err) ->
-						if err.code == 'ENOENT'
-							next()
+					switch typeof code
+						when 'string'
+							res.send code
+
+						when 'function'
+							res.send code()
+
 						else
-							throw err
-					.done()
-				else
-					next()
+							throw new Error('unknown_code_type')
+
+				.catch (err) ->
+					if err.code == 'ENOENT'
+						rnext()
+					else
+						throw err
+				.done()
+			else
+				rnext()
 
 	###*
 	 * Render a file. It will auto detect the file extension and
@@ -186,44 +192,67 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Release the resources.
 	###
 	self.close = ->
-		fs = require 'fs'
+		fs = kit.require 'fs'
 		for k, v of cache_pool
 			fs.unwatchFile(k)
 
 	get_code = (handler) ->
-		path = handler.pathless + handler.ext_src
+		pathless = handler.pathless
+		path = pathless + handler.ext_src
 
-		kit.readFile(path, 'utf8')
+		kit.readFile path, 'utf8'
 		.then (str) ->
 			handler.compiler(str, path)
 		.then (code) ->
-			cache_pool[path] = code
+			cache_pool[pathless] = code
 		.catch (err) ->
 			if err.code == 'ENOENT'
-				throw err
-
-			if self.listeners('compile_error').length == 0
-				kit.err '->\n' + err.toString().red
+				alt_path = handler.pathless + handler.ext_bin
+				kit.readFile alt_path, 'utf8'
+				.then (code) ->
+					path = alt_path
+					cache_pool[pathless] = code
+				.catch (err) ->
+					throw err
 			else
-				self.emit 'compile_error', path, err
+				if self.listeners('compile_error').length == 0
+					kit.err '->\n' + err.toString().red
+				else
+					self.emit 'compile_error', path, err
 
-			cache_pool[path] = null
+				cache_pool[pathless] = null
 
 	get_cached = (handler) ->
 		path = null
 		handler.compiler ?= (str) -> str
 
-		path = handler.pathless + handler.ext_src
+		pathless = handler.pathless
+		path = pathless + handler.ext_src
+		alt_path = pathless + handler.ext_bin
 
-		if cache_pool[path] != undefined
-			Q cache_pool[path]
+		if cache_pool[pathless] != undefined
+			Q cache_pool[pathless]
 		else
 			if opts.enable_watcher
-				kit.exists(path).then (exists) ->
-					return if not exists
+				Q.all([
+					kit.exists path
+					kit.exists alt_path
+				]).then (rets) ->
+					if rets[1]
+						path = alt_path
+					else if not rets[0]
+						return
 
 					self.emit 'watch_file', path
 					kit.watch_file path, (path, curr, prev) ->
+						# If moved or deleted
+						if curr.dev == 0
+							fs = kit.require 'fs'
+							self.emit 'file_deleted', path
+							delete cache_pool[pathless]
+							fs.unwatchFile(path)
+							return
+
 						if curr.mtime != prev.mtime
 							self.emit 'file_modified', path
 							get_code(handler).done()

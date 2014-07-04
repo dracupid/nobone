@@ -38,7 +38,7 @@ s = nb.service.listen port
 nb.kit.log 'Listen port ' + port
 
 # Static folder to automatically serve coffeescript and stylus.
-nb.service.use nb.renderer.static({ root_dir: 'bone/client' })
+nb.service.use nb.renderer.static('bone/client')
 
 # Edit the 'bone/index.ejs' file, the page should auto reload.
 nb.renderer.on 'watch_file', (path) ->
