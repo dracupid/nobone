@@ -1,3 +1,9 @@
+* v0.1.4
+
+  * Fixed some minor renderer bugs.
+  * Fixed a `kit.require` fatal bug.
+  * Add two file system functions to `kit`.
+
 * v0.1.3
 
   * Change API `nobone.create()` to `nobone()`.
