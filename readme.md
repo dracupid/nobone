@@ -220,11 +220,10 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>For more, see https://github.com/nodejitsu/node-http-proxy</code>
-					
 					<em>{ proxy }</em>
 				</b></p>
-				<p></p>
+				<p><p>For more, see <a href="https://github.com/nodejitsu/node-http-proxy">https://github.com/nodejitsu/node-http-proxy</a></p>
+</p>
 			</li>
 
 			
@@ -421,11 +420,10 @@ It should return a promise object. Only handles string.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>Promise or any thing that contains the compiled code.</code>
-					
 					<em>{ any }</em>
 				</b></p>
-				<p></p>
+				<p><p>Promise or any thing that contains the compiled code.</p>
+</p>
 			</li>
 
 			
@@ -468,11 +466,10 @@ Static folder to automatically serve coffeescript and stylus.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>Experss.js middleware.</code>
-					
 					<em>{ middleware }</em>
 				</b></p>
-				<p></p>
+				<p><p>Experss.js middleware.</p>
+</p>
 			</li>
 
 			
@@ -515,11 +512,10 @@ choose the right compiler to handle the code.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>Contains the compiled code.</code>
-					
 					<em>{ promise }</em>
 				</b></p>
-				<p></p>
+				<p><p>Contains the compiled code.</p>
+</p>
 			</li>
 
 			
@@ -548,11 +544,10 @@ You can use the socket.io event to custom you own.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>Returns html.</code>
-					
 					<em>{ string }</em>
 				</b></p>
-				<p></p>
+				<p><p>Returns html.</p>
+</p>
 			</li>
 
 			
@@ -703,12 +698,12 @@ return a promise object.</p>
 				<p><b>
 					<u>example</u>:
 					
-					<em>{ ```coffee
-kit.readFile('a.coffee').done (code) ->
-	kit.log code
-``` }</em>
+					<em>{  }</em>
 				</b></p>
-				<p></p>
+				<p><pre><code class="lang-coffee">kit.readFile(&#39;a.coffee&#39;).done (code) -&gt;
+    kit.log code
+</code></pre>
+</p>
 			</li>
 
 			
@@ -765,11 +760,10 @@ you should follow some rules to use it safely.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>The module that you require.</code>
-					
 					<em>{ module }</em>
 				</b></p>
-				<p></p>
+				<p><p>The module that you require.</p>
+</p>
 			</li>
 
 			
@@ -922,11 +916,10 @@ Default will inherit the parent&#39;s stdio.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>The `promise.process` is the child process object.</code>
-					
 					<em>{ promise }</em>
 				</b></p>
-				<p></p>
+				<p><p>The <code>promise.process</code> is the child process object.</p>
+</p>
 			</li>
 
 			
@@ -975,11 +968,10 @@ Default will inherit the parent&#39;s stdio.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>The child process.</code>
-					
 					<em>{ process }</em>
 				</b></p>
-				<p></p>
+				<p><p>The child process.</p>
+</p>
 			</li>
 
 			
@@ -1069,11 +1061,10 @@ and keep the current env variables.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>`process.env` object.</code>
-					
 					<em>{ object }</em>
 				</b></p>
-				<p></p>
+				<p><p><code>process.env</code> object.</p>
+</p>
 			</li>
 
 			
@@ -1285,11 +1276,10 @@ user interaction.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>Contains the results of prompt.</code>
-					
 					<em>{ promise }</em>
 				</b></p>
-				<p></p>
+				<p><p>Contains the results of prompt.</p>
+</p>
 			</li>
 
 			
@@ -1442,28 +1432,27 @@ Used to generate documentation automatically.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>The parsed comments. Each item is something like:
-```coffee
-{
-	module: 'nobone'
-	name: 'parse_comment'
-	description: A comments parser for coffee-script.
-	tags: [
-		{
-			tag: 'param'
-			type: 'string'
-			name: 'module_name'
-			description: 'The name of the module it belongs to.'
-			path: 'http://the_path_of_source_code'
-			index: 256 # The target char index in the file.
-			line: 29 # The line number of the target in the file.
-		}
-	]
-}```</code>
-					
 					<em>{ array }</em>
 				</b></p>
-				<p></p>
+				<p><p>The parsed comments. Each item is something like:</p>
+<pre><code class="lang-coffee">{
+    module: &#39;nobone&#39;
+    name: &#39;parse_comment&#39;
+    description: A comments parser for coffee-script.
+    tags: [
+        {
+            tag: &#39;param&#39;
+            type: &#39;string&#39;
+            name: &#39;module_name&#39;
+            description: &#39;The name of the module it belongs to.&#39;
+            path: &#39;http://the_path_of_source_code&#39;
+            index: 256 # The target char index in the file.
+            line: 29 # The line number of the target in the file.
+        }
+    ]
+}
+</code></pre>
+</p>
 			</li>
 
 			
@@ -1476,7 +1465,7 @@ Used to generate documentation automatically.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L432">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L439">
 				
 				<b>generate_bone()</b>
 			</a>
@@ -1575,11 +1564,10 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>A nobone instance.</code>
-					
 					<em>{ object }</em>
 				</b></p>
-				<p></p>
+				<p><p>A nobone instance.</p>
+</p>
 			</li>
 
 			
@@ -1651,11 +1639,10 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
-						<code>A promise object which will produce the defaults.</code>
-					
 					<em>{ promise }</em>
 				</b></p>
-				<p></p>
+				<p><p>A promise object which will produce the defaults.</p>
+</p>
 			</li>
 
 			
