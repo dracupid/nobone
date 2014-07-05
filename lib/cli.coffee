@@ -43,9 +43,9 @@ cmder
 			dest_dir
 			pattern: opts.pattern or '**'
 			compile: (str, data, path) ->
-				ejs = kit._require 'ejs'
+				ejs = kit.require 'ejs'
 				data.filename = path
-				data.auto_reload = renderer.auto_reload()
+				data.body = renderer.auto_reload()
 				ejs.render str, data
 		})
 		.catch (err) ->
