@@ -193,10 +193,10 @@ _.extend kit, {
 	 * @param  {Function} handler
 	###
 	watch_files: (patterns, handler) ->
-		patterns.forEach (pattern) ->
-			kit.glob(pattern).then (paths) ->
-				paths.forEach (path) ->
-					kit.watch_file path, handler
+		kit.glob(patterns).then (paths) ->
+			paths.forEach (path) ->
+				kit.watch_file path, handler
+			paths
 
 	###*
 	 * A shortcut to set process option with specific mode,
