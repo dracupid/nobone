@@ -32,7 +32,7 @@ express = require 'express'
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.css': {
- * 			ext_src: '.styl'
+ * 			ext_src: ['.styl', '.less']
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.md': {
@@ -76,11 +76,15 @@ renderer.defaults = {
 				coffee.compile(str, { bare: true })
 		}
 		'.css': {
-			ext_src: ['.styl']
+			ext_src: ['.styl', '.less']
 			compiler: (str, path, ext_src) ->
-				stylus = kit.require 'stylus'
-				stylus_render = Q.denodeify stylus.render
-				stylus_render(str, { filename: path })
+				if ext_src == '.styl'
+					stylus = kit.require 'stylus'
+					Q.ninvoke stylus, 'render', str, { filename: path }
+				else
+					parser = new kit.require('less').Parser({ filename: path })
+					Q.ninvoke(parser, 'parse', str)
+					.then (tree) -> tree.toCSS()
 		}
 		'.md': {
 			ext_src: '.md'
@@ -145,7 +149,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 			handler = get_handler path
 			if handler
-				get_cached(handler)
+				get_code(handler)
 				.then (code) ->
 					if code == null
 						return res.send 500, self.e.compile_error
@@ -158,10 +162,17 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						when 'function'
 							res.send code()
 						else
-							throw new Error('unknown_code_type')
-
-				.catch ->
-					rnext()
+							err = new Error(
+								'The compiler should produce a string or function: '.red +
+								path.cyan
+							)
+							err.name = 'unknown_type'
+							throw err
+				.catch (err) ->
+					if err.name == 'file_not_exists'
+						rnext()
+					else
+						throw err
 				.done()
 			else
 				rnext()
@@ -176,7 +187,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		handler = get_handler path, true
 
 		if handler
-			get_cached handler
+			get_code handler
 		else
 			throw new Error('No matched code handler for:' + path)
 
@@ -235,23 +246,26 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, arguments
 
-	get_code = (handler) ->
+	compile = (handler) ->
 		Q.all handler.paths.map(kit.is_file_exists)
 		.then (rets) ->
-			path = handler.paths[rets.indexOf(true)]
+			ext_index = rets.indexOf(true)
+			path = handler.paths[ext_index]
 			if path
 				kit.readFile path, 'utf8'
 				.then (str) ->
-					handler.compiler(str, path)
+					handler.compiler(str, path, handler.ext_src[ext_index])
 				.then (code) ->
 					cache_pool[path] = code
 				.catch (err) ->
 					emit self.e.compile_error, path, err
 					cache_pool[path] = null
 			else
-				throw new Error('File not exists: ' + handler.pathless)
+				err = new Error('File not exists: ' + handler.pathless)
+				err.name = 'file_not_exists'
+				throw err
 
-	get_cached = (handler) ->
+	get_code = (handler) ->
 		handler.compiler ?= (str) -> str
 
 		cache = _.find cache_pool, (v, k) ->
@@ -278,9 +292,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 					if curr.mtime != prev.mtime
 						emit self.e.file_modified, path
-						get_code(handler).done()
+						compile(handler).done()
 
-		get_code(handler)
+		compile(handler)
 
 	get_handler = (path, is_direct = false) ->
 		ext_bin = kit.path.extname path
