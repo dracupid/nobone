@@ -127,7 +127,7 @@ NoBone has four main modules, they are all optional.
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L13">
 				
-				<b>db()</b>
+				<b>db</b>
 			</a>
 		</h4>
 		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
@@ -185,7 +185,7 @@ NoBone has four main modules, they are all optional.
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L14">
 				
-				<b>proxy()</b>
+				<b>proxy</b>
 			</a>
 		</h4>
 		<p><p>For test, page injection development.
@@ -200,10 +200,9 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>extends</u>:
 					
-					<em>{  }</em>
+					<em>{ http-proxy.ProxyServer }</em>
 				</b></p>
-				<p><p>{http-proxy.ProxyServer}</p>
-</p>
+				<p></p>
 			</li>
 
 			
@@ -312,7 +311,7 @@ Most time used with SwitchySharp.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L42">
 				
-				<b>renderer()</b>
+				<b>renderer</b>
 			</a>
 		</h4>
 		<p><p>A abstract renderer for any string resources, such as template, source code, etc.
@@ -328,10 +327,9 @@ Even for huge project its memory usage is negligible.</p>
 				<p><b>
 					<u>extends</u>:
 					
-					<em>{  }</em>
+					<em>{ events.EventEmitter }</em>
 				</b></p>
-				<p><p>{events.EventEmitter}</p>
-</p>
+				<p></p>
 			</li>
 
 			
@@ -397,7 +395,7 @@ Even for huge project its memory usage is negligible.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L59">
 				
-				<b>compiler()</b>
+				<b>compiler</b>
 			</a>
 		</h4>
 		<p><p>The compiler should fulfil two interface.
@@ -533,7 +531,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L126">
 				
-				<b>static()</b>
+				<b>static</b>
 			</a>
 		</h4>
 		<p><p>Set a static directory.
@@ -580,7 +578,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L178">
 				
-				<b>render()</b>
+				<b>render</b>
 			</a>
 		</h4>
 		<p><p>Render a file. It will auto detect the file extension and
@@ -626,7 +624,7 @@ choose the right compiler to handle the code.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L191">
 				
-				<b>auto_reload()</b>
+				<b>auto_reload</b>
 			</a>
 		</h4>
 		<p><p>The browser javascript to support the auto page reload.
@@ -904,7 +902,7 @@ You can use the socket.io event to custom you own.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L16">
 				
-				<b>service()</b>
+				<b>service</b>
 			</a>
 		</h4>
 		<p><p>It is just a Express.js wrap with build in Socket.io (optional).</p>
@@ -917,10 +915,9 @@ You can use the socket.io event to custom you own.</p>
 				<p><b>
 					<u>extends</u>:
 					
-					<em>{  }</em>
+					<em>{ Express }</em>
 				</b></p>
-				<p><p>{Express}</p>
-</p>
+				<p></p>
 			</li>
 
 			
@@ -1044,7 +1041,7 @@ return a promise object.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L50">
 				
-				<b>require()</b>
+				<b>require</b>
 			</a>
 		</h4>
 		<p><p>Much much faster than the native require of node, but
@@ -1142,7 +1139,7 @@ you should follow some rules to use it safely.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L75">
 				
-				<b>glob()</b>
+				<b>glob</b>
 			</a>
 		</h4>
 		<p><p>See the <a href="https://github.com/isaacs/node-glob">https://github.com/isaacs/node-glob</a></p>
@@ -1187,7 +1184,7 @@ you should follow some rules to use it safely.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L94">
 				
-				<b>spawn()</b>
+				<b>spawn</b>
 			</a>
 		</h4>
 		<p><p>Safe version of <code>child_process.spawn</code> to run a process on Windows or Linux.</p>
@@ -1261,7 +1258,7 @@ Default will inherit the parent&#39;s stdio.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L136">
 				
-				<b>monitor_app()</b>
+				<b>monitor_app</b>
 			</a>
 		</h4>
 		<p><p>Monitor an application and automatically restart it when file changed.</p>
@@ -1360,7 +1357,7 @@ Such as <code>[&#39;./* /**.js&#39;, &#39;*.css&#39;]</code></p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L207">
 				
-				<b>env_mode()</b>
+				<b>env_mode</b>
 			</a>
 		</h4>
 		<p><p>A shortcut to set process option with specific mode,
@@ -1406,7 +1403,7 @@ and keep the current env variables.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L222">
 				
-				<b>inspect()</b>
+				<b>inspect</b>
 			</a>
 		</h4>
 		<p><p>For debugging use. Dump a colorful object.</p>
@@ -1575,7 +1572,7 @@ stack trace.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L283">
 				
-				<b>prompt_get()</b>
+				<b>prompt_get</b>
 			</a>
 		</h4>
 		<p><p>Block terminal and wait for user inputs. Useful when you need
@@ -1621,7 +1618,7 @@ user interaction.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L304">
 				
-				<b>async_limit()</b>
+				<b>async_limit</b>
 			</a>
 		</h4>
 		<p><p>An throttle version of <code>Q.all</code>, it runs all the tasks under
@@ -1680,11 +1677,11 @@ a concurrent limitation.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L357">
 				
-				<b>parse_comment()</b>
+				<b>parse_comment</b>
 			</a>
 		</h4>
-		<p><p>A comments parser for coffee-script.
-Used to generate documentation automatically.</p>
+		<p><p>A comments parser for coffee-script. Used to generate documentation automatically.
+It will traverse through all the comments.</p>
 </p>
 
 		<ul>
@@ -1722,9 +1719,9 @@ Used to generate documentation automatically.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>sting</code>
+						<code>path</code>
 					
-					<em>{ Path }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>The path of the source code.</p>
 </p>
@@ -1742,12 +1739,12 @@ Used to generate documentation automatically.</p>
 				</b></p>
 				<p><p>Parser options:</p>
 <pre><code class="lang-coffee">{
-    reg: RegExp
+    comment_reg: RegExp
     split_reg: RegExp
     tag_name_reg: RegExp
-    tag_2_reg: RegExp
-    tag_3_reg: RegExp
-    tag_4_reg: RegExp
+    type_reg: RegExp
+    name_reg: RegExp
+    description_reg: RegExp
 }
 </code></pre>
 </p>
@@ -1765,16 +1762,16 @@ Used to generate documentation automatically.</p>
 <pre><code class="lang-coffee">{
     module: &#39;nobone&#39;
     name: &#39;parse_comment&#39;
-    description: A comments parser for coffee-script.
+    description: &#39;A comments parser for coffee-script.&#39;
     tags: [
         {
-            tag: &#39;param&#39;
+            tag_name: &#39;param&#39;
             type: &#39;string&#39;
-            name: &#39;module_name&#39;
+            name: &#39;code&#39;
             description: &#39;The name of the module it belongs to.&#39;
             path: &#39;http://the_path_of_source_code&#39;
             index: 256 # The target char index in the file.
-            line: 29 # The line number of the target in the file.
+            line: 32 # The line number of the target in the file.
         }
     ]
 }
@@ -1792,9 +1789,9 @@ Used to generate documentation automatically.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L442">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L440">
 				
-				<b>generate_bone()</b>
+				<b>generate_bone</b>
 			</a>
 		</h4>
 		<p><p>A scaffolding helper to generate template project.
@@ -1846,9 +1843,9 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L479">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L477">
 				
-				<b>is_file_exists()</b>
+				<b>is_file_exists</b>
 			</a>
 		</h4>
 		<p><p>Check if a file path exists.</p>
@@ -1889,9 +1886,9 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L494">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L492">
 				
-				<b>is_dir_exists()</b>
+				<b>is_dir_exists</b>
 			</a>
 		</h4>
 		<p><p>Check if a directory path exists.</p>
@@ -1943,7 +1940,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L18">
 				
-				<b>nobone()</b>
+				<b>nobone</b>
 			</a>
 		</h4>
 		<p><p>Main constructor.</p>
@@ -1995,7 +1992,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L42">
 				
-				<b>nb.close()</b>
+				<b>nb.close</b>
 			</a>
 		</h4>
 		<p><p>Release the resources.</p>
@@ -2025,7 +2022,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L63">
 				
-				<b>module_defaults()</b>
+				<b>module_defaults</b>
 			</a>
 		</h4>
 		<p><p>Help you to get the default options of moduels.</p>

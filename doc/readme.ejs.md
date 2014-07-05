@@ -76,7 +76,7 @@ NoBone has four main modules, they are all optional.
 
 			<li>
 				<p><b>
-					<u><%- tag.tag %></u>:
+					<u><%- tag.tag_name %></u>:
 					<% if (tag.name) { %>
 						<code><%- tag.name %></code>
 					<% } %>
