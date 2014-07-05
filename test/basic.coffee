@@ -99,6 +99,16 @@ describe 'Basic:', ->
 				assert.equal d, 1
 				tdone()
 
+	it 'the kit.parse_comment should work', (tdone) ->
+		path = 'lib/nobone.coffee'
+		nb.kit.readFile path, 'utf8'
+		.done (str) ->
+			comments = nb.kit.parse_comment 'nobone', str, path
+			assert.equal comments[0].path, path
+			assert.equal comments[0].tags[0].type, 'Object'
+			assert.equal comments[0].tags[0].name, 'opts'
+			tdone()
+
 	it 'the custom code_handler should work', (tdone) ->
 		{ renderer: rr } = nobone()
 
