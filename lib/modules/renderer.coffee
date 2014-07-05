@@ -255,9 +255,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			ext_index = rets.indexOf(true)
 			path = handler.paths[ext_index]
 			if path
+				ext = handler.ext_src[ext_index]
 				kit.readFile path, 'utf8'
 				.then (str) ->
-					handler.compiler(str, path, handler.ext_src[ext_index])
+					if ext == handler.ext_bin
+						str
+					else
+						handler.compiler(str, path, ext)
 				.then (code) ->
 					cache_pool[path] = code
 				.catch (err) ->
@@ -294,13 +298,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler = self.code_handlers[ext_bin]
 
 		if handler
-			handler = _.clone(handler)
+			handler = _.cloneDeep(handler)
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
 			handler.pathless = kit.path.join(
 				kit.path.dirname(path)
 				kit.path.basename(path, ext_bin)
 			)
+			handler.ext_src.push handler.ext_bin
 			handler.paths = handler.ext_src.map (el) ->
 				handler.pathless + el
 
