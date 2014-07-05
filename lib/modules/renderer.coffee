@@ -76,8 +76,8 @@ renderer.defaults = {
 				coffee.compile(str, { bare: true })
 		}
 		'.css': {
-			ext_src: '.styl'
-			compiler: (str, path) ->
+			ext_src: ['.styl']
+			compiler: (str, path, ext_src) ->
 				stylus = kit.require 'stylus'
 				stylus_render = Q.denodeify stylus.render
 				stylus_render(str, { filename: path })
@@ -150,26 +150,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					if code == null
 						return res.send 500, self.e.compile_error
 
-					if code == undefined
-						return rnext()
-
 					res.type handler.type or handler.ext_bin
 
 					switch typeof code
 						when 'string'
 							res.send code
-
 						when 'function'
 							res.send code()
-
 						else
 							throw new Error('unknown_code_type')
 
-				.catch (err) ->
-					if err.code == 'ENOENT' or err.code == 'EISDIR'
-						rnext()
-					else
-						throw err
+				.catch ->
+					rnext()
 				.done()
 			else
 				rnext()
@@ -244,76 +236,58 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		self.emit.apply self, arguments
 
 	get_code = (handler) ->
-		pathless = handler.pathless
-		path = pathless + handler.ext_src
-
-		kit.readFile path, 'utf8'
-		.then (str) ->
-			handler.compiler(str, path)
-		.then (code) ->
-			cache_pool[path] = code
-		.catch (err) ->
-			if err.code == 'ENOENT' or err.code == 'EISDIR'
-				alt_path = handler.pathless + handler.ext_bin
-				kit.readFile alt_path, 'utf8'
+		Q.all handler.paths.map(kit.is_file_exists)
+		.then (rets) ->
+			path = handler.paths[rets.indexOf(true)]
+			if path
+				kit.readFile path, 'utf8'
+				.then (str) ->
+					handler.compiler(str, path)
 				.then (code) ->
-					path = alt_path
 					cache_pool[path] = code
 				.catch (err) ->
-					throw err
+					emit self.e.compile_error, path, err
+					cache_pool[path] = null
 			else
-				if self.listeners(self.e.compile_error).length == 0 and
-				not opts.auto_log
-					kit.err '->\n' + err.toString().red
-
-				emit self.e.compile_error, path, err
-
-				cache_pool[path] = null
+				throw new Error('File not exists: ' + handler.pathless)
 
 	get_cached = (handler) ->
-		path = null
 		handler.compiler ?= (str) -> str
 
-		pathless = handler.pathless
-		path = pathless + handler.ext_src
-		alt_path = pathless + handler.ext_bin
+		cache = _.find cache_pool, (v, k) ->
+			handler.paths.indexOf(k) > -1
 
-		if cache_pool[path] != undefined
-			Q cache_pool[path]
-		else if cache_pool[alt_path] != undefined
-			Q cache_pool[alt_path]
-		else
-			if opts.enable_watcher
-				Q.all([
-					kit.is_file_exists path
-					kit.is_file_exists alt_path
-				]).then (rets) ->
-					if rets[1]
-						path = alt_path
-					else if not rets[0]
+		if cache
+			return Q(cache)
+
+		if opts.enable_watcher
+			Q.all handler.paths.map(kit.is_file_exists)
+			.then (rets) ->
+				path = handler.paths[rets.indexOf(true)]
+				return if not path
+
+				emit self.e.watch_file, path
+				kit.watch_file path, (path, curr, prev) ->
+					# If moved or deleted
+					if curr.dev == 0
+						fs = kit.require 'fs'
+						emit self.e.file_deleted, path
+						delete cache_pool[path]
+						fs.unwatchFile(path)
 						return
 
-					emit self.e.watch_file, path
-					kit.watch_file path, (path, curr, prev) ->
-						# If moved or deleted
-						if curr.dev == 0
-							fs = kit.require 'fs'
-							emit self.e.file_deleted, path
-							delete cache_pool[path]
-							fs.unwatchFile(path)
-							return
+					if curr.mtime != prev.mtime
+						emit self.e.file_modified, path
+						get_code(handler).done()
 
-						if curr.mtime != prev.mtime
-							emit self.e.file_modified, path
-							get_code(handler).done()
-
-			get_code(handler)
+		get_code(handler)
 
 	get_handler = (path, is_direct = false) ->
 		ext_bin = kit.path.extname path
 
 		if is_direct
-			handler = _.find self.code_handlers, (el) -> el.ext_src == ext_bin
+			handler = _.find self.code_handlers, (el) ->
+				el.ext_src == ext_bin or el.ext_src.indexOf(ext_bin) > -1
 		else if ext_bin == ''
 			handler = _.find self.code_handlers, (el) -> el.default
 		else
@@ -321,14 +295,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler = _.clone(handler)
+			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
 			handler.pathless = kit.path.join(
 				kit.path.dirname(path)
 				kit.path.basename(path, ext_bin)
 			)
-			handler
-		else
-			null
+			handler.paths = handler.ext_src.map (el) ->
+				handler.pathless + el
+
+		handler
 
 	Renderer.auto_reload = '''
 		<!-- Auto reload page helper. -->
