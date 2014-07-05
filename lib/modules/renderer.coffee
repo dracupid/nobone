@@ -305,7 +305,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				kit.path.dirname(path)
 				kit.path.basename(path, ext_bin)
 			)
-			handler.ext_src.push handler.ext_bin
+			if is_direct
+				handler.ext_bin = ''
+			else
+				handler.ext_src.push handler.ext_bin
 			handler.paths = handler.ext_src.map (el) ->
 				handler.pathless + el
 
