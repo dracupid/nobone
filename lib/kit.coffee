@@ -324,90 +324,87 @@ _.extend kit, {
 	 * It will traverse through all the comments.
 	 * @param  {String} module_name The name of the module it belongs to.
 	 * @param  {String} code Coffee source code.
-	 * @param  {Path} sting The path of the source code.
+	 * @param  {String} path The path of the source code.
 	 * @param  {Object} opts Parser options:
 	 * ```coffee
 	 * {
-	 * 	reg: RegExp
+	 * 	comment_reg: RegExp
 	 * 	split_reg: RegExp
 	 * 	tag_name_reg: RegExp
-	 * 	tag_2_reg: RegExp
-	 * 	tag_3_reg: RegExp
-	 * 	tag_4_reg: RegExp
+	 * 	type_reg: RegExp
+	 * 	name_reg: RegExp
+	 * 	description_reg: RegExp
 	 * }```
 	 * @return {Array} The parsed comments. Each item is something like:
 	 * ```coffee
 	 * {
 	 * 	module: 'nobone'
 	 * 	name: 'parse_comment'
-	 * 	description: A comments parser for coffee-script.
+	 * 	description: 'A comments parser for coffee-script.'
 	 * 	tags: [
 	 * 		{
-	 * 			tag: 'param'
+	 * 			tag_name: 'param'
 	 * 			type: 'string'
-	 * 			name: 'module_name'
+	 * 			name: 'code'
 	 * 			description: 'The name of the module it belongs to.'
 	 * 			path: 'http://the_path_of_source_code'
 	 * 			index: 256 # The target char index in the file.
-	 * 			line: 29 # The line number of the target in the file.
+	 * 			line: 32 # The line number of the target in the file.
 	 * 		}
 	 * 	]
 	 * }```
 	###
 	parse_comment: (module_name, code, path = '', opts = {}) ->
 		_.defaults opts, {
-			reg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
+			comment_reg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
 			split_reg: /^\s+\* @/m
 			tag_name_reg: /^([\w\.]+)\s*/
-			tag_2_reg: /^([\w\.]+)\s*([\s\S]*)/
-			tag_3_reg: /^([\w\.]+)\s+\{(.+?)\}\s*([\s\S]*)/
-			tag_4_reg: /^([\w\.]+)\s+\{(.+?)\}\s+([\w\.]+)\s*([\s\S]*)/
+			type_reg: /^\{(.+?)\}\s*/
+			name_reg: /^(\w+)\s*/
+			description_reg: /^([\s\S]*)/
 		}
 
 		marked = kit.require 'marked'
 
 		parse_info = (block) ->
-			arr = block.split(opts.split_reg)
-			.map (el) ->
-				# Clean the prefix '*'
+			# Clean the prefix '*'
+			arr = block.split(opts.split_reg).map (el) ->
 				el.replace(/^[ \t]+\*[ \t]?/mg, '').trim()
-			.map (el) ->
-				# Auto create <code> tag.
-				el.replace opts.code_reg, (m, c) ->
-					"<code>#{c}</code>"
 
-			description = marked(arr[0] or '')
-			tags = arr[1..].map (el) ->
-				tag = el.match(opts.tag_name_reg)[1]
+			{
+				description: marked(arr[0] or '')
+				tags: arr[1..].map (el) ->
+					parse_tag = (reg) ->
+						m = el.match reg
+						if m and m[1]
+							el = el[m[0].length..]
+							m[1]
+						else
+							null
 
-				switch tag
-					when 'param'
-						m = el.match opts.tag_4_reg
-						{
-							tag: m[1]
-							type: m[2]
-							name: m[3]
-							description: marked(m[4] or '')
-						}
-					when 'return', 'type'
-						m = el.match opts.tag_3_reg
-						{
-							tag: m[1]
-							type: m[2]
-							description: marked m[3]
-						}
+					tag = {}
+
+					tag.tag_name = parse_tag opts.tag_name_reg
+
+					type = parse_tag opts.type_reg
+					if type
+						tag.type = type
+						if tag.tag_name == 'param'
+							tag.name = parse_tag opts.name_reg
+						tag.description = marked(
+							parse_tag(opts.description_reg) or ''
+						)
 					else
-						m = el.match opts.tag_2_reg
-						{
-							tag: m[1]
-							description: marked m[2]
-						}
+						tag.description = marked(
+							parse_tag(opts.description_reg) or ''
+						)
 
-			{ description, tags }
+					tag
+			}
 
 		comments = []
 		m = null
-		while (m = opts.reg.exec(code)) != null
+		while (m = opts.comment_reg.exec(code)) != null
 			info = parse_info m[1]
 			comments.push {
 				module: module_name
@@ -415,8 +412,9 @@ _.extend kit, {
 				description: info.description
 				tags: info.tags
 				path
-				index: opts.reg.lastIndex
-				line: _.reduce(code[...opts.reg.lastIndex], (count, char) ->
+				index: opts.comment_reg.lastIndex
+				line: _.reduce(code[...opts.comment_reg.lastIndex]
+				, (count, char) ->
 					count++ if char == '\n'
 					count
 				, 1)

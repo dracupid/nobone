@@ -3,6 +3,6 @@ nobone = require '../lib/nobone'
 { kit } = nobone()
 
 
-kit.readFile 'lib/kit.coffee'
-.then (code) ->
+kit.readFile 'lib/nobone.coffee'
+.done (code) ->
 	kit.log kit.parse_comment('nobone', code)
