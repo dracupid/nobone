@@ -9,6 +9,8 @@ nb.service.get '/', (req, res) ->
 			body: nb.renderer.auto_reload()
 		})
 
+nb.service.use nb.renderer.static('client')
+
 port = 8013
 nb.service.listen port
 nb.kit.log 'Listen port ' + port
