@@ -37,7 +37,7 @@ express = require 'express'
  * 			}
  * 			compiler: (str, path) -> ...
  * 		}
- * 		'.mdx': {
+ * 		'.md': {
  * 			ext_src: '.md'
  * 			type: 'html' # Force type, optional.
  * 			compiler: (str, path) -> ...
@@ -87,7 +87,7 @@ renderer.defaults = {
 					Q.ninvoke(parser, 'parse', str)
 					.then (tree) -> tree.toCSS()
 		}
-		'.mdx': {
+		'.md': {
 			ext_src: '.md'
 			type: 'html' # Force type, optional.
 			compiler: (str, path) ->
@@ -256,6 +256,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				ext = handler.ext_src[ext_index]
 				kit.readFile path, 'utf8'
 				.then (str) ->
+					if handler.type and handler.type != ext
+						return handler.compiler(str, path, ext)
+
 					if ext == handler.ext_bin
 						str
 					else
