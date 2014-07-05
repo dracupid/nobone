@@ -24,7 +24,6 @@ express = require 'express'
  * 		'.html': {
  * 			default: true
  * 			ext_src: '.ejs'
- * 			type: 'html'
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.js': {
@@ -38,9 +37,9 @@ express = require 'express'
  * 			}
  * 			compiler: (str, path) -> ...
  * 		}
- * 		'.md': {
+ * 		'.mdx': {
  * 			ext_src: '.md'
- * 			type: 'html'
+ * 			type: 'html' # Force type, optional.
  * 			compiler: (str, path) -> ...
  * 		}
  * 	}
@@ -56,7 +55,6 @@ renderer.defaults = {
 		'.html': {
 			default: true    # Whether it is a default handler, optional.
 			ext_src: '.ejs'
-			type: 'html'	 # Force type, optional.
 			###*
 			 * The compiler should fulfil two interface.
 			 * It should return a promise object. Only handles string.
@@ -89,9 +87,9 @@ renderer.defaults = {
 					Q.ninvoke(parser, 'parse', str)
 					.then (tree) -> tree.toCSS()
 		}
-		'.md': {
+		'.mdx': {
 			ext_src: '.md'
-			type: 'html'
+			type: 'html' # Force type, optional.
 			compiler: (str, path) ->
 				marked = kit.require 'marked'
 				marked str
