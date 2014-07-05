@@ -25,7 +25,7 @@ nobone.module_defaults().done (list) ->
 # Server
 nb.service.get '/', (req, res) ->
 	# Renderer
-	# You can also render coffee, stylus, markdown, or define custom handlers.
+	# You can also render coffee, stylus, less, markdown, or define custom handlers.
 	nb.renderer.render('bone/index.ejs')
 	.done (tpl_func) ->
 		res.send tpl_func({ body: nb.renderer.auto_reload() })

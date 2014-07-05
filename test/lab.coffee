@@ -1,8 +1,9 @@
+process.env.NODE_ENV = 'development'
+
 nobone = require '../lib/nobone'
 
-{ kit } = nobone()
+{ kit, renderer: rr, service: srv } = nobone()
 
+srv.use rr.static('bone/client')
 
-kit.readFile 'lib/nobone.coffee'
-.done (code) ->
-	kit.log kit.parse_comment('nobone', code)
+srv.listen 8013
