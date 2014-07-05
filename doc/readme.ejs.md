@@ -28,6 +28,7 @@ Install nobone globally: `npm install -g nobone`
 nobone -h
 
 # Use it as a static file server for current directory.
+# Visit 'http://127.0.0.1/nobone' to see a better nobone documentation.
 nobone
 
 # Use regex to filter the log info.

@@ -95,6 +95,7 @@ Install nobone globally: `npm install -g nobone`
 nobone -h
 
 # Use it as a static file server for current directory.
+# Visit 'http://127.0.0.1/nobone' to see a better nobone documentation.
 nobone
 
 # Use regex to filter the log info.
@@ -1328,7 +1329,7 @@ Default will inherit the parent&#39;s stdio.</p>
 					<em>{ Array }</em>
 				</b></p>
 				<p><p>String array with minimatch syntax.
-Such as <code>[&#39;./* /**.js&#39;, &#39;*.css&#39;]</code></p>
+Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 </p>
 			</li>
 
@@ -1460,15 +1461,15 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L239">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L241">
 				
 				<b>log</b>
 			</a>
 		</h4>
-		<p><p>A better log for debugging, it uses the <code>kit.inspect</code> to log.
-You can use terminal command like <code>log_reg=&#39;pattern&#39; node app.js</code> to
-filter the log info.
-You can use <code>log_trace=&#39;on&#39; node app.js</code> to force each log end with a
+		<p><p>A better log for debugging, it uses the <code>kit.inspect</code> to log.</p>
+<p>You can use terminal command like <code>log_reg=&#39;pattern&#39; node app.js</code> to
+filter the log info.</p>
+<p>You can use <code>log_trace=&#39;on&#39; node app.js</code> to force each log end with a
 stack trace.</p>
 </p>
 
@@ -1525,7 +1526,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L274">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L276">
 				
 				<b>err</b>
 			</a>
@@ -1570,7 +1571,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L283">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L285">
 				
 				<b>prompt_get</b>
 			</a>
@@ -1616,7 +1617,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L304">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L306">
 				
 				<b>async_limit</b>
 			</a>
@@ -1675,7 +1676,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L357">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L359">
 				
 				<b>parse_comment</b>
 			</a>
@@ -1789,7 +1790,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L440">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L442">
 				
 				<b>generate_bone</b>
 			</a>
@@ -1843,7 +1844,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L477">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L479">
 				
 				<b>is_file_exists</b>
 			</a>
@@ -1886,7 +1887,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L492">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L494">
 				
 				<b>is_dir_exists</b>
 			</a>

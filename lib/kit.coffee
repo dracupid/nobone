@@ -189,7 +189,7 @@ _.extend kit, {
 	###*
 	 * Watch files, when file changes, the handler will be invoked.
 	 * @param  {Array} patterns String array with minimatch syntax.
-	 * Such as `['./* /**.js', '*.css']`
+	 * Such as `['\*.css', 'lib/\*\*.js']`.
 	 * @param  {Function} handler
 	###
 	watch_files: (patterns, handler) ->
@@ -228,8 +228,10 @@ _.extend kit, {
 
 	###*
 	 * A better log for debugging, it uses the `kit.inspect` to log.
+	 *
 	 * You can use terminal command like `log_reg='pattern' node app.js` to
 	 * filter the log info.
+	 *
 	 * You can use `log_trace='on' node app.js` to force each log end with a
 	 * stack trace.
 	 * @param  {Any} msg Your log message.
