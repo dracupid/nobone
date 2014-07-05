@@ -33,6 +33,7 @@ express = require 'express'
  * 		}
  * 		'.css': {
  * 			ext_src: ['.styl', '.less']
+ * 			watch_list: [pattern1, ...] # Extra files to watch.
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.md': {
@@ -281,7 +282,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				return if not path
 
 				emit self.e.watch_file, path
-				kit.watch_file path, (path, curr, prev) ->
+				watcher = (path, curr, prev) ->
 					# If moved or deleted
 					if curr.dev == 0
 						fs = kit.require 'fs'
@@ -293,6 +294,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					if curr.mtime != prev.mtime
 						emit self.e.file_modified, path
 						compile(handler).done()
+
+				kit.watch_file path, watcher
+				if handler.watch_list
+					kit.watch_files handler.watch_list, watcher
+					.done (paths) ->
+						emit self.e.watch_file, paths.join(', ')
 
 		compile(handler)
 
