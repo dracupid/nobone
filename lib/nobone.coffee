@@ -5,7 +5,7 @@ Q = require 'q'
 
 ###*
  * Main constructor.
- * @param  {object} opts Defaults:
+ * @param  {Object} opts Defaults:
  * ```coffee
  * {
  * 	db: null
@@ -13,7 +13,7 @@ Q = require 'q'
  * 	service: {}
  * 	renderer: {}
  * }```
- * @return {object} A nobone instance.
+ * @return {Object} A nobone instance.
 ###
 nobone = (opts) ->
 	opts ?= {
@@ -37,7 +37,7 @@ nobone = (opts) ->
 
 	###*
 	 * Release the resources.
-	 * @return {promise}
+	 * @return {Promise}
 	###
 	nb.close = ->
 		Q.all _.map(opts, (v, k) ->
@@ -57,8 +57,8 @@ _.extend nobone, {
 
 	###*
 	 * Help you to get the default options of moduels.
-	 * @param {string} name Module name, if not set, return all modules' defaults.
-	 * @return {promise} A promise object which will produce the defaults.
+	 * @param {String} name Module name, if not set, return all modules' defaults.
+	 * @return {Promise} A promise object which will produce the defaults.
 	###
 	module_defaults: (name) ->
 		kit.glob(__dirname + '/modules/*')

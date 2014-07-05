@@ -1956,7 +1956,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 						<code>opts</code>
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
@@ -1975,7 +1975,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ object }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p><p>A nobone instance.</p>
 </p>
@@ -2006,7 +2006,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -2038,7 +2038,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					
 						<code>name</code>
 					
-					<em>{ string }</em>
+					<em>{ String }</em>
 				</b></p>
 				<p><p>Module name, if not set, return all modules&#39; defaults.</p>
 </p>
@@ -2050,7 +2050,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ promise }</em>
+					<em>{ Promise }</em>
 				</b></p>
 				<p><p>A promise object which will produce the defaults.</p>
 </p>
