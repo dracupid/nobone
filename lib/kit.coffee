@@ -77,7 +77,7 @@ _.extend kit, {
 			patterns = [patterns]
 
 		Q.all patterns.map (p) ->
-			kit._glob p
+			kit._glob p, opts
 		.then (rets) ->
 			_.flatten rets
 
