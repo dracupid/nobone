@@ -33,7 +33,9 @@ express = require 'express'
  * 		}
  * 		'.css': {
  * 			ext_src: ['.styl', '.less']
- * 			watch_list: [pattern1, ...] # Extra files to watch.
+ * 			watch_list: {
+ * 				'path': [pattern1, ...] # Extra files to watch.
+ * 			}
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.md': {
@@ -276,30 +278,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			return Q(cache)
 
 		if opts.enable_watcher
-			Q.all handler.paths.map(kit.is_file_exists)
-			.then (rets) ->
-				path = handler.paths[rets.indexOf(true)]
-				return if not path
-
-				emit self.e.watch_file, path
-				watcher = (path, curr, prev) ->
-					# If moved or deleted
-					if curr.dev == 0
-						fs = kit.require 'fs'
-						emit self.e.file_deleted, path
-						delete cache_pool[path]
-						fs.unwatchFile(path)
-						return
-
-					if curr.mtime != prev.mtime
-						emit self.e.file_modified, path
-						compile(handler).done()
-
-				kit.watch_file path, watcher
-				if handler.watch_list
-					kit.watch_files handler.watch_list, watcher
-					.done (paths) ->
-						emit self.e.watch_file, paths.join(', ')
+			watch handler
 
 		compile(handler)
 
@@ -326,6 +305,43 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				handler.pathless + el
 
 		handler
+
+	watch = (handler) ->
+		Q.all handler.paths.map(kit.is_file_exists)
+		.then (rets) ->
+			path = handler.paths[rets.indexOf(true)]
+			return if not path
+
+			emit self.e.watch_file, path
+			watcher = (path, curr, prev) ->
+				# If moved or deleted
+				if curr.dev == 0
+					fs = kit.require 'fs'
+					emit self.e.file_deleted, path
+					delete cache_pool[path]
+					fs.unwatchFile(path, watcher)
+
+					# Extra watch_list
+					if handler.watch_list and handler.watch_list[path]
+						kit.glob handler.watch_list[path]
+						.done (paths) ->
+							for p in paths
+								emit self.e.watch_file, path + ' <- ' + p
+								fs.unwatchFile(p, watcher)
+					return
+
+				if curr.mtime != prev.mtime
+					emit self.e.file_modified, path
+					compile(handler).done()
+
+			kit.watch_file path, watcher
+
+			# Extra watch_list
+			if handler.watch_list and handler.watch_list[path]
+				kit.watch_files handler.watch_list[path], watcher
+				.done (paths) ->
+					for p in paths
+						emit self.e.watch_file, path + ' <- ' + p
 
 	Renderer.auto_reload = '''
 		<!-- Auto reload page helper. -->
