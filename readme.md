@@ -126,12 +126,31 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L13">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L4">
+				
+				<b>Overview</b>
+			</a>
+		</h4>
+		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
+</p>
+
+		<ul>
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L18">
 				
 				<b>db</b>
 			</a>
 		</h4>
-		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
+		<p><p>Create a JDB instance.</p>
 </p>
 
 		<ul>
@@ -184,9 +203,9 @@ NoBone has four main modules, they are all optional.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L14">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L7">
 				
-				<b>proxy</b>
+				<b>Overview</b>
 			</a>
 		</h4>
 		<p><p>For test, page injection development.
@@ -206,6 +225,25 @@ Most time used with SwitchySharp.</p>
 				<p></p>
 			</li>
 
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L19">
+				
+				<b>proxy</b>
+			</a>
+		</h4>
+		<p><p>Create a Proxy instance.</p>
+</p>
+
+		<ul>
 			
 
 			<li>
@@ -242,7 +280,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L26">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L31">
 				
 				<b>url</b>
 			</a>
@@ -310,9 +348,9 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L42">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L8">
 				
-				<b>renderer</b>
+				<b>Overview</b>
 			</a>
 		</h4>
 		<p><p>A abstract renderer for any string resources, such as template, source code, etc.
@@ -333,6 +371,25 @@ Even for huge project its memory usage is negligible.</p>
 				<p></p>
 			</li>
 
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L47">
+				
+				<b>renderer</b>
+			</a>
+		</h4>
+		<p><p>Create a Renderer instance.</p>
+</p>
+
+		<ul>
 			
 
 			<li>
@@ -394,7 +451,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L59">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L64">
 				
 				<b>compiler</b>
 			</a>
@@ -454,7 +511,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L111">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L116">
 				
 				<b>code_handlers</b>
 			</a>
@@ -499,7 +556,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L117">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L122">
 				
 				<b>cache_pool</b>
 			</a>
@@ -530,7 +587,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L126">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L131">
 				
 				<b>static</b>
 			</a>
@@ -577,7 +634,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L178">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L183">
 				
 				<b>render</b>
 			</a>
@@ -623,7 +680,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L191">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L196">
 				
 				<b>auto_reload</b>
 			</a>
@@ -655,7 +712,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L197">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L202">
 				
 				<b>close</b>
 			</a>
@@ -674,7 +731,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L209">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L214">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -732,7 +789,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L217">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L222">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -804,7 +861,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L223">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L228">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -848,7 +905,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L229">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L234">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -901,9 +958,9 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L16">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L5">
 				
-				<b>service</b>
+				<b>Overview</b>
 			</a>
 		</h4>
 		<p><p>It is just a Express.js wrap with build in Socket.io (optional).</p>
@@ -921,6 +978,25 @@ You can use the socket.io event to custom you own.</p>
 				<p></p>
 			</li>
 
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L21">
+				
+				<b>service</b>
+			</a>
+		</h4>
+		<p><p>Create a Service instance.</p>
+</p>
+
+		<ul>
 			
 
 			<li>

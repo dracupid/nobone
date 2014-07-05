@@ -1,7 +1,12 @@
+###*
+ * See my JDB project: https://github.com/ysmood/jdb
+###
+Overview = 'db'
+
 _ = require 'lodash'
 
 ###*
- * See my JDB project: https://github.com/ysmood/jdb
+ * Create a JDB instance.
  * @param  {Object} opts Defaults:
  * ```coffee
  * {

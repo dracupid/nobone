@@ -1,13 +1,18 @@
+###*
+ * For test, page injection development.
+ * A cross platform Fiddler alternative.
+ * Most time used with SwitchySharp.
+ * @extends {http-proxy.ProxyServer}
+###
+Overview = 'proxy'
+
 _ = require 'lodash'
 kit = require '../kit'
 http_proxy = require 'http-proxy'
 http = require 'http'
 
 ###*
- * For test, page injection development.
- * A cross platform Fiddler alternative.
- * Most time used with SwitchySharp.
- * @extends {http-proxy.ProxyServer}
+ * Create a Proxy instance.
  * @param  {Object} opts Defaults: `{}`
  * @return {Proxy} For more, see https://github.com/nodejitsu/node-http-proxy
 ###

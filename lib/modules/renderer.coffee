@@ -1,3 +1,12 @@
+###*
+ * A abstract renderer for any string resources, such as template, source code, etc.
+ * It automatically uses high performance memory cache.
+ * You can run the benchmark to see the what differences it makes.
+ * Even for huge project its memory usage is negligible.
+ * @extends {events.EventEmitter}
+###
+Overview = 'renderer'
+
 _ = require 'lodash'
 Q = require 'q'
 kit = require '../kit'
@@ -5,11 +14,7 @@ express = require 'express'
 { EventEmitter } = require 'events'
 
 ###*
- * A abstract renderer for any string resources, such as template, source code, etc.
- * It automatically uses high performance memory cache.
- * You can run the benchmark to see the what differences it makes.
- * Even for huge project its memory usage is negligible.
- * @extends {events.EventEmitter}
+ * Create a Renderer instance.
  * @param {Object} opts Defaults:
  * ```coffee
  * {

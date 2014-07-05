@@ -1,10 +1,15 @@
+###*
+ * It is just a Express.js wrap with build in Socket.io (optional).
+ * @extends {Express}
+###
+Overview = 'service'
+
 _ = require 'lodash'
 http = require 'http'
 { EventEmitter } = require('events')
 
 ###*
- * It is just a Express.js wrap with build in Socket.io (optional).
- * @extends {Express}
+ * Create a Service instance.
  * @param  {Object} opts Defaults:
  * ```coffee
  * {

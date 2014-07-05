@@ -57,3 +57,11 @@ content = $('.content', toc)[0]
 h_list.forEach (el) -> content.appendChild el
 
 document.body.appendChild toc
+
+# If toc title clicked, toggle the visibility of toc.
+toc_title = $('#toc > h1')[0]
+toc_title.addEventListener 'click', ->
+	if toc.style.height == '80px'
+		toc.style.height = null
+	else
+		toc.style.height = '80px'
