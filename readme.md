@@ -381,7 +381,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L50">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L49">
 				
 				<b>renderer</b>
 			</a>
@@ -408,7 +408,6 @@ Even for huge project its memory usage is negligible.</p>
         &#39;.html&#39;: {
             default: true
             ext_src: &#39;.ejs&#39;
-            type: &#39;html&#39;
             compiler: (str, path) -&gt; ...
         }
         &#39;.js&#39;: {
@@ -424,7 +423,7 @@ Even for huge project its memory usage is negligible.</p>
         }
         &#39;.md&#39;: {
             ext_src: &#39;.md&#39;
-            type: &#39;html&#39;
+            type: &#39;html&#39; # Force type, optional.
             compiler: (str, path) -&gt; ...
         }
     }
@@ -454,7 +453,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L67">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L65">
 				
 				<b>compiler</b>
 			</a>
@@ -514,7 +513,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L123">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L121">
 				
 				<b>code_handlers</b>
 			</a>
@@ -559,7 +558,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L129">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L127">
 				
 				<b>cache_pool</b>
 			</a>
@@ -590,7 +589,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L138">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L136">
 				
 				<b>static</b>
 			</a>
@@ -637,7 +636,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L189">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L187">
 				
 				<b>render</b>
 			</a>
@@ -683,7 +682,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L202">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L200">
 				
 				<b>auto_reload</b>
 			</a>
@@ -715,7 +714,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L208">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L206">
 				
 				<b>close</b>
 			</a>
@@ -734,7 +733,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L220">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L218">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -792,7 +791,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L228">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L226">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -864,7 +863,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L234">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L232">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -908,7 +907,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L240">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L238">
 				
 				<b>e.file_modified</b>
 			</a>
