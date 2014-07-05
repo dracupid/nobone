@@ -320,8 +320,8 @@ _.extend kit, {
 		round()
 
 	###*
-	 * A comments parser for coffee-script.
-	 * Used to generate documentation automatically.
+	 * A comments parser for coffee-script. Used to generate documentation automatically.
+	 * It will traverse through all the comments.
 	 * @param  {String} module_name The name of the module it belongs to.
 	 * @param  {String} code Coffee source code.
 	 * @param  {Path} sting The path of the source code.
