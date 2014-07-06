@@ -9,9 +9,10 @@ marked = require 'marked'
 }
 
 [ host, port, root_dir ] = process.argv[2..]
-assets_dir = __dirname + '/../assets'
-marked_ejs =  __dirname + '/../assets/marked.ejs'
-nobone_readme = __dirname + '/../readme.md'
+assets_dir = kit.path.normalize __dirname + '/../assets'
+marked_ejs =  kit.path.normalize __dirname + '/../assets/marked.ejs'
+nobone_readme = kit.path.normalize __dirname + '/../readme.md'
+nobone_favicon = kit.path.normalize __dirname + '/../assets/nobone.png'
 
 service.use renderer.static(root_dir)
 service.use renderer.static(__dirname + '/../assets')
@@ -26,6 +27,9 @@ renderer.code_handlers['.md'].compiler = (str, path) ->
 			path
 			body: md + renderer.auto_reload()
 		}
+
+service.get '/favicon.ico', (req, res) ->
+	res.sendfile nobone_favicon
 
 service.get '/nobone', (req, res) ->
 	Q = require 'q'
