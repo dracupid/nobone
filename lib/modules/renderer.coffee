@@ -12,6 +12,7 @@ Q = require 'q'
 kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
+fs = kit.require 'fs'
 
 ###*
  * Create a Renderer instance.
@@ -24,6 +25,7 @@ express = require 'express'
  * 		'.html': {
  * 			default: true
  * 			ext_src: '.ejs'
+ * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.js': {
@@ -42,6 +44,13 @@ express = require 'express'
  * 			type: 'html' # Force type, optional.
  * 			compiler: (str, path) -> ...
  * 		}
+ * 		'.jpg': {
+ * 			ext_src: '.jpg'
+ * 			encoding: null # To use buffer.
+ * 			compiler: (buf) -> buf
+ * 		}
+ * 		'.png' ...
+ * 		'.gif' ...
  * 	}
  * }```
  * @return {Renderer}
@@ -93,6 +102,21 @@ renderer.defaults = {
 			compiler: (str, path) ->
 				marked = kit.require 'marked'
 				marked str
+		}
+		'.jpg': {
+			ext_src: '.jpg'
+			encoding: null # To use buffer.
+			compiler: (buf) -> buf
+		}
+		'.png': {
+			ext_src: '.png'
+			encoding: null
+			compiler: (buf) -> buf
+		}
+		'.gif': {
+			ext_src: '.gif'
+			encoding: null
+			compiler: (buf) -> buf
 		}
 	}
 }
@@ -150,6 +174,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 			handler = get_handler path
 			if handler
+				handler.req_path = req.path
 				get_code(handler)
 				.then (code) ->
 					if code == null
@@ -157,10 +182,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 					res.type handler.type or handler.ext_bin
 
-					switch typeof code
-						when 'string'
+					switch code.constructor.name
+						when 'String', 'Buffer'
 							res.send code
-						when 'function'
+						when 'Function'
 							res.send code()
 						else
 							err = new Error(
@@ -204,7 +229,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Release the resources.
 	###
 	self.close = ->
-		fs = kit.require 'fs'
 		for k, v of cache_pool
 			fs.unwatchFile(k)
 
@@ -243,7 +267,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if name == 'compile_error'
 				kit.err arguments[1].yellow + '\n' + arguments[2].toString().red
 			else
-				kit.log "#{name}: ".cyan + arguments[1]
+				kit.log "#{name}: ".cyan + (_.toArray arguments)[1..].join(' | ')
 
 		self.emit.apply self, arguments
 
@@ -254,7 +278,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			path = handler.paths[ext_index]
 			if path
 				ext = handler.ext_src[ext_index]
-				kit.readFile path, 'utf8'
+				encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
+				kit.readFile path, encoding
 				.then (str) ->
 					if handler.type and handler.type != ext
 						return handler.compiler(str, path, ext)
@@ -321,11 +346,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			path = handler.paths[rets.indexOf(true)]
 			return if not path
 
-			emit self.e.watch_file, path
+			emit self.e.watch_file, path, handler.req_path
 			watcher = (path, curr, prev) ->
 				# If moved or deleted
 				if curr.dev == 0
-					fs = kit.require 'fs'
 					emit self.e.file_deleted, path
 					delete cache_pool[path]
 					fs.unwatchFile(path, watcher)
@@ -335,12 +359,17 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						kit.glob handler.watch_list[path]
 						.done (paths) ->
 							for p in paths
-								emit self.e.watch_file, path + ' <- ' + p
+								emit self.e.file_deleted, path + ' <- ' + p
 								fs.unwatchFile(p, watcher)
 					return
 
 				if curr.mtime != prev.mtime
-					emit self.e.file_modified, path
+					emit(
+						self.e.file_modified
+						path
+						handler.type or handler.ext_bin
+						handler.req_path
+					)
 					compile(handler).done()
 
 			kit.watch_file path, watcher
@@ -350,24 +379,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				kit.watch_files handler.watch_list[path], watcher
 				.done (paths) ->
 					for p in paths
-						emit self.e.watch_file, path + ' <- ' + p
+						emit self.e.watch_file, path + ' <- ' + p, handler.url
 
-	Renderer.auto_reload = '''
-		<!-- Auto reload page helper. -->
-		<script type="text/javascript">
-			if (!window.io) {
-				document.write(unescape('%3Cscript%20src%3D%22/socket.io/socket.io.js%22%3E%3C/script%3E'));
-			}
-		</script>
-		<script type="text/javascript">
-			(function () {
-				var sock = io();
-				sock.on('file_modified', function (data) {
-					console.log(">> Reload: " + data);
-					location.reload();
-				});
-			})();
-		</script>
-	'''
+	Renderer.auto_reload = fs.readFileSync(
+		__dirname + '/../../assets/auto_reload.html', 'utf8'
+	)
 
 module.exports = renderer
