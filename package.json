@@ -1,7 +1,7 @@
 {
   "name": "nobone",
-  "version": "0.1.7",
-  "description": "A server library knows what developer really needs.",
+  "version": "0.1.8",
+  "description": "A server library ties to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
     "nobone": "bin/nobone.js"

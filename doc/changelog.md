@@ -1,3 +1,9 @@
+* v0.1.8
+
+  * Now renderer support for binary file, such as image.
+  * Auto reload page is even smarter, when dealing with css or image,
+    the browser is updated instantly without reloading the page.
+
 * v0.1.7
 
   * Add support for less.
