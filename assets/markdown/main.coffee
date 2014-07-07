@@ -62,12 +62,12 @@ document.body.appendChild toc
 toc_title = $('#toc > h1')[0]
 
 if localStorage.getItem('toc') == 'hide'
-	toc.style.height = '80px'
+	toc.style.height = '60px'
 
 toc_title.addEventListener 'click', ->
-	if toc.style.height == '80px'
+	if toc.style.height == '60px'
 		toc.style.height = null
 		localStorage.setItem 'toc', 'show'
 	else
 		localStorage.setItem 'toc', 'hide'
-		toc.style.height = '80px'
+		toc.style.height = '60px'

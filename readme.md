@@ -1,4 +1,4 @@
-![nobone](https://raw.githubusercontent.com/ysmood/nobone/master/assets/nobone.png)
+![nobone](https://raw.githubusercontent.com/ysmood/nobone/master/assets/img/nobone.png)
 
 
 ## Overview
@@ -1670,7 +1670,58 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L285">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L290">
+				
+				<b>daemonize</b>
+			</a>
+		</h4>
+		<p><p>Daemonize a program.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>opts</code>
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p><p>Defaults:
+{
+    bin: &#39;node&#39;
+    args: [&#39;app.js&#39;]
+    stdout: &#39;stdout.log&#39;
+    stderr: &#39;stderr.log&#39;
+}</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Porcess }</em>
+				</b></p>
+				<p><p>The daemonized process.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L315">
 				
 				<b>prompt_get</b>
 			</a>
@@ -1716,7 +1767,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L306">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L336">
 				
 				<b>async_limit</b>
 			</a>
@@ -1775,7 +1826,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L359">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L389">
 				
 				<b>parse_comment</b>
 			</a>
@@ -1889,7 +1940,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L442">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L472">
 				
 				<b>generate_bone</b>
 			</a>
@@ -1943,7 +1994,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L479">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L509">
 				
 				<b>is_file_exists</b>
 			</a>
@@ -1986,7 +2037,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L494">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L524">
 				
 				<b>is_dir_exists</b>
 			</a>

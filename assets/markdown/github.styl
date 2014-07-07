@@ -124,6 +124,19 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 	color: #aaa
 }
 
+@font-face
+	// Normall
+	font-family 'n'
+	src url('/fonts/Roboto-Light.ttf')
+	font-weight normal
+	font-style normal
+@font-face
+	// Normall
+	font-family 'n'
+	src url('../fonts/Roboto-Regular.ttf')
+	font-weight bold
+	font-style normal
+
 body
 	font-family: Helvetica, arial, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
 
@@ -163,12 +176,14 @@ body
 		border-radius: 3px;
 		padding: 1px;
 
+	h1, h2, h3, h4
+		font-family n, Helvetica, arial, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
 
 #toc
 	box-sizing border-box
 	position: fixed;
 	right: 10px;
-	padding 20px 30px
+	padding 10px 20px
 	top: 3%;
 	background: #fff;
 	height: 94%;
@@ -176,12 +191,13 @@ body
 	border-radius: 2px;
 	opacity 0.3
 	transition opacity 0.2s
+	font-family n
 
 	&:hover
 		opacity 1
 
 	h1
-		font-size 20px
+		font-size 18px
 		height 20px
 		margin 10px
 		cursor pointer

@@ -10,9 +10,9 @@ marked = require 'marked'
 
 [ host, port, root_dir ] = process.argv[2..]
 assets_dir = kit.path.normalize __dirname + '/../assets'
-marked_ejs =  kit.path.normalize __dirname + '/../assets/marked.ejs'
+marked_ejs =  kit.path.normalize __dirname + '/../assets/markdown/index.ejs'
 nobone_readme = kit.path.normalize __dirname + '/../readme.md'
-nobone_favicon = kit.path.normalize __dirname + '/../assets/nobone.png'
+nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
 
 service.use renderer.static(root_dir)
 service.use renderer.static(__dirname + '/../assets')

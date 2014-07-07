@@ -1,4 +1,4 @@
-![nobone](https://raw.githubusercontent.com/ysmood/nobone/master/assets/nobone.png)
+![nobone](https://raw.githubusercontent.com/ysmood/nobone/master/assets/img/nobone.png)
 
 
 ## Overview
