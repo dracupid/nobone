@@ -110,6 +110,7 @@ NoBone has four main modules, they are all optional.
 
 <% }); %>
 
+
 ## Changelog
 
 See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/changelog.md) file.
