@@ -40,16 +40,17 @@ fs = kit.require 'fs'
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.md': {
- * 			ext_src: '.md'
  * 			type: 'html' # Force type, optional.
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.jpg': {
- * 			ext_src: '.jpg'
  * 			encoding: null # To use buffer.
  * 			compiler: (buf) -> buf
  * 		}
- * 		'.png' ...
+ * 		'.png': {
+ * 			encoding: null # To use buffer.
+ * 			compiler: '.jpg' # Use the compiler of '.jpg'
+ * 		}
  * 		'.gif' ...
  * 	}
  * }```
@@ -97,26 +98,22 @@ renderer.defaults = {
 					.then (tree) -> tree.toCSS()
 		}
 		'.md': {
-			ext_src: '.md'
 			type: 'html' # Force type, optional.
 			compiler: (str, path) ->
 				marked = kit.require 'marked'
 				marked str
 		}
 		'.jpg': {
-			ext_src: '.jpg'
 			encoding: null # To use buffer.
 			compiler: (buf) -> buf
 		}
 		'.png': {
-			ext_src: '.png'
 			encoding: null
-			compiler: (buf) -> buf
+			compiler: '.jpg'
 		}
 		'.gif': {
-			ext_src: '.gif'
 			encoding: null
-			compiler: (buf) -> buf
+			compiler: '.jpg'
 		}
 	}
 }
@@ -325,12 +322,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler = _.cloneDeep(handler)
+			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
 			handler.pathless = kit.path.join(
 				kit.path.dirname(path)
 				kit.path.basename(path, ext_bin)
 			)
+			if _.isString handler.compiler
+				handler.compiler = self.code_handlers[handler.compiler].compiler
+
 			if is_direct
 				handler.ext_bin = ''
 			else
