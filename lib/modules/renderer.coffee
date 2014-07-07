@@ -70,6 +70,7 @@ renderer.defaults = {
 			 * It should return a promise object. Only handles string.
 			 * @param  {String} str Source code.
 			 * @param  {String} path For debug info.
+			 * @param  {String} ext_src The source file's extension.
 			 * @return {Any} Promise or any thing that contains the compiled code.
 			###
 			compiler: (str, path) ->
