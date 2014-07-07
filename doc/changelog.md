@@ -1,5 +1,6 @@
 * v0.2.0
 
+  * Refactor `code_handlers` to `file_handlers`.
   * Optimize style and some default values.
 
 * v0.1.9
