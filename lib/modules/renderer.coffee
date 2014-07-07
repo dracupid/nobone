@@ -16,7 +16,7 @@ fs = kit.require 'fs'
 
 ###*
  * Create a Renderer instance.
- * @param {Object} opts Defaults:
+ * @param {Object} opts Example:
  * ```coffee
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
@@ -25,6 +25,9 @@ fs = kit.require 'fs'
  * 		'.html': {
  * 			default: true
  * 			ext_src: '.ejs'
+ * 			watch_list: {
+ * 				'path': [pattern1, ...] # Extra files to watch.
+ * 			}
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			compiler: (str, path) -> ...
  * 		}
@@ -34,9 +37,6 @@ fs = kit.require 'fs'
  * 		}
  * 		'.css': {
  * 			ext_src: ['.styl', '.less']
- * 			watch_list: {
- * 				'path': [pattern1, ...] # Extra files to watch.
- * 			}
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.md': {
