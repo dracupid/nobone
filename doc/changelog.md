@@ -1,3 +1,7 @@
+* v0.2.0
+
+  * Optimize style and some default values.
+
 * v0.1.9
 
   * Minor change.
