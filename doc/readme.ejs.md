@@ -7,7 +7,7 @@ A server library ties to understand what developers really need.
 
 The philosophy behind NoBone is providing possibilities rather than
 telling developers what they should do. All the default behaviors are
-just examples of how to use NoBone. All the API should dance together
+just examples of how to use NoBone. All the APIs should dance together
 happily. So other than js, the idea should be port to any other language easily.
 
 [![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)

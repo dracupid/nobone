@@ -7,7 +7,7 @@ A server library ties to understand what developers really need.
 
 The philosophy behind NoBone is providing possibilities rather than
 telling developers what they should do. All the default behaviors are
-just examples of how to use NoBone. All the API should dance together
+just examples of how to use NoBone. All the APIs should dance together
 happily. So other than js, the idea should be port to any other language easily.
 
 [![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
@@ -413,14 +413,17 @@ Even for huge project its memory usage is negligible.</p>
 					
 					<em>{ Object }</em>
 				</b></p>
-				<p><p>Defaults:</p>
+				<p><p>Example:</p>
 <pre><code class="lang-coffee">{
     enable_watcher: process.env.NODE_ENV == &#39;development&#39;
     auto_log: process.env.NODE_ENV == &#39;development&#39;
-    code_handlers: {
+    file_handlers: {
         &#39;.html&#39;: {
             default: true
             ext_src: &#39;.ejs&#39;
+            watch_list: {
+                &#39;path&#39;: [pattern1, ...] # Extra files to watch.
+            }
             encoding: &#39;utf8&#39; # optional, default is &#39;utf8&#39;
             compiler: (str, path) -&gt; ...
         }
@@ -430,9 +433,6 @@ Even for huge project its memory usage is negligible.</p>
         }
         &#39;.css&#39;: {
             ext_src: [&#39;.styl&#39;, &#39;.less&#39;]
-            watch_list: {
-                &#39;path&#39;: [pattern1, ...] # Extra files to watch.
-            }
             compiler: (str, path) -&gt; ...
         }
         &#39;.md&#39;: {
@@ -475,7 +475,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L75">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L76">
 				
 				<b>compiler</b>
 			</a>
@@ -517,6 +517,20 @@ It should return a promise object. Only handles string.</p>
 
 			<li>
 				<p><b>
+					<u>param</u>:
+					
+						<code>ext_src</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The source file&#39;s extension.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ Any }</em>
@@ -535,12 +549,12 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L142">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L143">
 				
-				<b>code_handlers</b>
+				<b>file_handlers</b>
 			</a>
 		</h4>
-		<p><p>You can access all the code_handlers here.
+		<p><p>You can access all the file_handlers here.
 Manipulate them at runtime.</p>
 </p>
 
@@ -554,7 +568,7 @@ Manipulate them at runtime.</p>
 					<em>{  }</em>
 				</b></p>
 				<p><pre><code class="lang-coffee"># We return js directly.
-renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
+renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 </code></pre>
 </p>
 			</li>
@@ -580,12 +594,12 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L148">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L149">
 				
 				<b>cache_pool</b>
 			</a>
 		</h4>
-		<p><p>The cache pool of the result of <code>code_handlers.compiler</code></p>
+		<p><p>The cache pool of the result of <code>file_handlers.compiler</code></p>
 </p>
 
 		<ul>
@@ -611,7 +625,7 @@ renderer.code_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L157">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L158">
 				
 				<b>static</b>
 			</a>
@@ -658,7 +672,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L209">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L210">
 				
 				<b>render</b>
 			</a>
@@ -704,7 +718,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L222">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L223">
 				
 				<b>auto_reload</b>
 			</a>
@@ -736,7 +750,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L228">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L229">
 				
 				<b>close</b>
 			</a>
@@ -755,7 +769,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L239">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L240">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -813,7 +827,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L247">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L248">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -885,7 +899,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L253">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L254">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -929,7 +943,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L260">
 				
 				<b>e.file_modified</b>
 			</a>
