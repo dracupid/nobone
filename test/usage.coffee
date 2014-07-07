@@ -31,7 +31,7 @@ nb.service.get '/', (req, res) ->
 		res.send tpl_func({ body: nb.renderer.auto_reload() })
 
 # Launch socket.io and express.js
-s = nb.service.listen port
+nb.service.listen port
 
 # Kit
 # Print out time, log message, time span between two log.
