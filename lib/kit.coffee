@@ -277,6 +277,36 @@ _.extend kit, {
 		kit.log msg, 'error', opts
 
 	###*
+	 * Daemonize a program.
+	 * @param  {Object} opts Defaults:
+	 * {
+	 * 	bin: 'node'
+	 * 	args: ['app.js']
+	 * 	stdout: 'stdout.log'
+	 * 	stderr: 'stderr.log'
+	 * }
+	 * @return {Porcess} The daemonized process.
+	###
+	daemonize: (opts = {}) ->
+		_.defaults opts, {
+			bin: 'node'
+			args: ['app.js']
+			stdout: 'stdout.log'
+			stderr: 'stderr.log'
+		}
+
+		out_log = os.openSync(opts.stdout, 'a')
+		err_log = os.openSync(opts.stderr, 'a')
+
+		p = kit.spawn(opts.bin, opts.args, {
+			detached: true
+			stdio: [ 'ignore', out_log, err_log ]
+		}).process
+		p.unref()
+		kit.log "Run as background daemon, PID: #{p.pid}".yellow
+		p
+
+	###*
 	 * Block terminal and wait for user inputs. Useful when you need
 	 * user interaction.
 	 * @param  {Object} opts See the https://github.com/flatiron/prompt
