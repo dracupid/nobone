@@ -19,7 +19,7 @@ service.use renderer.static(__dirname + '/../assets')
 kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
 
 # Markdown support
-renderer.code_handlers['.md'].compiler = (str, path) ->
+renderer.file_handlers['.md'].compiler = (str, path) ->
 	md = marked str
 	renderer.render marked_ejs
 	.then (tpl) ->

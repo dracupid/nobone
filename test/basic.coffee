@@ -77,7 +77,7 @@ describe 'Basic:', ->
 
 	it 'module_defaults should work', (tdone) ->
 		nobone.module_defaults('renderer').done (d) ->
-			assert.equal d.code_handlers['.js'].ext_src, '.coffee'
+			assert.equal d.file_handlers['.js'].ext_src, '.coffee'
 			tdone()
 
 	it 'the render should work', (tdone) ->
@@ -112,7 +112,7 @@ describe 'Basic:', ->
 	it 'the custom code_handler should work', (tdone) ->
 		{ renderer: rr } = nobone()
 
-		rr.code_handlers['.js'].compiler = (str) ->
+		rr.file_handlers['.js'].compiler = (str) ->
 			str.length
 
 		rr.render 'bone/client/main.coffee'

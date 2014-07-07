@@ -21,7 +21,7 @@ fs = kit.require 'fs'
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
  * 	auto_log: process.env.NODE_ENV == 'development'
- * 	code_handlers: {
+ * 	file_handlers: {
  * 		'.html': {
  * 			default: true
  * 			ext_src: '.ejs'
@@ -61,7 +61,7 @@ renderer = (opts) -> new Renderer(opts)
 renderer.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
 	auto_log: process.env.NODE_ENV == 'development'
-	code_handlers: {
+	file_handlers: {
 		'.html': {
 			default: true    # Whether it is a default handler, optional.
 			ext_src: '.ejs'
@@ -131,19 +131,19 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	cache_pool = {}
 
 	###*
-	 * You can access all the code_handlers here.
+	 * You can access all the file_handlers here.
 	 * Manipulate them at runtime.
 	 * @example
 	 * ```coffee
 	 * # We return js directly.
-	 * renderer.code_handlers['.js'].compiler = (str) -> str
+	 * renderer.file_handlers['.js'].compiler = (str) -> str
 	 * ```
 	 * @type {Object}
 	###
-	self.code_handlers = opts.code_handlers
+	self.file_handlers = opts.file_handlers
 
 	###*
-	 * The cache pool of the result of `code_handlers.compiler`
+	 * The cache pool of the result of `file_handlers.compiler`
 	 * @type {Object} Key is the file path.
 	###
 	self.cache_pool = cache_pool
@@ -314,12 +314,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		ext_bin = kit.path.extname path
 
 		if is_direct
-			handler = _.find self.code_handlers, (el) ->
+			handler = _.find self.file_handlers, (el) ->
 				el.ext_src == ext_bin or el.ext_src.indexOf(ext_bin) > -1
 		else if ext_bin == ''
-			handler = _.find self.code_handlers, (el) -> el.default
+			handler = _.find self.file_handlers, (el) -> el.default
 		else
-			handler = self.code_handlers[ext_bin]
+			handler = self.file_handlers[ext_bin]
 
 		if handler
 			handler = _.cloneDeep(handler)
@@ -331,7 +331,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				kit.path.basename(path, ext_bin)
 			)
 			if _.isString handler.compiler
-				handler.compiler = self.code_handlers[handler.compiler].compiler
+				handler.compiler = self.file_handlers[handler.compiler].compiler
 
 			if is_direct
 				handler.ext_bin = ''
