@@ -14,6 +14,7 @@ emit = null
  * @param  {Object} opts Defaults:
  * ```coffee
  * {
+ * 	auto_log: process.env.NODE_ENV == 'development'
  * 	enable_sse: process.env.NODE_ENV == 'development'
  * 	express: {}
  * }```
