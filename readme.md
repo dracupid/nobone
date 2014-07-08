@@ -1025,7 +1025,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L22">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L23">
 				
 				<b>service</b>
 			</a>
@@ -1046,6 +1046,7 @@ choose the right compiler to handle the code.</p>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
+    auto_log: process.env.NODE_ENV == &#39;development&#39;
     enable_sse: process.env.NODE_ENV == &#39;development&#39;
     express: {}
 }
@@ -1074,7 +1075,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L45">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L46">
 				
 				<b>e.sse_connected</b>
 			</a>
@@ -1121,7 +1122,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L52">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L53">
 				
 				<b>e.sse_close</b>
 			</a>
@@ -1164,7 +1165,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L89">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L90">
 				
 				<b>sse</b>
 			</a>
@@ -1213,12 +1214,12 @@ source.addEventListener(&#39;message&#39;, function (e) {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L105">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L106">
 				
-				<b>session.send</b>
+				<b>session.emit</b>
 			</a>
 		</h4>
-		<p><p>Send message to client.</p>
+		<p><p>Emit message to client.</p>
 </p>
 
 		<ul>
@@ -1228,11 +1229,11 @@ source.addEventListener(&#39;message&#39;, function (e) {
 				<p><b>
 					<u>param</u>:
 					
-						<code>msg</code>
+						<code>event</code>
 					
-					<em>{ [type] }</em>
+					<em>{ String }</em>
 				</b></p>
-				<p><p>[description]</p>
+				<p><p>The event name.</p>
 </p>
 			</li>
 
@@ -1240,11 +1241,13 @@ source.addEventListener(&#39;message&#39;, function (e) {
 
 			<li>
 				<p><b>
-					<u>return</u>:
+					<u>param</u>:
 					
-					<em>{ [type] }</em>
+						<code>msg</code>
+					
+					<em>{ Object | String }</em>
 				</b></p>
-				<p><p>[description]</p>
+				<p><p>The message to send to the client.</p>
 </p>
 			</li>
 
@@ -1258,15 +1261,29 @@ source.addEventListener(&#39;message&#39;, function (e) {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L137">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L141">
 				
-				<b>sse.send</b>
+				<b>sse.emit</b>
 			</a>
 		</h4>
-		<p><p>Broadcast a event to all clients.</p>
+		<p><p>Broadcast a event to clients.</p>
 </p>
 
 		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>event</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The event name.</p>
+</p>
+			</li>
+
 			
 
 			<li>
@@ -1277,7 +1294,7 @@ source.addEventListener(&#39;message&#39;, function (e) {
 					
 					<em>{ Object | String }</em>
 				</b></p>
-				<p><p>The data you want to send to session.</p>
+				<p><p>The data you want to emit to session.</p>
 </p>
 			</li>
 
@@ -1289,7 +1306,8 @@ source.addEventListener(&#39;message&#39;, function (e) {
 					
 					<em>{ String }</em>
 				</b></p>
-				<p><p>[path] The namespace of target sessions.</p>
+				<p><p>[path] The namespace of target sessions. If not set,
+broadcast to all clients.</p>
 </p>
 			</li>
 
@@ -2384,7 +2402,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L42">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L46">
 				
 				<b>nb.close</b>
 			</a>
@@ -2414,7 +2432,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L63">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L67">
 				
 				<b>module_defaults</b>
 			</a>
