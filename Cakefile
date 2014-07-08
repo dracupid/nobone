@@ -13,7 +13,7 @@ mocha_bin = 'node_modules/.bin/mocha'
 option '-n', '--no-server', 'Test without standalone test'
 
 task 'dev', 'Run a development server.', ->
-	app_path = 'test/usage.coffee'
+	app_path = 'examples/usage.coffee'
 	kit.monitor_app {
 		bin: coffee_bin
 		args: [app_path]
@@ -50,7 +50,7 @@ task 'build', 'Compile coffee to js', build = ->
 	kit.log 'Make readme...'
 	Q.all([
 		kit.readFile 'doc/readme.ejs.md', 'utf8'
-		kit.readFile 'test/usage.coffee', 'utf8'
+		kit.readFile 'examples/usage.coffee', 'utf8'
 		kit.glob 'lib/modules/*.coffee'
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
 		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
