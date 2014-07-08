@@ -2509,11 +2509,19 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 
 ## Benchmark
 
+
 <p>Memory cache is faster than direct file streaming even on SSD machine.</p>
-<pre>
-* memory x 1,167 ops/sec ±4.11% (68 runs sampled)
+<pre><code>* memory x 1,167 ops/sec ±4.11% (68 runs sampled)
 * stream x   759 ops/sec ±2.77% (79 runs sampled)
-</pre>
+</code></pre>
+
+<p>As we can see, jhash is about 1.6x faster than crc32.</p>
+<pre><code>crc file x 5,930 ops/sec ±0.25% (100 runs sampled)
+crc str x 73,916 ops/sec ±0.34% (100 runs sampled)
+jhash file x 9,675 ops/sec ±0.43% (98 runs sampled)
+jhash str x 121,068 ops/sec ±1.42% (98 runs sampled)
+</code></pre>
+
 
 
 ## Road Map

@@ -123,7 +123,9 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 
 ## Benchmark
 
-<%- benchmark[0].description %>
+<% benchmark.forEach(function (el) { %>
+<%- el.description %>
+<% }) %>
 
 
 ## Road Map

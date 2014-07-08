@@ -53,6 +53,7 @@ task 'build', 'Compile coffee to js', build = ->
 		kit.readFile 'test/usage.coffee', 'utf8'
 		kit.glob 'lib/modules/*.coffee'
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
+		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
 	]).then (rets) ->
 		usage = rets[1].replace "nobone = require '../lib/nobone'", "nobone = require 'nobone'"
 		{
@@ -62,7 +63,7 @@ task 'build', 'Compile coffee to js', build = ->
 				'lib/kit.coffee'
 				'lib/nobone.coffee'
 			]
-			benchmark: kit.parse_comment 'benchmark', rets[3]
+			benchmark: kit.parse_comment 'benchmark', rets[3] + rets[4]
 		}
 	.then (data) ->
 		Q.all data.mods.map (path) ->
