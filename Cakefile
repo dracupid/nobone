@@ -12,14 +12,6 @@ mocha_bin = 'node_modules/.bin/mocha'
 
 option '-n', '--no-server', 'Test without standalone test'
 
-task 'dev', 'Run a development server.', ->
-	app_path = 'examples/usage.coffee'
-	kit.monitor_app {
-		bin: coffee_bin
-		args: [app_path]
-		watch_list: [app_path, 'lib/**/*.coffee']
-	}
-
 task 'test', 'Basic test', (options) ->
 	if options['no-server']
 		process.env.no_server_test = 'on'
@@ -55,7 +47,7 @@ task 'build', 'Compile coffee to js', build = ->
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
 		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
 	]).then (rets) ->
-		usage = rets[1].replace "nobone = require '../lib/nobone'", "nobone = require 'nobone'"
+		usage = rets[1]
 		{
 			tpl: rets[0]
 			usage

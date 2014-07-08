@@ -1,4 +1,4 @@
-nobone = require '../lib/nobone'
+nobone = require 'nobone'
 
 nb = nobone({
 	service: {}
@@ -6,7 +6,7 @@ nb = nobone({
 })
 
 nb.service.use (req, res) ->
-	nb.proxy.delay req, res, 500
-
+	nb.kit.log req.url
+	nb.proxy.delay req, res, 1000
 
 nb.service.listen 8013

@@ -267,7 +267,7 @@ Most time used with SwitchySharp.</p>
 					
 					<em>{ Object }</em>
 				</b></p>
-				<p><p>Defaults: <code>{}</code></p>
+				<p><p>Defaults: <code>{ }</code></p>
 </p>
 			</li>
 
@@ -293,7 +293,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L31">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L33">
 				
 				<b>url</b>
 			</a>
@@ -343,6 +343,34 @@ Most time used with SwitchySharp.</p>
 			</li>
 
 			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>opts</code>
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p><p>Other options.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>err</code>
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>Error handler.</p>
+</p>
+			</li>
+
+			
 		</ul>
 	</li>
 
@@ -352,7 +380,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L47">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L56">
 				
 				<b>delay</b>
 			</a>
@@ -398,6 +426,34 @@ Most time used with SwitchySharp.</p>
 					<em>{ Number }</em>
 				</b></p>
 				<p><p>In milliseconds.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>opts</code>
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p><p>Other options.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>err</code>
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>Error handler.</p>
 </p>
 			</li>
 

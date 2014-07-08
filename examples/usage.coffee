@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'development'
 
-nobone = require '../lib/nobone'
+nobone = require 'nobone'
 
 port = 8013
 
