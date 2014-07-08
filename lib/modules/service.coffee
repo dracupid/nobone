@@ -113,7 +113,7 @@ init_sse = (self) ->
 		session
 
 	self.use '/nobone-sse', (req, res) ->
-		req.socket.setTimeout Infinity
+		req.socket.setTimeout 0
 		req.on 'close', ->
 			s = _.remove self.sse.sessions, (el) -> el.res == res
 			emit self.e.sse_close + req.path, s[0]
