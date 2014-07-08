@@ -28,8 +28,8 @@ task 'test', 'Basic test', (options) ->
 		'test/basic.coffee'
 	].forEach (file) ->
 		kit.spawn(mocha_bin, [
-			'-r'
-			'coffee-script/register'
+			'-r', 'coffee-script/register'
+			'-R', 'spec'
 			file
 		]).process.on 'exit', (code) ->
 			if code != 0
