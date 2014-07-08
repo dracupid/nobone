@@ -394,7 +394,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L60">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L61">
 				
 				<b>renderer</b>
 			</a>
@@ -475,7 +475,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L77">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L78">
 				
 				<b>compiler</b>
 			</a>
@@ -549,7 +549,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L144">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L145">
 				
 				<b>file_handlers</b>
 			</a>
@@ -594,7 +594,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L150">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L151">
 				
 				<b>cache_pool</b>
 			</a>
@@ -625,7 +625,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L159">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L160">
 				
 				<b>static</b>
 			</a>
@@ -672,7 +672,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L214">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L215">
 				
 				<b>render</b>
 			</a>
@@ -718,7 +718,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L227">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L228">
 				
 				<b>auto_reload</b>
 			</a>
@@ -749,7 +749,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L233">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L234">
 				
 				<b>close</b>
 			</a>
@@ -768,7 +768,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L244">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L245">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -826,7 +826,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L252">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L253">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -898,7 +898,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L258">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -942,7 +942,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L264">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L265">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1497,7 +1497,26 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L75">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L73">
+				
+				<b>jhash</b>
+			</a>
+		</h4>
+		<p><p>See my jhash project: <a href="https://github.com/ysmood/jhash">https://github.com/ysmood/jhash</a></p>
+</p>
+
+		<ul>
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L80">
 				
 				<b>glob</b>
 			</a>
@@ -1542,7 +1561,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L94">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L99">
 				
 				<b>spawn</b>
 			</a>
@@ -1616,7 +1635,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L136">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L141">
 				
 				<b>monitor_app</b>
 			</a>
@@ -1668,7 +1687,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L195">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L200">
 				
 				<b>watch_files</b>
 			</a>
@@ -1715,7 +1734,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L207">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L212">
 				
 				<b>env_mode</b>
 			</a>
@@ -1761,7 +1780,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L222">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L227">
 				
 				<b>inspect</b>
 			</a>
@@ -1820,7 +1839,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L241">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L246">
 				
 				<b>log</b>
 			</a>
@@ -1885,7 +1904,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L276">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L281">
 				
 				<b>err</b>
 			</a>
@@ -1930,7 +1949,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L290">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L295">
 				
 				<b>daemonize</b>
 			</a>
@@ -1981,7 +2000,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L315">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L320">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2027,7 +2046,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L336">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L341">
 				
 				<b>async_limit</b>
 			</a>
@@ -2086,7 +2105,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L389">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L394">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2200,7 +2219,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L472">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L477">
 				
 				<b>generate_bone</b>
 			</a>
@@ -2254,7 +2273,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L509">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L514">
 				
 				<b>is_file_exists</b>
 			</a>
@@ -2297,7 +2316,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L524">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L529">
 				
 				<b>is_dir_exists</b>
 			</a>
