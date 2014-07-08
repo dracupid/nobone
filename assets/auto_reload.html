@@ -1,8 +1,13 @@
 <!-- Auto reload page helper. -->
 <script type="text/javascript">
 	(function () {
-		var es = new EventSource('/nobone-sse/file_modified');
-		es.addEventListener('message', function (e) {
+		var es = new EventSource('/nobone-sse/auto_reload');
+
+		es.addEventListener('error', function (e) {
+			console.warn(e.message);
+		});
+
+		es.addEventListener('file_modified', function (e) {
 			var msg = JSON.parse(e.data);
 
 			console.log(">> file_modified: " + msg.path);

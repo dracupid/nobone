@@ -98,14 +98,15 @@ init_sse = (self) ->
 		}
 
 		###*
-		 * Send message to client.
-		 * @param  {[type]} msg [description]
-		 * @return {[type]}     [description]
+		 * Emit message to client.
+		 * @param  {String} event The event name.
+		 * @param  {Object | String} msg The message to send to the client.
 		###
-		session.send = (msg) ->
+		session.emit = (event, msg = '') ->
 			msg = JSON.stringify msg
 			res.write """
 			id: #{Date.now()}
+			event: #{event}
 			data: #{msg}\n\n
 			"""
 
@@ -122,24 +123,26 @@ init_sse = (self) ->
 			'Cache-Control': 'no-cache'
 			'Connection': 'keep-alive'
 		}
-		res.write '\n'
 
 		session = create_session req, res
 		self.sse.sessions.push session
 
 		emit self.e.sse_connected + req.path, session
+		self.sse.emit 'connect', 'ok'
 
 	###*
-	 * Broadcast a event to all clients.
-	 * @param {Object | String} msg The data you want to send to session.
-	 * @param {String} [path] The namespace of target sessions.
+	 * Broadcast a event to clients.
+	 * @param {String} event The event name.
+	 * @param {Object | String} msg The data you want to emit to session.
+	 * @param {String} [path] The namespace of target sessions. If not set,
+	 * broadcast to all clients.
 	###
-	self.sse.send = (msg, path) ->
+	self.sse.emit = (event, msg, path = '') ->
 		for el in self.sse.sessions
 			if not path
-				el.send msg
+				el.emit event, msg
 			else if el.path == path
-				el.send msg
+				el.emit event, msg
 
 
 module.exports = service

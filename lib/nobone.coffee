@@ -33,7 +33,11 @@ nobone = (opts) ->
 
 	if nb.service and nb.service.sse and nb.renderer
 		nb.renderer.on 'file_modified', (path, ext_bin, req_path) ->
-			nb.service.sse.send { path, ext_bin, req_path }, '/file_modified'
+			nb.service.sse.emit(
+				'file_modified'
+				{ path, ext_bin, req_path }
+				'/auto_reload'
+			)
 
 	###*
 	 * Release the resources.
