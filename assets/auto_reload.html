@@ -1,14 +1,11 @@
 <!-- Auto reload page helper. -->
 <script type="text/javascript">
-	if (!window.io) {
-		document.write(unescape('%3Cscript%20src%3D%22/socket.io/socket.io.js%22%3E%3C/script%3E'));
-	}
-</script>
-<script type="text/javascript">
 	(function () {
-		var sock = io();
-		sock.on('file_modified', function (path, ext_bin, req_path) {
-			console.log(">> file_modified: " + path);
+		var es = new EventSource('/nobone-sse/file_modified');
+		es.addEventListener('message', function (e) {
+			var msg = JSON.parse(e.data);
+
+			console.log(">> file_modified: " + msg.path);
 
 			var reload_elem = function (el) {
 				el.outerHTML = el.outerHTML;
@@ -19,15 +16,15 @@
 				[].slice.apply(elems).forEach(handler);
 			}
 
-			switch (ext_bin) {
+			switch (msg.ext_bin) {
 				case '.css':
-					each('link[href*="' + req_path + '"]', reload_elem);
+					each('link[href*="' + msg.req_path + '"]', reload_elem);
 					break;
 
 				case '.jpg':
 				case '.gif':
 				case '.png':
-					each('img[src*="' + req_path + '"]', reload_elem);
+					each('img[src*="' + msg.req_path + '"]', reload_elem);
 
 				default:
 					location.reload();

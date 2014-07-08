@@ -31,9 +31,9 @@ nobone = (opts) ->
 		if opts[k]
 			nb[k] = require('./modules/' + k)(v)
 
-	if nb.service and nb.service.io and nb.renderer
+	if nb.service and nb.service.sse and nb.renderer
 		nb.renderer.on 'file_modified', (path, ext_bin, req_path) ->
-			nb.service.io.emit 'file_modified', path, ext_bin, req_path
+			nb.service.sse.send { path, ext_bin, req_path }, '/file_modified'
 
 	###*
 	 * Release the resources.

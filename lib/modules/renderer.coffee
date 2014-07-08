@@ -217,7 +217,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	###*
 	 * The browser javascript to support the auto page reload.
-	 * You can use the socket.io event to custom you own.
 	 * @return {String} Returns html.
 	###
 	self.auto_reload = ->
