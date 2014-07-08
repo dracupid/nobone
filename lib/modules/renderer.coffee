@@ -13,7 +13,8 @@ kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
 fs = kit.require 'fs'
-jhash = require 'jhash'
+
+hash = new kit.jhash.constructor
 
 ###*
  * Create a Renderer instance.
@@ -293,7 +294,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.then (content) ->
 					cache_pool[path] = {
 						content
-						etag: Date.now() + '-' + jhash.hash(content)
+						etag: Date.now() + '-' + kit.jhash.hash(content)
 					}
 				.catch (err) ->
 					emit self.e.compile_error, path, err

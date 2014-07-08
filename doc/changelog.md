@@ -1,3 +1,7 @@
+* v0.2.1
+
+  * Much faster way to handle Etag.
+
 * v0.2.0
 
   * Decouple Socket.io, use EventSource instead.

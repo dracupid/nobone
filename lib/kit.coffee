@@ -68,6 +68,11 @@ _.extend kit, {
 	url: require 'url'
 
 	###*
+	 * See my jhash project: https://github.com/ysmood/jhash
+	###
+	jhash: require 'jhash'
+
+	###*
 	 * See the https://github.com/isaacs/node-glob
 	 * @param {String | Array} patterns Minimatch pattern.
 	 * @return {Promise} Contains the path list.
