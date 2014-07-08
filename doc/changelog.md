@@ -1,5 +1,6 @@
 * v0.2.0
 
+  * Decouple Socket.io, use EventSource instead.
   * Refactor `code_handlers` to `file_handlers`.
   * Optimize style and some default values.
 
