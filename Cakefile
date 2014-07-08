@@ -36,15 +36,7 @@ task 'test', 'Basic test', (options) ->
 				process.exit code
 
 task 'setup', 'Setup project.', ->
-	socketio_index_path = 'node_modules/socket.io/lib/index.js'
-	Q.fcall ->
-		kit.log "Fix socket.io etag bug.".cyan
-		kit.readFile socketio_index_path, 'utf8'
-	.then (str) ->
-		str = str.replace 'req.headers.etag', 'req.headers["if-none-match"]'
-		kit.outputFile socketio_index_path, str
-	.done ->
-		kit.log 'Setup finished.'.yellow
+	kit.log 'Setup finished.'.yellow
 
 task 'build', 'Compile coffee to js', build = ->
 	kit.log "Compile coffee..."
