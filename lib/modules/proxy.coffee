@@ -13,43 +13,59 @@ http = require 'http'
 
 ###*
  * Create a Proxy instance.
- * @param  {Object} opts Defaults: `{}`
+ * @param  {Object} opts Defaults: `{ }`
  * @return {Proxy} For more, see https://github.com/nodejitsu/node-http-proxy
 ###
 proxy = (opts = {}) ->
 	_.defaults opts, proxy.defaults
 
-	proxy = http_proxy.createProxyServer opts.proxy
+	proxy = http_proxy.createProxyServer opts
 
 	_.extend proxy, {
 		###*
 		 * Use it to proxy one url to another.
-		 * @param  {http.IncomingMessage} req
-		 * @param  {http.ServerResponse} res
-		 * @param  {String} url The target url
+		 * @param {http.IncomingMessage} req
+		 * @param {http.ServerResponse} res
+		 * @param {String} url The target url
+		 * @param {Object} opts Other options.
+		 * @param {Function} err Error handler.
 		###
-		url: (req, res, url) ->
+		url: (req, res, url, opts = {}, err) ->
 			if typeof url == 'string'
 				url = kit.url.parse url
 
 			req.url = url
 
-			proxy.web req, res, {
+			proxy.web(req, res, _.defaults(opts, {
 				target: url.format()
-			}
+			}) , (e) ->
+				if not err
+					kit.log e.toString() + ' -> ' + req.url.red
+				else
+					err e
+			)
 
 		###*
 		 * Simulate simple network delay.
-		 * @param  {http.IncomingMessage} req
-		 * @param  {http.ServerResponse} res
-		 * @param  {Number} delay In milliseconds.
+		 * @param {http.IncomingMessage} req
+		 * @param {http.ServerResponse} res
+		 * @param {Number} delay In milliseconds.
+		 * @param {Object} opts Other options.
+		 * @param {Function} err Error handler.
 		###
-		delay: (req, res, delay) ->
+		delay: (req, res, delay, opts = {}, err) ->
 			url = kit.url.parse req.originalUrl
 			setTimeout(->
-				proxy.web req, res, {
+				proxy.web(req, res, _.defaults(opts, {
+					proxyTimeout: delay * 10
+					timeout: delay * 10
 					target: url.format()
-				}
+				}), (e) ->
+					if not err
+						kit.log e.toString() + ' -> ' + req.url.red
+					else
+						err e
+				)
 			, delay)
 	}
 
