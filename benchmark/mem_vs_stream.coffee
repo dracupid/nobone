@@ -17,8 +17,9 @@ nb = nobone()
 
 port = 8013
 file_path = 'readme.md'
-
+s_etag = 0
 nb.service.get '/stream', (req, res) ->
+	res.set 'Etag', s_etag++
 	res.sendfile file_path
 
 nb.service.get '/', (req, res) ->
@@ -26,7 +27,9 @@ nb.service.get '/', (req, res) ->
 
 fs = require 'fs'
 mem_cache = fs.readFileSync file_path
+m_etag = 0
 nb.service.get '/memory', (req, res) ->
+	res.set 'Etag', m_etag++
 	res.type 'jpg'
 	res.send mem_cache
 
