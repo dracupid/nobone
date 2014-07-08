@@ -366,7 +366,7 @@ Most time used with SwitchySharp.</p>
 				<b>Overview</b>
 			</a>
 		</h4>
-		<p><p>A abstract renderer for any string resources, such as template, source code, etc.
+		<p><p>A abstract renderer for any string resources, such as template, source content, etc.
 It automatically uses high performance memory cache.
 You can run the benchmark to see the what differences it makes.
 Even for huge project its memory usage is negligible.</p>
@@ -394,7 +394,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L59">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L60">
 				
 				<b>renderer</b>
 			</a>
@@ -475,7 +475,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L76">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L77">
 				
 				<b>compiler</b>
 			</a>
@@ -495,7 +495,7 @@ It should return a promise object. Only handles string.</p>
 					
 					<em>{ String }</em>
 				</b></p>
-				<p><p>Source code.</p>
+				<p><p>Source content.</p>
 </p>
 			</li>
 
@@ -535,7 +535,7 @@ It should return a promise object. Only handles string.</p>
 					
 					<em>{ Any }</em>
 				</b></p>
-				<p><p>Promise or any thing that contains the compiled code.</p>
+				<p><p>Promise or any thing that contains the compiled content.</p>
 </p>
 			</li>
 
@@ -549,7 +549,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L143">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L144">
 				
 				<b>file_handlers</b>
 			</a>
@@ -594,7 +594,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L149">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L150">
 				
 				<b>cache_pool</b>
 			</a>
@@ -625,7 +625,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L158">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L159">
 				
 				<b>static</b>
 			</a>
@@ -672,13 +672,13 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L210">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L214">
 				
 				<b>render</b>
 			</a>
 		</h4>
 		<p><p>Render a file. It will auto detect the file extension and
-choose the right compiler to handle the code.</p>
+choose the right compiler to handle the content.</p>
 </p>
 
 		<ul>
@@ -704,7 +704,7 @@ choose the right compiler to handle the code.</p>
 					
 					<em>{ Promise }</em>
 				</b></p>
-				<p><p>Contains the compiled code.</p>
+				<p><p>Contains the compiled content.</p>
 </p>
 			</li>
 
@@ -718,7 +718,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L222">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L227">
 				
 				<b>auto_reload</b>
 			</a>
@@ -749,7 +749,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L228">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L233">
 				
 				<b>close</b>
 			</a>
@@ -768,7 +768,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L239">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L244">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -826,7 +826,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L247">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L252">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -898,7 +898,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L253">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L258">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -942,7 +942,7 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L264">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1165,7 +1165,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L90">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L89">
 				
 				<b>sse</b>
 			</a>
@@ -1184,11 +1184,10 @@ The namespace of nobone sse is &#39;/nobone-sse&#39;,</p>
 					<em>{  }</em>
 				</b></p>
 				<p><p>You browser code should be something like this:</p>
-<pre><code class="lang-coffee">source = EventSource(&#39;/nobone-sse&#39;)
-source.addEventListener(&#39;message&#39;, function (e) {
+<pre><code class="lang-coffee">es = new EventSource(&#39;/nobone-sse&#39;)
+es.addEventListener(&#39;event_name&#39;, (e) -&gt;
     msg = JSON.parse(e.data)
-    console.log(msg);
-});
+    console.log(msg)
 </code></pre>
 </p>
 			</li>
@@ -1214,7 +1213,7 @@ source.addEventListener(&#39;message&#39;, function (e) {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L106">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L105">
 				
 				<b>session.emit</b>
 			</a>
@@ -1261,7 +1260,7 @@ source.addEventListener(&#39;message&#39;, function (e) {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L141">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L140">
 				
 				<b>sse.emit</b>
 			</a>
