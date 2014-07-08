@@ -740,7 +740,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L160">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L166">
 				
 				<b>static</b>
 			</a>
@@ -761,7 +761,12 @@ Static folder to automatically serve coffeescript and stylus.</p>
 					<em>{ String | Object }</em>
 				</b></p>
 				<p><p>If it&#39;s a string it represents the root_dir
-of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
+of this static directory. Defaults:</p>
+<pre><code class="lang-coffee">{
+    root_dir: &#39;.&#39;
+    index: process.env.NODE_ENV == &#39;development&#39; # Whether enable serve direcotry index.
+}
+</code></pre>
 </p>
 			</li>
 
@@ -787,7 +792,7 @@ of this static directory. Defaults: <code>{ root_dir: &#39;.&#39; }</code></p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L215">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L231">
 				
 				<b>render</b>
 			</a>
@@ -833,7 +838,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L228">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L244">
 				
 				<b>auto_reload</b>
 			</a>
@@ -864,7 +869,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L234">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L250">
 				
 				<b>close</b>
 			</a>
@@ -883,7 +888,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L245">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L261">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -941,7 +946,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L253">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L269">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1013,7 +1018,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L275">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1057,7 +1062,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L265">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L281">
 				
 				<b>e.file_modified</b>
 			</a>

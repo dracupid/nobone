@@ -1,3 +1,8 @@
+* v0.2.3
+
+  * Support directory indexing.
+  * Proxy better error handling.
+
 * v0.2.2
 
   * Add a delay proxy helper.

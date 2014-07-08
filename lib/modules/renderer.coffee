@@ -154,23 +154,39 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Set a static directory.
 	 * Static folder to automatically serve coffeescript and stylus.
 	 * @param  {String | Object} opts If it's a string it represents the root_dir
-	 * of this static directory. Defaults: `{ root_dir: '.' }`
+	 * of this static directory. Defaults:
+	 * ```coffee
+	 * {
+	 * 	root_dir: '.'
+	 * 	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
+	 * }
+	 * ```
 	 * @return {Middleware} Experss.js middleware.
 	###
 	self.static = (opts = {}) ->
 		if _.isString opts
 			opts = { root_dir: opts }
-		else
-			_.defaults opts, {
-				root_dir: '.'
-			}
+
+		_.defaults opts, {
+			root_dir: '.'
+			index: process.env.NODE_ENV == 'development'
+		}
 
 		static_handler = express.static opts.root_dir
+		if opts.index
+			dir_handler = kit.require('serve-index')(
+				process.cwd() + '/' + opts.root_dir
+				{ icons: true, view: 'details' }
+			)
 
 		return (req, res, next) ->
 			path = kit.path.join opts.root_dir, req.path
 
-			rnext = -> static_handler req, res, next
+			rnext = -> static_handler req, res, (err) ->
+				if dir_handler
+					dir_handler req, res, next
+				else
+					next err
 
 			handler = get_handler path
 			if handler
