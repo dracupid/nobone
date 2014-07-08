@@ -37,6 +37,20 @@ proxy = (opts = {}) ->
 			proxy.web req, res, {
 				target: url.format()
 			}
+
+		###*
+		 * Simulate simple network delay.
+		 * @param  {http.IncomingMessage} req
+		 * @param  {http.ServerResponse} res
+		 * @param  {Number} delay In milliseconds.
+		###
+		delay: (req, res, delay) ->
+			url = kit.url.parse req.originalUrl
+			setTimeout(->
+				proxy.web req, res, {
+					target: url.format()
+				}
+			, delay)
 	}
 
 proxy.defaults = {}

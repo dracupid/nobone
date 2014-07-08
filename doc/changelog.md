@@ -1,3 +1,7 @@
+* v0.2.2
+
+  * Add a delay proxy helper.
+
 * v0.2.1
 
   * Much faster way to handle Etag.

@@ -347,6 +347,65 @@ Most time used with SwitchySharp.</p>
 	</li>
 
 	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L47">
+				
+				<b>delay</b>
+			</a>
+		</h4>
+		<p><p>Simulate simple network delay.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>req</code>
+					
+					<em>{ http.IncomingMessage }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>res</code>
+					
+					<em>{ http.ServerResponse }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>delay</code>
+					
+					<em>{ Number }</em>
+				</b></p>
+				<p><p>In milliseconds.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
 </ul>
 
 <hr>
