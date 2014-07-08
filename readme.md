@@ -718,13 +718,12 @@ choose the right compiler to handle the code.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L223">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L222">
 				
 				<b>auto_reload</b>
 			</a>
 		</h4>
-		<p><p>The browser javascript to support the auto page reload.
-You can use the socket.io event to custom you own.</p>
+		<p><p>The browser javascript to support the auto page reload.</p>
 </p>
 
 		<ul>
@@ -750,7 +749,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L229">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L228">
 				
 				<b>close</b>
 			</a>
@@ -769,7 +768,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L240">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L239">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -827,7 +826,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L248">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L247">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -899,7 +898,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L254">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L253">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -943,7 +942,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L260">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1001,7 +1000,7 @@ You can use the socket.io event to custom you own.</p>
 				<b>Overview</b>
 			</a>
 		</h4>
-		<p><p>It is just a Express.js wrap with build in Socket.io (optional).</p>
+		<p><p>It is just a Express.js wrap.</p>
 </p>
 
 		<ul>
@@ -1026,7 +1025,7 @@ You can use the socket.io event to custom you own.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L21">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L22">
 				
 				<b>service</b>
 			</a>
@@ -1047,7 +1046,7 @@ You can use the socket.io event to custom you own.</p>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
-    enable_socketio: process.env.NODE_ENV == &#39;development&#39;
+    enable_sse: process.env.NODE_ENV == &#39;development&#39;
     express: {}
 }
 </code></pre>
@@ -1063,6 +1062,235 @@ You can use the socket.io event to custom you own.</p>
 					<em>{ Service }</em>
 				</b></p>
 				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L45">
+				
+				<b>e.sse_connected</b>
+			</a>
+		</h4>
+		<p><p>Triggered when a sse connection started.
+The event name is a combination of sse_connected and req.path,
+for example: &quot;sse_connected/test&quot;</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>sse_connected</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>The</code>
+					
+					<em>{ SSE_session }</em>
+				</b></p>
+				<p><p>session object of current connection.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L52">
+				
+				<b>e.sse_close</b>
+			</a>
+		</h4>
+		<p><p>When a sse connection closed.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>sse_close</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ SSE_session }</em>
+				</b></p>
+				<p><p>The session object of current connection.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L89">
+				
+				<b>sse</b>
+			</a>
+		</h4>
+		<p><p>A Server-Sent Event Manager.
+The namespace of nobone sse is &#39;/nobone-sse&#39;,</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>You browser code should be something like this:</p>
+<pre><code class="lang-coffee">source = EventSource(&#39;/nobone-sse&#39;)
+source.addEventListener(&#39;message&#39;, function (e) {
+    msg = JSON.parse(e.data)
+    console.log(msg);
+});
+</code></pre>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ SSE }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L105">
+				
+				<b>session.send</b>
+			</a>
+		</h4>
+		<p><p>Send message to client.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>msg</code>
+					
+					<em>{ [type] }</em>
+				</b></p>
+				<p><p>[description]</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ [type] }</em>
+				</b></p>
+				<p><p>[description]</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L137">
+				
+				<b>sse.send</b>
+			</a>
+		</h4>
+		<p><p>Broadcast a event to all clients.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>msg</code>
+					
+					<em>{ Object | String }</em>
+				</b></p>
+				<p><p>The data you want to send to session.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>[path] The namespace of target sessions.</p>
+</p>
 			</li>
 
 			
