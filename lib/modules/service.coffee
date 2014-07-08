@@ -79,11 +79,10 @@ init_sse = (self) ->
 	 * The namespace of nobone sse is '/nobone-sse',
 	 * @example You browser code should be something like this:
 	 * ```coffee
-	 * source = EventSource('/nobone-sse')
-	 * source.addEventListener('message', function (e) {
+	 * es = new EventSource('/nobone-sse')
+	 * es.addEventListener('event_name', (e) ->
 	 * 	msg = JSON.parse(e.data)
-	 * 	console.log(msg);
-	 * });
+	 * 	console.log(msg)
 	 * ```
 	 * @type {SSE}
 	###
