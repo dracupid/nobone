@@ -1,5 +1,5 @@
 ###*
- * A abstract renderer for any string resources, such as template, source code, etc.
+ * A abstract renderer for any string resources, such as template, source content, etc.
  * It automatically uses high performance memory cache.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project its memory usage is negligible.
@@ -13,6 +13,7 @@ kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
 fs = kit.require 'fs'
+jhash = require 'jhash'
 
 ###*
  * Create a Renderer instance.
@@ -68,10 +69,10 @@ renderer.defaults = {
 			###*
 			 * The compiler should fulfil two interface.
 			 * It should return a promise object. Only handles string.
-			 * @param  {String} str Source code.
+			 * @param  {String} str Source content.
 			 * @param  {String} path For debug info.
 			 * @param  {String} ext_src The source file's extension.
-			 * @return {Any} Promise or any thing that contains the compiled code.
+			 * @return {Any} Promise or any thing that contains the compiled content.
 			###
 			compiler: (str, path) ->
 				ejs = kit.require 'ejs'
@@ -173,25 +174,28 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler = get_handler path
 			if handler
 				handler.req_path = req.path
-				get_code(handler)
-				.then (code) ->
-					if code == null
+				get_cache(handler)
+				.then (cache) ->
+					content = cache.content
+					if content == null
 						return res.send 500, self.e.compile_error
 
 					res.type handler.type or handler.ext_bin
 
-					switch code.constructor.name
+					switch content.constructor.name
 						when 'String', 'Buffer'
-							res.send code
+							body = content
 						when 'Function'
-							res.send code()
+							body = content()
 						else
-							err = new Error(
-								'The compiler should produce a string or function: '.red +
+							body = 'The compiler should produce a string or function: '.red +
 								path.cyan
-							)
+							err = new Error(body)
 							err.name = 'unknown_type'
 							throw err
+
+					res.set 'ETag', cache.etag
+					res.send body
 				.catch (err) ->
 					if err.name == 'file_not_exists'
 						rnext()
@@ -203,17 +207,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	###*
 	 * Render a file. It will auto detect the file extension and
-	 * choose the right compiler to handle the code.
+	 * choose the right compiler to handle the content.
 	 * @param  {String} path The file path
-	 * @return {Promise} Contains the compiled code.
+	 * @return {Promise} Contains the compiled content.
 	###
 	self.render = (path) ->
 		handler = get_handler path, true
 
 		if handler
-			get_code handler
+			get_cache(handler).then (cache) ->
+				cache.content
 		else
-			throw new Error('No matched code handler for:' + path)
+			throw new Error('No matched content handler for:' + path)
 
 	###*
 	 * The browser javascript to support the auto page reload.
@@ -285,8 +290,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						str
 					else
 						handler.compiler(str, path, ext)
-				.then (code) ->
-					cache_pool[path] = code
+				.then (content) ->
+					cache_pool[path] = {
+						content
+						etag: Date.now() + '-' + jhash.hash(content)
+					}
 				.catch (err) ->
 					emit self.e.compile_error, path, err
 					cache_pool[path] = null
@@ -295,7 +303,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				err.name = 'file_not_exists'
 				throw err
 
-	get_code = (handler) ->
+	get_cache = (handler) ->
 		handler.compiler ?= (str) -> str
 
 		cache = _.find cache_pool, (v, k) ->
