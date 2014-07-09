@@ -82,9 +82,14 @@ _.extend nobone, {
 	###*
 	 * The NoBone client helper.
 	 * @static
+	 * @param {Boolean} auto If true, and not on development mode
+	 * return an empty string.
 	 * @return {String} The html of client helper.
 	###
-	client: ->
+	client: (auto = true) ->
+		if auto and process.env.NODE_ENV != 'development'
+			return ''
+
 		if not nobone.client_cache
 			fs = kit.require 'fs'
 			js = fs.readFileSync(__dirname + '/nobone_client.js')
