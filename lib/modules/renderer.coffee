@@ -309,7 +309,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.then (content) ->
 					cache_pool[path] = {
 						content
-						etag: Date.now() + '-' + kit.jhash.hash(content)
+						etag: kit.jhash.hash(content)
 					}
 				.catch (err) ->
 					emit self.e.compile_error, path, err
