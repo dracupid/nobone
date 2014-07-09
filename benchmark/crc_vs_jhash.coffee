@@ -1,9 +1,9 @@
 ###*
  * As we can see, jhash is about 1.6x faster than crc32.
  * ```
- * crc file x 5,930 ops/sec ±0.25% (100 runs sampled)
- * crc str x 73,916 ops/sec ±0.34% (100 runs sampled)
- * jhash file x 9,675 ops/sec ±0.43% (98 runs sampled)
+ * crc file    x 5,930 ops/sec ±0.25% (100 runs sampled)
+ * crc str    x 73,916 ops/sec ±0.34% (100 runs sampled)
+ * jhash file  x 9,675 ops/sec ±0.43% (98 runs sampled)
  * jhash str x 121,068 ops/sec ±1.42% (98 runs sampled)
  * ```
 ###
@@ -17,11 +17,11 @@ util = require '../node_modules/express/lib/utils.js'
 jhash = require 'jhash'
 
 file = fs.readFileSync 'assets/img/nobone.png'
-str = fs.readFileSync 'assets/markdown/github.styl'
+str = fs.readFileSync 'assets/markdown/github.styl', 'utf8'
 
 suite
 
-.add('* crc file', {
+.add('* crc buffer', {
 	fn: ->
 		util.wetag file
 })
@@ -31,13 +31,13 @@ suite
 		util.wetag str
 })
 
-.add('* jhash file', {
-	fn: () ->
+.add('* jhash buffer', {
+	fn: ->
 		jhash.hash file
 })
 
 .add('* jhash str', {
-	fn: () ->
+	fn: ->
 		jhash.hash str
 })
 
