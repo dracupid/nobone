@@ -15,6 +15,7 @@ emit = null
  * ```coffee
  * {
  * 	auto_log: process.env.NODE_ENV == 'development'
+ * 	enable_remote_log: process.env.NODE_ENV == 'development'
  * 	enable_sse: process.env.NODE_ENV == 'development'
  * 	express: {}
  * }```
@@ -61,6 +62,9 @@ service = (opts = {}) ->
 			server.close callback
 	}
 
+	if opts.enable_remote_log
+		init_remote_log self
+
 	if opts.enable_sse
 		init_sse self
 
@@ -68,9 +72,25 @@ service = (opts = {}) ->
 
 service.defaults = {
 	auto_log: process.env.NODE_ENV == 'development'
+	enable_remote_log: process.env.NODE_ENV == 'development'
 	enable_sse: process.env.NODE_ENV == 'development'
 	express: {}
 }
+
+
+init_remote_log = (self) ->
+	self.post '/nobone-log', (req, res) ->
+		data = ''
+
+		req.on 'data', (chunk) ->
+			data += chunk
+
+		req.on 'end', ->
+			try
+				kit.log JSON.parse(data)
+				res.send 200
+			catch e
+				res.send 500
 
 
 init_sse = (self) ->

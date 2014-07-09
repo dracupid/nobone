@@ -31,7 +31,7 @@ hash = new kit.jhash.constructor
  * 				'path': [pattern1, ...] # Extra files to watch.
  * 			}
  * 			encoding: 'utf8' # optional, default is 'utf8'
- * 			compiler: (str, path) -> ...
+ * 			compiler: (str, path, ext_src, data) -> ...
  * 		}
  * 		'.js': {
  * 			ext_src: '.coffee'
@@ -73,6 +73,8 @@ renderer.defaults = {
 			 * @param  {String} str Source content.
 			 * @param  {String} path For debug info.
 			 * @param  {String} ext_src The source file's extension.
+			 * @param  {Any} data The data sent from the `render` function. Available only
+			 * when you call the `render` directly. Default is an empty object: `{ }`.
 			 * @return {Any} Promise or any thing that contains the compiled content.
 			###
 			compiler: (str, path) ->
@@ -226,23 +228,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Render a file. It will auto detect the file extension and
 	 * choose the right compiler to handle the content.
 	 * @param  {String} path The file path
+	 * @param  {Any} data Extra data you want to send to the compiler.
 	 * @return {Promise} Contains the compiled content.
 	###
-	self.render = (path) ->
+	self.render = (path, data) ->
 		handler = get_handler path, true
 
 		if handler
+			handler.data = data
 			get_cache(handler).then (cache) ->
 				cache.content
 		else
 			throw new Error('No matched content handler for:' + path)
-
-	###*
-	 * The browser javascript to support the auto page reload.
-	 * @return {String} Returns html.
-	###
-	self.auto_reload = ->
-		Renderer.auto_reload
 
 	###*
 	 * Release the resources.
@@ -300,13 +297,15 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 				kit.readFile path, encoding
 				.then (str) ->
+					handler.data = {} if handler.data == undefined
+
 					if handler.type and handler.type != ext
-						return handler.compiler(str, path, ext)
+						return handler.compiler(str, path, ext, handler.data)
 
 					if ext == handler.ext_bin
 						str
 					else
-						handler.compiler(str, path, ext)
+						handler.compiler(str, path, ext, handler.data)
 				.then (content) ->
 					cache_pool[path] = {
 						content
@@ -406,9 +405,5 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.done (paths) ->
 					for p in paths
 						emit self.e.watch_file, path + ' <- ' + p, handler.url
-
-	Renderer.auto_reload = fs.readFileSync(
-		__dirname + '/../../assets/auto_reload.html', 'utf8'
-	)
 
 module.exports = renderer

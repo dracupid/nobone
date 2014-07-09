@@ -61,6 +61,7 @@ _.extend nobone, {
 
 	###*
 	 * Help you to get the default options of moduels.
+	 * @static
 	 * @param {String} name Module name, if not set, return all modules' defaults.
 	 * @return {Promise} A promise object which will produce the defaults.
 	###
@@ -77,6 +78,24 @@ _.extend nobone, {
 				list[name]
 			else
 				list
+
+	###*
+	 * The NoBone client helper.
+	 * @static
+	 * @return {String} The html of client helper.
+	###
+	client: ->
+		if not nobone.client_cache
+			fs = kit.require 'fs'
+			js = fs.readFileSync(__dirname + '/nobone_client.js')
+			html = """
+				<script type="text/javascript">
+				#{js}
+				</script>
+			"""
+			nobone.client_cache = html
+
+		nobone.client_cache
 }
 
 module.exports = nobone

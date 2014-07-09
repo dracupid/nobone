@@ -45,7 +45,7 @@ cmder
 			compile: (str, data, path) ->
 				ejs = kit.require 'ejs'
 				data.filename = path
-				data.body = renderer.auto_reload()
+				data.body = nobone.client()
 				ejs.render str, data
 		})
 		.catch (err) ->

@@ -6,7 +6,7 @@ nb.service.get '/', (req, res) ->
 	nb.renderer.render(__dirname + '/index.ejs')
 	.done (tpl_func) ->
 		res.send tpl_func({
-			body: nb.renderer.auto_reload()
+			body: nobone.client()
 		})
 
 nb.service.use nb.renderer.static('client')
