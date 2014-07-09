@@ -1,6 +1,7 @@
 * v0.2.6
 
-  * A more powerful client helper.
+  * Add a remote log helper.
+  * Refactor `renderer.auto_reload()` to `nobone.client()`.
 
 * v0.2.4 - v0.2.5
 
