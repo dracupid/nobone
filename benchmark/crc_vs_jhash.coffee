@@ -29,27 +29,29 @@ fs = require 'fs'
 crc32 = require '../node_modules/express/node_modules/buffer-crc32'
 jhash = require 'jhash'
 
-performance_test = ->
-	console.log 'Performance Test'
+file = fs.readFileSync 'assets/img/nobone.png'
+str = fs.readFileSync 'readme.md', 'utf8'
 
-	file = fs.readFileSync 'assets/img/nobone.png'
-	str = fs.readFileSync 'assets/markdown/github.styl', 'utf8'
+performance_test = ->
+	console.log '=== Performance Test ==='
+
 
 	suite
 
-	.add('crc buffer', {
+	.add('  crc buffer', {
 		fn: ->
 			crc32.unsigned file
-	})
-
-	.add('crc str', {
-		fn: ->
-			crc32.unsigned str
 	})
 
 	.add('jhash buffer', {
 		fn: ->
 			jhash.hash file, true
+	})
+
+	.add('  crc str', {
+		fn: ->
+			buf = new Buffer str
+			crc32.unsigned buf
 	})
 
 	.add('jhash str', {
@@ -62,11 +64,11 @@ performance_test = ->
 	.run({ 'async': true })
 
 collision_test = ->
-	console.log 'Collision Test'
+	console.log '\n=== Collision Test ==='
 
 	hash = (mod, hash_fun) ->
 		arr = []
-		for i in [0 ... 1000]
+		for i in [0 ... _.random(1000, 3000)]
 			arr.push _.random(0, 2 ** 8)
 
 		hash_fun.call mod, arr, true
@@ -91,7 +93,7 @@ collision_test = ->
 
 		console.log """
 			***** #{name} *****
-			  5 samples: #{samples[0...5]}
+			 5 samples: #{samples[0...5]}
 			      time: #{time}s
 			collisions: #{ratio}% (#{count - _.size(res)}/#{count})
 		"""
