@@ -1,3 +1,8 @@
+* v0.2.7
+
+  * Better etag method.
+  * Better `kit.spawn`.
+
 * v0.2.6
 
   * Add a remote log helper.
