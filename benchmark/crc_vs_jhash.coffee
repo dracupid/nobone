@@ -8,20 +8,19 @@
  * jhash buffer x 9,756 ops/sec ±0.67% (101 runs sampled)
  * jhash str    x 72,056 ops/sec ±0.36% (94 runs sampled)
  *
- * Collision Test
+ * === Collision Test ===
  * ***** jhash *****
- *  5 samples: 3481292839,1601668515,957061576,1031084327,1000054056
- *       time: 10.001s
- * collisions: 0.0018788163457017504% (4/212900)
+ * time: 10.002s
+ * collisions: 0.004007480630510286% (15 / 374300)
  * ***** crc32 *****
- *  5 samples: 3494480258,2736329845,2815219153,3510180228,2016919691
- *       time: 10.003s
- * collisions: 0.0027945971122544933% (6/214700)
+ * time: 10.001s
+ * collisions: 0.004445855827246745% (14 / 314900)
  * ```
 ###
 
 _ = require 'lodash'
 Benchmark = require('benchmark')
+crypto = require 'crypto'
 suite = new Benchmark.Suite
 Benchmark.support.timeout = false
 fs = require 'fs'
@@ -34,7 +33,6 @@ str = fs.readFileSync 'readme.md', 'utf8'
 
 performance_test = ->
 	console.log '=== Performance Test ==='
-
 
 	suite
 
@@ -68,20 +66,32 @@ collision_test = ->
 
 	hash = (mod, hash_fun) ->
 		arr = []
-		for i in [0 ... _.random(1000, 3000)]
-			arr.push _.random(0, 2 ** 8)
+		for i in [0 ... 500]
+			arr[i] = _.random(0, 2 ** 8 - 1)
 
-		hash_fun.call mod, arr, true
+		buf = new Buffer(arr)
+
+		md5_sum = crypto
+			.createHash('md5')
+			.update(buf)
+			.digest('base64')
+
+		[
+			hash_fun.call mod, arr, true
+			md5_sum
+		]
 
 	batch = (mod, hash_fun, name) ->
 		start_time = Date.now()
 		count = 0
+		collision = 0
 		res = {}
-		samples = []
 		while true
 			v = hash(mod, hash_fun)
-			samples.push v
-			res[v] = true
+			if res[v[0]] and res[v[0]] != v[1]
+				collision++
+			else
+				res[v[0]] = v[1]
 
 			# Run about 10 seconds.
 			if ++count % 100 == 0 and
@@ -89,13 +99,11 @@ collision_test = ->
 				break
 
 		time = (Date.now() - start_time) / 1000
-		ratio = (1 - _.size(res) / count) * 100
 
 		console.log """
 			***** #{name} *****
-			 5 samples: #{samples[0...5]}
-			      time: #{time}s
-			collisions: #{ratio}% (#{count - _.size(res)}/#{count})
+			time: #{time}s
+			collisions: #{collision / count * 100}% (#{collision} / #{count})
 		"""
 
 	batch jhash, jhash.hash, 'jhash'
