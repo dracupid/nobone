@@ -40,7 +40,7 @@ port = 8013
 #	nobone {
 #		renderer: {}
 #	}
-# By default it load two module: service, renderer
+# By default it loads two modules: service, renderer
 nb = nobone {
 	db: { db_path: './test.db' }
 	proxy: {}
@@ -1756,7 +1756,26 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L157">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L138">
+				
+				<b>extend_env</b>
+			</a>
+		</h4>
+		<p><p>Automatically add <code>node_modules/.bin</code> to the <code>PATH</code> environment variable.</p>
+</p>
+
+		<ul>
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L160">
 				
 				<b>monitor_app</b>
 			</a>
@@ -1808,7 +1827,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L216">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L219">
 				
 				<b>watch_files</b>
 			</a>
@@ -1855,7 +1874,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L228">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L231">
 				
 				<b>env_mode</b>
 			</a>
@@ -1901,7 +1920,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L243">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L246">
 				
 				<b>inspect</b>
 			</a>
@@ -1960,7 +1979,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L262">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L265">
 				
 				<b>log</b>
 			</a>
@@ -2025,7 +2044,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L297">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L300">
 				
 				<b>err</b>
 			</a>
@@ -2070,7 +2089,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L311">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L314">
 				
 				<b>daemonize</b>
 			</a>
@@ -2121,7 +2140,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L336">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L339">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2167,7 +2186,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L357">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L360">
 				
 				<b>async_limit</b>
 			</a>
@@ -2226,7 +2245,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L410">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L413">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2340,7 +2359,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L493">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L496">
 				
 				<b>generate_bone</b>
 			</a>
@@ -2394,7 +2413,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L530">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L533">
 				
 				<b>is_file_exists</b>
 			</a>
@@ -2437,7 +2456,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L545">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L548">
 				
 				<b>is_dir_exists</b>
 			</a>
@@ -2627,7 +2646,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L87">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L89">
 				
 				<b>client</b>
 			</a>
@@ -2645,6 +2664,21 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					<em>{  }</em>
 				</b></p>
 				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>auto</code>
+					
+					<em>{ Boolean }</em>
+				</b></p>
+				<p><p>If true, and not on development mode
+return an empty string.</p>
+</p>
 			</li>
 
 			
@@ -2690,9 +2724,9 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 </code></pre>
 
 <p>As we can see, jhash is about 1.6x faster than crc32.</p>
-<pre><code>crc file x 5,930 ops/sec ±0.25% (100 runs sampled)
-crc str x 73,916 ops/sec ±0.34% (100 runs sampled)
-jhash file x 9,675 ops/sec ±0.43% (98 runs sampled)
+<pre><code>crc file    x 5,930 ops/sec ±0.25% (100 runs sampled)
+crc str    x 73,916 ops/sec ±0.34% (100 runs sampled)
+jhash file  x 9,675 ops/sec ±0.43% (98 runs sampled)
 jhash str x 121,068 ops/sec ±1.42% (98 runs sampled)
 </code></pre>
 
