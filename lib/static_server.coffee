@@ -25,7 +25,7 @@ renderer.file_handlers['.md'].compiler = (str, path) ->
 	.then (tpl) ->
 		tpl {
 			path
-			body: md + nobone.auto_reload()
+			body: md + nobone.client()
 		}
 
 service.get '/favicon.ico', (req, res) ->
