@@ -1,3 +1,7 @@
+* v0.2.6
+
+  * A more powerful client helper.
+
 * v0.2.4 - v0.2.5
 
   * Fix a windows path issue.
