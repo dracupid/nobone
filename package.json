@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "benchmark": "^1.0.0",
-    "mocha": "^1.20.1",
-    "crc32": "*"
+    "mocha": "^1.20.1"
   }
 }
