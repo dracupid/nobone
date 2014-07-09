@@ -262,7 +262,7 @@ _.extend kit, {
 			str = _.toArray(arguments).join ' '
 			console[action] str.replace /\n/g, '\n  '
 
-		if typeof msg != 'string'
+		if _.isObject msg
 			log "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
 		else
 			log "[#{time}]", msg, time_delta
