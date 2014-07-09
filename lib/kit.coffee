@@ -90,6 +90,7 @@ _.extend kit, {
 
 	###*
 	 * Safe version of `child_process.spawn` to run a process on Windows or Linux.
+	 * It will automatically add `node_modules/.bin` to the `PATH` environment variable.
 	 * @param  {String} cmd Path of an executable program.
 	 * @param  {Array} args CLI arguments.
 	 * @param  {Object} opts Process options. Same with the Node.js official doc.
@@ -97,7 +98,9 @@ _.extend kit, {
 	 * @return {Promise} The `promise.process` is the child process object.
 	###
 	spawn: (cmd, args = [], opts = {}) ->
-		_.defaults opts, { stdio: 'inherit' }
+		_.defaults opts, {
+			stdio: 'inherit'
+		}
 
 		if process.platform == 'win32'
 			cmd_ext = cmd + '.cmd'
@@ -111,6 +114,9 @@ _.extend kit, {
 		deferred = Q.defer()
 
 		{ spawn } = kit.require 'child_process'
+
+		kit.extend_env()
+
 		try
 			ps = spawn cmd, args, opts
 		catch err
@@ -125,6 +131,19 @@ _.extend kit, {
 		deferred.promise.process = ps
 
 		return deferred.promise
+
+	###*
+	 * Automatically add `node_modules/.bin` to the `PATH` environment variable.
+	###
+	extend_env: ->
+		PATH = process.env.PATH
+		[
+			kit.path.normalize __dirname + '/../node_modules/.bin'
+			kit.path.normalize process.cwd + '/node_modules/.bin'
+		].forEach (path) ->
+			if PATH.indexOf path < 0
+				PATH = [path, PATH].join kit.path.delimiter
+		process.env.PATH = PATH
 
 	###*
 	 * Monitor an application and automatically restart it when file changed.

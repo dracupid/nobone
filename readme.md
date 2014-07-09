@@ -1681,12 +1681,13 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L99">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L100">
 				
 				<b>spawn</b>
 			</a>
 		</h4>
-		<p><p>Safe version of <code>child_process.spawn</code> to run a process on Windows or Linux.</p>
+		<p><p>Safe version of <code>child_process.spawn</code> to run a process on Windows or Linux.
+It will automatically add <code>node_modules/.bin</code> to the <code>PATH</code> environment variable.</p>
 </p>
 
 		<ul>
@@ -1755,7 +1756,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L141">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L157">
 				
 				<b>monitor_app</b>
 			</a>
@@ -1807,7 +1808,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L200">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L216">
 				
 				<b>watch_files</b>
 			</a>
@@ -1854,7 +1855,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L212">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L228">
 				
 				<b>env_mode</b>
 			</a>
@@ -1900,7 +1901,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L227">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L243">
 				
 				<b>inspect</b>
 			</a>
@@ -1959,7 +1960,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L246">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L262">
 				
 				<b>log</b>
 			</a>
@@ -2024,7 +2025,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L281">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L297">
 				
 				<b>err</b>
 			</a>
@@ -2069,7 +2070,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L295">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L311">
 				
 				<b>daemonize</b>
 			</a>
@@ -2120,7 +2121,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L320">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L336">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2166,7 +2167,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L341">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L357">
 				
 				<b>async_limit</b>
 			</a>
@@ -2225,7 +2226,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L394">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L410">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2339,7 +2340,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L477">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L493">
 				
 				<b>generate_bone</b>
 			</a>
@@ -2393,7 +2394,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L514">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L530">
 				
 				<b>is_file_exists</b>
 			</a>
@@ -2436,7 +2437,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L529">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L545">
 				
 				<b>is_dir_exists</b>
 			</a>
