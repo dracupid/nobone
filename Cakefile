@@ -27,9 +27,6 @@ task 'test', 'Basic test', (options) ->
 			if code != 0
 				process.exit code
 
-task 'setup', 'Setup project.', ->
-	kit.log 'Setup finished.'.yellow
-
 task 'build', 'Compile coffee to js', build = ->
 	kit.log "Compile coffee..."
 
