@@ -1,3 +1,7 @@
+* v0.2.4
+
+  * Fix a windows path issue.
+
 * v0.2.3
 
   * Support directory indexing.

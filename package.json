@@ -1,16 +1,16 @@
 {
   "name": "nobone",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A server library ties to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
     "nobone": "bin/nobone.js"
   },
   "scripts": {
-    "install": "node_modules/.bin/cake setup",
-    "test": "node_modules/.bin/cake build test clean",
-    "prepublish": "node_modules/.bin/cake build",
-    "publish": "node_modules/.bin/cake clean"
+    "install": "cake setup",
+    "test": "cake build test clean",
+    "prepublish": "cake build",
+    "publish": "cake clean"
   },
   "keywords": [
     "web",
