@@ -2724,7 +2724,7 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 </code></pre>
 
 <p>As we can see, jhash is about 1.5x faster than crc32.
-And the results collision test are nearly the same.</p>
+Their results of collision test are nearly the same.</p>
 <pre><code>Performance Test
 crc buffer   x 5,903 ops/sec ±0.52% (100 runs sampled)
 crc str      x 54,045 ops/sec ±6.67% (83 runs sampled)
@@ -2733,11 +2733,11 @@ jhash str    x 72,056 ops/sec ±0.36% (94 runs sampled)
 
 Collision Test
 ***** jhash *****
-  5 samples: 3481292839,1601668515,957061576,1031084327,1000054056
+ 5 samples: 3481292839,1601668515,957061576,1031084327,1000054056
       time: 10.001s
 collisions: 0.0018788163457017504% (4/212900)
 ***** crc32 *****
-  5 samples: 3494480258,2736329845,2815219153,3510180228,2016919691
+ 5 samples: 3494480258,2736329845,2815219153,3510180228,2016919691
       time: 10.003s
 collisions: 0.0027945971122544933% (6/214700)
 </code></pre>
