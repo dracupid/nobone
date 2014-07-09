@@ -62,6 +62,10 @@ service = (opts = {}) ->
 			server.close callback
 	}
 
+	jhash = new kit.jhash.constructor
+	self.set 'etag', (body) ->
+		"W/\"#{jhash.hash body}\""
+
 	if opts.enable_remote_log
 		init_remote_log self
 
