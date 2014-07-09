@@ -1285,7 +1285,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L109">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L113">
 				
 				<b>sse</b>
 			</a>
@@ -1333,7 +1333,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L125">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L129">
 				
 				<b>session.emit</b>
 			</a>
@@ -1380,7 +1380,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L160">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L164">
 				
 				<b>sse.emit</b>
 			</a>
