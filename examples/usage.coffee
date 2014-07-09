@@ -17,6 +17,7 @@ nb = nobone {
 	renderer: {}
 	service: {}
 }
+
 # Print all available modules.
 nobone.module_defaults().done (list) ->
 	nb.kit.log 'module_defaults'
@@ -28,7 +29,7 @@ nb.service.get '/', (req, res) ->
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
 	nb.renderer.render('bone/index.ejs')
 	.done (tpl_func) ->
-		res.send tpl_func({ body: nb.renderer.auto_reload() })
+		res.send tpl_func({ body: nobone.client() })
 
 # Launch socket.io and express.js
 nb.service.listen port

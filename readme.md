@@ -47,6 +47,7 @@ nb = nobone {
 	renderer: {}
 	service: {}
 }
+
 # Print all available modules.
 nobone.module_defaults().done (list) ->
 	nb.kit.log 'module_defaults'
@@ -58,7 +59,7 @@ nb.service.get '/', (req, res) ->
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
 	nb.renderer.render('bone/index.ejs')
 	.done (tpl_func) ->
-		res.send tpl_func({ body: nb.renderer.auto_reload() })
+		res.send tpl_func({ body: nobone.client() })
 
 # Launch socket.io and express.js
 nb.service.listen port
@@ -540,7 +541,7 @@ Even for huge project its memory usage is negligible.</p>
                 &#39;path&#39;: [pattern1, ...] # Extra files to watch.
             }
             encoding: &#39;utf8&#39; # optional, default is &#39;utf8&#39;
-            compiler: (str, path) -&gt; ...
+            compiler: (str, path, ext_src, data) -&gt; ...
         }
         &#39;.js&#39;: {
             ext_src: &#39;.coffee&#39;
@@ -590,7 +591,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L78">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L80">
 				
 				<b>compiler</b>
 			</a>
@@ -646,6 +647,21 @@ It should return a promise object. Only handles string.</p>
 
 			<li>
 				<p><b>
+					<u>param</u>:
+					
+						<code>data</code>
+					
+					<em>{ Any }</em>
+				</b></p>
+				<p><p>The data sent from the <code>render</code> function. Available only
+when you call the <code>render</code> directly. Default is an empty object: <code>{ }</code>.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ Any }</em>
@@ -664,7 +680,7 @@ It should return a promise object. Only handles string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L145">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L147">
 				
 				<b>file_handlers</b>
 			</a>
@@ -709,7 +725,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L151">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L153">
 				
 				<b>cache_pool</b>
 			</a>
@@ -740,7 +756,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L166">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L168">
 				
 				<b>static</b>
 			</a>
@@ -792,7 +808,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L231">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L234">
 				
 				<b>render</b>
 			</a>
@@ -820,6 +836,20 @@ choose the right compiler to handle the content.</p>
 
 			<li>
 				<p><b>
+					<u>param</u>:
+					
+						<code>data</code>
+					
+					<em>{ Any }</em>
+				</b></p>
+				<p><p>Extra data you want to send to the compiler.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ Promise }</em>
@@ -838,38 +868,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L244">
-				
-				<b>auto_reload</b>
-			</a>
-		</h4>
-		<p><p>The browser javascript to support the auto page reload.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Returns html.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L250">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L247">
 				
 				<b>close</b>
 			</a>
@@ -888,7 +887,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L261">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L258">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -946,7 +945,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L269">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L266">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1018,7 +1017,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L275">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L272">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1062,7 +1061,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L281">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L278">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1145,7 +1144,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L23">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L24">
 				
 				<b>service</b>
 			</a>
@@ -1167,6 +1166,7 @@ choose the right compiler to handle the content.</p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
     auto_log: process.env.NODE_ENV == &#39;development&#39;
+    enable_remote_log: process.env.NODE_ENV == &#39;development&#39;
     enable_sse: process.env.NODE_ENV == &#39;development&#39;
     express: {}
 }
@@ -1195,7 +1195,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L46">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L47">
 				
 				<b>e.sse_connected</b>
 			</a>
@@ -1242,7 +1242,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L53">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L54">
 				
 				<b>e.sse_close</b>
 			</a>
@@ -1285,7 +1285,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L89">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L109">
 				
 				<b>sse</b>
 			</a>
@@ -1333,7 +1333,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L105">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L125">
 				
 				<b>session.emit</b>
 			</a>
@@ -1380,7 +1380,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L140">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L160">
 				
 				<b>sse.emit</b>
 			</a>
@@ -2570,7 +2570,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L67">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L68">
 				
 				<b>module_defaults</b>
 			</a>
@@ -2579,6 +2579,17 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 </p>
 
 		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>static</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p></p>
+			</li>
+
 			
 
 			<li>
@@ -2602,6 +2613,48 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					<em>{ Promise }</em>
 				</b></p>
 				<p><p>A promise object which will produce the defaults.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L87">
+				
+				<b>client</b>
+			</a>
+		</h4>
+		<p><p>The NoBone client helper.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>static</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The html of client helper.</p>
 </p>
 			</li>
 
