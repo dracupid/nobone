@@ -64,7 +64,6 @@ service = (opts = {}) ->
 
 	jhash = new kit.jhash.constructor
 	self.set 'etag', (body) ->
-		kit.log body.constructor.name.red
 		hash = jhash.hash body
 		len = body.length.toString(36)
 		"W/\"#{len}-#{hash}\""

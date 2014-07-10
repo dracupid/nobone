@@ -307,7 +307,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else
 						handler.compiler(str, path, ext, handler.data)
 				.then (content) ->
-					kit.log content.constructor.name.yellow
 					if not _.isString content
 						body = content.toString()
 					else
