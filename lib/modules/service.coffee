@@ -64,7 +64,10 @@ service = (opts = {}) ->
 
 	jhash = new kit.jhash.constructor
 	self.set 'etag', (body) ->
-		"W/\"#{jhash.hash body}\""
+		kit.log body.constructor.name.red
+		hash = jhash.hash body
+		len = body.length.toString(36)
+		"W/\"#{len}-#{hash}\""
 
 	if opts.enable_remote_log
 		init_remote_log self

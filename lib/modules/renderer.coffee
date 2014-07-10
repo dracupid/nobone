@@ -14,7 +14,7 @@ express = require 'express'
 { EventEmitter } = require 'events'
 fs = kit.require 'fs'
 
-hash = new kit.jhash.constructor
+jhash = new kit.jhash.constructor
 
 ###*
  * Create a Renderer instance.
@@ -307,10 +307,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else
 						handler.compiler(str, path, ext, handler.data)
 				.then (content) ->
-					cache_pool[path] = {
-						content
-						etag: kit.jhash.hash(content)
-					}
+					kit.log content.constructor.name.yellow
+					if not _.isString content
+						body = content.toString()
+					else
+						body = content
+					hash = jhash.hash body
+					len = body.length.toString(36)
+					etag = "W/\"#{len}-#{hash}\""
+
+					cache_pool[path] = { content, etag }
 				.catch (err) ->
 					emit self.e.compile_error, path, err
 					cache_pool[path] = null
