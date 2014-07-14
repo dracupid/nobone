@@ -12,6 +12,13 @@ mocha_bin = 'node_modules/.bin/mocha'
 
 option '-n', '--no-server', 'Test without standalone test'
 
+task 'dev', 'Dev Server', ->
+	kit.monitor_app {
+		bin: 'coffee'
+		args: ['test/lab.coffee']
+		watch_list: ['lib/**/*.coffee']
+	}
+
 task 'test', 'Basic test', (options) ->
 	if options['no-server']
 		process.env.no_server_test = 'on'
