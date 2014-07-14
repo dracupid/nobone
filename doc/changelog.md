@@ -1,5 +1,6 @@
 * v0.2.7
 
+  * Fix an URI encode bug.
   * Better etag method.
   * Better `kit.spawn`.
 
