@@ -182,7 +182,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			)
 
 		return (req, res, next) ->
-			req_path = decodeURI(req.path)
+			req_path = decodeURIComponent(req.path)
 			path = kit.path.join opts.root_dir, req_path
 
 			rnext = -> static_handler req, res, (err) ->
