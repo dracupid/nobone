@@ -182,7 +182,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			)
 
 		return (req, res, next) ->
-			path = kit.path.join opts.root_dir, req.path
+			req_path = decodeURI(req.path)
+			path = kit.path.join opts.root_dir, req_path
 
 			rnext = -> static_handler req, res, (err) ->
 				if dir_handler
@@ -192,7 +193,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 			handler = get_handler path
 			if handler
-				handler.req_path = req.path
+				handler.req_path = req_path
 				get_cache(handler)
 				.then (cache) ->
 					content = cache.content
