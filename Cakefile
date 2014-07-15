@@ -16,7 +16,7 @@ task 'dev', 'Dev Server', ->
 	kit.monitor_app {
 		bin: 'coffee'
 		args: ['test/lab.coffee']
-		watch_list: ['lib/**/*.coffee']
+		watch_list: ['test/lab.coffee', 'lib/**/*.coffee']
 	}
 
 task 'test', 'Basic test', (options) ->
