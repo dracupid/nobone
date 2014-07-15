@@ -1,3 +1,7 @@
+* v0.2.8
+
+  * Optimize the template of `bone`.
+
 * v0.2.7
 
   * Fix an URI encode bug.
