@@ -1,3 +1,3 @@
 elem = document.createElement 'h1'
-elem.textContent = 'Nobone'
+elem.textContent = '<%- name %>'
 document.body.appendChild elem

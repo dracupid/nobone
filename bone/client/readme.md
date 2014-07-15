@@ -1,1 +1,1 @@
-# NoBone
+# <%- name %>
