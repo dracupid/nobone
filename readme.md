@@ -808,7 +808,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L234">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L235">
 				
 				<b>render</b>
 			</a>
@@ -868,7 +868,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L247">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L248">
 				
 				<b>close</b>
 			</a>
@@ -887,7 +887,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L258">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -945,7 +945,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L266">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L267">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1017,7 +1017,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L272">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L273">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1061,7 +1061,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L278">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L279">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1285,7 +1285,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L113">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L115">
 				
 				<b>sse</b>
 			</a>
@@ -1333,7 +1333,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L129">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L131">
 				
 				<b>session.emit</b>
 			</a>
@@ -1380,7 +1380,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L164">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L166">
 				
 				<b>sse.emit</b>
 			</a>
@@ -2731,15 +2731,13 @@ crc str      x 54,045 ops/sec ±6.67% (83 runs sampled)
 jhash buffer x 9,756 ops/sec ±0.67% (101 runs sampled)
 jhash str    x 72,056 ops/sec ±0.36% (94 runs sampled)
 
-Collision Test
+=== Collision Test ===
 ***** jhash *****
- 5 samples: 3481292839,1601668515,957061576,1031084327,1000054056
-      time: 10.001s
-collisions: 0.0018788163457017504% (4/212900)
+time: 10.002s
+collisions: 0.004007480630510286% (15 / 374300)
 ***** crc32 *****
- 5 samples: 3494480258,2736329845,2815219153,3510180228,2016919691
-      time: 10.003s
-collisions: 0.0027945971122544933% (6/214700)
+time: 10.001s
+collisions: 0.004445855827246745% (14 / 314900)
 </code></pre>
 
 
