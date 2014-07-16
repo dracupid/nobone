@@ -219,7 +219,7 @@ _.extend kit, {
 		req.on 'error', (err) ->
 			defer.reject err
 
-		if otps.req_pipe
+		if opts.req_pipe
 			opts.req_pipe.pipe req
 		else
 			req.end opts.req_data
