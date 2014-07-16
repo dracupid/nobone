@@ -12,27 +12,11 @@ nb = nobone {
 }
 
 get = (path, port) ->
-	deferred = Q.defer()
-
-	req = http.request {
-		host: '127.0.0.1'
+	nb.kit.request {
+		url: '127.0.0.1'
 		port: port
 		path: path
-		method: 'GET'
-	}, (res) ->
-		data = ''
-		res.on 'data', (chunk) ->
-			data += chunk
-
-		res.on 'end', ->
-			try
-				deferred.resolve data
-			catch e
-				deferred.reject e
-
-	req.end()
-
-	deferred.promise
+	}
 
 describe 'Basic:', ->
 
