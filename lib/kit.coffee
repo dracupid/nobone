@@ -162,6 +162,63 @@ _.extend kit, {
 		defer.promise
 
 	###*
+	 * A simple wrapper for `http.request`
+	 * @param  {Object} opts The same as the `http.request`, but with
+	 * some extra options:
+	 * ```coffee
+	 * {
+	 * 	url: 'It is not optional.'
+	 * 	res_encoding: 'utf8' # set null to use buffer, optional.
+	 * 	req_encoding: 'utf8' # Same with the above
+	 * 	req_data: null # string or buffer, optional.
+	 * }
+	 * ```
+	 * @return {Promise} Contains the http response data.
+	###
+	request: (opts) ->
+		url = kit.url.parse opts.url
+
+		if not url.protocol
+			url = kit.url.parse 'http://' + opts.url
+
+		request = null
+		switch url.protocol
+			when 'http:'
+				{ request } = kit.require 'http'
+			when 'https:'
+				{ request } = kit.require 'https'
+			else
+				throw new Error('Protocol not supported: ' + url.protocol)
+
+		_.defaults opts, {
+			host: url.host
+			port: url.port
+			path: url.path
+			res_encoding: 'utf8' # set null to use buffer
+			req_data: null # string or buffer.
+		}
+
+		defer = Q.defer()
+		req = request opts, (res) ->
+			buf = new Buffer(0)
+			res.on 'data', (chunk) ->
+				buf = Buffer.concat [buf, chunk]
+
+			res.on 'end', ->
+				if opts.res_encoding
+					data = buf.toString opts.res_encoding
+				else
+					data = buf
+				defer.resolve data
+
+		req.on 'error', (err) ->
+			defer.reject err
+
+		req.end opts.req_data
+
+		defer.promise
+
+	###*
 	 * Automatically add `node_modules/.bin` to the `PATH` environment variable.
 	###
 	extend_env: ->
