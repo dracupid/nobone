@@ -12,5 +12,6 @@ nb.service.get '/', (req, res) ->
 nb.service.use nb.renderer.static('client')
 
 port = 8013
-nb.service.listen port
-nb.kit.log 'Listen port ' + port
+nb.service.listen port, ->
+	nb.kit.log 'Listen port ' + port
+	nb.kit.open 'http://127.0.0.1:' + port
