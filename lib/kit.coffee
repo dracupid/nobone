@@ -111,7 +111,7 @@ _.extend kit, {
 				cmd = which.sync(cmd)
 			cmd = kit.path.normalize cmd
 
-		deferred = Q.defer()
+		defer = Q.defer()
 
 		{ spawn } = kit.require 'child_process'
 
@@ -120,17 +120,17 @@ _.extend kit, {
 		try
 			ps = spawn cmd, args, opts
 		catch err
-			deferred.reject err
+			defer.reject err
 
 		ps.on 'error', (err) ->
-			deferred.reject err
+			defer.reject err
 
 		ps.on 'exit', (worker, code, signal) ->
-			deferred.resolve { worker, code, signal }
+			defer.resolve { worker, code, signal }
 
-		deferred.promise.process = ps
+		defer.promise.process = ps
 
-		return deferred.promise
+		return defer.promise
 
 	###*
 	 * Open a thing that your system can recognize.
@@ -169,8 +169,9 @@ _.extend kit, {
 	 * {
 	 * 	url: 'It is not optional.'
 	 * 	res_encoding: 'utf8' # set null to use buffer, optional.
-	 * 	req_encoding: 'utf8' # Same with the above
 	 * 	req_data: null # string or buffer, optional.
+	 * 	req_pipe: Writable Stream.
+	 * 	res_pipe: Writable Stream.
 	 * }
 	 * ```
 	 * @return {Promise} Contains the http response data.
@@ -200,21 +201,28 @@ _.extend kit, {
 
 		defer = Q.defer()
 		req = request opts, (res) ->
-			buf = new Buffer(0)
-			res.on 'data', (chunk) ->
-				buf = Buffer.concat [buf, chunk]
+			if opts.res_pipe
+				res.pipe opts.res_pipe
+				res.on 'end', -> defer.resolve()
+			else
+				buf = new Buffer(0)
+				res.on 'data', (chunk) ->
+					buf = Buffer.concat [buf, chunk]
 
-			res.on 'end', ->
-				if opts.res_encoding
-					data = buf.toString opts.res_encoding
-				else
-					data = buf
-				defer.resolve data
+				res.on 'end', ->
+					if opts.res_encoding
+						data = buf.toString opts.res_encoding
+					else
+						data = buf
+					defer.resolve data
 
 		req.on 'error', (err) ->
 			defer.reject err
 
-		req.end opts.req_data
+		if otps.req_pipe
+			opts.req_pipe.pipe req
+		else
+			req.end opts.req_data
 
 		defer.promise
 
@@ -276,10 +284,10 @@ _.extend kit, {
 		ps
 
 	exists: (path) ->
-		deferred = Q.defer()
+		defer = Q.defer()
 		fs.exists path, (exists) ->
-			deferred.resolve exists
-		return deferred.promise
+			defer.resolve exists
+		return defer.promise
 
 	watch_file: (path, handler) ->
 		###
@@ -427,25 +435,26 @@ _.extend kit, {
 			prompt.message = '>> '
 			prompt.delimiter = ''
 
-		deferred = Q.defer()
+		defer = Q.defer()
 		prompt.get opts, (err, res) ->
 			if err
-				deferred.reject err
+				defer.reject err
 			else
-				deferred.resolve res
+				defer.resolve res
 
-		deferred.promise
+		defer.promise
 
 	###*
 	 * An throttle version of `Q.all`, it runs all the tasks under
 	 * a concurrent limitation.
-	 * @param  {Array} list A list of functions. Each will return a promise.
 	 * @param  {Int} limit The max task to run at the same time.
+	 * @param  {Array} list A list of functions. Each will return a promise.
 	 * @return {Promise}
 	###
-	async_limit: (list, limit) ->
+	async_limit: (limit, list) ->
 		from = 0
 		resutls = []
+		defer = Q.defer()
 
 		round = ->
 			to = from + limit
@@ -453,13 +462,17 @@ _.extend kit, {
 			from = to
 			if curr.length > 0
 				Q.all curr
+				.catch (err) ->
+					defer.reject err
 				.then (res) ->
 					resutls = resutls.concat res
 					round()
 			else
-				Q(resutls)
+				defer.resolve resutls
 
 		round()
+
+		defer.promise
 
 	###*
 	 * A comments parser for coffee-script. Used to generate documentation automatically.
