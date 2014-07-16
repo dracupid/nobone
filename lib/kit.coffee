@@ -126,11 +126,40 @@ _.extend kit, {
 			deferred.reject err
 
 		ps.on 'exit', (worker, code, signal) ->
-			deferred.resolve worker, code, signal
+			deferred.resolve { worker, code, signal }
 
 		deferred.promise.process = ps
 
 		return deferred.promise
+
+	###*
+	 * Open a thing that your system can recognize.
+	 * Now only support Windows and OSX.
+	 * @param  {String} cmd  The thing you want to open.
+	 * @param  {Object} opts The options of the node native `child_process.exec`.
+	 * @return {Promise}
+	###
+	open: (cmd, opts = {}) ->
+		{ exec } = kit.require 'child_process'
+
+		defer = Q.defer()
+
+		switch process.platform
+			when 'darwin'
+				cmds = ['open']
+			when 'win32'
+				cmds = ['start']
+			else
+				cmds = []
+
+		cmds.push cmd
+		exec cmds.join(' '), opts, (err, stdout, stderr) ->
+			if err
+				defer.reject err
+			else
+				defer.resolve { stdout, stderr }
+
+		defer.promise
 
 	###*
 	 * Automatically add `node_modules/.bin` to the `PATH` environment variable.

@@ -1,5 +1,6 @@
 * v0.2.8
 
+  * Add `kit.open` helper.
   * Optimize the template of `bone`.
 
 * v0.2.7

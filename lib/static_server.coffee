@@ -44,5 +44,6 @@ service.get '/nobone', (req, res) ->
 			body: marked md
 		})
 
-service.listen port, host
-kit.log "Listen: " + "#{host}:#{port}".cyan
+service.listen port, host, ->
+	kit.log "Listen: " + "#{host}:#{port}".cyan
+	kit.open 'http://127.0.0.1:' + port
