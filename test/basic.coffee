@@ -41,6 +41,7 @@ describe 'Basic:', ->
 	port = 8022
 	server = nb.service.listen port
 	nb.kit.log 'Listen port: ' + port
+	watcher_file_cache = null
 
 	it 'the compiler should work', (tdone) ->
 
@@ -49,9 +50,12 @@ describe 'Basic:', ->
 			get '/default.css', port
 		])
 		.then (results) ->
-			assert.equal results[0], "var elem;\n\nelem = document.createElement('h1');\n\nelem.textContent = 'Nobone';\n\ndocument.body.appendChild(elem);\n"
+			assert.equal results[0], "var elem;\n\nelem = document.createElement('h1');\n\nelem.textContent = '<%- name %>';\n\ndocument.body.appendChild(elem);\n"
 			assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
 		.then ->
+			nb.kit.readFile 'bone/client/main.coffee'
+		.then (str) ->
+			watcher_file_cache = str
 			# Test the watcher
 			nb.kit.outputFile 'bone/client/main.coffee', "console.log 'no'"
 		.then ->
@@ -66,11 +70,7 @@ describe 'Basic:', ->
 		.then (code) ->
 			assert.equal code, "console.log('no');\n"
 		.then ->
-			nb.kit.outputFile 'bone/client/main.coffee', """
-				elem = document.createElement 'h1'
-				elem.textContent = 'Nobone'
-				document.body.appendChild elem
-			"""
+			nb.kit.outputFile 'bone/client/main.coffee', watcher_file_cache
 		.done ->
 			server.close()
 			tdone()
@@ -83,7 +83,7 @@ describe 'Basic:', ->
 	it 'the render should work', (tdone) ->
 		nb.renderer.render('bone/index.ejs')
 		.done (tpl) ->
-			assert.equal tpl({ body: 'ok' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>NoBone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\nok\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
+			assert.equal tpl({ body: 'ok', name: 'nobone' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\n<%- nobone %>\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
 			tdone()
 
 	it 'the db should work', (tdone) ->
@@ -117,7 +117,7 @@ describe 'Basic:', ->
 
 		rr.render 'bone/client/main.coffee'
 		.done (len) ->
-			assert.equal len, 93
+			assert.equal len, watcher_file_cache.length
 			tdone()
 
 	it 'the close should work.', (tdone) ->
