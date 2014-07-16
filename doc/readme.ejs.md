@@ -3,7 +3,7 @@
 
 ## Overview
 
-A server library ties to understand what developers really need.
+A server library tries to understand what developers really need.
 
 The philosophy behind NoBone is providing possibilities rather than
 telling developers what they should do. All the default behaviors are
