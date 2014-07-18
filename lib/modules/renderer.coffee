@@ -43,6 +43,7 @@ jhash = new kit.jhash.constructor
  * 		}
  * 		'.md': {
  * 			type: 'html' # Force type, optional.
+ * 			ext_src: ['.md', '.markdown']
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.jpg': {
@@ -104,6 +105,7 @@ renderer.defaults = {
 		}
 		'.md': {
 			type: 'html' # Force type, optional.
+			ext_src: ['.md','.markdown']
 			compiler: (str, path) ->
 				marked = kit.require 'marked'
 				marked str
