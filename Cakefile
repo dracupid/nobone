@@ -48,7 +48,6 @@ task 'build', 'Compile coffee to js', build = ->
 		kit.readFile 'doc/faq.md', 'utf8'
 		kit.readFile 'doc/readme.ejs.md', 'utf8'
 		kit.readFile 'examples/usage.coffee', 'utf8'
-		kit.glob 'lib/modules/*.coffee'
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
 		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
 	]).then (rets) ->
@@ -58,11 +57,15 @@ task 'build', 'Compile coffee to js', build = ->
 			tpl: rets[1]
 			usage
 			faq
-			mods: rets[3].concat [
-				'lib/kit.coffee'
+			mods: [
 				'lib/nobone.coffee'
+				'lib/modules/service.coffee'
+				'lib/modules/renderer.coffee'
+				'lib/modules/db.coffee'
+				'lib/modules/proxy.coffee'
+				'lib/kit.coffee'
 			]
-			benchmark: kit.parse_comment 'benchmark', rets[4] + rets[5]
+			benchmark: kit.parse_comment 'benchmark', rets[3] + rets[4]
 		}
 	.then (data) ->
 		Q.all data.mods.map (path) ->

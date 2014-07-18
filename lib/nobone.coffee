@@ -1,3 +1,9 @@
+###*
+ * NoBone has four main modules: `renderer`, `service`, `proxy`, `db`, and a helper `kit`.
+ * They are all optional.
+###
+Overview = 'nobone'
+
 _ = require 'lodash'
 kit = require './kit'
 Q = require 'q'
@@ -43,7 +49,7 @@ nobone = (opts) ->
 	 * Release the resources.
 	 * @return {Promise}
 	###
-	nb.close = ->
+	close = ->
 		Q.all _.map(opts, (v, k) ->
 			mod = nb[k]
 			if v and mod.close
@@ -52,6 +58,7 @@ nobone = (opts) ->
 				else
 					mod.close()
 		)
+	nb.close = close
 
 	nb
 

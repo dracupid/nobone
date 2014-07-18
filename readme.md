@@ -15,7 +15,7 @@ happily. So other than js, the idea should be port to any other language easily.
 
 ## Features
 
-* Make you program, not configure.
+* Code you program, not configure.
 * Build for performance.
 * Cross platform of course.
 
@@ -139,12 +139,9 @@ nobone bone -h
 
 ## Modules API
 
-NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all optional.
 
 
-
-
-<h3>db</h3>
+<h3>nobone</h3>
 <ul>
 	
 
@@ -152,12 +149,13 @@ NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all opti
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L4">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L5">
 				
 				<b>Overview</b>
 			</a>
 		</h4>
-		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
+		<p><p>NoBone has four main modules: <code>renderer</code>, <code>service</code>, <code>proxy</code>, <code>db</code>, and a helper <code>kit</code>.
+They are all optional.</p>
 </p>
 
 		<ul>
@@ -171,12 +169,12 @@ NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all opti
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L18">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L24">
 				
-				<b>db</b>
+				<b>nobone</b>
 			</a>
 		</h4>
-		<p><p>Create a JDB instance.</p>
+		<p><p>Main constructor.</p>
 </p>
 
 		<ul>
@@ -192,8 +190,10 @@ NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all opti
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
-    promise: true
-    db_path: &#39;./nobone.db&#39;
+    db: null
+    proxy: null
+    service: {}
+    renderer: {}
 }
 </code></pre>
 </p>
@@ -205,9 +205,153 @@ NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all opti
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ Jdb }</em>
+					<em>{ Object }</em>
+				</b></p>
+				<p><p>A nobone instance.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L52">
+				
+				<b>close</b>
+			</a>
+		</h4>
+		<p><p>Release the resources.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Promise }</em>
 				</b></p>
 				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L75">
+				
+				<b>module_defaults</b>
+			</a>
+		</h4>
+		<p><p>Help you to get the default options of moduels.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>static</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>name</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>Module name, if not set, return all modules&#39; defaults.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Promise }</em>
+				</b></p>
+				<p><p>A promise object which will produce the defaults.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L96">
+				
+				<b>client</b>
+			</a>
+		</h4>
+		<p><p>The NoBone client helper.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>static</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>auto</code>
+					
+					<em>{ Boolean }</em>
+				</b></p>
+				<p><p>If true, and not on development mode
+return an empty string.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The html of client helper.</p>
+</p>
 			</li>
 
 			
@@ -221,7 +365,7 @@ NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all opti
 
 
 
-<h3>proxy</h3>
+<h3>service</h3>
 <ul>
 	
 
@@ -229,14 +373,12 @@ NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all opti
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L7">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L5">
 				
 				<b>Overview</b>
 			</a>
 		</h4>
-		<p><p>For test, page injection development.
-A cross platform Fiddler alternative.
-Most time used with SwitchySharp.</p>
+		<p><p>It is just a Express.js wrap.</p>
 </p>
 
 		<ul>
@@ -246,7 +388,7 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>extends</u>:
 					
-					<em>{ http-proxy.ProxyServer }</em>
+					<em>{ Express }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -261,12 +403,12 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L19">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L24">
 				
-				<b>proxy</b>
+				<b>service</b>
 			</a>
 		</h4>
-		<p><p>Create a Proxy instance.</p>
+		<p><p>Create a Service instance.</p>
 </p>
 
 		<ul>
@@ -280,7 +422,14 @@ Most time used with SwitchySharp.</p>
 					
 					<em>{ Object }</em>
 				</b></p>
-				<p><p>Defaults: <code>{ }</code></p>
+				<p><p>Defaults:</p>
+<pre><code class="lang-coffee">{
+    auto_log: process.env.NODE_ENV == &#39;development&#39;
+    enable_remote_log: process.env.NODE_ENV == &#39;development&#39;
+    enable_sse: process.env.NODE_ENV == &#39;development&#39;
+    express: {}
+}
+</code></pre>
 </p>
 			</li>
 
@@ -290,9 +439,55 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ Proxy }</em>
+					<em>{ Service }</em>
 				</b></p>
-				<p><p>For more, see <a href="https://github.com/nodejitsu/node-http-proxy">https://github.com/nodejitsu/node-http-proxy</a></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L47">
+				
+				<b>e.sse_connected</b>
+			</a>
+		</h4>
+		<p><p>Triggered when a sse connection started.
+The event name is a combination of sse_connected and req.path,
+for example: &quot;sse_connected/test&quot;</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>sse_connected</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>The</code>
+					
+					<em>{ SSE_session }</em>
+				</b></p>
+				<p><p>session object of current connection.</p>
 </p>
 			</li>
 
@@ -306,12 +501,103 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L33">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L54">
 				
-				<b>url</b>
+				<b>e.sse_close</b>
 			</a>
 		</h4>
-		<p><p>Use it to proxy one url to another.</p>
+		<p><p>When a sse connection closed.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>sse_close</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ SSE_session }</em>
+				</b></p>
+				<p><p>The session object of current connection.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L115">
+				
+				<b>sse</b>
+			</a>
+		</h4>
+		<p><p>A Server-Sent Event Manager.
+The namespace of nobone sse is &#39;/nobone-sse&#39;,</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>You browser code should be something like this:</p>
+<pre><code class="lang-coffee">es = new EventSource(&#39;/nobone-sse&#39;)
+es.addEventListener(&#39;event_name&#39;, (e) -&gt;
+    msg = JSON.parse(e.data)
+    console.log(msg)
+</code></pre>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ SSE }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L131">
+				
+				<b>session.emit</b>
+			</a>
+		</h4>
+		<p><p>Emit message to client.</p>
 </p>
 
 		<ul>
@@ -321,37 +607,11 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>req</code>
-					
-					<em>{ http.IncomingMessage }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>res</code>
-					
-					<em>{ http.ServerResponse }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>url</code>
+						<code>event</code>
 					
 					<em>{ String }</em>
 				</b></p>
-				<p><p>The target url</p>
+				<p><p>The event name.</p>
 </p>
 			</li>
 
@@ -361,25 +621,11 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>opts</code>
+						<code>msg</code>
 					
-					<em>{ Object }</em>
+					<em>{ Object | String }</em>
 				</b></p>
-				<p><p>Other options.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>err</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Error handler.</p>
+				<p><p>The message to send to the client.</p>
 </p>
 			</li>
 
@@ -393,12 +639,12 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L56">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L166">
 				
-				<b>delay</b>
+				<b>sse.emit</b>
 			</a>
 		</h4>
-		<p><p>Simulate simple network delay.</p>
+		<p><p>Broadcast a event to clients.</p>
 </p>
 
 		<ul>
@@ -408,37 +654,11 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>req</code>
+						<code>event</code>
 					
-					<em>{ http.IncomingMessage }</em>
+					<em>{ String }</em>
 				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>res</code>
-					
-					<em>{ http.ServerResponse }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>delay</code>
-					
-					<em>{ Number }</em>
-				</b></p>
-				<p><p>In milliseconds.</p>
+				<p><p>The event name.</p>
 </p>
 			</li>
 
@@ -448,11 +668,11 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>opts</code>
+						<code>msg</code>
 					
-					<em>{ Object }</em>
+					<em>{ Object | String }</em>
 				</b></p>
-				<p><p>Other options.</p>
+				<p><p>The data you want to emit to session.</p>
 </p>
 			</li>
 
@@ -462,11 +682,10 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>err</code>
-					
-					<em>{ Function }</em>
+					<em>{ String }</em>
 				</b></p>
-				<p><p>Error handler.</p>
+				<p><p>[path] The namespace of target sessions. If not set,
+broadcast to all clients.</p>
 </p>
 			</li>
 
@@ -1119,7 +1338,7 @@ choose the right compiler to handle the content.</p>
 
 
 
-<h3>service</h3>
+<h3>db</h3>
 <ul>
 	
 
@@ -1127,26 +1346,15 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L5">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L4">
 				
 				<b>Overview</b>
 			</a>
 		</h4>
-		<p><p>It is just a Express.js wrap.</p>
+		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
 </p>
 
 		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>extends</u>:
-					
-					<em>{ Express }</em>
-				</b></p>
-				<p></p>
-			</li>
-
 			
 		</ul>
 	</li>
@@ -1157,12 +1365,12 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L24">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L18">
 				
-				<b>service</b>
+				<b>db</b>
 			</a>
 		</h4>
-		<p><p>Create a Service instance.</p>
+		<p><p>Create a JDB instance.</p>
 </p>
 
 		<ul>
@@ -1178,10 +1386,8 @@ choose the right compiler to handle the content.</p>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
-    auto_log: process.env.NODE_ENV == &#39;development&#39;
-    enable_remote_log: process.env.NODE_ENV == &#39;development&#39;
-    enable_sse: process.env.NODE_ENV == &#39;development&#39;
-    express: {}
+    promise: true
+    db_path: &#39;./nobone.db&#39;
 }
 </code></pre>
 </p>
@@ -1193,7 +1399,48 @@ choose the right compiler to handle the content.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ Service }</em>
+					<em>{ Jdb }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+</ul>
+
+<hr>
+
+
+
+<h3>proxy</h3>
+<ul>
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L7">
+				
+				<b>Overview</b>
+			</a>
+		</h4>
+		<p><p>For test, page injection development.
+A cross platform Fiddler alternative.
+Most time used with SwitchySharp.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>extends</u>:
+					
+					<em>{ http-proxy.ProxyServer }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -1208,40 +1455,38 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L47">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L19">
 				
-				<b>e.sse_connected</b>
+				<b>proxy</b>
 			</a>
 		</h4>
-		<p><p>Triggered when a sse connection started.
-The event name is a combination of sse_connected and req.path,
-for example: &quot;sse_connected/test&quot;</p>
+		<p><p>Create a Proxy instance.</p>
 </p>
 
 		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>sse_connected</p>
-</p>
-			</li>
-
 			
 
 			<li>
 				<p><b>
 					<u>param</u>:
 					
-						<code>The</code>
+						<code>opts</code>
 					
-					<em>{ SSE_session }</em>
+					<em>{ Object }</em>
 				</b></p>
-				<p><p>session object of current connection.</p>
+				<p><p>Defaults: <code>{ }</code></p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Proxy }</em>
+				</b></p>
+				<p><p>For more, see <a href="https://github.com/nodejitsu/node-http-proxy">https://github.com/nodejitsu/node-http-proxy</a></p>
 </p>
 			</li>
 
@@ -1255,12 +1500,12 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L54">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L33">
 				
-				<b>e.sse_close</b>
+				<b>url</b>
 			</a>
 		</h4>
-		<p><p>When a sse connection closed.</p>
+		<p><p>Use it to proxy one url to another.</p>
 </p>
 
 		<ul>
@@ -1268,75 +1513,71 @@ for example: &quot;sse_connected/test&quot;</p>
 
 			<li>
 				<p><b>
-					<u>event</u>:
+					<u>param</u>:
 					
-					<em>{  }</em>
-				</b></p>
-				<p><p>sse_close</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
+						<code>req</code>
 					
-					<em>{ SSE_session }</em>
-				</b></p>
-				<p><p>The session object of current connection.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L115">
-				
-				<b>sse</b>
-			</a>
-		</h4>
-		<p><p>A Server-Sent Event Manager.
-The namespace of nobone sse is &#39;/nobone-sse&#39;,</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>You browser code should be something like this:</p>
-<pre><code class="lang-coffee">es = new EventSource(&#39;/nobone-sse&#39;)
-es.addEventListener(&#39;event_name&#39;, (e) -&gt;
-    msg = JSON.parse(e.data)
-    console.log(msg)
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ SSE }</em>
+					<em>{ http.IncomingMessage }</em>
 				</b></p>
 				<p></p>
 			</li>
 
 			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>res</code>
+					
+					<em>{ http.ServerResponse }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>url</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The target url</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>opts</code>
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p><p>Other options.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>err</code>
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>Error handler.</p>
+</p>
+			</li>
+
+			
 		</ul>
 	</li>
 
@@ -1346,12 +1587,12 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L131">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L56">
 				
-				<b>session.emit</b>
+				<b>delay</b>
 			</a>
 		</h4>
-		<p><p>Emit message to client.</p>
+		<p><p>Simulate simple network delay.</p>
 </p>
 
 		<ul>
@@ -1361,11 +1602,37 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 				<p><b>
 					<u>param</u>:
 					
-						<code>event</code>
+						<code>req</code>
 					
-					<em>{ String }</em>
+					<em>{ http.IncomingMessage }</em>
 				</b></p>
-				<p><p>The event name.</p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>res</code>
+					
+					<em>{ http.ServerResponse }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>delay</code>
+					
+					<em>{ Number }</em>
+				</b></p>
+				<p><p>In milliseconds.</p>
 </p>
 			</li>
 
@@ -1375,44 +1642,11 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 				<p><b>
 					<u>param</u>:
 					
-						<code>msg</code>
+						<code>opts</code>
 					
-					<em>{ Object | String }</em>
+					<em>{ Object }</em>
 				</b></p>
-				<p><p>The message to send to the client.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L166">
-				
-				<b>sse.emit</b>
-			</a>
-		</h4>
-		<p><p>Broadcast a event to clients.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>event</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The event name.</p>
+				<p><p>Other options.</p>
 </p>
 			</li>
 
@@ -1422,24 +1656,11 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 				<p><b>
 					<u>param</u>:
 					
-						<code>msg</code>
+						<code>err</code>
 					
-					<em>{ Object | String }</em>
+					<em>{ Function }</em>
 				</b></p>
-				<p><p>The data you want to emit to session.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>[path] The namespace of target sessions. If not set,
-broadcast to all clients.</p>
+				<p><p>Error handler.</p>
 </p>
 			</li>
 
@@ -2613,210 +2834,6 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					<em>{ Boolean }</em>
 				</b></p>
 				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-</ul>
-
-<hr>
-
-
-
-<h3>nobone</h3>
-<ul>
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L18">
-				
-				<b>nobone</b>
-			</a>
-		</h4>
-		<p><p>Main constructor.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults:</p>
-<pre><code class="lang-coffee">{
-    db: null
-    proxy: null
-    service: {}
-    renderer: {}
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>A nobone instance.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L46">
-				
-				<b>nb.close</b>
-			</a>
-		</h4>
-		<p><p>Release the resources.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L68">
-				
-				<b>module_defaults</b>
-			</a>
-		</h4>
-		<p><p>Help you to get the default options of moduels.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>static</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>name</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Module name, if not set, return all modules&#39; defaults.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>A promise object which will produce the defaults.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L89">
-				
-				<b>client</b>
-			</a>
-		</h4>
-		<p><p>The NoBone client helper.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>static</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>auto</code>
-					
-					<em>{ Boolean }</em>
-				</b></p>
-				<p><p>If true, and not on development mode
-return an empty string.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The html of client helper.</p>
-</p>
 			</li>
 
 			
