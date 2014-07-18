@@ -45,21 +45,24 @@ task 'build', 'Compile coffee to js', build = ->
 	# Build readme
 	kit.log 'Make readme...'
 	Q.all([
+		kit.readFile 'doc/faq.md', 'utf8'
 		kit.readFile 'doc/readme.ejs.md', 'utf8'
 		kit.readFile 'examples/usage.coffee', 'utf8'
 		kit.glob 'lib/modules/*.coffee'
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
 		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
 	]).then (rets) ->
-		usage = rets[1]
+		faq = rets[0]
+		usage = rets[2]
 		{
-			tpl: rets[0]
+			tpl: rets[1]
 			usage
-			mods: rets[2].concat [
+			faq
+			mods: rets[3].concat [
 				'lib/kit.coffee'
 				'lib/nobone.coffee'
 			]
-			benchmark: kit.parse_comment 'benchmark', rets[3] + rets[4]
+			benchmark: kit.parse_comment 'benchmark', rets[4] + rets[5]
 		}
 	.then (data) ->
 		Q.all data.mods.map (path) ->

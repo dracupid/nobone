@@ -32,6 +32,10 @@ happily. So other than js, the idea should be port to any other language easily.
 ```
 
 
+## FAQ
+
+<%- faq %>
+
 ## CLI
 
 Install nobone globally: `npm install -g nobone`
