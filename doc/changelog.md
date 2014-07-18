@@ -1,5 +1,6 @@
 * v0.2.8
 
+  * Some other minor changes.
   * Add `kit.request` helper.
   * Add `kit.open` helper.
   * Optimize the template of `bone`.

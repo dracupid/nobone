@@ -522,7 +522,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L61">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L62">
 				
 				<b>renderer</b>
 			</a>
@@ -565,6 +565,7 @@ Even for huge project its memory usage is negligible.</p>
         }
         &#39;.md&#39;: {
             type: &#39;html&#39; # Force type, optional.
+            ext_src: [&#39;.md&#39;, &#39;.markdown&#39;]
             compiler: (str, path) -&gt; ...
         }
         &#39;.jpg&#39;: {
@@ -603,7 +604,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L80">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L81">
 				
 				<b>compiler</b>
 			</a>
@@ -692,7 +693,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L147">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L149">
 				
 				<b>file_handlers</b>
 			</a>
@@ -737,7 +738,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L153">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L155">
 				
 				<b>cache_pool</b>
 			</a>
@@ -768,7 +769,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L168">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L170">
 				
 				<b>static</b>
 			</a>
@@ -820,7 +821,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L235">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L237">
 				
 				<b>render</b>
 			</a>
@@ -880,7 +881,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L248">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L250">
 				
 				<b>close</b>
 			</a>
@@ -899,7 +900,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L261">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -957,7 +958,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L267">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L269">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1029,7 +1030,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L273">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L275">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1073,7 +1074,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L279">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L281">
 				
 				<b>e.file_modified</b>
 			</a>
