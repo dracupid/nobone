@@ -34,13 +34,12 @@ nobone = require 'nobone'
 
 port = 8013
 
-# All modules use default options to init.
-# If you want don't init a specific module,
-# for example 'db' and 'service' module, just exclude it:
-#	nobone {
-#		renderer: {}
-#	}
-# By default it loads two modules: service, renderer
+# If you want to init without a specific module,
+# for example 'db' and 'service' module, just exclude them:
+# 	nobone {
+# 		renderer: {}
+# 	}
+# By default it only loads two modules: `service` and `renderer`.
 nb = nobone {
 	db: { db_path: './test.db' }
 	proxy: {}
@@ -48,12 +47,12 @@ nb = nobone {
 	service: {}
 }
 
-# Print all available modules.
+# Print all available modules with their default options.
 nobone.module_defaults().done (list) ->
 	nb.kit.log 'module_defaults'
 	nb.kit.log list
 
-# Server
+# Service
 nb.service.get '/', (req, res) ->
 	# Renderer
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
@@ -61,14 +60,14 @@ nb.service.get '/', (req, res) ->
 	.done (tpl_func) ->
 		res.send tpl_func({ body: nobone.client() })
 
-# Launch socket.io and express.js
+# Launch express.js
 nb.service.listen port
 
 # Kit
-# Print out time, log message, time span between two log.
+# A smarter log helper.
 nb.kit.log 'Listen port ' + port
 
-# Static folder to automatically serve coffeescript and stylus.
+# Static folder for auto-service of coffeescript and stylus.
 nb.service.use nb.renderer.static('bone/client')
 
 # Database
@@ -140,7 +139,7 @@ nobone bone -h
 
 ## Modules API
 
-NoBone has four main modules, they are all optional.
+NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all optional.
 
 
 
@@ -694,7 +693,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L149">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L154">
 				
 				<b>file_handlers</b>
 			</a>
@@ -739,7 +738,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L155">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L160">
 				
 				<b>cache_pool</b>
 			</a>
@@ -770,7 +769,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L170">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L175">
 				
 				<b>static</b>
 			</a>
@@ -822,7 +821,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L237">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L242">
 				
 				<b>render</b>
 			</a>
@@ -882,7 +881,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L250">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L255">
 				
 				<b>close</b>
 			</a>
@@ -901,7 +900,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L261">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L266">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -959,7 +958,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L269">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L274">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1031,7 +1030,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L275">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L280">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1075,7 +1074,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L281">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L286">
 				
 				<b>e.file_modified</b>
 			</a>

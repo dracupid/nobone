@@ -4,13 +4,12 @@ nobone = require 'nobone'
 
 port = 8013
 
-# All modules use default options to init.
-# If you want don't init a specific module,
-# for example 'db' and 'service' module, just exclude it:
-#	nobone {
-#		renderer: {}
-#	}
-# By default it loads two modules: service, renderer
+# If you want to init without a specific module,
+# for example 'db' and 'service' module, just exclude them:
+# 	nobone {
+# 		renderer: {}
+# 	}
+# By default it only loads two modules: `service` and `renderer`.
 nb = nobone {
 	db: { db_path: './test.db' }
 	proxy: {}
@@ -18,12 +17,12 @@ nb = nobone {
 	service: {}
 }
 
-# Print all available modules.
+# Print all available modules with their default options.
 nobone.module_defaults().done (list) ->
 	nb.kit.log 'module_defaults'
 	nb.kit.log list
 
-# Server
+# Service
 nb.service.get '/', (req, res) ->
 	# Renderer
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
@@ -31,14 +30,14 @@ nb.service.get '/', (req, res) ->
 	.done (tpl_func) ->
 		res.send tpl_func({ body: nobone.client() })
 
-# Launch socket.io and express.js
+# Launch express.js
 nb.service.listen port
 
 # Kit
-# Print out time, log message, time span between two log.
+# A smarter log helper.
 nb.kit.log 'Listen port ' + port
 
-# Static folder to automatically serve coffeescript and stylus.
+# Static folder for auto-service of coffeescript and stylus.
 nb.service.use nb.renderer.static('bone/client')
 
 # Database
