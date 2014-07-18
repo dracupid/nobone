@@ -99,7 +99,12 @@ renderer.defaults = {
 					stylus = kit.require 'stylus'
 					Q.ninvoke stylus, 'render', str, { filename: path }
 				else
-					parser = new kit.require('less').Parser({ filename: path })
+					try
+						less = kit.require('less')
+					catch e
+						kit.err '"npm install less" first.'.red
+
+					parser = new less.Parser({ filename: path })
 					Q.ninvoke(parser, 'parse', str)
 					.then (tree) -> tree.toCSS()
 		}
