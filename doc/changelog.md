@@ -1,3 +1,8 @@
+* v0.2.9
+
+  * Optimize documentation.
+  * Remove the `less` dependency.
+
 * v0.2.8
 
   * Some other minor changes.

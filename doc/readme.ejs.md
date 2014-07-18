@@ -15,7 +15,7 @@ happily. So other than js, the idea should be port to any other language easily.
 
 ## Features
 
-* Make you program, not configure.
+* Code you program, not configure.
 * Build for performance.
 * Cross platform of course.
 
