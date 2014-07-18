@@ -64,7 +64,7 @@ nobone bone -h
 
 ## Modules API
 
-NoBone has four main modules, they are all optional.
+NoBone has four main modules: `kit`, `service`, `proxy`, `db`. They are all optional.
 
 
 <% _.each(mods, function(mod, mod_name) { %>
