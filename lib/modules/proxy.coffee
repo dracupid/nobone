@@ -9,6 +9,7 @@ Overview = 'proxy'
 _ = require 'lodash'
 kit = require '../kit'
 http_proxy = require 'http-proxy'
+tunnel = require 'tunnel'
 http = require 'http'
 
 ###*
@@ -67,6 +68,12 @@ proxy = (opts = {}) ->
 						err e
 				)
 			, delay)
+
+		###*
+		 * HTTP/HTTPS Agents for tunneling proxies.
+		 * See the project https://github.com/koichik/node-tunnel
+		###
+		tunnel
 	}
 
 proxy.defaults = {}
