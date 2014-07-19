@@ -1,7 +1,7 @@
 require 'colors'
 _ = require 'lodash'
 Q = require 'q'
-fs = require 'fs-extra'
+fs = require 'fs-more'
 glob = require 'glob'
 
 ###*
@@ -13,28 +13,19 @@ glob = require 'glob'
 kit = {}
 
 ###*
- * Create promise wrap for all the functions that has
- * Sync version. For more info see node official doc of `fs`
- * There are some extra `fs` functions here,
- * see: https://github.com/jprichardson/node-fs-extra
- * You can call `fs.readFile` like `kit.readFile`, it will
- * return a promise object.
+ * kit extends all the Q functions of fs-more.
  * @example
  * ```coffee
- * kit.readFile('a.coffee').done (code) ->
- * 	kit.log code
+ * kit.readFile('test.txt').done (str) ->
+ * 	console.log str
+ *
+ * kit.outputFile('a.txt', 'test').done()
  * ```
 ###
-denodeify_fs = ->
-	_.chain(fs)
-	.functions()
-	.filter (el) ->
-		el.slice(-4) == 'Sync'
-	.each (name) ->
-		name = name.slice(0, -4)
-		kit[name] = Q.denodeify fs[name]
-
-denodeify_fs()
+kit_extends_fs_q = 'Q'
+for k, v of fs
+	if k.slice(-1) == 'Q'
+		kit[k.slice(0, -1)] = fs[k]
 
 _.extend kit, {
 
@@ -66,6 +57,11 @@ _.extend kit, {
 	 * Node native module
 	###
 	url: require 'url'
+
+	###*
+	 * See my project fs-more: https://github.com/ysmood/fs-more
+	###
+	fs: fs
 
 	###*
 	 * See my jhash project: https://github.com/ysmood/jhash
@@ -282,12 +278,6 @@ _.extend kit, {
 		kit.log "Monitor: ".yellow + opts.watch_list
 
 		ps
-
-	exists: (path) ->
-		defer = Q.defer()
-		fs.exists path, (exists) ->
-			defer.resolve exists
-		return defer.promise
 
 	watch_file: (path, handler) ->
 		###
@@ -623,36 +613,6 @@ _.extend kit, {
 					.catch (err) ->
 						if err.code != 'EISDIR'
 							throw err
-
-	###*
-	 * Check if a file path exists.
-	 * @param  {String}  path
-	 * @return {Boolean}
-	###
-	is_file_exists: (path) ->
-		kit.exists path
-		.then (exists) ->
-			if exists
-				kit.stat(path)
-				.then (stats) ->
-					stats.isFile()
-			else
-				false
-
-	###*
-	 * Check if a directory path exists.
-	 * @param  {String}  path
-	 * @return {Boolean}
-	###
-	is_dir_exists: (path) ->
-		kit.exists path
-		.then (exists) ->
-			if exists
-				kit.stat(path)
-				.then (stats) ->
-					stats.isDirectory()
-			else
-				false
 
 }
 

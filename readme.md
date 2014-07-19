@@ -1715,17 +1715,12 @@ Most time I use it to handle files and system staffs.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L28">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L25">
 				
-				<b>denodeify_fs</b>
+				<b>kit_extends_fs_q</b>
 			</a>
 		</h4>
-		<p><p>Create promise wrap for all the functions that has
-Sync version. For more info see node official doc of <code>fs</code>
-There are some extra <code>fs</code> functions here,
-see: <a href="https://github.com/jprichardson/node-fs-extra">https://github.com/jprichardson/node-fs-extra</a>
-You can call <code>fs.readFile</code> like <code>kit.readFile</code>, it will
-return a promise object.</p>
+		<p><p>kit extends all the Q functions of fs-more.</p>
 </p>
 
 		<ul>
@@ -1737,8 +1732,10 @@ return a promise object.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee">kit.readFile(&#39;a.coffee&#39;).done (code) -&gt;
-    kit.log code
+				<p><pre><code class="lang-coffee">kit.readFile(&#39;test.txt&#39;).done (str) -&gt;
+    console.log str
+
+kit.outputFile(&#39;a.txt&#39;, &#39;test&#39;).done()
 </code></pre>
 </p>
 			</li>
@@ -1753,7 +1750,7 @@ return a promise object.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L50">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L41">
 				
 				<b>require</b>
 			</a>
@@ -1813,7 +1810,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L63">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L54">
 				
 				<b>path</b>
 			</a>
@@ -1832,7 +1829,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L68">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L59">
 				
 				<b>url</b>
 			</a>
@@ -1851,7 +1848,26 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L73">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L64">
+				
+				<b>fs</b>
+			</a>
+		</h4>
+		<p><p>See my project fs-more: <a href="https://github.com/ysmood/fs-more">https://github.com/ysmood/fs-more</a></p>
+</p>
+
+		<ul>
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L69">
 				
 				<b>jhash</b>
 			</a>
@@ -1870,7 +1886,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L80">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L76">
 				
 				<b>glob</b>
 			</a>
@@ -1915,7 +1931,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L100">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L96">
 				
 				<b>spawn</b>
 			</a>
@@ -1990,7 +2006,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L142">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L138">
 				
 				<b>open</b>
 			</a>
@@ -2049,7 +2065,7 @@ Now only support Windows and OSX.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L179">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L175">
 				
 				<b>request</b>
 			</a>
@@ -2103,7 +2119,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L232">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L228">
 				
 				<b>extend_env</b>
 			</a>
@@ -2122,7 +2138,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L254">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L250">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2174,7 +2190,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L313">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L303">
 				
 				<b>watch_files</b>
 			</a>
@@ -2221,7 +2237,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L325">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L315">
 				
 				<b>env_mode</b>
 			</a>
@@ -2267,7 +2283,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L340">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L330">
 				
 				<b>inspect</b>
 			</a>
@@ -2326,7 +2342,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L359">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L349">
 				
 				<b>log</b>
 			</a>
@@ -2391,7 +2407,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L394">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L384">
 				
 				<b>err</b>
 			</a>
@@ -2436,7 +2452,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L408">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L398">
 				
 				<b>daemonize</b>
 			</a>
@@ -2487,7 +2503,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L433">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L423">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2533,7 +2549,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L454">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L444">
 				
 				<b>async_limit</b>
 			</a>
@@ -2592,7 +2608,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L512">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L502">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2706,7 +2722,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L595">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L585">
 				
 				<b>generate_bone</b>
 			</a>
@@ -2746,92 +2762,6 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					<u>return</u>:
 					
 					<em>{ Promise }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L632">
-				
-				<b>is_file_exists</b>
-			</a>
-		</h4>
-		<p><p>Check if a file path exists.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Boolean }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L647">
-				
-				<b>is_dir_exists</b>
-			</a>
-		</h4>
-		<p><p>Check if a directory path exists.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Boolean }</em>
 				</b></p>
 				<p></p>
 			</li>

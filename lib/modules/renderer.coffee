@@ -296,7 +296,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		self.emit.apply self, arguments
 
 	compile = (handler) ->
-		Q.all handler.paths.map(kit.is_file_exists)
+		Q.all handler.paths.map(kit.fileExists)
 		.then (rets) ->
 			ext_index = rets.indexOf(true)
 			path = handler.paths[ext_index]
@@ -379,7 +379,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		handler
 
 	watch = (handler) ->
-		Q.all handler.paths.map(kit.is_file_exists)
+		Q.all handler.paths.map(kit.fileExists)
 		.then (rets) ->
 			path = handler.paths[rets.indexOf(true)]
 			return if not path
