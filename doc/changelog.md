@@ -1,5 +1,6 @@
 * v0.3.0
 
+  * Add http proxy tunnel support.
   * Optimize the `fs` API.
 
 * v0.2.9

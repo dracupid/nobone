@@ -1455,7 +1455,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L19">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L20">
 				
 				<b>proxy</b>
 			</a>
@@ -1500,7 +1500,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L33">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L34">
 				
 				<b>url</b>
 			</a>
@@ -1587,7 +1587,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L56">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L57">
 				
 				<b>delay</b>
 			</a>
@@ -1664,6 +1664,26 @@ Most time used with SwitchySharp.</p>
 </p>
 			</li>
 
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L76">
+				
+				<b>tunnel</b>
+			</a>
+		</h4>
+		<p><p>HTTP/HTTPS Agents for tunneling proxies.
+See the project <a href="https://github.com/koichik/node-tunnel">https://github.com/koichik/node-tunnel</a></p>
+</p>
+
+		<ul>
 			
 		</ul>
 	</li>
@@ -2090,7 +2110,7 @@ some extra options:</p>
     url: &#39;It is not optional.&#39;
     res_encoding: &#39;utf8&#39; # set null to use buffer, optional.
     req_data: null # string or buffer, optional.
-    req_pipe: Writable Stream.
+    req_pipe: Readable Stream.
     res_pipe: Writable Stream.
 }
 </code></pre>
@@ -2119,7 +2139,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L228">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L227">
 				
 				<b>extend_env</b>
 			</a>
@@ -2138,7 +2158,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L250">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L249">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2190,7 +2210,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L303">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L302">
 				
 				<b>watch_files</b>
 			</a>
@@ -2237,7 +2257,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L315">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L314">
 				
 				<b>env_mode</b>
 			</a>
@@ -2283,7 +2303,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L330">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L329">
 				
 				<b>inspect</b>
 			</a>
@@ -2342,7 +2362,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L349">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L348">
 				
 				<b>log</b>
 			</a>
@@ -2407,7 +2427,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L384">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L383">
 				
 				<b>err</b>
 			</a>
@@ -2452,7 +2472,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L398">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L397">
 				
 				<b>daemonize</b>
 			</a>
@@ -2503,7 +2523,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L423">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L422">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2549,7 +2569,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L444">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L443">
 				
 				<b>async_limit</b>
 			</a>
@@ -2608,7 +2628,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L502">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L501">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2722,7 +2742,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L585">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L584">
 				
 				<b>generate_bone</b>
 			</a>
