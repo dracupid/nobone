@@ -187,10 +187,9 @@ _.extend kit, {
 			else
 				throw new Error('Protocol not supported: ' + url.protocol)
 
+		_.defaults opts, url
+
 		_.defaults opts, {
-			host: url.host
-			port: url.port
-			path: url.path
 			res_encoding: 'utf8' # set null to use buffer
 			req_data: null # string or buffer.
 		}
