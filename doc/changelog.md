@@ -1,3 +1,7 @@
+* v0.3.0
+
+  * Optimize the `fs` API.
+
 * v0.2.9
 
   * Optimize documentation.
