@@ -166,7 +166,7 @@ _.extend kit, {
 	 * 	url: 'It is not optional.'
 	 * 	res_encoding: 'utf8' # set null to use buffer, optional.
 	 * 	req_data: null # string or buffer, optional.
-	 * 	req_pipe: Writable Stream.
+	 * 	req_pipe: Readable Stream.
 	 * 	res_pipe: Writable Stream.
 	 * }
 	 * ```
