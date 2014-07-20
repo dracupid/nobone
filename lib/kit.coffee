@@ -356,8 +356,16 @@ _.extend kit, {
 		time_delta = (+time - +kit.last_log_time).toString().magenta + 'ms'
 		kit.last_log_time = time
 		time = [
-			[time.getFullYear(), time.getMonth() + 1, time.getDate()].join('-')
-			[time.getHours(), time.getMinutes(), time.getSeconds()].join(':')
+			[
+				kit.pad time.getFullYear(), 4
+				kit.pad time.getMonth() + 1, 2
+				kit.pad time.getDate(), 2
+			].join('-')
+			[
+				kit.pad time.getHours(), 2
+				kit.pad time.getMinutes(), 2
+				kit.pad time.getSeconds(), 2
+			].join(':')
 		].join(' ').grey
 
 		if kit.log_reg and not msg.match(kit.log_reg)
@@ -377,6 +385,20 @@ _.extend kit, {
 
 		if action == 'error'
 			console.log "\u0007\n"
+
+	###*
+	 * String padding helper.
+	 * @param  {Sting | Number} str
+	 * @param  {Number} width
+	 * @param  {String} char Padding char. Default is '0'.
+	 * @return {[type]}       [description]
+	###
+	pad: (str, width, char = '0') ->
+		str = str + ''
+		if str.length >= width
+			str
+		else
+			new Array(width - str.length + 1).join(char) + str
 
 	###*
 	 * A log error shortcut for `kit.log`
