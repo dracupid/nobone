@@ -355,7 +355,10 @@ _.extend kit, {
 		time = new Date()
 		time_delta = (+time - +kit.last_log_time).toString().magenta + 'ms'
 		kit.last_log_time = time
-		time = time.toJSON().slice(0, -5).replace('T', ' ').grey
+		time = [
+			[time.getFullYear(), time.getMonth() + 1, time.getDate()].join('-')
+			[time.getHours(), time.getMinutes(), time.getSeconds()].join(':')
+		].join(' ').grey
 
 		if kit.log_reg and not msg.match(kit.log_reg)
 			return
