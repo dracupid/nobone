@@ -78,13 +78,16 @@ renderer.defaults = {
 			 * when you call the `render` directly. Default is an empty object: `{ }`.
 			 * @return {Any} Promise or any thing that contains the compiled content.
 			###
-			compiler: (str, path) ->
+			compiler: (str, path, ext, data) ->
 				ejs = kit.require 'ejs'
 				tpl = ejs.compile str, { filename: path }
 
-				(data = {}) ->
-					_.defaults data, { _ }
+				if data
 					tpl data
+				else
+					(data = {}) ->
+						_.defaults data, { _ }
+						tpl data
 		}
 		'.js': {
 			ext_src: '.coffee'
@@ -305,8 +308,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 				kit.readFile path, encoding
 				.then (str) ->
-					handler.data = {} if handler.data == undefined
-
 					if handler.type and handler.type != ext
 						return handler.compiler(str, path, ext, handler.data)
 
