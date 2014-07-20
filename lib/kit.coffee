@@ -212,6 +212,8 @@ _.extend kit, {
 					defer.resolve data
 
 		req.on 'error', (err) ->
+			# Release pipe
+			opts.res_pipe?.end()
 			defer.reject err
 
 		if opts.req_pipe
