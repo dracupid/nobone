@@ -83,6 +83,7 @@ renderer.defaults = {
 				tpl = ejs.compile str, { filename: path }
 
 				if data
+					data._ = _
 					tpl data
 				else
 					(data = {}) ->
