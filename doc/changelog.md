@@ -1,5 +1,6 @@
 * v0.3.0
 
+  * Fix a memory leak bug.
   * Fix log time bug.
   * Add http proxy tunnel support.
   * Optimize the `fs` API.
