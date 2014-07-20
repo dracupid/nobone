@@ -912,7 +912,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L154">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L158">
 				
 				<b>file_handlers</b>
 			</a>
@@ -957,7 +957,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L160">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L164">
 				
 				<b>cache_pool</b>
 			</a>
@@ -988,7 +988,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L175">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L179">
 				
 				<b>static</b>
 			</a>
@@ -1040,7 +1040,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L242">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L246">
 				
 				<b>render</b>
 			</a>
@@ -1100,7 +1100,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L255">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
 				
 				<b>close</b>
 			</a>
@@ -1119,7 +1119,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L266">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L270">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1177,7 +1177,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L274">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L278">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1249,7 +1249,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L280">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L284">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1293,7 +1293,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L286">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L290">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -2139,7 +2139,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L227">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L229">
 				
 				<b>extend_env</b>
 			</a>
@@ -2158,7 +2158,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L249">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L251">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2210,7 +2210,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L302">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L304">
 				
 				<b>watch_files</b>
 			</a>
@@ -2257,7 +2257,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L314">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L316">
 				
 				<b>env_mode</b>
 			</a>
@@ -2303,7 +2303,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L329">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L331">
 				
 				<b>inspect</b>
 			</a>
@@ -2362,7 +2362,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L348">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L350">
 				
 				<b>log</b>
 			</a>
@@ -2427,7 +2427,78 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L383">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L398">
+				
+				<b>pad</b>
+			</a>
+		</h4>
+		<p><p>String padding helper.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>str</code>
+					
+					<em>{ Sting | Number }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>width</code>
+					
+					<em>{ Number }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>char</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>Padding char. Default is &#39;0&#39;.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ [type] }</em>
+				</b></p>
+				<p><p>[description]</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L410">
 				
 				<b>err</b>
 			</a>
@@ -2472,7 +2543,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L397">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L424">
 				
 				<b>daemonize</b>
 			</a>
@@ -2523,7 +2594,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L422">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L449">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2569,7 +2640,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L443">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L470">
 				
 				<b>async_limit</b>
 			</a>
@@ -2628,7 +2699,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L501">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L528">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2742,7 +2813,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L584">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L611">
 				
 				<b>generate_bone</b>
 			</a>
