@@ -24,6 +24,7 @@ task 'test', 'Basic test', (options) ->
 		process.env.no_server_test = 'on'
 
 	[
+		# 'test/single.coffee'
 		'test/basic.coffee'
 	].forEach (file) ->
 		kit.spawn(mocha_bin, [

@@ -70,6 +70,15 @@ describe 'Basic:', ->
 			assert.equal tpl({ body: 'ok', name: 'nobone' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\n<%- nobone %>\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
 			tdone()
 
+	it 'the renderer with data should work', (tdone) ->
+		{ renderer: rr } = nobone()
+		rr.render(
+			'bone/index.ejs'
+			{ body: 'ok', name: 'nobone' }
+		).done (page) ->
+			assert.equal page, '<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\n<%- nobone %>\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
+			tdone()
+
 	it 'the db should work', (tdone) ->
 		nb.db.exec({
 			command: (jdb) ->
