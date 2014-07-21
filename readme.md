@@ -12,6 +12,7 @@ happily. So other than js, the idea should be port to any other language easily.
 
 [![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
 
+*****************************************************************************
 
 ## Features
 
@@ -19,11 +20,13 @@ happily. So other than js, the idea should be port to any other language easily.
 * Build for performance.
 * Cross platform of course.
 
+*****************************************************************************
 
 ## Install
 
     npm install nobone
 
+*****************************************************************************
 
 ## Quick Start
 
@@ -98,6 +101,7 @@ close = ->
 
 ```
 
+*****************************************************************************
 
 ## CLI
 
@@ -123,6 +127,7 @@ nobone bone -h
 
 ```
 
+*****************************************************************************
 
 ## FAQ
 
@@ -136,6 +141,7 @@ nobone bone -h
   > an entrance file.
 
 
+*****************************************************************************
 
 ## Modules API
 
@@ -1040,7 +1046,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L246">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L247">
 				
 				<b>render</b>
 			</a>
@@ -1100,7 +1106,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L260">
 				
 				<b>close</b>
 			</a>
@@ -1119,7 +1125,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L270">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L271">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1177,7 +1183,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L278">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L279">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1249,7 +1255,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L284">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L285">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1293,7 +1299,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L290">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L291">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -2868,43 +2874,97 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 
 
 
-
 ## Changelog
 
 See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/changelog.md) file.
 
+*****************************************************************************
 
 ## Unit Test
 
 	npm test
 
+*****************************************************************************
 
 ## Benchmark
 
 
-<p>Memory cache is faster than direct file streaming even on SSD machine.</p>
-<pre><code>* memory x 1,167 ops/sec ±4.11% (68 runs sampled)
-* stream x   759 ops/sec ±2.77% (79 runs sampled)
-</code></pre>
+<p><h3>Memory vs Stream</h3>
+Memory cache is faster than direct file streaming even on SSD machine.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>memory</td>
+<td>1,167 ops/sec ±4.11% (68 runs sampled)</td>
+</tr>
+<tr>
+<td>stream</td>
+<td>759 ops/sec ±2.77% (79 runs sampled)</td>
+</tr>
+</tbody>
+</table>
 
-<p>As we can see, jhash is about 1.5x faster than crc32.
+
+<p><h3>crc32 vs jhash</h3>
+As we can see, jhash is about 1.5x faster than crc32.
 Their results of collision test are nearly the same.</p>
-<pre><code>Performance Test
-crc buffer   x 5,903 ops/sec ±0.52% (100 runs sampled)
-crc str      x 54,045 ops/sec ±6.67% (83 runs sampled)
-jhash buffer x 9,756 ops/sec ±0.67% (101 runs sampled)
-jhash str    x 72,056 ops/sec ±0.36% (94 runs sampled)
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>crc buffer</td>
+<td>5,903 ops/sec ±0.52% (100 runs sampled)</td>
+</tr>
+<tr>
+<td>crc str</td>
+<td>54,045 ops/sec ±6.67% (83 runs sampled)</td>
+</tr>
+<tr>
+<td>jhash buffer</td>
+<td>9,756 ops/sec ±0.67% (101 runs sampled)</td>
+</tr>
+<tr>
+<td>jhash str</td>
+<td>72,056 ops/sec ±0.36% (94 runs sampled)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Time</th>
+<th>Collision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jhash</td>
+<td>10.002s</td>
+<td>0.004007480630510286% (15 / 374300)</td>
+</tr>
+<tr>
+<td>crc32</td>
+<td>10.001s</td>
+<td>0.004445855827246745% (14 / 314900)</td>
+</tr>
+</tbody>
+</table>
 
-=== Collision Test ===
-***** jhash *****
-time: 10.002s
-collisions: 0.004007480630510286% (15 / 374300)
-***** crc32 *****
-time: 10.001s
-collisions: 0.004445855827246745% (14 / 314900)
-</code></pre>
 
 
+*****************************************************************************
 
 ## Road Map
 
@@ -2912,6 +2972,7 @@ Decouple libs.
 
 Better test coverage.
 
+*****************************************************************************
 
 ## Lisence
 

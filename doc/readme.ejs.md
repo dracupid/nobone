@@ -12,6 +12,7 @@ happily. So other than js, the idea should be port to any other language easily.
 
 [![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
 
+*****************************************************************************
 
 ## Features
 
@@ -19,11 +20,13 @@ happily. So other than js, the idea should be port to any other language easily.
 * Build for performance.
 * Cross platform of course.
 
+*****************************************************************************
 
 ## Install
 
     npm install nobone
 
+*****************************************************************************
 
 ## Quick Start
 
@@ -31,6 +34,7 @@ happily. So other than js, the idea should be port to any other language easily.
 <%- usage %>
 ```
 
+*****************************************************************************
 
 ## CLI
 
@@ -56,11 +60,13 @@ nobone bone -h
 
 ```
 
+*****************************************************************************
 
 ## FAQ
 
 <%- faq %>
 
+*****************************************************************************
 
 ## Modules API
 
@@ -112,16 +118,17 @@ nobone bone -h
 
 <% }); %>
 
-
 ## Changelog
 
 See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/changelog.md) file.
 
+*****************************************************************************
 
 ## Unit Test
 
 	npm test
 
+*****************************************************************************
 
 ## Benchmark
 
@@ -129,6 +136,7 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 <%- el.description %>
 <% }) %>
 
+*****************************************************************************
 
 ## Road Map
 
@@ -136,6 +144,7 @@ Decouple libs.
 
 Better test coverage.
 
+*****************************************************************************
 
 ## Lisence
 

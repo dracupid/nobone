@@ -1,9 +1,11 @@
 ###*
+ * <h3>Memory vs Stream</h3>
  * Memory cache is faster than direct file streaming even on SSD machine.
- * ```
- * * memory x 1,167 ops/sec ±4.11% (68 runs sampled)
- * * stream x   759 ops/sec ±2.77% (79 runs sampled)
- * ```
+ *
+ * Type   | Performance
+ * ------ | ---------------
+ * memory | 1,167 ops/sec ±4.11% (68 runs sampled)
+ * stream |   759 ops/sec ±2.77% (79 runs sampled)
 ###
 
 Q = require 'q'

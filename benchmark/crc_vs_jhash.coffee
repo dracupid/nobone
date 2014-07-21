@@ -1,21 +1,19 @@
 ###*
+ * <h3>crc32 vs jhash</h3>
  * As we can see, jhash is about 1.5x faster than crc32.
  * Their results of collision test are nearly the same.
- * ```
- * Performance Test
- * crc buffer   x 5,903 ops/sec ±0.52% (100 runs sampled)
- * crc str      x 54,045 ops/sec ±6.67% (83 runs sampled)
- * jhash buffer x 9,756 ops/sec ±0.67% (101 runs sampled)
- * jhash str    x 72,056 ops/sec ±0.36% (94 runs sampled)
  *
- * === Collision Test ===
- * ***** jhash *****
- * time: 10.002s
- * collisions: 0.004007480630510286% (15 / 374300)
- * ***** crc32 *****
- * time: 10.001s
- * collisions: 0.004445855827246745% (14 / 314900)
- * ```
+ * Type         | Performance
+ * ------------ | ----------------
+ * crc buffer   | 5,903 ops/sec ±0.52% (100 runs sampled)
+ * crc str      | 54,045 ops/sec ±6.67% (83 runs sampled)
+ * jhash buffer | 9,756 ops/sec ±0.67% (101 runs sampled)
+ * jhash str    | 72,056 ops/sec ±0.36% (94 runs sampled)
+ *
+ * Type   | Time    | Collision
+ * ------ | ------- | -------------
+ * jhash  | 10.002s | 0.004007480630510286% (15 / 374300)
+ * crc32  | 10.001s | 0.004445855827246745% (14 / 314900)
 ###
 
 _ = require 'lodash'
