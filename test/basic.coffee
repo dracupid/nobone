@@ -21,43 +21,46 @@ get = (path, port) ->
 describe 'Basic:', ->
 
 	nb.service.use nb.renderer.static('bone/client')
+	nb.service.use '/test', nb.renderer.static('test')
 
 	port = 8022
-	server = nb.service.listen port
 	nb.kit.log 'Listen port: ' + port
 	watcher_file_cache = null
 
-	it 'the compiler should work', (tdone) ->
+	server = nb.service.listen port, ->
+		it 'the compiler should work', (tdone) ->
 
-		Q.all([
-			get '/main.js', port
-			get '/default.css', port
-		])
-		.then (results) ->
-			assert.equal results[0], "var elem;\n\nelem = document.createElement('h1');\n\nelem.textContent = '<%- name %>';\n\ndocument.body.appendChild(elem);\n"
-			assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
-		.then ->
-			nb.kit.readFile 'bone/client/main.coffee'
-		.then (str) ->
-			watcher_file_cache = str
-			# Test the watcher
-			nb.kit.outputFile 'bone/client/main.coffee', "console.log 'no'"
-		.then ->
-			deferred = Q.defer()
-			setTimeout(->
+			Q.all([
 				get '/main.js', port
-				.catch (err) -> deferred.reject err
-				.then (code) ->
-					deferred.resolve code
-			, 1000)
-			deferred.promise
-		.then (code) ->
-			assert.equal code, "console.log('no');\n"
-		.then ->
-			nb.kit.outputFile 'bone/client/main.coffee', watcher_file_cache
-		.done ->
-			server.close()
-			tdone()
+				get '/default.css', port
+				get '/test/err_sample.css', port
+			])
+			.then (results) ->
+				assert.equal results[0], "var elem;\n\nelem = document.createElement('h1');\n\nelem.textContent = '<%- name %>';\n\ndocument.body.appendChild(elem);\n"
+				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
+				assert.equal results[2], 'compile_error'
+			.then ->
+				nb.kit.readFile 'bone/client/main.coffee'
+			.then (str) ->
+				watcher_file_cache = str
+				# Test the watcher
+				nb.kit.outputFile 'bone/client/main.coffee', "console.log 'no'"
+			.then ->
+				deferred = Q.defer()
+				setTimeout(->
+					get '/main.js', port
+					.catch (err) -> deferred.reject err
+					.then (code) ->
+						deferred.resolve code
+				, 1000)
+				deferred.promise
+			.then (code) ->
+				assert.equal code, "console.log('no');\n"
+			.then ->
+				nb.kit.outputFile 'bone/client/main.coffee', watcher_file_cache
+			.done ->
+				server.close()
+				tdone()
 
 	it 'module_defaults should work', (tdone) ->
 		nobone.module_defaults('renderer').done (d) ->
