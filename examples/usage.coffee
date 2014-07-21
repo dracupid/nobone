@@ -45,12 +45,11 @@ nb.service.use nb.renderer.static('bone/client')
 # For more info see: https://github.com/ysmood/jdb
 # Here we save 'a' as value 1.
 nb.kit.log nb.db
-nb.db.exec({
-	command: (jdb) ->
-		jdb.doc.a = 1
-		jdb.save('OK')
-}).done (data) ->
-	nb.kit.log data
+nb.db.exec (jdb) ->
+	jdb.doc.a = 1
+	jdb.save('DB OK')
+.done (data) ->
+	nb.kit.log data.yellow
 
 # Proxy
 # Proxy path to specific url.

@@ -1,3 +1,8 @@
+* v0.3.1
+
+  * Fix a renderer bug.
+  * Optimize markdown style.
+
 * v0.3.0
 
   * Fix a memory leak bug.
