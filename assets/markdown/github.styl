@@ -185,6 +185,20 @@ body
 	h1, h2, h3, h4
 		font-family n, Helvetica, arial, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
 
+	table
+		border-collapse: collapse;
+		border-spacing: 0;
+		th
+			border: 1px solid #ddd;
+			padding: 6px 13px;
+		tr
+			border-top: 1px solid #ccc;
+			background-color: #fff;
+			&:nth-child(even)
+				background-color: #f8f8f8;
+		td
+			border: 1px solid #ddd;
+			padding: 6px 13px;
 #toc
 	box-sizing border-box
 	position: fixed;
