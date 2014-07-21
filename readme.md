@@ -82,7 +82,7 @@ nb.db.exec (jdb) ->
 	jdb.doc.a = 1
 	jdb.save('DB OK')
 .done (data) ->
-	nb.kit.log data.yellow
+	nb.kit.log data
 
 # Proxy
 # Proxy path to specific url.
