@@ -1370,7 +1370,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L18">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L17">
 				
 				<b>db</b>
 			</a>
@@ -1391,7 +1391,6 @@ choose the right compiler to handle the content.</p>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
-    promise: true
     db_path: &#39;./nobone.db&#39;
 }
 </code></pre>
@@ -1405,6 +1404,37 @@ choose the right compiler to handle the content.</p>
 					<u>return</u>:
 					
 					<em>{ Jdb }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L27">
+				
+				<b>jdb.loaded</b>
+			</a>
+		</h4>
+		<p><p>A promise object that help you to detect when
+the db is totally loaded.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ Promise }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -2645,7 +2675,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L470">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L473">
 				
 				<b>async_limit</b>
 			</a>
@@ -2677,9 +2707,25 @@ a concurrent limitation.</p>
 					
 						<code>list</code>
 					
-					<em>{ Array }</em>
+					<em>{ Array | Function }</em>
 				</b></p>
-				<p><p>A list of functions. Each will return a promise.</p>
+				<p><p>A list of functions. Each will return a promise.
+If it is a function, it should be a iterator that returns a promise,
+when it returns <code>undefined</code>, the iteration ends.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>save_resutls</code>
+					
+					<em>{ Boolean }</em>
+				</b></p>
+				<p><p>Whether to save each promise&#39;s result or not.</p>
 </p>
 			</li>
 
@@ -2691,7 +2737,8 @@ a concurrent limitation.</p>
 					
 					<em>{ Promise }</em>
 				</b></p>
-				<p></p>
+				<p><p>You can get each round&#39;s results by using the <code>promise.progress</code>.</p>
+</p>
 			</li>
 
 			
@@ -2704,7 +2751,7 @@ a concurrent limitation.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L528">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L556">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2818,7 +2865,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L611">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L639">
 				
 				<b>generate_bone</b>
 			</a>
