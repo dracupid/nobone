@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'development'
 
 assert = require 'assert'
 Q = require 'q'
+_ = require 'lodash'
 nobone = require '../lib/nobone'
 
 nb = nobone {
@@ -145,17 +146,29 @@ describe 'Kit:', ->
 			assert.equal comments[1].tags[0].name, 'opts'
 			tdone()
 
-	it 'async_limit', (tdone) ->
+	it 'async_limit progress', (tdone) ->
 		len = nb.kit.fs.readFileSync(__filename).length
-		i = 0
-		iter = ->
-			if i++ == 30
-				return null
+		iter = (i) ->
+			if i == 10
+				return
 			nb.kit.readFile __filename
 
-		nb.kit.async_limit 10, iter, false
-		.progress (rets) ->
-			assert.equal rets[0].length, len
+		nb.kit.async_limit 3, iter, false
+		.progress (ret) ->
+			assert.equal ret.length, len
 		.done (rets) ->
 			assert.equal rets.length, 0
+			tdone()
+
+	it 'async_limit results', (tdone) ->
+		len = nb.kit.fs.readFileSync(__filename).length
+
+		nb.kit.async_limit 3, _.times 10, ->
+			(i) ->
+				assert.equal typeof i, 'number'
+				nb.kit.readFile __filename
+		.progress (ret) ->
+			assert.equal ret.length, len
+		.done (rets) ->
+			assert.equal rets.length, 10
 			tdone()

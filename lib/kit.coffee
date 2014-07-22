@@ -466,35 +466,47 @@ _.extend kit, {
 	 * @param  {Int} limit The max task to run at the same time.
 	 * @param  {Array | Function} list A list of functions. Each will return a promise.
 	 * If it is a function, it should be a iterator that returns a promise,
-	 * when it returns null, the iteration ends.
+	 * when it returns `undefined`, the iteration ends.
 	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
 	 * @return {Promise} You can get each round's results by using the `promise.progress`.
 	###
 	async_limit: (limit, list, save_resutls = true) ->
 		from = 0
 		resutls = []
+		iter_index = 0
+		is_iter_done = false
 		defer = Q.defer()
 
+		if _.isArray list
+			list_len = list.length - 1
+			iter = (i) ->
+				return if i > list_len
+				list[i](i)
+		else if _.isFunction list
+			iter = list
+		else
+			throw new Error('unknown list type: ' + typeof list)
+
 		round = ->
-			to = from + limit
-			if _.isArray list
-				curr = list[from ... to].map (el) -> el()
-			else
-				curr = []
-				for i in [from ... to]
-					p = list()
-					if p == null
-						break
-					curr.push p
-			from = to
+			curr = []
+			for i in _.range limit
+				p = iter(iter_index++)
+				if is_iter_done or p == undefined
+					is_iter_done = true
+					break
+				if Q.isPromise p
+					p.then (ret) -> defer.notify ret
+				else
+					defer.notify p
+				curr.push p
+
 			if curr.length > 0
 				Q.all curr
 				.catch (err) ->
 					defer.reject err
-				.then (res) ->
-					defer.notify res
+				.then (rets) ->
 					if save_resutls
-						resutls = resutls.concat res
+						resutls = resutls.concat rets
 					round()
 			else
 				defer.resolve resutls
