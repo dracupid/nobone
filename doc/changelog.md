@@ -1,3 +1,8 @@
+* v0.3.2
+
+  * Fix a auto_reload bug.
+  * Update jdb.
+
 * v0.3.1
 
   * Fix a renderer bug.

@@ -390,7 +390,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			emit self.e.watch_file, path, handler.req_path
 			watcher = (path, curr, prev) ->
 				# If moved or deleted
-				if curr.dev == 0
+				if curr.mtime.getTime() == 0
 					emit self.e.file_deleted, path
 					delete cache_pool[path]
 					fs.unwatchFile(path, watcher)
