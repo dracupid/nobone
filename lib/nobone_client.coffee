@@ -25,8 +25,15 @@ class Nobone then constructor: ->
 
 			console.log(">> file_modified: " + msg.path)
 
-			reload_elem = (el) ->
-				el.outerHTML = el.outerHTML
+			reload_elem = (el, key) ->
+				if el[key].indexOf('?') == -1
+					el[key] += '?nb_auto_reload=0'
+				else
+					if el[key].indexOf('nb_auto_reload') > -1
+						el[key] = el[key].replace /nb_auto_reload=(\d+)/, (m, p) ->
+							'nb_auto_reload=' + (+p + 1)
+					else
+						el[key] += '&nb_auto_reload=0'
 
 			each = (qs, handler) ->
 				elems = document.querySelectorAll(qs)
@@ -34,10 +41,14 @@ class Nobone then constructor: ->
 
 			switch msg.ext_bin
 				when '.css'
-					each('link[href*="' + msg.req_path + '"]', reload_elem)
+					each 'link', (el) ->
+						if el.href.indexOf(msg.req_path) > -1
+							reload_elem el, 'href'
 
 				when '.jpg', '.gif', '.png'
-					each('img[src*="' + msg.req_path + '"]', reload_elem)
+					each 'img', (el) ->
+						if el.src.indexOf(msg.req_path) > -1
+							reload_elem el, 'src'
 
 				else
 					location.reload()
