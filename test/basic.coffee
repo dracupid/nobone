@@ -1,7 +1,6 @@
 process.env.NODE_ENV = 'development'
 
 assert = require 'assert'
-http = require 'http'
 Q = require 'q'
 nobone = require '../lib/nobone'
 
@@ -28,7 +27,7 @@ describe 'Basic:', ->
 	watcher_file_cache = null
 
 	server = nb.service.listen port, ->
-		it 'the compiler should work', (tdone) ->
+		it 'compiler', (tdone) ->
 
 			Q.all([
 				get '/main.js', port
@@ -62,18 +61,18 @@ describe 'Basic:', ->
 				server.close()
 				tdone()
 
-	it 'module_defaults should work', (tdone) ->
+	it 'module_defaults', (tdone) ->
 		nobone.module_defaults('renderer').done (d) ->
 			assert.equal d.file_handlers['.js'].ext_src, '.coffee'
 			tdone()
 
-	it 'the render should work', (tdone) ->
+	it 'render', (tdone) ->
 		nb.renderer.render('bone/index.ejs')
 		.done (tpl) ->
 			assert.equal tpl({ body: 'ok', name: 'nobone' }), '<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\n<%- nobone %>\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
 			tdone()
 
-	it 'the renderer with data should work', (tdone) ->
+	it 'renderer with data', (tdone) ->
 		{ renderer: rr } = nobone()
 		rr.render(
 			'bone/index.ejs'
@@ -82,7 +81,7 @@ describe 'Basic:', ->
 			assert.equal page, '<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>\n\t<link rel="stylesheet" type="text/css" href="/default.css">\n</head>\n<body>\n\n<%- nobone %>\n<script type="text/javascript" src="/main.js"></script>\n\n</body>\n</html>\n'
 			tdone()
 
-	it 'the db should work', (tdone) ->
+	it 'database', (tdone) ->
 		nb.db.exec({
 			command: (jdb) ->
 				jdb.doc.a = 1
@@ -95,17 +94,7 @@ describe 'Basic:', ->
 				assert.equal d, 1
 				tdone()
 
-	it 'the kit.parse_comment should work', (tdone) ->
-		path = 'lib/nobone.coffee'
-		nb.kit.readFile path, 'utf8'
-		.done (str) ->
-			comments = nb.kit.parse_comment 'nobone', str, path
-			assert.equal comments[1].path, path
-			assert.equal comments[1].tags[0].type, 'Object'
-			assert.equal comments[1].tags[0].name, 'opts'
-			tdone()
-
-	it 'the custom code_handler should work', (tdone) ->
+	it 'custom code_handler', (tdone) ->
 		{ renderer: rr } = nobone()
 
 		rr.file_handlers['.js'].compiler = (str) ->
@@ -116,14 +105,14 @@ describe 'Basic:', ->
 			assert.equal len, watcher_file_cache.length
 			tdone()
 
-	it 'the close should work.', (tdone) ->
+	it 'nobone.close', (tdone) ->
 		port = 8398
 		nb = nobone()
 		nb.service.listen port, ->
 			nb.close().done ->
 				tdone()
 
-	it 'the cli should work', (tdone) ->
+	it 'cli', (tdone) ->
 		if process.env.no_server_test == 'on'
 			tdone()
 			return
@@ -143,3 +132,30 @@ describe 'Basic:', ->
 			.fin ->
 				ps.kill 'SIGINT'
 		, 1000)
+
+describe 'Kit:', ->
+
+	it 'kit.parse_comment', (tdone) ->
+		path = 'lib/nobone.coffee'
+		nb.kit.readFile path, 'utf8'
+		.done (str) ->
+			comments = nb.kit.parse_comment 'nobone', str, path
+			assert.equal comments[1].path, path
+			assert.equal comments[1].tags[0].type, 'Object'
+			assert.equal comments[1].tags[0].name, 'opts'
+			tdone()
+
+	it 'async_limit', (tdone) ->
+		len = nb.kit.fs.readFileSync(__filename).length
+		i = 0
+		iter = ->
+			if i++ == 30
+				return null
+			nb.kit.readFile __filename
+
+		nb.kit.async_limit 10, iter, false
+		.progress (rets) ->
+			assert.equal rets[0].length, len
+		.done (rets) ->
+			assert.equal rets.length, 0
+			tdone()

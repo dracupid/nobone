@@ -464,24 +464,37 @@ _.extend kit, {
 	 * An throttle version of `Q.all`, it runs all the tasks under
 	 * a concurrent limitation.
 	 * @param  {Int} limit The max task to run at the same time.
-	 * @param  {Array} list A list of functions. Each will return a promise.
-	 * @return {Promise}
+	 * @param  {Array | Function} list A list of functions. Each will return a promise.
+	 * If it is a function, it should be a iterator that returns a promise,
+	 * when it returns null, the iteration ends.
+	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
+	 * @return {Promise} You can get each round's results by using the `promise.progress`.
 	###
-	async_limit: (limit, list) ->
+	async_limit: (limit, list, save_resutls = true) ->
 		from = 0
 		resutls = []
 		defer = Q.defer()
 
 		round = ->
 			to = from + limit
-			curr = list[from ... to].map (el) -> el()
+			if _.isArray list
+				curr = list[from ... to].map (el) -> el()
+			else
+				curr = []
+				for i in [from ... to]
+					p = list()
+					if p == null
+						break
+					curr.push p
 			from = to
 			if curr.length > 0
 				Q.all curr
 				.catch (err) ->
 					defer.reject err
 				.then (res) ->
-					resutls = resutls.concat res
+					defer.notify res
+					if save_resutls
+						resutls = resutls.concat res
 					round()
 			else
 				defer.resolve resutls
