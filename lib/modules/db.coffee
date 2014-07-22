@@ -10,7 +10,6 @@ _ = require 'lodash'
  * @param  {Object} opts Defaults:
  * ```coffee
  * {
- * 	promise: true
  * 	db_path: './nobone.db'
  * }```
  * @return {Jdb}
@@ -18,10 +17,18 @@ _ = require 'lodash'
 db = (opts = {}) ->
 	_.defaults opts, db.defaults
 
-	new (require 'jdb')(opts)
+	jdb = new (require 'jdb')
+
+	###*
+	 * A promise object that help you to detect when
+	 * the db is totally loaded.
+	 * @type {Promise}
+	###
+	jdb.loaded = jdb.init opts
+
+	jdb
 
 db.defaults = {
-	promise: true
 	db_path: './nobone.db'
 }
 

@@ -83,17 +83,18 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'database', (tdone) ->
-		nb.db.exec({
-			command: (jdb) ->
-				jdb.doc.a = 1
-				jdb.save()
-		}).then ->
+		nb.db.loaded.then ->
 			nb.db.exec({
 				command: (jdb) ->
-					jdb.send jdb.doc.a
-			}).then (d) ->
-				assert.equal d, 1
-				tdone()
+					jdb.doc.a = 1
+					jdb.save()
+			}).then ->
+				nb.db.exec({
+					command: (jdb) ->
+						jdb.send jdb.doc.a
+				}).then (d) ->
+					assert.equal d, 1
+					tdone()
 
 	it 'custom code_handler', (tdone) ->
 		{ renderer: rr } = nobone()
