@@ -157,7 +157,7 @@ describe 'Kit:', ->
 		.progress (ret) ->
 			assert.equal ret.length, len
 		.done (rets) ->
-			assert.equal rets.length, 0
+			assert.equal rets, undefined
 			tdone()
 
 	it 'async_limit results', (tdone) ->

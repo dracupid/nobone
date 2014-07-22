@@ -509,7 +509,10 @@ _.extend kit, {
 						resutls = resutls.concat rets
 					round()
 			else
-				defer.resolve resutls
+				if save_resutls
+					defer.resolve resutls
+				else
+					defer.resolve()
 
 		round()
 
