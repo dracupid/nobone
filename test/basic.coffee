@@ -27,9 +27,8 @@ describe 'Basic:', ->
 	nb.kit.log 'Listen port: ' + port
 	watcher_file_cache = null
 
-	server = nb.service.listen port, ->
-		it 'compiler', (tdone) ->
-
+	it 'compiler', (tdone) ->
+		server = nb.service.listen port, ->
 			Q.all([
 				get '/main.js', port
 				get '/default.css', port
