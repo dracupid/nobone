@@ -139,6 +139,11 @@ nobone bone -h
   > Don't execute `nobone` with a directory path when you want to start with
   > an entrance file.
 
+* Why doesn't the auto-reaload work?
+
+  Check if the `process.env.NODE_ENV` is set to `development`.
+
+
 
 *****************************************************************************
 
