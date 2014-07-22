@@ -35,6 +35,14 @@ class Nobone then constructor: ->
 					else
 						el[key] += '&nb_auto_reload=0'
 
+				# Fix the Chrome renderer bug.
+				body = document.body
+				body.style.display = 'none'
+				body.offsetHeight; # no need to store this anywhere, the reference is enough
+				setTimeout ->
+					body.style.display = 'block'
+				, 50
+
 			each = (qs, handler) ->
 				elems = document.querySelectorAll(qs)
 				[].slice.apply(elems).forEach(handler)
