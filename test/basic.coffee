@@ -35,7 +35,7 @@ describe 'Basic:', ->
 				get '/test/err_sample.css', port
 			])
 			.then (results) ->
-				assert.equal results[0].indexOf("'<%- name %>';\n\ndocument.body.appendChild(elem);\n"), 68
+				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 84
 				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
 				assert.equal results[2], 'compile_error'
 			.then ->
@@ -69,14 +69,14 @@ describe 'Basic:', ->
 	it 'render', (tdone) ->
 		nb.renderer.render('bone/index.ejs')
 		.done (tpl) ->
-			assert.equal tpl({ body: 'ok', name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 2479
+			assert.equal tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
 			tdone()
 
 	it 'renderer with data', (tdone) ->
 		{ renderer: rr } = nobone()
 		rr.render(
 			'bone/index.ejs'
-			{ body: 'ok', name: 'nobone' }
+			{ name: 'nobone' }
 		).done (page) ->
 			assert.equal page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
 			tdone()
