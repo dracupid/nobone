@@ -10,7 +10,7 @@ nb.service.use (req, res) ->
 	nb.kit.log req.url
 	# Each connection delay for 1 second.
 	setTimeout ->
-		nb.proxy.url req, res, req.url
+		nb.proxy.url req, res
 	, 1000
 
 

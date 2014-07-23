@@ -27,11 +27,14 @@ proxy = (opts = {}) ->
 		 * Use it to proxy one url to another.
 		 * @param {http.IncomingMessage} req
 		 * @param {http.ServerResponse} res
-		 * @param {String} url The target url
+		 * @param {String} url The target url force to.
 		 * @param {Object} opts Other options.
 		 * @param {Function} err Custom error handler.
 		###
 		url: (req, res, url, opts = {}, err) ->
+			if not url
+				url = req.url
+
 			if typeof url == 'string'
 				url = kit.url.parse url
 
