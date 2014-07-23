@@ -1804,7 +1804,7 @@ service.server.on &#39;connect&#39;, proxy.connect()
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L117">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L120">
 				
 				<b>tunnel</b>
 			</a>
