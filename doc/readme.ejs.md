@@ -30,6 +30,8 @@ happily. So other than js, the idea should be port to any other language easily.
 
 ## Quick Start
 
+For more examples, go through the [examples](https://github.com/ysmood/nobone/tree/master/examples) folder.
+
 ```coffee
 <%- usage %>
 ```

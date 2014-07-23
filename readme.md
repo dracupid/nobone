@@ -30,6 +30,8 @@ happily. So other than js, the idea should be port to any other language easily.
 
 ## Quick Start
 
+For more examples, go through the [examples](https://github.com/ysmood/nobone/tree/master/examples) folder.
+
 ```coffee
 process.env.NODE_ENV = 'development'
 
@@ -61,7 +63,7 @@ nb.service.get '/', (req, res) ->
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
 	nb.renderer.render('bone/index.ejs')
 	.done (tpl_func) ->
-		res.send tpl_func({ body: nobone.client() })
+		res.send tpl_func()
 
 # Launch express.js
 nb.service.listen port
@@ -751,7 +753,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L62">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L64">
 				
 				<b>renderer</b>
 			</a>
@@ -773,6 +775,7 @@ Even for huge project its memory usage is negligible.</p>
 				<p><p>Example:</p>
 <pre><code class="lang-coffee">{
     enable_watcher: process.env.NODE_ENV == &#39;development&#39;
+    inject_nobone_client: process.env.NODE_ENV == &#39;development&#39;
     auto_log: process.env.NODE_ENV == &#39;development&#39;
     file_handlers: {
         &#39;.html&#39;: {
@@ -833,7 +836,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L81">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L86">
 				
 				<b>compiler</b>
 			</a>
@@ -843,6 +846,19 @@ It should return a promise object. Only handles string.</p>
 </p>
 
 		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>this</u>:
+					
+					<em>{ Renderer }</em>
+				</b></p>
+				<p><p>The context of this function is the
+current renderer.</p>
+</p>
+			</li>
+
 			
 
 			<li>
@@ -895,7 +911,7 @@ It should return a promise object. Only handles string.</p>
 					
 					<em>{ Any }</em>
 				</b></p>
-				<p><p>The data sent from the <code>render</code> function. Available only
+				<p><p>The data sent from the <code>render</code> function.
 when you call the <code>render</code> directly. Default is an empty object: <code>{ }</code>.</p>
 </p>
 			</li>
@@ -922,7 +938,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L158">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L170">
 				
 				<b>file_handlers</b>
 			</a>
@@ -967,7 +983,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L164">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L176">
 				
 				<b>cache_pool</b>
 			</a>
@@ -998,7 +1014,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L179">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L191">
 				
 				<b>static</b>
 			</a>
@@ -1050,7 +1066,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L247">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
 				
 				<b>render</b>
 			</a>
@@ -1110,7 +1126,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L260">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L272">
 				
 				<b>close</b>
 			</a>
@@ -1129,7 +1145,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L271">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L283">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1187,7 +1203,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L279">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L291">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1259,7 +1275,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L285">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L297">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1303,7 +1319,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L291">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L303">
 				
 				<b>e.file_modified</b>
 			</a>
