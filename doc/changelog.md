@@ -1,3 +1,7 @@
+* v0.3.4
+
+  * Add `proxy.connect` helper.
+
 * v0.3.3
 
   * Optimize the nobone_client handler. Make it more smart.
