@@ -82,12 +82,12 @@ renderer.defaults = {
 			 * when you call the `render` directly. Default is an empty object: `{ }`.
 			 * @return {Any} Promise or any thing that contains the compiled content.
 			###
-			compiler: (str, path, data = {}) ->
+			compiler: (str, path, data) ->
 				self = @
 				ejs = kit.require 'ejs'
 				tpl = ejs.compile str, { filename: path }
 
-				if _.keys(data).length > 0
+				if _.isObject data
 					data._ = _
 					tpl data
 				else
