@@ -1,3 +1,8 @@
+* v0.3.3
+
+  * Optimize the nobone_client handler. Make it more smart.
+  * Add renderer context to the compiler function.
+
 * v0.3.2
 
   * Fix a auto_reload bug.
