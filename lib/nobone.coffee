@@ -101,9 +101,10 @@ _.extend nobone, {
 			fs = kit.require 'fs'
 			js = fs.readFileSync(__dirname + '/../dist/nobone_client.js')
 			html = """
+				\n\n<!-- Nobone Client Helper -->
 				<script type="text/javascript">
 				#{js}
-				</script>
+				</script>\n\n
 			"""
 			nobone.client_cache = html
 

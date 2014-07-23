@@ -97,7 +97,7 @@ renderer.defaults = {
 						html = tpl data
 						if self.opts.inject_nobone_client and
 						/<html[^<>]*>[\s\S]*<\/html>/i.test html
-							html = nobone.client() + html
+							html += nobone.client()
 						html
 		}
 		'.js': {
