@@ -9,7 +9,8 @@ Overview = 'renderer'
 
 _ = require 'lodash'
 Q = require 'q'
-kit = require '../kit'
+nobone = require '../nobone'
+kit = nobone.kit
 express = require 'express'
 { EventEmitter } = require 'events'
 fs = kit.require 'fs'
@@ -22,6 +23,7 @@ jhash = new kit.jhash.constructor
  * ```coffee
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
+ * 	inject_nobone_client: process.env.NODE_ENV == 'development'
  * 	auto_log: process.env.NODE_ENV == 'development'
  * 	file_handlers: {
  * 		'.html': {
@@ -63,6 +65,7 @@ renderer = (opts) -> new Renderer(opts)
 
 renderer.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
+	inject_nobone_client: process.env.NODE_ENV == 'development'
 	auto_log: process.env.NODE_ENV == 'development'
 	file_handlers: {
 		'.html': {
@@ -71,14 +74,17 @@ renderer.defaults = {
 			###*
 			 * The compiler should fulfil two interface.
 			 * It should return a promise object. Only handles string.
+			 * @this {Renderer} The context of this function is the
+			 * current renderer.
 			 * @param  {String} str Source content.
 			 * @param  {String} path For debug info.
 			 * @param  {String} ext_src The source file's extension.
-			 * @param  {Any} data The data sent from the `render` function. Available only
+			 * @param  {Any} data The data sent from the `render` function.
 			 * when you call the `render` directly. Default is an empty object: `{ }`.
 			 * @return {Any} Promise or any thing that contains the compiled content.
 			###
 			compiler: (str, path, ext, data) ->
+				self = @
 				ejs = kit.require 'ejs'
 				tpl = ejs.compile str, { filename: path }
 
@@ -88,7 +94,11 @@ renderer.defaults = {
 				else
 					(data = {}) ->
 						_.defaults data, { _ }
-						tpl data
+						html = tpl data
+						if self.opts.inject_nobone_client and
+						/<html[^<>]*>[\s\S]*<\/html>/i.test html
+							html = nobone.client() + html
+						html
 		}
 		'.js': {
 			ext_src: '.coffee'
@@ -142,6 +152,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	_.defaults opts, renderer.defaults
 
 	self = @
+
+	self.opts = opts
 
 	cache_pool = {}
 
@@ -311,12 +323,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				kit.readFile path, encoding
 				.then (str) ->
 					if handler.type and handler.type != ext
-						return handler.compiler(str, path, ext, handler.data)
+						return handler.compiler.call(self, str, path, ext, handler.data)
 
 					if ext == handler.ext_bin
 						str
 					else
-						handler.compiler(str, path, ext, handler.data)
+						handler.compiler.call(self, str, path, ext, handler.data)
 				.then (content) ->
 					if not _.isString content
 						body = content.toString()
