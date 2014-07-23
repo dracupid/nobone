@@ -83,7 +83,8 @@ proxy = (opts = {}) ->
 		 * service.server.on 'connect', proxy.connect()
 		 * ```
 		###
-		connect: (host, port) ->
+		connect: (host, port, err) ->
+			net = kit.require 'net'
 			(req, sock, head) ->
 				h = host or req.headers.host
 				p = port or req.url.match(/:(\d+)$/)[1] or 443
@@ -103,12 +104,14 @@ proxy = (opts = {}) ->
 				psock.on 'end', ->
 					sock.end()
 
+				error = err or (err, socket) ->
+					kit.log err.toString() + ' -> ' + req.url.red
+					socket.end()
+
 				sock.on 'error', (err) ->
-					kit.log err
-					sock.end()
+					error err, sock
 				psock.on 'error', (err) ->
-					kit.log err
-					psock.end()
+					error err, psock
 
 		###*
 		 * HTTP/HTTPS Agents for tunneling proxies.
