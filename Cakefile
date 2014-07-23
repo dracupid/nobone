@@ -91,3 +91,30 @@ task 'clean', 'Clean js', ->
 	kit.log ">> Clean js..."
 
 	kit.remove('dist').done()
+
+# Just for fun.
+task 'code', 'Code Statistics of this project', ->
+	line_count = 0
+	size_count = 0
+
+	kit.glob [
+		'Cakefile'
+	].concat [
+		'assets', 'benchmark', 'bin', 'bone', 'doc', 'examples', 'lib', 'test'
+	].map (el) -> el + '/**/*.+(js|coffee|styl|css|md|ejs|html)'
+	.then (paths) ->
+		kit.log ' File Count: '.cyan + paths.length
+
+		kit.async 20, (i) ->
+			if i >= paths.length
+				return
+			Q.all [
+				kit.readFile paths[i], 'utf8'
+				kit.stat paths[i]
+			]
+		.progress ([str, stats]) ->
+			line_count += str.split('\n').length
+			size_count += stats.size
+	.done ->
+		kit.log 'Total Lines: '.cyan + line_count
+		kit.log ' Total Size: '.cyan + (size_count / 1024).toFixed(2) + ' kb'
