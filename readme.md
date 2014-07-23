@@ -836,7 +836,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L86">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L85">
 				
 				<b>compiler</b>
 			</a>
@@ -884,20 +884,6 @@ current renderer.</p>
 					<em>{ String }</em>
 				</b></p>
 				<p><p>For debug info.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>ext_src</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The source file&#39;s extension.</p>
 </p>
 			</li>
 
