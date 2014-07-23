@@ -463,19 +463,25 @@ _.extend kit, {
 	###*
 	 * An throttle version of `Q.all`, it runs all the tasks under
 	 * a concurrent limitation.
-	 * @param  {Int} limit The max task to run at the same time.
+	 * @param  {Int} limit The max task to run at the same time. It's optional.
+	 * Default is Infinity.
 	 * @param  {Array | Function} list A list of functions. Each will return a promise.
 	 * If it is a function, it should be a iterator that returns a promise,
 	 * when it returns `undefined`, the iteration ends.
 	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
 	 * @return {Promise} You can get each round's results by using the `promise.progress`.
 	###
-	async_limit: (limit, list, save_resutls = true) ->
+	async: (limit, list, save_resutls = true) ->
 		from = 0
 		resutls = []
 		iter_index = 0
 		is_iter_done = false
 		defer = Q.defer()
+
+		if not _.isNumber limit
+			save_resutls = list
+			list = limit
+			limit = Infinity
 
 		if _.isArray list
 			list_len = list.length - 1
@@ -489,7 +495,7 @@ _.extend kit, {
 
 		round = ->
 			curr = []
-			for i in _.range limit
+			for i in [0 ... limit]
 				p = iter(iter_index++)
 				if is_iter_done or p == undefined
 					is_iter_done = true
