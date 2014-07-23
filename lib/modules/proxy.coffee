@@ -29,7 +29,7 @@ proxy = (opts = {}) ->
 		 * @param {http.ServerResponse} res
 		 * @param {String} url The target url
 		 * @param {Object} opts Other options.
-		 * @param {Function} err Error handler.
+		 * @param {Function} err Custom error handler.
 		###
 		url: (req, res, url, opts = {}, err) ->
 			if typeof url == 'string'
@@ -47,71 +47,50 @@ proxy = (opts = {}) ->
 			)
 
 		###*
-		 * Simulate simple network delay.
-		 * @param {http.IncomingMessage} req
-		 * @param {http.ServerResponse} res
-		 * @param {Number} delay In milliseconds.
-		 * @param {Object} opts Other options.
-		 * @param {Function} err Error handler.
-		###
-		delay: (req, res, delay, opts = {}, err) ->
-			url = kit.url.parse req.originalUrl
-			setTimeout(->
-				proxy.web(req, res, _.defaults(opts, {
-					proxyTimeout: delay * 10
-					timeout: delay * 10
-					target: url.format()
-				}), (e) ->
-					if not err
-						kit.log e.toString() + ' -> ' + req.url.red
-					else
-						err e
-				)
-			, delay)
-
-		###*
 		 * Http CONNECT method tunneling proxy helper.
-		 * @param  {String} host The host force to. It's optional.
-		 * @param  {Int} port The port force to. It's optional.
-		 * @return {Function} A connect helper.
+		 * @param {http.IncomingMessage} req
+		 * @param {net.Socket} sock
+		 * @param {Buffer} head
+		 * @param {String} host The host force to. It's optional.
+		 * @param {Int} port The port force to. It's optional.
+		 * @param {Function} err Custom error handler.
 		 * @example
 		 * ```coffee
 		 * nobone = require 'nobone'
 		 * { proxy, service } = nobone { proxy:{}, service: {} }
 		 *
 		 * # Directly connect to the original site.
-		 * service.server.on 'connect', proxy.connect()
+		 * service.server.on 'connect', proxy.connect
 		 * ```
 		###
-		connect: (host, port, err) ->
+		connect: (req, sock, head, host, port, err) ->
 			net = kit.require 'net'
-			(req, sock, head) ->
-				h = host or req.headers.host
-				p = port or req.url.match(/:(\d+)$/)[1] or 443
+			h = host or req.headers.host
+			p = port or req.url.match(/:(\d+)$/)[1] or 443
 
-				psock = new net.Socket
-				psock.connect p, h, ->
-					psock.write head
-					sock.write "HTTP/" + req.httpVersion + " 200 Connection established\r\n\r\n"
+			psock = new net.Socket
+			psock.connect p, h, ->
+				psock.write head
+				sock.write "HTTP/" + req.httpVersion + " 200 Connection established\r\n\r\n"
 
-				sock.on 'data', (buf) ->
-					psock.write buf
-				psock.on 'data', (buf) ->
-					sock.write buf
+			sock.on 'data', (buf) ->
+				psock.write buf
+			psock.on 'data', (buf) ->
+				sock.write buf
 
-				sock.on 'end', ->
-					psock.end()
-				psock.on 'end', ->
-					sock.end()
+			sock.on 'end', ->
+				psock.end()
+			psock.on 'end', ->
+				sock.end()
 
-				error = err or (err, socket) ->
-					kit.log err.toString() + ' -> ' + req.url.red
-					socket.end()
+			error = err or (err, socket) ->
+				kit.log err.toString() + ' -> ' + req.url.red
+				socket.end()
 
-				sock.on 'error', (err) ->
-					error err, sock
-				psock.on 'error', (err) ->
-					error err, psock
+			sock.on 'error', (err) ->
+				error err, sock
+			psock.on 'error', (err) ->
+				error err, psock
 
 		###*
 		 * HTTP/HTTPS Agents for tunneling proxies.

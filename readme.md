@@ -1627,7 +1627,7 @@ Most time used with SwitchySharp.</p>
 					
 					<em>{ Function }</em>
 				</b></p>
-				<p><p>Error handler.</p>
+				<p><p>Custom error handler.</p>
 </p>
 			</li>
 
@@ -1641,12 +1641,12 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L57">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L66">
 				
-				<b>delay</b>
+				<b>connect</b>
 			</a>
 		</h4>
-		<p><p>Simulate simple network delay.</p>
+		<p><p>Http CONNECT method tunneling proxy helper.</p>
 </p>
 
 		<ul>
@@ -1669,9 +1669,9 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>res</code>
+						<code>sock</code>
 					
-					<em>{ http.ServerResponse }</em>
+					<em>{ net.Socket }</em>
 				</b></p>
 				<p></p>
 			</li>
@@ -1682,61 +1682,13 @@ Most time used with SwitchySharp.</p>
 				<p><b>
 					<u>param</u>:
 					
-						<code>delay</code>
+						<code>head</code>
 					
-					<em>{ Number }</em>
+					<em>{ Buffer }</em>
 				</b></p>
-				<p><p>In milliseconds.</p>
-</p>
+				<p></p>
 			</li>
 
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Other options.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>err</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Error handler.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L86">
-				
-				<b>connect</b>
-			</a>
-		</h4>
-		<p><p>Http CONNECT method tunneling proxy helper.</p>
-</p>
-
-		<ul>
 			
 
 			<li>
@@ -1769,11 +1721,13 @@ Most time used with SwitchySharp.</p>
 
 			<li>
 				<p><b>
-					<u>return</u>:
+					<u>param</u>:
+					
+						<code>err</code>
 					
 					<em>{ Function }</em>
 				</b></p>
-				<p><p>A connect helper.</p>
+				<p><p>Custom error handler.</p>
 </p>
 			</li>
 
@@ -1789,7 +1743,7 @@ Most time used with SwitchySharp.</p>
 { proxy, service } = nobone { proxy:{}, service: {} }
 
 # Directly connect to the original site.
-service.server.on &#39;connect&#39;, proxy.connect()
+service.server.on &#39;connect&#39;, proxy.connect
 </code></pre>
 </p>
 			</li>
@@ -1804,7 +1758,7 @@ service.server.on &#39;connect&#39;, proxy.connect()
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L120">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L99">
 				
 				<b>tunnel</b>
 			</a>

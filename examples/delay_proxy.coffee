@@ -9,15 +9,16 @@ nb = nobone({
 nb.service.use (req, res) ->
 	nb.kit.log req.url
 	# Each connection delay for 1 second.
-	nb.proxy.delay req, res, 1000
+	setTimeout ->
+		nb.proxy.url req, res, req.url
+	, 1000
 
 
 # Delay https requests.
 nb.service.server.on 'connect', (req, sock, head) ->
 	nb.kit.log req.url
-	agent = nb.proxy.connect()
 	setTimeout ->
-		agent req, sock, head
+		nb.proxy.connect req, sock, head
 	, 1000
 
 nb.service.listen 8123
