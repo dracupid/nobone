@@ -70,6 +70,47 @@ proxy = (opts = {}) ->
 			, delay)
 
 		###*
+		 * Http CONNECT method tunneling proxy helper.
+		 * @param  {String} host The host force to. It's optional.
+		 * @param  {Int} port The port force to. It's optional.
+		 * @return {Function} A connect helper.
+		 * @example
+		 * ```coffee
+		 * nobone = require 'nobone'
+		 * { proxy, service } = nobone { proxy:{}, service: {} }
+		 *
+		 * # Directly connect to the original site.
+		 * service.server.on 'connect', proxy.connect()
+		 * ```
+		###
+		connect: (host, port) ->
+			(req, sock, head) ->
+				h = host or req.headers.host
+				p = port or req.url.match(/:(\d+)$/)[1] or 443
+
+				psock = new net.Socket
+				psock.connect p, h, ->
+					psock.write head
+					sock.write "HTTP/" + req.httpVersion + " 200 Connection established\r\n\r\n"
+
+				sock.on 'data', (buf) ->
+					psock.write buf
+				psock.on 'data', (buf) ->
+					sock.write buf
+
+				sock.on 'end', ->
+					psock.end()
+				psock.on 'end', ->
+					sock.end()
+
+				sock.on 'error', (err) ->
+					kit.log err
+					sock.end()
+				psock.on 'error', (err) ->
+					kit.log err
+					psock.end()
+
+		###*
 		 * HTTP/HTTPS Agents for tunneling proxies.
 		 * See the project https://github.com/koichik/node-tunnel
 		###
