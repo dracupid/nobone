@@ -103,6 +103,7 @@ init_sse = (self) ->
 	###*
 	 * A Server-Sent Event Manager.
 	 * The namespace of nobone sse is '/nobone-sse',
+	 * @property {Array} sessions The sessions of connected clients.
 	 * @example You browser code should be something like this:
 	 * ```coffee
 	 * es = new EventSource('/nobone-sse')

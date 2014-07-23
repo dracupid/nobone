@@ -556,7 +556,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L115">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L116">
 				
 				<b>sse</b>
 			</a>
@@ -566,6 +566,18 @@ The namespace of nobone sse is &#39;/nobone-sse&#39;,</p>
 </p>
 
 		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>property</u>:
+					
+					<em>{ Array }</em>
+				</b></p>
+				<p><p>sessions The sessions of connected clients.</p>
+</p>
+			</li>
+
 			
 
 			<li>
@@ -604,7 +616,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L131">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L132">
 				
 				<b>session.emit</b>
 			</a>
@@ -651,7 +663,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L166">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L167">
 				
 				<b>sse.emit</b>
 			</a>
@@ -1716,7 +1728,83 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L76">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L86">
+				
+				<b>connect</b>
+			</a>
+		</h4>
+		<p><p>Http CONNECT method tunneling proxy helper.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>host</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The host force to. It&#39;s optional.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>port</code>
+					
+					<em>{ Int }</em>
+				</b></p>
+				<p><p>The port force to. It&#39;s optional.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>A connect helper.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><pre><code class="lang-coffee">nobone = require &#39;nobone&#39;
+{ proxy, service } = nobone { proxy:{}, service: {} }
+
+# Directly connect to the original site.
+service.server.on &#39;connect&#39;, proxy.connect()
+</code></pre>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L117">
 				
 				<b>tunnel</b>
 			</a>
