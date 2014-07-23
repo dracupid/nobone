@@ -6,6 +6,7 @@ class Nobone then constructor: ->
 
 	init = ->
 		init_auto_reload()
+		console.log '%c>> NoBone Client Helper Loaded.', 'color: #1ca032'
 
 	self.log = (msg, action = 'log') ->
 		console[action] msg
