@@ -78,17 +78,16 @@ renderer.defaults = {
 			 * current renderer.
 			 * @param  {String} str Source content.
 			 * @param  {String} path For debug info.
-			 * @param  {String} ext_src The source file's extension.
 			 * @param  {Any} data The data sent from the `render` function.
 			 * when you call the `render` directly. Default is an empty object: `{ }`.
 			 * @return {Any} Promise or any thing that contains the compiled content.
 			###
-			compiler: (str, path, ext, data) ->
+			compiler: (str, path, data = {}) ->
 				self = @
 				ejs = kit.require 'ejs'
 				tpl = ejs.compile str, { filename: path }
 
-				if data
+				if _.keys(data).length > 0
 					data._ = _
 					tpl data
 				else
@@ -102,32 +101,33 @@ renderer.defaults = {
 		}
 		'.js': {
 			ext_src: '.coffee'
-			compiler: (str, path) ->
+			compiler: (str, path, data = {}) ->
 				coffee = kit.require 'coffee-script'
-				coffee.compile(str, { bare: true })
+				coffee.compile(str, _.defaults(data, { bare: true }))
 		}
 		'.css': {
 			ext_src: ['.styl', '.less']
-			compiler: (str, path, ext_src) ->
+			compiler: (str, path, data = {}) ->
+				ext_src = kit.path.extname path
 				if ext_src == '.styl'
 					stylus = kit.require 'stylus'
-					Q.ninvoke stylus, 'render', str, { filename: path }
+					Q.ninvoke stylus, 'render', str, _.defaults(data, { filename: path })
 				else
 					try
 						less = kit.require('less')
 					catch e
 						kit.err '"npm install less" first.'.red
 
-					parser = new less.Parser({ filename: path })
+					parser = new less.Parser(_.defaults data, { filename: path })
 					Q.ninvoke(parser, 'parse', str)
 					.then (tree) -> tree.toCSS()
 		}
 		'.md': {
 			type: 'html' # Force type, optional.
 			ext_src: ['.md','.markdown']
-			compiler: (str, path) ->
+			compiler: (str, path, data = {}) ->
 				marked = kit.require 'marked'
-				marked str
+				marked str, data
 		}
 		'.jpg': {
 			encoding: null # To use buffer.
@@ -323,12 +323,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				kit.readFile path, encoding
 				.then (str) ->
 					if handler.type and handler.type != ext
-						return handler.compiler.call(self, str, path, ext, handler.data)
+						return handler.compiler.call(self, str, path, handler.data)
 
 					if ext == handler.ext_bin
 						str
 					else
-						handler.compiler.call(self, str, path, ext, handler.data)
+						handler.compiler.call(self, str, path, handler.data)
 				.then (content) ->
 					if not _.isString content
 						body = content.toString()
