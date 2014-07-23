@@ -146,24 +146,24 @@ describe 'Kit:', ->
 			assert.equal comments[1].tags[0].name, 'opts'
 			tdone()
 
-	it 'async_limit progress', (tdone) ->
+	it 'async progress', (tdone) ->
 		len = nb.kit.fs.readFileSync(__filename).length
 		iter = (i) ->
 			if i == 10
 				return
 			nb.kit.readFile __filename
 
-		nb.kit.async_limit 3, iter, false
+		nb.kit.async 3, iter, false
 		.progress (ret) ->
 			assert.equal ret.length, len
 		.done (rets) ->
 			assert.equal rets, undefined
 			tdone()
 
-	it 'async_limit results', (tdone) ->
+	it 'async results', (tdone) ->
 		len = nb.kit.fs.readFileSync(__filename).length
 
-		nb.kit.async_limit 3, _.times 10, ->
+		nb.kit.async 3, _.times 10, ->
 			(i) ->
 				assert.equal typeof i, 'number'
 				nb.kit.readFile __filename
