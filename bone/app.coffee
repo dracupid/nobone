@@ -5,9 +5,7 @@ nb = nobone()
 nb.service.get '/', (req, res) ->
 	nb.renderer.render(__dirname + '/index.ejs')
 	.done (tpl_func) ->
-		res.send tpl_func({
-			nobone: nobone.client()
-		})
+		res.send tpl_func()
 
 nb.service.use nb.renderer.static('client')
 
