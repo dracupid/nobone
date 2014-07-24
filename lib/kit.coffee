@@ -160,13 +160,14 @@ _.extend kit, {
 		defer.promise
 
 	###*
-	 * A simple wrapper for `http.request` and `https.request`
+	 * A wrapper for `http.request` and `https.request`.
 	 * @param  {Object} opts The same as the [http.request][0], but with
 	 * some extra options:
 	 * ```coffee
 	 * {
-	 * 	url: 'It is not optional.'
-	 * 	res_encoding: 'utf8' # set null to use buffer, optional.
+	 * 	url: 'It is not optional, String or Url Object.'
+	 * 	body: true # Other than return `res` with `res.body`, return `body` directly.
+	 * 	res_encoding: 'auto' # set null to use buffer, optional.
 	 * 	req_data: null # string or buffer, optional.
 	 * 	req_pipe: Readable Stream.
 	 * 	res_pipe: Writable Stream.
@@ -174,14 +175,23 @@ _.extend kit, {
 	 * ```
 	 * And if set opts as string, it will be treated as the url.
 	 * [0]: http://nodejs.org/api/http.html#http_http_request_options_callback
-	 * @return {Promise} Contains the http response data.
+	 * @return {Promise} Contains the http response object,
+	 * it has an extra `body` property.
 	 * You can also get the request object by using `Promise.req`, for example:
 	 * ```coffee
-	 * p = request 'http://test.com'
+	 * p = kit.request 'http://test.com'
 	 * p.req.on 'response', (res) ->
-	 * 	kit.log res['content-length']
+	 * 	kit.log res.headers['content-length']
 	 * p.done (body) ->
-	 * 	kit.log body
+	 * 	kit.log body # html or buffer
+	 *
+	 * kit.request {
+	 * 	url: 'https://test.com'
+	 * 	body: false
+	 * }
+	 * .done (res) ->
+	 * 	kit.log res.body
+	 * 	kit.log res.headers
 	 * ```
 	###
 	request: (opts) ->
@@ -205,26 +215,84 @@ _.extend kit, {
 		_.defaults opts, url
 
 		_.defaults opts, {
-			res_encoding: 'utf8' # set null to use buffer
+			body: true
+			res_encoding: 'auto' # set null to use buffer
 			req_data: null # string or buffer.
 		}
 
 		defer = Q.defer()
 		req = request opts, (res) ->
 			if opts.res_pipe
-				res.pipe opts.res_pipe
-				res.on 'end', -> defer.resolve()
+				res_pipe_error = (err) ->
+					defer.reject err
+					opts.res_pipe.end()
+
+				switch res.headers['content-encoding']
+					when 'gzip'
+						unzip = kit.require('zlib').createGunzip()
+					when 'deflate'
+						unzip = kit.require('zlib').createInflat()
+					else
+						unzip = null
+				if unzip
+					unzip.on 'error', res_pipe_error
+					res.pipe(unzip).pipe(opts.res_pipe)
+				else
+					res.pipe opts.res_pipe
+
+				opts.res_pipe.on 'error', res_pipe_error
+				res.on 'error', res_pipe_error
+				res.on 'end', -> defer.resolve res
 			else
 				buf = new Buffer(0)
 				res.on 'data', (chunk) ->
 					buf = Buffer.concat [buf, chunk]
 
 				res.on 'end', ->
+					resolve = (body) ->
+						if opts.body
+							defer.resolve body
+						else
+							res.body = body
+							defer.resolve res
+
 					if opts.res_encoding
-						data = buf.toString opts.res_encoding
+						encoding = 'utf8'
+						if opts.res_encoding == 'auto'
+							c_type = res.headers['content-type']
+							if _.isString c_type
+								m = c_type.match(/charset=(.+);?/i)
+								if m and m[1]
+									encoding = m[1]
+								if not /^(text)|(application)\//.test(c_type)
+									encoding = null
+
+						decode = (buf) ->
+							if not encoding
+								return buf
+							try
+								if encoding == 'utf8'
+									buf.toString()
+								else
+									kit.require('iconv-lite')
+									.decode buf, encoding
+							catch err
+								defer.reject err
+
+						switch res.headers['content-encoding']
+							when 'gzip'
+								unzip = kit.require('zlib').gunzip
+							when 'deflate'
+								unzip = kit.require('zlib').inflate
+							else
+								unzip = null
+						if unzip
+							unzip buf, (err, buf) ->
+								resolve decode(buf)
+						else
+							resolve decode(buf)
 					else
-						data = buf
-					defer.resolve data
+						resolve buf
 
 		req.on 'error', (err) ->
 			# Release pipe
