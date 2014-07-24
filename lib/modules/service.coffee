@@ -8,7 +8,6 @@ Overview = 'service'
 _ = require 'lodash'
 http = require 'http'
 kit = require '../kit'
-emit = null
 
 ###*
  * Create a Service instance.
@@ -36,7 +35,7 @@ service = (opts = {}) ->
 
 	self.e = {}
 
-	emit = ->
+	self._emit = ->
 		if opts.auto_log
 			kit.log arguments[0].cyan
 
@@ -114,7 +113,6 @@ init_sse = (self) ->
 	 * A session object is something like:
 	 * ```coffee
 	 * {
-	 * 	path # the url request path.
 	 * 	req  # The express.js req object.
 	 * 	res  # The express.js res object.
 	 * }
@@ -134,7 +132,6 @@ init_sse = (self) ->
 
 	create_session = (req, res) ->
 		session = {
-			path: req.path
 			req
 			res
 		}
@@ -154,11 +151,17 @@ init_sse = (self) ->
 
 		session
 
-	self.use '/nobone-sse', (req, res) ->
+	###*
+	 * Create a sse session
+	 * @param  {Express.req} req
+	 * @param  {Express.res} res
+	 * @return {SSE_session}
+	###
+	self.sse.create = (req, res) ->
 		req.socket.setTimeout 0
 		req.on 'close', ->
 			s = _.remove self.sse.sessions, (el) -> el.res == res
-			emit self.e.sse_close + req.path, s[0]
+			self._emit self.e.sse_close + req.path, s[0]
 
 		res.writeHead 200, {
 			'Content-Type': 'text/event-stream'
@@ -167,10 +170,13 @@ init_sse = (self) ->
 		}
 
 		session = create_session req, res
-		self.sse.sessions.push session
+		session.emit 'connect', 'ok'
+		session
 
-		emit self.e.sse_connected + req.path, session
-		self.sse.emit 'connect', 'ok'
+	self.use '/nobone-sse', (req, res) ->
+		session = self.sse.create req, res
+		self.sse.sessions.push session
+		self._emit self.e.sse_connected + req.path, session
 
 	###*
 	 * Broadcast a event to clients.
@@ -183,7 +189,7 @@ init_sse = (self) ->
 		for el in self.sse.sessions
 			if not path
 				el.emit event, msg
-			else if el.path == path
+			else if el.req.path == path
 				el.emit event, msg
 
 
