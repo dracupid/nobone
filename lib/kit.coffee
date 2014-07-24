@@ -160,7 +160,7 @@ _.extend kit, {
 		defer.promise
 
 	###*
-	 * A simple wrapper for `http.request`
+	 * A simple wrapper for `http.request` and `https.request`
 	 * @param  {Object} opts The same as the [http.request][0], but with
 	 * some extra options:
 	 * ```coffee
@@ -175,6 +175,14 @@ _.extend kit, {
 	 * And if set opts as string, it will be treated as the url.
 	 * [0]: http://nodejs.org/api/http.html#http_http_request_options_callback
 	 * @return {Promise} Contains the http response data.
+	 * You can also get the request object by using `Promise.req`, for example:
+	 * ```coffee
+	 * p = request 'http://test.com'
+	 * p.req.on 'response', (res) ->
+	 * 	kit.log res['content-length']
+	 * p.done (body) ->
+	 * 	kit.log body
+	 * ```
 	###
 	request: (opts) ->
 		if _.isString opts
@@ -228,6 +236,7 @@ _.extend kit, {
 		else
 			req.end opts.req_data
 
+		defer.promise.req = req
 		defer.promise
 
 	###*
