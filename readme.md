@@ -2268,7 +2268,7 @@ Now only support Windows and OSX.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L197">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L200">
 				
 				<b>request</b>
 			</a>
@@ -2292,7 +2292,10 @@ some extra options:</p>
 <pre><code class="lang-coffee">{
     url: &#39;It is not optional, String or Url Object.&#39;
     body: true # Other than return `res` with `res.body`, return `body` directly.
-    res_encoding: &#39;auto&#39; # set null to use buffer, optional.
+    res_encoding:
+        &#39;auto&#39; # set null to use buffer, optional.
+        It supports GBK, Shift_JIS etc.
+        For more info, see https://github.com/ashtuchkin/iconv-lite
     req_data: null # string or buffer, optional.
     req_pipe: Readable Stream.
     res_pipe: Writable Stream.
@@ -2340,7 +2343,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L313">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L316">
 				
 				<b>extend_env</b>
 			</a>
@@ -2359,7 +2362,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L335">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L338">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2411,7 +2414,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L388">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L391">
 				
 				<b>watch_files</b>
 			</a>
@@ -2458,7 +2461,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L400">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L403">
 				
 				<b>env_mode</b>
 			</a>
@@ -2504,7 +2507,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L415">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L418">
 				
 				<b>inspect</b>
 			</a>
@@ -2563,7 +2566,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L434">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L437">
 				
 				<b>log</b>
 			</a>
@@ -2628,7 +2631,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L484">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L487">
 				
 				<b>pad</b>
 			</a>
@@ -2699,7 +2702,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L496">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L499">
 				
 				<b>err</b>
 			</a>
@@ -2744,7 +2747,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L510">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L513">
 				
 				<b>daemonize</b>
 			</a>
@@ -2795,7 +2798,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L535">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L538">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2841,7 +2844,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L560">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L563">
 				
 				<b>async</b>
 			</a>
@@ -2918,7 +2921,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L648">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L651">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3032,7 +3035,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L731">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L734">
 				
 				<b>generate_bone</b>
 			</a>
