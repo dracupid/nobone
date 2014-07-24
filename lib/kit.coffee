@@ -13,7 +13,8 @@ glob = require 'glob'
 kit = {}
 
 ###*
- * kit extends all the Q functions of fs-more.
+ * kit extends all the Q functions of [fs-more][0].
+ * [0]: https://github.com/ysmood/fs-more
  * @example
  * ```coffee
  * kit.readFile('test.txt').done (str) ->
@@ -59,12 +60,13 @@ _.extend kit, {
 	url: require 'url'
 
 	###*
-	 * See my project fs-more: https://github.com/ysmood/fs-more
+	 * See my project [fs-more](https://github.com/ysmood/fs-more)
 	###
 	fs: fs
 
 	###*
-	 * See my jhash project: https://github.com/ysmood/jhash
+	 * See my [jhash][0] project.
+	 * [0]: https://github.com/ysmood/jhash
 	###
 	jhash: require 'jhash'
 
@@ -159,7 +161,7 @@ _.extend kit, {
 
 	###*
 	 * A simple wrapper for `http.request`
-	 * @param  {Object} opts The same as the [http.request][http.request], but with
+	 * @param  {Object} opts The same as the [http.request][0], but with
 	 * some extra options:
 	 * ```coffee
 	 * {
@@ -171,7 +173,7 @@ _.extend kit, {
 	 * }
 	 * ```
 	 * And if set opts as string, it will be treated as the url.
-	 * [http.request]: http://nodejs.org/api/http.html#http_http_request_options_callback
+	 * [0]: http://nodejs.org/api/http.html#http_http_request_options_callback
 	 * @return {Promise} Contains the http response data.
 	###
 	request: (opts) ->
