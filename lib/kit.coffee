@@ -159,7 +159,7 @@ _.extend kit, {
 
 	###*
 	 * A simple wrapper for `http.request`
-	 * @param  {Object} opts The same as the `http.request`, but with
+	 * @param  {Object} opts The same as the [http.request][http.request], but with
 	 * some extra options:
 	 * ```coffee
 	 * {
@@ -170,9 +170,14 @@ _.extend kit, {
 	 * 	res_pipe: Writable Stream.
 	 * }
 	 * ```
+	 * And if set opts as string, it will be treated as the url.
+	 * [http.request]: http://nodejs.org/api/http.html#http_http_request_options_callback
 	 * @return {Promise} Contains the http response data.
 	###
 	request: (opts) ->
+		if _.isString opts
+			opts = { url: opts }
+
 		url = kit.url.parse opts.url
 
 		if not url.protocol
