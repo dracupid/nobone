@@ -48,6 +48,7 @@ proxy = (opts = {}) ->
 
 	###*
 	 * Http CONNECT method tunneling proxy helper.
+	 * Most times used with https proxing.
 	 * @param {http.IncomingMessage} req
 	 * @param {net.Socket} sock
 	 * @param {Buffer} head

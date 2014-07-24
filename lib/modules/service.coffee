@@ -1,6 +1,7 @@
 ###*
  * It is just a Express.js wrap.
- * @extends {Express}
+ * @extends {Express} [Ref][0]
+ * [0]: http://expressjs.com/4x/api.html
 ###
 Overview = 'service'
 
@@ -27,6 +28,10 @@ service = (opts = {}) ->
 	express = require 'express'
 	self = express opts.express
 
+	###*
+	 * The server object of the express object.
+	 * @type {http.Server} [Ref](http://nodejs.org/api/http.html#http_class_http_server)
+	###
 	server = http.Server self
 
 	self.e = {}
@@ -102,7 +107,9 @@ init_remote_log = (self) ->
 init_sse = (self) ->
 	###*
 	 * A Server-Sent Event Manager.
-	 * The namespace of nobone sse is '/nobone-sse',
+	 * The namespace of nobone sse is '/nobone-sse'.
+	 * For more info see [Using server-sent events][0]
+	 * [0]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 	 * @property {Array} sessions The sessions of connected clients.
 	 * @example You browser code should be something like this:
 	 * ```coffee

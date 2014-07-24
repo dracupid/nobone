@@ -161,13 +161,14 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L5">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L8">
 				
 				<b>Overview</b>
 			</a>
 		</h4>
 		<p><p>NoBone has four main modules: <code>renderer</code>, <code>service</code>, <code>proxy</code>, <code>db</code>, and a helper <code>kit</code>.
-They are all optional.</p>
+<strong>They are all optional</strong>.</p>
+<p>Most of the async functions are inplemented with <a href="https://github.com/kriskowal/q">Q</a>.</p>
 </p>
 
 		<ul>
@@ -181,7 +182,7 @@ They are all optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L24">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L28">
 				
 				<b>nobone</b>
 			</a>
@@ -200,12 +201,13 @@ They are all optional.</p>
 					
 					<em>{ Object }</em>
 				</b></p>
-				<p><p>Defaults:</p>
+				<p><p>By default, it only load two modules,
+<code>service</code> and <code>renderer</code>:</p>
 <pre><code class="lang-coffee">{
-    db: null
-    proxy: null
     service: {}
     renderer: {}
+    db: null
+    proxy: null
 }
 </code></pre>
 </p>
@@ -233,7 +235,7 @@ They are all optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L52">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L56">
 				
 				<b>close</b>
 			</a>
@@ -263,7 +265,7 @@ They are all optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L75">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L79">
 				
 				<b>module_defaults</b>
 			</a>
@@ -319,7 +321,7 @@ They are all optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L96">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L100">
 				
 				<b>client</b>
 			</a>
@@ -385,7 +387,7 @@ return an empty string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L5">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L6">
 				
 				<b>Overview</b>
 			</a>
@@ -402,7 +404,8 @@ return an empty string.</p>
 					
 					<em>{ Express }</em>
 				</b></p>
-				<p></p>
+				<p><p><a href="http://expressjs.com/4x/api.html">Ref</a></p>
+</p>
 			</li>
 
 			
@@ -415,7 +418,7 @@ return an empty string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L24">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L25">
 				
 				<b>service</b>
 			</a>
@@ -466,7 +469,38 @@ return an empty string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L47">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L35">
+				
+				<b>server</b>
+			</a>
+		</h4>
+		<p><p>The server object of the express object.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ http.Server }</em>
+				</b></p>
+				<p><p><a href="http://nodejs.org/api/http.html#http_class_http_server">Ref</a></p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L52">
 				
 				<b>e.sse_connected</b>
 			</a>
@@ -513,7 +547,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L54">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L59">
 				
 				<b>e.sse_close</b>
 			</a>
@@ -556,13 +590,14 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L116">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L123">
 				
 				<b>sse</b>
 			</a>
 		</h4>
 		<p><p>A Server-Sent Event Manager.
-The namespace of nobone sse is &#39;/nobone-sse&#39;,</p>
+The namespace of nobone sse is &#39;/nobone-sse&#39;.
+For more info see <a href="https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events">Using server-sent events</a></p>
 </p>
 
 		<ul>
@@ -616,7 +651,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L132">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L139">
 				
 				<b>session.emit</b>
 			</a>
@@ -663,7 +698,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L167">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L174">
 				
 				<b>sse.emit</b>
 			</a>
@@ -752,7 +787,8 @@ Even for huge project its memory usage is negligible.</p>
 					
 					<em>{ events.EventEmitter }</em>
 				</b></p>
-				<p></p>
+				<p><p><a href="http://nodejs.org/api/events.html#events_class_events_eventemitter">Ref</a></p>
+</p>
 			</li>
 
 			
@@ -1370,12 +1406,12 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L4">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L5">
 				
 				<b>Overview</b>
 			</a>
 		</h4>
-		<p><p>See my JDB project: <a href="https://github.com/ysmood/jdb">https://github.com/ysmood/jdb</a></p>
+		<p><p>See my <a href="https://github.com/ysmood/jdb">jdb</a> project.</p>
 </p>
 
 		<ul>
@@ -1389,7 +1425,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L17">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L18">
 				
 				<b>db</b>
 			</a>
@@ -1437,7 +1473,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L27">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L28">
 				
 				<b>jdb.loaded</b>
 			</a>
@@ -1509,7 +1545,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L20">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L18">
 				
 				<b>proxy</b>
 			</a>
@@ -1540,7 +1576,7 @@ Most time used with SwitchySharp.</p>
 					
 					<em>{ Proxy }</em>
 				</b></p>
-				<p><p>For more, see <a href="https://github.com/nodejitsu/node-http-proxy">https://github.com/nodejitsu/node-http-proxy</a></p>
+				<p><p>For more, see <a href="https://github.com/nodejitsu/node-http-proxy">node-http-proxy</a></p>
 </p>
 			</li>
 
@@ -1554,7 +1590,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L34">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L31">
 				
 				<b>url</b>
 			</a>
@@ -1641,12 +1677,13 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L69">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L67">
 				
 				<b>connect</b>
 			</a>
 		</h4>
-		<p><p>Http CONNECT method tunneling proxy helper.</p>
+		<p><p>Http CONNECT method tunneling proxy helper.
+Most times used with https proxing.</p>
 </p>
 
 		<ul>
@@ -1758,13 +1795,13 @@ service.server.on &#39;connect&#39;, proxy.connect
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L102">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L96">
 				
 				<b>tunnel</b>
 			</a>
 		</h4>
 		<p><p>HTTP/HTTPS Agents for tunneling proxies.
-See the project <a href="https://github.com/koichik/node-tunnel">https://github.com/koichik/node-tunnel</a></p>
+See the project <a href="https://github.com/koichik/node-tunnel">node-tunnel</a></p>
 </p>
 
 		<ul>
@@ -1819,12 +1856,12 @@ Most time I use it to handle files and system staffs.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L25">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L26">
 				
 				<b>kit_extends_fs_q</b>
 			</a>
 		</h4>
-		<p><p>kit extends all the Q functions of fs-more.</p>
+		<p><p>kit extends all the Q functions of <a href="https://github.com/ysmood/fs-more">fs-more</a>.</p>
 </p>
 
 		<ul>
@@ -1854,7 +1891,7 @@ kit.outputFile(&#39;a.txt&#39;, &#39;test&#39;).done()
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L41">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L42">
 				
 				<b>require</b>
 			</a>
@@ -1914,7 +1951,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L54">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L55">
 				
 				<b>path</b>
 			</a>
@@ -1933,7 +1970,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L59">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L60">
 				
 				<b>url</b>
 			</a>
@@ -1952,12 +1989,12 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L64">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L65">
 				
 				<b>fs</b>
 			</a>
 		</h4>
-		<p><p>See my project fs-more: <a href="https://github.com/ysmood/fs-more">https://github.com/ysmood/fs-more</a></p>
+		<p><p>See my project <a href="https://github.com/ysmood/fs-more">fs-more</a></p>
 </p>
 
 		<ul>
@@ -1971,12 +2008,12 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L69">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L71">
 				
 				<b>jhash</b>
 			</a>
 		</h4>
-		<p><p>See my jhash project: <a href="https://github.com/ysmood/jhash">https://github.com/ysmood/jhash</a></p>
+		<p><p>See my <a href="https://github.com/ysmood/jhash">jhash</a> project.</p>
 </p>
 
 		<ul>
@@ -1990,7 +2027,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L76">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L78">
 				
 				<b>glob</b>
 			</a>
@@ -2035,7 +2072,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L96">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L98">
 				
 				<b>spawn</b>
 			</a>
@@ -2110,7 +2147,7 @@ Default will inherit the parent&#39;s stdio.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L138">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L140">
 				
 				<b>open</b>
 			</a>
@@ -2169,7 +2206,7 @@ Now only support Windows and OSX.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L175">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L179">
 				
 				<b>request</b>
 			</a>
@@ -2188,7 +2225,7 @@ Now only support Windows and OSX.</p>
 					
 					<em>{ Object }</em>
 				</b></p>
-				<p><p>The same as the <code>http.request</code>, but with
+				<p><p>The same as the <a href="http://nodejs.org/api/http.html#http_http_request_options_callback">http.request</a>, but with
 some extra options:</p>
 <pre><code class="lang-coffee">{
     url: &#39;It is not optional.&#39;
@@ -2198,6 +2235,7 @@ some extra options:</p>
     res_pipe: Writable Stream.
 }
 </code></pre>
+<p>And if set opts as string, it will be treated as the url.</p>
 </p>
 			</li>
 
@@ -2223,7 +2261,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L229">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L236">
 				
 				<b>extend_env</b>
 			</a>
@@ -2242,7 +2280,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L251">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L258">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2294,7 +2332,7 @@ some extra options:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L304">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L311">
 				
 				<b>watch_files</b>
 			</a>
@@ -2341,7 +2379,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L316">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L323">
 				
 				<b>env_mode</b>
 			</a>
@@ -2387,7 +2425,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L331">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L338">
 				
 				<b>inspect</b>
 			</a>
@@ -2446,7 +2484,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L350">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L357">
 				
 				<b>log</b>
 			</a>
@@ -2511,7 +2549,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L398">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L405">
 				
 				<b>pad</b>
 			</a>
@@ -2582,7 +2620,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L410">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L417">
 				
 				<b>err</b>
 			</a>
@@ -2627,7 +2665,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L424">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L431">
 				
 				<b>daemonize</b>
 			</a>
@@ -2678,7 +2716,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L449">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L456">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2724,7 +2762,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L474">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L481">
 				
 				<b>async</b>
 			</a>
@@ -2801,7 +2839,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L562">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L569">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2915,7 +2953,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L645">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L652">
 				
 				<b>generate_bone</b>
 			</a>

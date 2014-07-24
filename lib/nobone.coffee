@@ -1,6 +1,9 @@
 ###*
  * NoBone has four main modules: `renderer`, `service`, `proxy`, `db`, and a helper `kit`.
- * They are all optional.
+ * **They are all optional**.
+ *
+ * Most of the async functions are inplemented with [Q][0].
+ * [0]: https://github.com/kriskowal/q
 ###
 Overview = 'nobone'
 
@@ -11,13 +14,14 @@ Q = require 'q'
 
 ###*
  * Main constructor.
- * @param  {Object} opts Defaults:
+ * @param  {Object} opts By default, it only load two modules,
+ * `service` and `renderer`:
  * ```coffee
  * {
- * 	db: null
- * 	proxy: null
  * 	service: {}
  * 	renderer: {}
+ * 	db: null
+ * 	proxy: null
  * }```
  * @return {Object} A nobone instance.
 ###

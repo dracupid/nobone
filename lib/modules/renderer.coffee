@@ -3,7 +3,7 @@
  * It automatically uses high performance memory cache.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project its memory usage is negligible.
- * @extends {events.EventEmitter}
+ * @extends {events.EventEmitter} [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
 ###
 Overview = 'renderer'
 
