@@ -63,7 +63,7 @@ nb.service.get '/', (req, res) ->
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
 	nb.renderer.render('bone/index.ejs')
 	.done (tpl_func) ->
-		res.send tpl_func()
+		res.send tpl_func({ name: 'nobone' })
 
 # Launch express.js
 nb.service.listen port
@@ -418,7 +418,7 @@ return an empty string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L25">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L24">
 				
 				<b>service</b>
 			</a>
@@ -469,7 +469,7 @@ return an empty string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L35">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L34">
 				
 				<b>server</b>
 			</a>
@@ -500,7 +500,7 @@ return an empty string.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L52">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L51">
 				
 				<b>e.sse_connected</b>
 			</a>
@@ -547,7 +547,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L59">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L58">
 				
 				<b>e.sse_close</b>
 			</a>
@@ -590,7 +590,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L131">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L129">
 				
 				<b>sse</b>
 			</a>
@@ -612,7 +612,6 @@ For more info see <a href="https://developer.mozilla.org/en-US/docs/Server-sent_
 				<p><p>sessions The sessions of connected clients.
 A session object is something like:</p>
 <pre><code class="lang-coffee">{
-    path # the url request path.
     req  # The express.js req object.
     res  # The express.js res object.
 }
@@ -658,7 +657,63 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L147">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L139">
+				
+				<b>sse.create</b>
+			</a>
+		</h4>
+		<p><p>Create a sse session</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>req</code>
+					
+					<em>{ Express.req }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>res</code>
+					
+					<em>{ Express.res }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ SSE_session }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L154">
 				
 				<b>session.emit</b>
 			</a>
@@ -705,7 +760,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L182">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L181">
 				
 				<b>sse.emit</b>
 			</a>
@@ -2213,12 +2268,12 @@ Now only support Windows and OSX.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L187">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L197">
 				
 				<b>request</b>
 			</a>
 		</h4>
-		<p><p>A simple wrapper for <code>http.request</code> and <code>https.request</code></p>
+		<p><p>A wrapper for <code>http.request</code> and <code>https.request</code>.</p>
 </p>
 
 		<ul>
@@ -2235,8 +2290,9 @@ Now only support Windows and OSX.</p>
 				<p><p>The same as the <a href="http://nodejs.org/api/http.html#http_http_request_options_callback">http.request</a>, but with
 some extra options:</p>
 <pre><code class="lang-coffee">{
-    url: &#39;It is not optional.&#39;
-    res_encoding: &#39;utf8&#39; # set null to use buffer, optional.
+    url: &#39;It is not optional, String or Url Object.&#39;
+    body: true # Other than return `res` with `res.body`, return `body` directly.
+    res_encoding: &#39;auto&#39; # set null to use buffer, optional.
     req_data: null # string or buffer, optional.
     req_pipe: Readable Stream.
     res_pipe: Writable Stream.
@@ -2254,13 +2310,22 @@ some extra options:</p>
 					
 					<em>{ Promise }</em>
 				</b></p>
-				<p><p>Contains the http response data.
+				<p><p>Contains the http response object,
+it has an extra <code>body</code> property.
 You can also get the request object by using <code>Promise.req</code>, for example:</p>
-<pre><code class="lang-coffee">p = request &#39;http://test.com&#39;
+<pre><code class="lang-coffee">p = kit.request &#39;http://test.com&#39;
 p.req.on &#39;response&#39;, (res) -&gt;
-    kit.log res[&#39;content-length&#39;]
+    kit.log res.headers[&#39;content-length&#39;]
 p.done (body) -&gt;
-    kit.log body
+    kit.log body # html or buffer
+
+kit.request {
+    url: &#39;https://test.com&#39;
+    body: false
+}
+.done (res) -&gt;
+    kit.log res.body
+    kit.log res.headers
 </code></pre>
 </p>
 			</li>
@@ -2275,7 +2340,7 @@ p.done (body) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L245">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L313">
 				
 				<b>extend_env</b>
 			</a>
@@ -2294,7 +2359,7 @@ p.done (body) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L267">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L335">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2346,7 +2411,7 @@ p.done (body) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L320">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L388">
 				
 				<b>watch_files</b>
 			</a>
@@ -2393,7 +2458,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L332">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L400">
 				
 				<b>env_mode</b>
 			</a>
@@ -2439,7 +2504,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L347">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L415">
 				
 				<b>inspect</b>
 			</a>
@@ -2498,7 +2563,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L366">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L434">
 				
 				<b>log</b>
 			</a>
@@ -2563,7 +2628,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L414">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L484">
 				
 				<b>pad</b>
 			</a>
@@ -2634,7 +2699,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L426">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L496">
 				
 				<b>err</b>
 			</a>
@@ -2679,7 +2744,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L440">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L510">
 				
 				<b>daemonize</b>
 			</a>
@@ -2730,7 +2795,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L465">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L535">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2776,7 +2841,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L490">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L560">
 				
 				<b>async</b>
 			</a>
@@ -2853,7 +2918,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L578">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L648">
 				
 				<b>parse_comment</b>
 			</a>
@@ -2967,7 +3032,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L661">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L731">
 				
 				<b>generate_bone</b>
 			</a>
