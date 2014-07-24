@@ -167,7 +167,10 @@ _.extend kit, {
 	 * {
 	 * 	url: 'It is not optional, String or Url Object.'
 	 * 	body: true # Other than return `res` with `res.body`, return `body` directly.
-	 * 	res_encoding: 'auto' # set null to use buffer, optional.
+	 * 	res_encoding:
+	 * 		'auto' # set null to use buffer, optional.
+	 * 		It supports GBK, Shift_JIS etc.
+	 * 		For more info, see https://github.com/ashtuchkin/iconv-lite
 	 * 	req_data: null # string or buffer, optional.
 	 * 	req_pipe: Readable Stream.
 	 * 	res_pipe: Writable Stream.
