@@ -1,6 +1,7 @@
 * v0.3.5
 
   * Optimize proxy functions.
+  * Optimize `kit.request`.
 
 * v0.3.4
 

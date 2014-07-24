@@ -111,6 +111,14 @@ init_sse = (self) ->
 	 * For more info see [Using server-sent events][0]
 	 * [0]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 	 * @property {Array} sessions The sessions of connected clients.
+	 * A session object is something like:
+	 * ```coffee
+	 * {
+	 * 	path # the url request path.
+	 * 	req  # The express.js req object.
+	 * 	res  # The express.js res object.
+	 * }
+	 * ```
 	 * @example You browser code should be something like this:
 	 * ```coffee
 	 * es = new EventSource('/nobone-sse')
