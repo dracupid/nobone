@@ -17,9 +17,12 @@ service.use (req, res) ->
 
 		# Hack the content.
 		when 'http://www.baidu.com'
-			kit.request req.url
+			kit.request {
+				url: req.url
+				headers: req.headers
+			}
 			.done (body) ->
-				res.send body.replace(/百度一下/g, 'ys 一下')
+				res.send body.replace(/百度一下/g, 'ys')
 
 		# Delay all other connections for 1 second.
 		else
