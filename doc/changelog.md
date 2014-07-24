@@ -1,3 +1,7 @@
+* v0.3.5
+
+  * Optimize proxy functions.
+
 * v0.3.4
 
   * Add `proxy.connect` helper.
