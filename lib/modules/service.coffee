@@ -130,10 +130,20 @@ init_sse = (self) ->
 		sessions: []
 	}
 
-	create_session = (req, res) ->
-		session = {
-			req
-			res
+	###*
+	 * Create a sse session
+	 * @param  {Express.req} req
+	 * @param  {Express.res} res
+	 * @return {SSE_session}
+	###
+	self.sse.create = (req, res) ->
+		session = { req, res }
+
+		req.socket.setTimeout 0
+		res.writeHead 200, {
+			'Content-Type': 'text/event-stream'
+			'Cache-Control': 'no-cache'
+			'Connection': 'keep-alive'
 		}
 
 		###*
@@ -149,27 +159,10 @@ init_sse = (self) ->
 			data: #{msg}\n\n
 			"""
 
-		session
-
-	###*
-	 * Create a sse session
-	 * @param  {Express.req} req
-	 * @param  {Express.res} res
-	 * @return {SSE_session}
-	###
-	self.sse.create = (req, res) ->
-		req.socket.setTimeout 0
 		req.on 'close', ->
-			s = _.remove self.sse.sessions, (el) -> el.res == res
-			self._emit self.e.sse_close + req.path, s[0]
+			_.remove self.sse.sessions, (el) -> el == session
+			session.res.end()
 
-		res.writeHead 200, {
-			'Content-Type': 'text/event-stream'
-			'Cache-Control': 'no-cache'
-			'Connection': 'keep-alive'
-		}
-
-		session = create_session req, res
 		session.emit 'connect', 'ok'
 		session
 
