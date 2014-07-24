@@ -8,21 +8,17 @@ Overview = 'proxy'
 
 _ = require 'lodash'
 kit = require '../kit'
-http_proxy = require 'http-proxy'
-tunnel = require 'tunnel'
-http = require 'http'
 
 ###*
  * Create a Proxy instance.
  * @param  {Object} opts Defaults: `{ }`
- * @return {Proxy} For more, see https://github.com/nodejitsu/node-http-proxy
+ * @return {Proxy} For more, see [node-http-proxy][0]
+ * [0]: https://github.com/nodejitsu/node-http-proxy
 ###
 proxy = (opts = {}) ->
 	_.defaults opts, proxy.defaults
 
-	proxy = http_proxy.createProxyServer opts
-
-	self = proxy
+	self = require('http-proxy').createProxyServer opts
 
 	###*
 	 * Use it to proxy one url to another.
@@ -41,13 +37,13 @@ proxy = (opts = {}) ->
 
 		req.url = url
 
-		proxy.web(req, res, _.defaults(opts, {
+		error = err or (e) ->
+			kit.log e.toString() + ' -> ' + req.url.red
+
+		self.web(req, res, _.defaults(opts, {
 			target: url.format()
 		}) , (e) ->
-			if not err
-				kit.log e.toString() + ' -> ' + req.url.red
-			else
-				err e
+			error e
 		)
 
 	###*
@@ -75,17 +71,12 @@ proxy = (opts = {}) ->
 		psock = new net.Socket
 		psock.connect p, h, ->
 			psock.write head
-			sock.write "HTTP/" + req.httpVersion + " 200 Connection established\r\n\r\n"
+			sock.write "
+				HTTP/#{req.httpVersion} 200 Connection established\r\n\r\n
+			"
 
-		sock.on 'data', (buf) ->
-			psock.write buf
-		psock.on 'data', (buf) ->
-			sock.write buf
-
-		sock.on 'end', ->
-			psock.end()
-		psock.on 'end', ->
-			sock.end()
+		sock.pipe psock
+		psock.pipe sock
 
 		error = err or (err, socket) ->
 			kit.log err.toString() + ' -> ' + req.url.red
@@ -98,9 +89,12 @@ proxy = (opts = {}) ->
 
 	###*
 	 * HTTP/HTTPS Agents for tunneling proxies.
-	 * See the project https://github.com/koichik/node-tunnel
+	 * See the project [node-tunnel][0]
+	 * [0]: https://github.com/koichik/node-tunnel
 	###
-	self.tunnel = tunnel
+	self.tunnel = require 'tunnel'
+
+	return self
 
 proxy.defaults = {}
 
