@@ -1,5 +1,6 @@
 * v0.3.5
 
+  * Fix a `kit.log` bug.
   * Optimize proxy functions.
   * Optimize `kit.request`.
 
