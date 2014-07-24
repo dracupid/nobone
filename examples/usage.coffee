@@ -28,7 +28,7 @@ nb.service.get '/', (req, res) ->
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
 	nb.renderer.render('bone/index.ejs')
 	.done (tpl_func) ->
-		res.send tpl_func()
+		res.send tpl_func({ name: 'nobone' })
 
 # Launch express.js
 nb.service.listen port
