@@ -386,11 +386,13 @@ _.extend kit, {
 			].join(':')
 		].join(' ').grey
 
-		if kit.log_reg and not msg.match(kit.log_reg)
-			return
 
 		log = ->
 			str = _.toArray(arguments).join ' '
+
+			if kit.log_reg and not kit.log_reg.test(str)
+				return
+
 			console[action] str.replace /\n/g, '\n  '
 
 		if _.isObject msg
