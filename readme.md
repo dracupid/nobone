@@ -66,18 +66,16 @@ nb.service.get '/', (req, res) ->
 		res.send tpl_func({ name: 'nobone' })
 
 # Launch express.js
-nb.service.listen port
+nb.service.listen port, ->
+	# Kit
+	# A smarter log helper.
+	nb.kit.log 'Listen port ' + port
 
-# Kit
-# A smarter log helper.
-nb.kit.log 'Listen port ' + port
-
-# Static folder for auto-service of coffeescript and stylus.
+# Static folder for auto-service of coffeescript and stylus, etc.
 nb.service.use nb.renderer.static('bone/client')
 
 # Database
 # Nobone has a build-in file database.
-# For more info see: https://github.com/ysmood/jdb
 # Here we save 'a' as value 1.
 nb.db.loaded.done ->
 	nb.db.exec (jdb) ->
@@ -88,7 +86,6 @@ nb.db.loaded.done ->
 
 # Proxy
 # Proxy path to specific url.
-# For more info, see here: https://github.com/nodejitsu/node-http-proxy
 nb.service.get '/proxy.*', (req, res) ->
 	# If you visit "http://127.0.0.1:8013/proxy.js",
 	# it'll return the "http://127.0.0.1:8013/main.js" from the remote server,
@@ -1113,7 +1110,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L199">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L206">
 				
 				<b>static</b>
 			</a>
@@ -1165,7 +1162,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L274">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L283">
 				
 				<b>render</b>
 			</a>
@@ -1207,6 +1204,21 @@ choose the right compiler to handle the content.</p>
 
 			<li>
 				<p><b>
+					<u>param</u>:
+					
+						<code>is_cache</code>
+					
+					<em>{ Boolean }</em>
+				</b></p>
+				<p><p>Whether to cache the result,
+default is false.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ Promise }</em>
@@ -1225,7 +1237,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L287">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L299">
 				
 				<b>close</b>
 			</a>
@@ -1244,7 +1256,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L298">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L310">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1302,7 +1314,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L306">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L318">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1374,7 +1386,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L312">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L324">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1418,7 +1430,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L318">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L330">
 				
 				<b>e.file_modified</b>
 			</a>

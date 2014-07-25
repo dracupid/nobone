@@ -31,18 +31,16 @@ nb.service.get '/', (req, res) ->
 		res.send tpl_func({ name: 'nobone' })
 
 # Launch express.js
-nb.service.listen port
+nb.service.listen port, ->
+	# Kit
+	# A smarter log helper.
+	nb.kit.log 'Listen port ' + port
 
-# Kit
-# A smarter log helper.
-nb.kit.log 'Listen port ' + port
-
-# Static folder for auto-service of coffeescript and stylus.
+# Static folder for auto-service of coffeescript and stylus, etc.
 nb.service.use nb.renderer.static('bone/client')
 
 # Database
 # Nobone has a build-in file database.
-# For more info see: https://github.com/ysmood/jdb
 # Here we save 'a' as value 1.
 nb.db.loaded.done ->
 	nb.db.exec (jdb) ->
@@ -53,7 +51,6 @@ nb.db.loaded.done ->
 
 # Proxy
 # Proxy path to specific url.
-# For more info, see here: https://github.com/nodejitsu/node-http-proxy
 nb.service.get '/proxy.*', (req, res) ->
 	# If you visit "http://127.0.0.1:8013/proxy.js",
 	# it'll return the "http://127.0.0.1:8013/main.js" from the remote server,
