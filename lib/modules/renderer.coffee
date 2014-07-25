@@ -276,15 +276,20 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * choose the right compiler to handle the content.
 	 * @param  {String} path The file path
 	 * @param  {Any} data Extra data you want to send to the compiler.
+	 * @param  {Boolean} is_cache Whether to cache the result,
+	 * default is false.
 	 * @return {Promise} Contains the compiled content.
 	###
-	self.render = (path, data) ->
+	self.render = (path, data, is_cache = true) ->
 		handler = get_handler path, true
 
 		if handler
 			handler.data = data
-			get_cache(handler).then (cache) ->
-				cache.content
+			if is_cache
+				get_cache(handler).then (cache) ->
+					cache.content
+			else
+				compile handler, false
 		else
 			throw new Error('No matched content handler for:' + path)
 
@@ -334,7 +339,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, arguments
 
-	compile = (handler) ->
+	compile = (handler, cache = true) ->
 		Q.all handler.paths.map(kit.fileExists)
 		.then (rets) ->
 			ext_index = rets.indexOf(true)
@@ -343,15 +348,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				ext = handler.ext_src[ext_index]
 				encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 				kit.readFile path, encoding
-				.then (str) ->
+				.then (bin) ->
 					if handler.type and handler.type != ext
-						return handler.compiler.call(self, str, path, handler.data)
+						return handler.compiler.call self, bin, path, handler.data
 
 					if ext == handler.ext_bin
-						str
+						bin
 					else
-						handler.compiler.call(self, str, path, handler.data)
+						handler.compiler.call self, bin, path, handler.data
 				.then (content) ->
+					if not cache
+						return content
+
 					if not _.isString content
 						body = content.toString()
 					else
@@ -370,7 +378,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				throw err
 
 	get_cache = (handler) ->
-		handler.compiler ?= (str) -> str
+		handler.compiler ?= (bin) -> bin
 
 		cache = _.find cache_pool, (v, k) ->
 			handler.paths.indexOf(k) > -1
