@@ -863,7 +863,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L64">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L67">
 				
 				<b>renderer</b>
 			</a>
@@ -885,8 +885,11 @@ Even for huge project its memory usage is negligible.</p>
 				<p><p>Example:</p>
 <pre><code class="lang-coffee">{
     enable_watcher: process.env.NODE_ENV == &#39;development&#39;
-    inject_nobone_client: process.env.NODE_ENV == &#39;development&#39;
     auto_log: process.env.NODE_ENV == &#39;development&#39;
+
+    # If renderer detect this pattern, it will auto inject `nobone_client.js`
+    # into the page.
+    inject_client_reg: /&lt;html[^&lt;&gt;]*&gt;[\s\S]*&lt;\/html&gt;/i
     file_handlers: {
         &#39;.html&#39;: {
             default: true
@@ -946,7 +949,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L85">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L88">
 				
 				<b>compiler</b>
 			</a>
@@ -1034,7 +1037,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L170">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L178">
 				
 				<b>file_handlers</b>
 			</a>
@@ -1079,7 +1082,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L176">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L184">
 				
 				<b>cache_pool</b>
 			</a>
@@ -1110,7 +1113,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L191">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L199">
 				
 				<b>static</b>
 			</a>
@@ -1162,7 +1165,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L259">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L274">
 				
 				<b>render</b>
 			</a>
@@ -1222,7 +1225,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L272">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L287">
 				
 				<b>close</b>
 			</a>
@@ -1241,7 +1244,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L283">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L298">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1299,7 +1302,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L291">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L306">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1371,7 +1374,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L297">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L312">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1415,7 +1418,7 @@ choose the right compiler to handle the content.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L303">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L318">
 				
 				<b>e.file_modified</b>
 			</a>

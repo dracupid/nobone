@@ -23,8 +23,11 @@ jhash = new kit.jhash.constructor
  * ```coffee
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
- * 	inject_nobone_client: process.env.NODE_ENV == 'development'
  * 	auto_log: process.env.NODE_ENV == 'development'
+ *
+ * 	# If renderer detect this pattern, it will auto inject `nobone_client.js`
+ * 	# into the page.
+ * 	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
  * 	file_handlers: {
  * 		'.html': {
  * 			default: true
@@ -65,12 +68,12 @@ renderer = (opts) -> new Renderer(opts)
 
 renderer.defaults = {
 	enable_watcher: process.env.NODE_ENV == 'development'
-	inject_nobone_client: process.env.NODE_ENV == 'development'
 	auto_log: process.env.NODE_ENV == 'development'
+	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
 	file_handlers: {
 		'.html': {
 			default: true    # Whether it is a default handler, optional.
-			ext_src: '.ejs'
+			ext_src: ['.ejs']
 			###*
 			 * The compiler should fulfil two interface.
 			 * It should return a promise object. Only handles string.
@@ -87,17 +90,22 @@ renderer.defaults = {
 				ejs = kit.require 'ejs'
 				tpl = ejs.compile str, { filename: path }
 
+				render = (data) ->
+					_.defaults data, {
+						_
+						inject_client: process.env.NODE_ENV == 'development'
+					}
+					html = tpl data
+					if data.inject_client and
+					self.opts.inject_client_reg.test html
+						html += nobone.client()
+					html
+
 				if _.isObject data
-					data._ = _
-					tpl data
+					render data
 				else
 					(data = {}) ->
-						_.defaults data, { _ }
-						html = tpl data
-						if self.opts.inject_nobone_client and
-						/<html[^<>]*>[\s\S]*<\/html>/i.test html
-							html += nobone.client()
-						html
+						render data
 		}
 		'.js': {
 			ext_src: '.coffee'
@@ -195,6 +203,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		_.defaults opts, {
 			root_dir: '.'
 			index: process.env.NODE_ENV == 'development'
+			inject_client: process.env.NODE_ENV == 'development'
 		}
 
 		static_handler = express.static opts.root_dir
@@ -239,6 +248,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							throw err
 
 					res.set 'ETag', cache.etag
+
+					if opts.inject_client and
+					res.get('Content-Type').indexOf('text/html;') == 0 and
+					self.opts.inject_client_reg.test body
+						body += nobone.client()
+
 					res.send body
 				.catch (err) ->
 					if err.name == 'file_not_exists'
