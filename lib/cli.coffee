@@ -12,7 +12,12 @@ defaults = {
 }
 
 cmder
-	.usage '[action] [options] [root_dir or coffee_file or js_file]. Default root_dir is current folder.'
+	.usage """[action] [options] [root_dir or coffee_file or js_file].\
+		\n
+		    Default root_dir is current folder.
+		    For the js or coffee entrance file, you could require any npm lib in nobone's dependencies,
+		    You can use "var _ = require('lodash')" without "npm install lodash" before.
+	"""
 	.option '-p, --port <port>', "Server port. Default is #{defaults.port}.", (d) -> +d
 	.option '--host <host>', "Host to listen to. Default is #{defaults.host} only."
 	.option '-w, --watch <list>', "Watch list to auto-restart server. String or JSON array.", (list) ->
