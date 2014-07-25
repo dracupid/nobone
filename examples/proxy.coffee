@@ -39,10 +39,3 @@ service.server.on 'connect', (req, sock, head) ->
 	, 1000
 
 service.listen 8123
-
-# t = nobone()
-
-# t.service.use (req, res) ->
-# 	kit.log req.headers
-
-# t.service.listen 8124
