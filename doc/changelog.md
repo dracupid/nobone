@@ -1,3 +1,7 @@
+* v0.3.7
+
+  * A better API for `noboen_client.js` injection.
+
 * v0.3.6
 
   * Fix a `kit.log` bug.
