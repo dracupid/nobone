@@ -183,6 +183,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.cache_pool = cache_pool
 
+	# Express.js engine api.
+	self.__express = (path, opts, fn) ->
+		self.render path, opts
+		.catch fn
+		.done (str) ->
+			fn null, str
+
 	###*
 	 * Set a static directory.
 	 * Static folder to automatically serve coffeescript and stylus.
