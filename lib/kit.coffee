@@ -167,6 +167,7 @@ _.extend kit, {
 	 * {
 	 * 	url: 'It is not optional, String or Url Object.'
 	 * 	body: true # Other than return `res` with `res.body`, return `body` directly.
+	 * 	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
 	 * 	res_encoding:
 	 * 		'auto' # set null to use buffer, optional.
 	 * 		It supports GBK, Shift_JIS etc.
@@ -202,9 +203,7 @@ _.extend kit, {
 			opts = { url: opts }
 
 		url = kit.url.parse opts.url
-
-		if not url.protocol
-			url = kit.url.parse 'http://' + opts.url
+		url.protocol ?= 'http:'
 
 		request = null
 		switch url.protocol
@@ -225,6 +224,15 @@ _.extend kit, {
 
 		defer = Q.defer()
 		req = request opts, (res) ->
+			if opts.redirect > 0 and res.headers.location
+				opts.redirect--
+				kit.request(
+					_.extend opts, kit.url.parse(res.headers.location)
+				)
+				.catch (err) -> defer.reject err
+				.done (val) -> defer.resolve val
+				return
+
 			if opts.res_pipe
 				res_pipe_error = (err) ->
 					defer.reject err
