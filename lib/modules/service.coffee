@@ -98,9 +98,9 @@ init_remote_log = (self) ->
 		req.on 'end', ->
 			try
 				kit.log JSON.parse(data)
-				res.send 200
+				res.status(200).end()
 			catch e
-				res.send 500
+				res.status(500).end()
 
 
 init_sse = (self) ->

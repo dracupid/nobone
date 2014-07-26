@@ -236,7 +236,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				get_cache(handler)
 				.then (cache) ->
 					if cache == null
-						return res.send 500, self.e.compile_error
+						res.status 500
+						return res.send self.e.compile_error
 
 					content = cache.content
 
