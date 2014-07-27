@@ -23,7 +23,7 @@ renderer.file_handlers['.md'].compiler = (str, path) ->
 	md = marked str
 	renderer.render marked_ejs
 	.then (tpl) ->
-		tpl { path, body: md }
+		tpl { path, body: md, inject_client: false }
 
 service.get '/favicon.ico', (req, res) ->
 	res.sendfile nobone_favicon
