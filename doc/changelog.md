@@ -1,5 +1,7 @@
 * v0.3.7
 
+  * Fix a `serve-index` bug.
+  * `kit.request` auto-redirect support.
   * A better API for `noboen_client.js` injection.
 
 * v0.3.6
