@@ -1,3 +1,7 @@
+* v0.3.8
+
+  * Optimize `proxy.pac` helper.
+
 * v0.3.7
 
   * Add `proxy.pac` helper.
