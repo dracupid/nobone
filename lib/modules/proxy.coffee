@@ -111,6 +111,10 @@ proxy = (opts = {}) ->
 		(req, res, next) ->
 			addr = req.socket.address()
 			curr_host ?= "#{addr.address}:#{addr.port}"
+			url = kit.url.parse(req.url)
+			_.defaults url, { host: req.headers.host }
+			if url.host != curr_host
+				return next()
 
 			pac_str = """
 				FindProxyForURL = function (url, host) {

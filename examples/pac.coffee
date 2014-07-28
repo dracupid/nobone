@@ -1,10 +1,14 @@
 nobone = require 'nobone'
 
-{ kit, proxy, service, renderer } = nobone {
+{ kit, proxy, service } = nobone {
 	service: {}
-	renderer: {}
 	proxy: {}
 }
+
+service.use (req, res, next) ->
+	# access log
+	kit.log req.url
+	next()
 
 service.get '/pac', proxy.pac ->
 	switch true
@@ -14,7 +18,6 @@ service.get '/pac', proxy.pac ->
 			direct
 
 service.use (req, res) ->
-	kit.log req.url
 	proxy.url req, res
 
 service.listen 8013
