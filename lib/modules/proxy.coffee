@@ -89,6 +89,35 @@ proxy = (opts = {}) ->
 			error err, psock
 
 	###*
+	 * A pac helper.
+	 * @param  {Function} rule_handler Your custom pac rules.
+	 * It gives you three helpers.
+	 * ```coffee
+	 * curr_host = 'PROXY host:port;' # Nobone server host address.
+	 * direct =  "DIRECT;"
+	 * match = (pattern) -> # A function use shExpMatch to match your url.
+	 * ```
+	 * @return {Function} Express Middleware.
+	###
+	self.pac = (rule_handler) ->
+		(req, res, next) ->
+			addr = req.socket.address()
+			pac_str = """
+				FindProxyForURL = function (url, host) {
+					var curr_host = "PROXY #{addr.address}:#{addr.port};";
+					var direct = "DIRECT;";
+					var match = function (pattern) {
+						return shExpMatch(url, pattern);
+					};
+
+					return (#{rule_handler.toString()})();
+				}
+			"""
+
+			res.set 'Content-Type', 'application/x-ns-proxy-autoconfig'
+			res.send pac_str
+
+	###*
 	 * HTTP/HTTPS Agents for tunneling proxies.
 	 * See the project [node-tunnel][0]
 	 * [0]: https://github.com/koichik/node-tunnel

@@ -1162,7 +1162,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L283">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L284">
 				
 				<b>render</b>
 			</a>
@@ -1237,7 +1237,7 @@ default is false.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L299">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L300">
 				
 				<b>close</b>
 			</a>
@@ -1256,7 +1256,7 @@ default is false.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L310">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L311">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1314,7 +1314,7 @@ default is false.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L318">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L319">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1386,7 +1386,7 @@ default is false.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L324">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L325">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1430,7 +1430,7 @@ default is false.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L330">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L331">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1872,7 +1872,57 @@ service.server.on &#39;connect&#39;, proxy.connect
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L96">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L102">
+				
+				<b>pac</b>
+			</a>
+		</h4>
+		<p><p>A pac helper.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>rule_handler</code>
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>Your custom pac rules.
+It gives you three helpers.</p>
+<pre><code class="lang-coffee">curr_host = &#39;PROXY host:port;&#39; # Nobone server host address.
+direct =  &quot;DIRECT;&quot;
+match = (pattern) -&gt; # A function use shExpMatch to match your url.
+</code></pre>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>Express Middleware.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L125">
 				
 				<b>tunnel</b>
 			</a>
@@ -2283,7 +2333,7 @@ Now only support Windows and OSX.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L200">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L201">
 				
 				<b>request</b>
 			</a>
@@ -2307,6 +2357,7 @@ some extra options:</p>
 <pre><code class="lang-coffee">{
     url: &#39;It is not optional, String or Url Object.&#39;
     body: true # Other than return `res` with `res.body`, return `body` directly.
+    redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
     res_encoding:
         &#39;auto&#39; # set null to use buffer, optional.
         It supports GBK, Shift_JIS etc.
@@ -2358,7 +2409,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L316">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L324">
 				
 				<b>extend_env</b>
 			</a>
@@ -2377,7 +2428,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L338">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L346">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2429,7 +2480,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L391">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L399">
 				
 				<b>watch_files</b>
 			</a>
@@ -2476,7 +2527,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L403">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L411">
 				
 				<b>env_mode</b>
 			</a>
@@ -2522,7 +2573,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L418">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L426">
 				
 				<b>inspect</b>
 			</a>
@@ -2581,7 +2632,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L437">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L445">
 				
 				<b>log</b>
 			</a>
@@ -2646,7 +2697,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L487">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L495">
 				
 				<b>pad</b>
 			</a>
@@ -2717,7 +2768,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L499">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L507">
 				
 				<b>err</b>
 			</a>
@@ -2762,7 +2813,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L513">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L521">
 				
 				<b>daemonize</b>
 			</a>
@@ -2813,7 +2864,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L538">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L546">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2859,7 +2910,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L563">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L571">
 				
 				<b>async</b>
 			</a>
@@ -2936,7 +2987,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L651">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L659">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3050,7 +3101,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L734">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L742">
 				
 				<b>generate_bone</b>
 			</a>
