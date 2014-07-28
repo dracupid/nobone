@@ -90,6 +90,7 @@ proxy = (opts = {}) ->
 
 	###*
 	 * A pac helper.
+	 * @param {String} curr_host The current host for proxy server. It's optional.
 	 * @param  {Function} rule_handler Your custom pac rules.
 	 * It gives you three helpers.
 	 * ```coffee
@@ -100,15 +101,16 @@ proxy = (opts = {}) ->
 	 * match = (pattern) -> # A function use shExpMatch to match your url.
 	 * proxy = (target) -> # return 'PROXY target;'.
 	 * ```
-	 * @param {String} curr_host The current host for proxy server.
 	 * @return {Function} Express Middleware.
 	###
-	self.pac = (rule_handler, curr_host) ->
+	self.pac = (curr_host, rule_handler) ->
+		if _.isFunction curr_host
+			rule_handler = curr_host
+			curr_host = null
+
 		(req, res, next) ->
 			addr = req.socket.address()
 			curr_host ?= "#{addr.address}:#{addr.port}"
-			if req.headers.host != curr_host
-				return next()
 
 			pac_str = """
 				FindProxyForURL = function (url, host) {
