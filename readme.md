@@ -1872,7 +1872,7 @@ service.server.on &#39;connect&#39;, proxy.connect
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L102">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L103">
 				
 				<b>pac</b>
 			</a>
@@ -1904,6 +1904,20 @@ match = (pattern) -&gt; # A function use shExpMatch to match your url.
 
 			<li>
 				<p><b>
+					<u>param</u>:
+					
+						<code>curr_host</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The current host for proxy server.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ Function }</em>
@@ -1922,7 +1936,7 @@ match = (pattern) -&gt; # A function use shExpMatch to match your url.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L125">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L130">
 				
 				<b>tunnel</b>
 			</a>

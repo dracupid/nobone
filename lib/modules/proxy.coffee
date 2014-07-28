@@ -97,14 +97,19 @@ proxy = (opts = {}) ->
 	 * direct =  "DIRECT;"
 	 * match = (pattern) -> # A function use shExpMatch to match your url.
 	 * ```
+	 * @param {String} curr_host The current host for proxy server.
 	 * @return {Function} Express Middleware.
 	###
-	self.pac = (rule_handler) ->
+	self.pac = (rule_handler, curr_host) ->
 		(req, res, next) ->
 			addr = req.socket.address()
+			curr_host ?= "#{addr.address}:#{addr.port}"
+			if req.headers.host != curr_host
+				return next()
+
 			pac_str = """
 				FindProxyForURL = function (url, host) {
-					var curr_host = "PROXY #{addr.address}:#{addr.port};";
+					var curr_host = "PROXY #{curr_host};";
 					var direct = "DIRECT;";
 					var match = function (pattern) {
 						return shExpMatch(url, pattern);
