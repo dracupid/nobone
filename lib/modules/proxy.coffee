@@ -93,6 +93,8 @@ proxy = (opts = {}) ->
 	 * @param  {Function} rule_handler Your custom pac rules.
 	 * It gives you three helpers.
 	 * ```coffee
+	 * url # The current client request url.
+	 * host # The host name derived from the url.
 	 * curr_host = 'PROXY host:port;' # Nobone server host address.
 	 * direct =  "DIRECT;"
 	 * match = (pattern) -> # A function use shExpMatch to match your url.
