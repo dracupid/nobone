@@ -1872,7 +1872,7 @@ service.server.on &#39;connect&#39;, proxy.connect
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L103">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L104">
 				
 				<b>pac</b>
 			</a>
@@ -1896,6 +1896,7 @@ It gives you three helpers.</p>
 <pre><code class="lang-coffee">curr_host = &#39;PROXY host:port;&#39; # Nobone server host address.
 direct =  &quot;DIRECT;&quot;
 match = (pattern) -&gt; # A function use shExpMatch to match your url.
+proxy = (target) -&gt; # return &#39;PROXY target;&#39;.
 </code></pre>
 </p>
 			</li>
@@ -1936,7 +1937,7 @@ match = (pattern) -&gt; # A function use shExpMatch to match your url.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L130">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L134">
 				
 				<b>tunnel</b>
 			</a>

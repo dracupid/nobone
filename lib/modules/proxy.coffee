@@ -96,6 +96,7 @@ proxy = (opts = {}) ->
 	 * curr_host = 'PROXY host:port;' # Nobone server host address.
 	 * direct =  "DIRECT;"
 	 * match = (pattern) -> # A function use shExpMatch to match your url.
+	 * proxy = (target) -> # return 'PROXY target;'.
 	 * ```
 	 * @param {String} curr_host The current host for proxy server.
 	 * @return {Function} Express Middleware.
@@ -113,6 +114,9 @@ proxy = (opts = {}) ->
 					var direct = "DIRECT;";
 					var match = function (pattern) {
 						return shExpMatch(url, pattern);
+					};
+					var proxy = function (target) {
+						return 'PROXY ' + target + ';';
 					};
 
 					return (#{rule_handler.toString()})();
