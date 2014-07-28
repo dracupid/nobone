@@ -215,7 +215,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		static_handler = express.static opts.root_dir
 		if opts.index
-			dir_handler = kit.require('ys-serve-index')(
+			dir_handler = kit.require('serve-index')(
 				kit.fs.realpathSync opts.root_dir
 				{ icons: true, view: 'details' }
 			)

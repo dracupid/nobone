@@ -38,7 +38,7 @@
     "marked": "^0.3.2",
     "prompt": "^0.2.13",
     "q": "^1.0.1",
-    "ys-serve-index": "^1.1.4",
+    "serve-index": "^1.1.5",
     "stylus": "^0.46.3",
     "tunnel": "0.0.3",
     "which": "^1.0.5"
