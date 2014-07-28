@@ -1887,6 +1887,20 @@ service.server.on &#39;connect&#39;, proxy.connect
 				<p><b>
 					<u>param</u>:
 					
+						<code>curr_host</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The current host for proxy server. It&#39;s optional.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
 						<code>rule_handler</code>
 					
 					<em>{ Function }</em>
@@ -1900,20 +1914,6 @@ direct =  &quot;DIRECT;&quot;
 match = (pattern) -&gt; # A function use shExpMatch to match your url.
 proxy = (target) -&gt; # return &#39;PROXY target;&#39;.
 </code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>curr_host</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The current host for proxy server.</p>
 </p>
 			</li>
 
@@ -1939,7 +1939,7 @@ proxy = (target) -&gt; # return &#39;PROXY target;&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L136">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L143">
 				
 				<b>tunnel</b>
 			</a>

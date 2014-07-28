@@ -112,7 +112,8 @@ proxy = (opts = {}) ->
 			addr = req.socket.address()
 			curr_host ?= "#{addr.address}:#{addr.port}"
 			url = kit.url.parse(req.url)
-			_.defaults url, { host: req.headers.host }
+			url.host ?= req.headers.host
+			kit.log url
 			if url.host != curr_host
 				return next()
 
