@@ -1,5 +1,6 @@
 * v0.3.7
 
+  * Add `proxy.pac` helper.
   * Fix a `serve-index` bug.
   * `kit.request` auto-redirect support.
   * A better API for `noboen_client.js` injection.
