@@ -1,5 +1,7 @@
 * v0.3.8
 
+  * Now `kit.request` will auto handle `application/x-www-form-urlencoded`
+    when `req_data` is an object.
   * Optimize `proxy.pac` helper.
 
 * v0.3.7
