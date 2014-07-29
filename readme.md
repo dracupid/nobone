@@ -1754,7 +1754,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L67">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L66">
 				
 				<b>connect</b>
 			</a>
@@ -1872,7 +1872,7 @@ service.server.on &#39;connect&#39;, proxy.connect
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L106">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L105">
 				
 				<b>pac</b>
 			</a>
@@ -1939,7 +1939,7 @@ proxy = (target) -&gt; # return &#39;PROXY target;&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L143">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L142">
 				
 				<b>tunnel</b>
 			</a>

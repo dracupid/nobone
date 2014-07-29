@@ -1,5 +1,6 @@
 * v0.3.8
 
+  * Fix a node v0.8 path delimiter bug.
   * Now `kit.request` will auto handle `application/x-www-form-urlencoded`
     when `req_data` is an object.
   * Optimize `proxy.pac` helper.
