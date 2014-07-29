@@ -800,4 +800,7 @@ _.extend kit, {
 
 }
 
+# Fix node bugs
+kit.path.delimiter = if process.platform == 'win32' then ';' else ':'
+
 module.exports = kit
