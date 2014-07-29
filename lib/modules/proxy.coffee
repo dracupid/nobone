@@ -32,16 +32,15 @@ proxy = (opts = {}) ->
 		if not url
 			url = req.url
 
-		if typeof url == 'string'
-			url = kit.url.parse url
-
-		req.url = url
+		if _.isObject url
+			url = kit.url.format url
 
 		error = err or (e) ->
 			kit.log e.toString() + ' -> ' + req.url.red
 
+		req.url = url
 		self.web(req, res, _.defaults(opts, {
-			target: url.format()
+			target: kit.url.parse url
 		}) , (e) ->
 			error e
 		)
