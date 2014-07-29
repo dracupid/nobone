@@ -23,28 +23,28 @@
   },
   "license": "BSD",
   "dependencies": {
-    "coffee-script": "^1.7.1",
-    "colors": "^0.6.2",
-    "commander": "^2.2.0",
-    "ejs": "^1.0.0",
-    "express": "^4.4.4",
+    "coffee-script": "~1.7.1",
+    "colors": "~0.6.2",
+    "commander": "~2.2.0",
+    "ejs": "~1.0.0",
+    "express": "~4.4.4",
     "fs-more": "*",
-    "glob": "^4.0.2",
-    "http-proxy": "^1.1.4",
-    "iconv-lite": "^0.4.4",
-    "jdb": "^0.2.8",
-    "jhash": "^0.1.4",
-    "lodash": "^2.4.1",
-    "marked": "^0.3.2",
-    "prompt": "^0.2.13",
-    "q": "^1.0.1",
-    "serve-index": "^1.1.5",
-    "stylus": "^0.46.3",
+    "glob": "~4.0.2",
+    "http-proxy": "~1.1.4",
+    "iconv-lite": "~0.4.4",
+    "jdb": "~0.2.8",
+    "jhash": "~0.1.4",
+    "lodash": "~2.4.1",
+    "marked": "~0.3.2",
+    "prompt": "~0.2.13",
+    "q": "~1.0.1",
+    "serve-index": "~1.1.5",
+    "stylus": "~0.46.3",
     "tunnel": "0.0.3",
-    "which": "^1.0.5"
+    "which": "~1.0.5"
   },
   "devDependencies": {
-    "benchmark": "^1.0.0",
-    "mocha": "^1.20.1"
+    "benchmark": "~1.0.0",
+    "mocha": "~1.20.1"
   }
 }
