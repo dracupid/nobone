@@ -94,6 +94,7 @@ _.extend kit, {
 	 * @param  {Object} opts Process options. Same with the Node.js official doc.
 	 * Default will inherit the parent's stdio.
 	 * @return {Promise} The `promise.process` is the child process object.
+	 * When the child process ends, it will resolve.
 	###
 	spawn: (cmd, args = [], opts = {}) ->
 		_.defaults opts, {
@@ -168,11 +169,14 @@ _.extend kit, {
 	 * 	url: 'It is not optional, String or Url Object.'
 	 * 	body: true # Other than return `res` with `res.body`, return `body` directly.
 	 * 	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
-	 * 	res_encoding:
-	 * 		'auto' # set null to use buffer, optional.
+	 * 	res_encoding: 'auto'
+	 * 		Set null to use buffer, optional.
 	 * 		It supports GBK, Shift_JIS etc.
 	 * 		For more info, see https://github.com/ashtuchkin/iconv-lite
-	 * 	req_data: null # string or buffer, optional.
+	 * 	req_data: null
+	 * 		It's string, object or buffer, optional. When it's an object,
+	 * 		The request will be 'application/x-www-form-urlencoded'.
+	 * 	auto_end_req: true # auto end the request.
 	 * 	req_pipe: Readable Stream.
 	 * 	res_pipe: Writable Stream.
 	 * }
@@ -220,7 +224,26 @@ _.extend kit, {
 			body: true
 			res_encoding: 'auto' # set null to use buffer
 			req_data: null # string or buffer.
+			auto_end_req: true
 		}
+
+		opts.headers ?= {}
+		if Buffer.isBuffer(opts.req_data)
+			req_buf = opts.req_data
+		else if _.isString opts.req_data
+			req_buf = new Buffer(opts.req_data)
+		else if _.isObject opts.req_data
+			opts.headers['content-type'] ?= 'application/x-www-form-urlencoded; charset=utf-8'
+			req_buf = new Buffer(
+				_.map opts.req_data, (v, k) ->
+					[encodeURIComponent(k), encodeURIComponent(v)].join '='
+				.join '&'
+			)
+		else
+			req_buf = new Buffer(0)
+
+		if req_buf.length > 0
+			opts.headers['content-length'] ?= req_buf.length
 
 		defer = Q.defer()
 		req = request opts, (res) ->
@@ -313,7 +336,11 @@ _.extend kit, {
 		if opts.req_pipe
 			opts.req_pipe.pipe req
 		else
-			req.end opts.req_data
+			if opts.auto_end_req
+				if req_buf.length > 0
+					req.end req_buf
+				else
+					req.end()
 
 		defer.promise.req = req
 		defer.promise
