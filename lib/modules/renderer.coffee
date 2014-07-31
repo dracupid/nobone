@@ -94,12 +94,22 @@ renderer.defaults = {
 					_.defaults data, {
 						_
 						inject_client: process.env.NODE_ENV == 'development'
+						compress: process.env.NODE_ENV == 'production'
+						compress_opts: {
+							removeAttributeQuotes: true
+							removeComments: true
+							collapseWhitespace: true
+							conservativeCollapse: true
+						}
 					}
 					html = tpl data
 					if data.inject_client and
 					self.opts.inject_client_reg.test html
 						html += nobone.client()
-					html
+					if data.compress
+						kit.require('html-minifier').minify html, data.compress_opts
+					else
+						html
 
 				if _.isObject data
 					render data
@@ -111,24 +121,37 @@ renderer.defaults = {
 			ext_src: '.coffee'
 			compiler: (str, path, data = {}) ->
 				coffee = kit.require 'coffee-script'
-				coffee.compile(str, _.defaults(data, { bare: true }))
+				code = coffee.compile str, _.defaults(data, {
+					bare: true
+					compress: process.env.NODE_ENV == 'production'
+					compress_opts: { fromString: true }
+				})
+				if data.compress
+					ug = kit.require 'uglify-js'
+					ug.minify(code, data.compress_opts).code
+				else
+					code
 		}
 		'.css': {
 			ext_src: ['.styl', '.less']
 			compiler: (str, path, data = {}) ->
 				ext_src = kit.path.extname path
+				_.defaults data, {
+					filename: path
+					compress: process.env.NODE_ENV == 'production'
+				}
 				if ext_src == '.styl'
 					stylus = kit.require 'stylus'
-					Q.ninvoke stylus, 'render', str, _.defaults(data, { filename: path })
+					Q.ninvoke stylus, 'render', str, data
 				else
 					try
 						less = kit.require('less')
 					catch e
 						kit.err '"npm install less" first.'.red
 
-					parser = new less.Parser(_.defaults data, { filename: path })
+					parser = new less.Parser(data)
 					Q.ninvoke(parser, 'parse', str)
-					.then (tree) -> tree.toCSS()
+					.then (tree) -> tree.toCSS data
 		}
 		'.md': {
 			type: 'html' # Force type, optional.
@@ -199,6 +222,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * {
 	 * 	root_dir: '.'
 	 * 	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
+	 * 	inject_client: process.env.NODE_ENV == 'development'
 	 * }
 	 * ```
 	 * @return {Middleware} Experss.js middleware.
@@ -250,7 +274,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							body = content()
 						else
 							body = 'The compiler should produce a string or function: '.red +
-								path.cyan
+								path.cyan + '\n' + kit.inspect(content).yellow
 							err = new Error(body)
 							err.name = 'unknown_type'
 							throw err

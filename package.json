@@ -30,6 +30,7 @@
     "express": "~4.4.4",
     "fs-more": "*",
     "glob": "~4.0.2",
+    "html-minifier": "~0.6.6",
     "http-proxy": "~1.1.4",
     "iconv-lite": "~0.4.4",
     "jdb": "~0.2.8",
@@ -41,6 +42,7 @@
     "serve-index": "~1.1.5",
     "stylus": "~0.46.3",
     "tunnel": "0.0.3",
+    "uglify-js": "~2.4.15",
     "which": "~1.0.5"
   },
   "devDependencies": {
