@@ -1,4 +1,5 @@
-require 'colors'
+colors = require 'colors'
+colors.mode = 'none' if process.env.NODE_ENV == 'production'
 _ = require 'lodash'
 Q = require 'q'
 fs = require 'fs-more'
@@ -453,7 +454,10 @@ _.extend kit, {
 	inspect: (obj, opts) ->
 		util = kit.require 'util'
 
-		_.defaults opts, { colors: true, depth: 5 }
+		_.defaults opts, {
+			colors: process.env.NODE_ENV == 'development'
+			depth: 5
+		}
 
 		str = util.inspect obj, opts
 
