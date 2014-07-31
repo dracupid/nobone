@@ -1,3 +1,7 @@
+* v0.3.9
+
+  * Add minify support for html, js, css.
+
 * v0.3.8
 
   * Fix a node v0.8 path delimiter bug.
