@@ -471,7 +471,8 @@ _.extend kit, {
 	 * @example
 	###
 	lang: (cmd, lang = kit.lang_current) ->
-		en = cmd[... cmd.lastIndexOf '|']
+		i = cmd.lastIndexOf '|'
+		en = if i > -1 then cmd[...i] else cmd
 		kit.lang_data[lang]?[cmd] or en
 
 	###*

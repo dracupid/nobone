@@ -20,7 +20,8 @@ class Nobone then constructor: (opts) ->
 		req.send JSON.stringify(msg)
 
 	self.lang = (cmd, lang = opts.lang_current) ->
-		en = cmd[... cmd.lastIndexOf '|']
+		i = cmd.lastIndexOf '|'
+		en = if i > -1 then cmd[...i] else cmd
 		opts.lang_data[lang]?[cmd] or en
 
 	init_auto_reload = ->
