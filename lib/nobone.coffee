@@ -93,32 +93,37 @@ _.extend nobone, {
 	###*
 	 * The NoBone client helper.
 	 * @static
-	 * @param {Boolean} auto If true, and not on development mode
+	 * @param {Object} opts The options of the client, defaults:
+	 * ```coffee
+	 * {
+	 * 	auto_reload: process.env.NODE_ENV == 'development'
+	 * 	lang_current: kit.lang_current
+	 * 	lang_data: kit.lang_data
+	 * }
+	 * ```
 	 * return an empty string.
 	 * @return {String} The html of client helper.
 	###
-	client: (auto = true) ->
-		if auto and process.env.NODE_ENV != 'development'
-			return ''
+	client: (opts) ->
+		if nobone.client_cache
+			return nobone.client_cache
 
-		if not nobone.client_cache
-			fs = kit.require 'fs'
-			js = fs.readFileSync(__dirname + '/../dist/nobone_client.js')
-			opts = JSON.stringify {
-				mode: process.env.NODE_ENV
-				lang_current: kit.lang_current
-				lang_data: kit.lang_data
-			}
-			html = """
-				\n\n<!-- Nobone Client Helper -->
-				<script type="text/javascript">
-				#{js}
-				window.nb = new Nobone(#{opts});
-				</script>\n\n
-			"""
-			nobone.client_cache = html
+		fs = kit.require 'fs'
+		js = fs.readFileSync(__dirname + '/../dist/nobone_client.js')
+		opts_str = JSON.stringify _.defaults(opts, {
+			auto_reload: process.env.NODE_ENV == 'development'
+			lang_current: kit.lang_current
+			lang_data: kit.lang_data
+		})
+		html = """
+			\n\n<!-- Nobone Client Helper -->
+			<script type="text/javascript">
+			#{js}
+			window.nb = new Nobone(#{opts_str});
+			</script>\n\n
+		"""
+		nobone.client_cache = html
 
-		nobone.client_cache
 }
 
 module.exports = nobone
