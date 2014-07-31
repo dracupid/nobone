@@ -5,12 +5,12 @@ class Nobone then constructor: (opts) ->
 	self = @
 
 
-	self.opts = opts
+	self.lang_current = opts.lang_current
+	self.lang_data = opts.lang_data
 
 	init = ->
-		if opts.mode == 'development'
+		if opts.auto_reload
 			init_auto_reload()
-			console.log '%c>> NoBone Client Helper Loaded.', 'color: #1ca032'
 
 	self.log = (msg, action = 'log') ->
 		console[action] msg

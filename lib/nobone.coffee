@@ -104,7 +104,7 @@ _.extend nobone, {
 	 * return an empty string.
 	 * @return {String} The html of client helper.
 	###
-	client: (opts) ->
+	client: (opts = {}) ->
 		if nobone.client_cache
 			return nobone.client_cache
 
