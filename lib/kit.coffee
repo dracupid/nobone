@@ -445,6 +445,36 @@ _.extend kit, {
 		}
 
 	###*
+	 * Language data.
+	 * @type {Object}
+	 * @example
+	 * ```coffee
+	 * kit.lang_data = {
+	 * 	'cn': { 'test': '测试' }
+	 * }
+	 * ```
+	###
+	lang_data: {}
+
+	###*
+	 * Current default language.
+	 * @type {String}
+	 * @default 'en'
+	###
+	lang_current: 'en'
+
+	###*
+	 * Output the right language.
+	 * @param  {String} cmd  The original English text.
+	 * @param  {String} lang The target language name.
+	 * @return {String}
+	 * @example
+	###
+	lang: (cmd, lang = kit.lang_current) ->
+		en = cmd[... cmd.lastIndexOf '|']
+		kit.lang_data[lang]?[cmd] or en
+
+	###*
 	 * For debugging use. Dump a colorful object.
 	 * @param  {Object} obj Your target object.
 	 * @param  {Object} opts Options. Default:
@@ -517,6 +547,14 @@ _.extend kit, {
 			console.log "\u0007\n"
 
 	###*
+	 * A log error shortcut for `kit.log`
+	 * @param  {Any} msg
+	 * @param  {Object} opts
+	###
+	err: (msg, opts = {}) ->
+		kit.log msg, 'error', opts
+
+	###*
 	 * String padding helper.
 	 * @param  {Sting | Number} str
 	 * @param  {Number} width
@@ -529,14 +567,6 @@ _.extend kit, {
 			str
 		else
 			new Array(width - str.length + 1).join(char) + str
-
-	###*
-	 * A log error shortcut for `kit.log`
-	 * @param  {Any} msg
-	 * @param  {Object} opts
-	###
-	err: (msg, opts = {}) ->
-		kit.log msg, 'error', opts
 
 	###*
 	 * Daemonize a program.

@@ -1,12 +1,16 @@
 # The NoBone helper for browser
 
-class Nobone then constructor: ->
+class Nobone then constructor: (opts) ->
 
 	self = @
 
+
+	self.opts = opts
+
 	init = ->
-		init_auto_reload()
-		console.log '%c>> NoBone Client Helper Loaded.', 'color: #1ca032'
+		if opts.mode == 'development'
+			init_auto_reload()
+			console.log '%c>> NoBone Client Helper Loaded.', 'color: #1ca032'
 
 	self.log = (msg, action = 'log') ->
 		console[action] msg
@@ -14,6 +18,10 @@ class Nobone then constructor: ->
 		req.open 'POST', '/nobone-log'
 		req.setRequestHeader 'Content-Type', 'application/json'
 		req.send JSON.stringify(msg)
+
+	self.lang = (cmd, lang = opts.lang_current) ->
+		en = cmd[... cmd.lastIndexOf '|']
+		opts.lang_data[lang]?[cmd] or en
 
 	init_auto_reload = ->
 		es = new EventSource('/nobone-sse/auto_reload')
@@ -63,5 +71,3 @@ class Nobone then constructor: ->
 					location.reload()
 
 	init()
-
-window.nb = new Nobone

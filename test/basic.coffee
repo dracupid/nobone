@@ -172,3 +172,12 @@ describe 'Kit:', ->
 		.done (rets) ->
 			assert.equal rets.length, 10
 			tdone()
+
+	it 'lang normal', ->
+		nb.kit.lang_data = { 'cn': { 'test': '测试' } }
+		str = nb.kit.lang 'test', 'cn'
+		assert.equal str, '测试'
+
+	it 'lang alter', ->
+		str = nb.kit.lang 'test|0'
+		assert.equal str, 'test'

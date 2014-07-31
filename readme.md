@@ -33,6 +33,8 @@ happily. So other than js, the idea should be port to any other language easily.
 For more examples, go through the [examples](https://github.com/ysmood/nobone/tree/master/examples) folder.
 
 ```coffee
+process.env.NODE_ENV = 'development'
+
 nobone = require 'nobone'
 
 port = 8013
@@ -161,8 +163,8 @@ nobone bone -h
 				<b>Overview</b>
 			</a>
 		</h4>
-		<p><p>NoBone has four main modules: <code>renderer</code>, <code>service</code>, <code>proxy</code>, <code>db</code>, and a helper <code>kit</code>.
-<strong>They are all optional</strong>.</p>
+		<p><p>NoBone has several modules and a helper lib.
+<strong>All the modules are optional</strong>.</p>
 <p>Most of the async functions are inplemented with <a href="https://github.com/kriskowal/q">Q</a>.</p>
 </p>
 
@@ -2593,7 +2595,163 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L454">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L457">
+				
+				<b>lang_data</b>
+			</a>
+		</h4>
+		<p><p>Language data.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><pre><code class="lang-coffee">kit.lang_data = {
+    &#39;cn&#39;: { &#39;test&#39;: &#39;测试&#39; }
+}
+</code></pre>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L464">
+				
+				<b>lang_current</b>
+			</a>
+		</h4>
+		<p><p>Current default language.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ String }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>default</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>&#39;en&#39;</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L473">
+				
+				<b>lang</b>
+			</a>
+		</h4>
+		<p><p>Output the right language.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>cmd</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The original English text.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>lang</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The target language name.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ String }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L484">
 				
 				<b>inspect</b>
 			</a>
@@ -2652,7 +2810,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L476">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L506">
 				
 				<b>log</b>
 			</a>
@@ -2717,7 +2875,52 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L526">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L554">
+				
+				<b>err</b>
+			</a>
+		</h4>
+		<p><p>A log error shortcut for <code>kit.log</code></p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>msg</code>
+					
+					<em>{ Any }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>opts</code>
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L564">
 				
 				<b>pad</b>
 			</a>
@@ -2788,52 +2991,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L538">
-				
-				<b>err</b>
-			</a>
-		</h4>
-		<p><p>A log error shortcut for <code>kit.log</code></p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>msg</code>
-					
-					<em>{ Any }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L552">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L582">
 				
 				<b>daemonize</b>
 			</a>
@@ -2884,7 +3042,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L577">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L607">
 				
 				<b>prompt_get</b>
 			</a>
@@ -2930,7 +3088,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L602">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L632">
 				
 				<b>async</b>
 			</a>
@@ -3007,7 +3165,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L690">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L720">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3121,7 +3279,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L773">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L803">
 				
 				<b>generate_bone</b>
 			</a>

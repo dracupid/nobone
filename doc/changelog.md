@@ -1,5 +1,6 @@
 * v0.3.9
 
+  * Add a language helper.
   * Add minify support for html, js, css.
 
 * v0.3.8

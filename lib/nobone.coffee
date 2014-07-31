@@ -1,6 +1,6 @@
 ###*
- * NoBone has four main modules: `renderer`, `service`, `proxy`, `db`, and a helper `kit`.
- * **They are all optional**.
+ * NoBone has several modules and a helper lib.
+ * **All the modules are optional**.
  *
  * Most of the async functions are inplemented with [Q][0].
  * [0]: https://github.com/kriskowal/q
@@ -104,10 +104,16 @@ _.extend nobone, {
 		if not nobone.client_cache
 			fs = kit.require 'fs'
 			js = fs.readFileSync(__dirname + '/../dist/nobone_client.js')
+			opts = JSON.stringify {
+				mode: process.env.NODE_ENV
+				lang_current: kit.lang_current
+				lang_data: kit.lang_data
+			}
 			html = """
 				\n\n<!-- Nobone Client Helper -->
 				<script type="text/javascript">
 				#{js}
+				window.nb = new Nobone(#{opts});
 				</script>\n\n
 			"""
 			nobone.client_cache = html
