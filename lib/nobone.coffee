@@ -14,7 +14,7 @@ Q = require 'q'
 
 ###*
  * Main constructor.
- * @param  {Object} opts By default, it only load two modules,
+ * @param  {Object} modules By default, it only load two modules,
  * `service` and `renderer`:
  * ```coffee
  * {
@@ -22,23 +22,30 @@ Q = require 'q'
  * 	renderer: {}
  * 	db: null
  * 	proxy: null
+ *
+ * 	lang_dir: null # language set directory
  * }```
+ * @param {Object} opts Other options.
  * @return {Object} A nobone instance.
 ###
-nobone = (opts) ->
-	opts ?= {
+nobone = (modules, opts = {}) ->
+	modules ?= {
 		db: null
 		proxy: null
 		service: {}
 		renderer: {}
 	}
 
+	_.defaults opts, {
+		lang_dir: null
+	}
+
 	nb = {
 		kit
 	}
 
-	for k, v of opts
-		if opts[k]
+	for k, v of modules
+		if modules[k]
 			nb[k] = require('./modules/' + k)(v)
 
 	if nb.service and nb.service.sse and nb.renderer
@@ -49,12 +56,15 @@ nobone = (opts) ->
 				'/auto_reload'
 			)
 
+	# Load language.
+	kit.lang_load opts.lang_dir
+
 	###*
 	 * Release the resources.
 	 * @return {Promise}
 	###
 	close = ->
-		Q.all _.map(opts, (v, k) ->
+		Q.all _.map(modules, (v, k) ->
 			mod = nb[k]
 			if v and mod.close
 				if mod.close.length > 0

@@ -9,6 +9,8 @@ nb = nobone {
 	db: {}
 	renderer: {}
 	service: {}
+}, {
+	lang_dir: 'test/lang'
 }
 
 get = (path, port) ->
@@ -143,7 +145,7 @@ describe 'Kit:', ->
 			comments = nb.kit.parse_comment 'nobone', str, path
 			assert.equal comments[1].path, path
 			assert.equal comments[1].tags[0].type, 'Object'
-			assert.equal comments[1].tags[0].name, 'opts'
+			assert.equal comments[1].tags[0].name, 'modules'
 			tdone()
 
 	it 'async progress', (tdone) ->
@@ -174,10 +176,8 @@ describe 'Kit:', ->
 			tdone()
 
 	it 'lang normal', ->
-		nb.kit.lang_data = { 'cn': { 'test': '测试' } }
 		str = nb.kit.lang 'test', 'cn'
 		assert.equal str, '测试'
 
 	it 'lang alter', ->
-		str = nb.kit.lang 'test|0'
-		assert.equal str, 'test'
+		assert.equal 'test|0'.l, 'test'

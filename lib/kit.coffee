@@ -445,16 +445,16 @@ _.extend kit, {
 		}
 
 	###*
-	 * Language data.
+	 * Language collection.
 	 * @type {Object}
 	 * @example
 	 * ```coffee
-	 * kit.lang_data = {
+	 * kit.lang_set = {
 	 * 	'cn': { 'test': '测试' }
 	 * }
 	 * ```
 	###
-	lang_data: {}
+	lang_set: {}
 
 	###*
 	 * Current default language.
@@ -467,13 +467,41 @@ _.extend kit, {
 	 * Output the right language.
 	 * @param  {String} cmd  The original English text.
 	 * @param  {String} lang The target language name.
+	 * @param  {String} lang_set Specific a language collection.
 	 * @return {String}
 	 * @example
 	###
-	lang: (cmd, lang = kit.lang_current) ->
+	lang: (cmd, name = kit.lang_current, lang_set = kit.lang_set) ->
 		i = cmd.lastIndexOf '|'
 		en = if i > -1 then cmd[...i] else cmd
-		kit.lang_data[lang]?[cmd] or en
+		lang_set[name]?[cmd] or en
+
+	###*
+	 * Load language set directory and save them into
+	 * the `kit.lang_set`.
+	 * @param  {[type]} dir_path [description]
+	 * @return {[type]}          [description]
+	 * @example
+	 * ```coffee
+	 * kit.lang_load 'assets/lang'
+	 * kit.lang_current = 'cn'
+	 * kit.log 'test'.l # This will log '测试'.
+	 * ```
+	###
+	lang_load: (dir_path) ->
+		return if not _.isString dir_path
+		dir_path = kit.fs.realpathSync dir_path
+
+		paths = kit.fs.readdirSync dir_path
+		for p in paths
+			ext = kit.path.extname p
+			continue if _.isEmpty ext
+			name = kit.path.basename p, ext
+			kit.lang_set[name] = require kit.path.join(dir_path, name)
+
+		Object.defineProperty String.prototype, 'l', {
+			get: (name, lang_set) -> kit.lang this, name, lang_set
+		}
 
 	###*
 	 * For debugging use. Dump a colorful object.
