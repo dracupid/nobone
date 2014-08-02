@@ -3398,10 +3398,10 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 				</b></p>
 				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
-    prompt: null
     src_dir: null
-    pattern: &#39;**&#39;
+    patterns: &#39;**&#39;
     dest_dir: null
+    data: {}
     compile: (str, data, path) -&gt;
         compile str
 }

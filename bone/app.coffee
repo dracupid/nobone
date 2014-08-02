@@ -1,15 +1,18 @@
-nobone = require 'nobone'
+{
+	kit
+	service
+	renderer
+	conf
+} = require './lib'
 
-nb = nobone()
+service.get '/', (req, res) ->
+	renderer.render 'views/index.ejs'
+	.done (tpl) ->
+		res.send tpl()
 
-nb.service.get '/', (req, res) ->
-	nb.renderer.render(__dirname + '/index.ejs', {})
-	.done (html) ->
-		res.send html
+service.use renderer.static('client')
+service.use renderer.static('bower_components')
 
-nb.service.use nb.renderer.static('client')
-
-port = 8013
-nb.service.listen port, ->
-	nb.kit.log 'Listen port ' + port
-	nb.kit.open 'http://127.0.0.1:' + port
+service.listen conf.port, ->
+	kit.log "App: #{conf.name} v#{conf.version}".cyan
+	kit.log "Listen port: #{conf.port}".yellow
