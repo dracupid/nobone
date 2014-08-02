@@ -30,31 +30,65 @@ cmder
 cmder
 	.command 'bone <dest_dir>'
 	.description 'A guid to create server scaffolding.'
-	.option '--pattern <minimatch>', "The file match pattern."
 	.action (dest_dir, opts) ->
 		is_action = true
 
 		nobone = require './nobone'
-
 		{ kit, renderer } = nobone()
+		conf = null
+		package_path = null
 
-		kit.generate_bone({
-			prompt: [{
-				name: 'name'
-				description: 'The name of the app:'
-				required: true
-			}]
-			src_dir: kit.path.normalize(__dirname + '/../bone')
-			dest_dir
-			pattern: opts.pattern or '**'
-			compile: (str, data, path) ->
-				ejs = kit.require 'ejs'
-				data.filename = path
-				data.body = nobone.client()
-				ejs.render str, data
-		})
+		kit.mkdirs dest_dir
+		.then ->
+			dest_dir = kit.fs.realpathSync dest_dir
+			package_path = kit.path.join(dest_dir, 'package.json')
+			kit.outputFile package_path, '{"main": "app.coffee"}'
+		.then ->
+			kit.spawn 'npm', ['init'], {
+				cwd: dest_dir
+			}
+		.then ->
+			kit.readFile package_path
+		.then (str) ->
+			conf = JSON.parse str
+			conf.scripts = {
+				test: "npm test"
+				install: "cake setup"
+			}
+			kit.outputFile package_path, JSON.stringify(conf, null, 2)
+		.then ->
+			conf.class_name = conf.name[0].toUpperCase() + conf.name[1..]
+			kit.generate_bone {
+				src_dir: kit.path.normalize(__dirname + '/../bone')
+				dest_dir
+				data: conf
+			}
+		.then ->
+			kit.log 'npm install...'.cyan
+			kit.spawn 'npm', ['install', '-S', 'q', 'coffee-script', 'lodash', 'bower', 'nobone'], {
+				cwd: dest_dir
+			}
+		.then ->
+			kit.spawn dest_dir + '/node_modules/.bin/bower', ['init'], {
+				cwd: dest_dir
+			}
+		.then ->
+			kit.log 'bower install...'.cyan
+			kit.spawn dest_dir + '/node_modules/.bin/bower', ['install', '-S', 'lodash'], {
+				cwd: dest_dir
+			}
+		.then ->
+			kit.spawn 'npm', ['run-script', 'install'], {
+				cwd: dest_dir
+			}
+		.then ->
+			kit.spawn 'git', ['init'], { cwd: dest_dir }
+		.then ->
+			kit.spawn 'git', ['add', '--all'], { cwd: dest_dir }
+		.then ->
+			kit.spawn 'git', ['commit', '-m', 'init'], { cwd: dest_dir }
 		.catch (err) ->
-			if err.message == 'canceled'
+			if err.message.indexOf('ENOENT') == 0
 				kit.log 'Canceled'.yellow
 			else
 				throw err
