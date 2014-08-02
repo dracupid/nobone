@@ -179,7 +179,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L28">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L31">
 				
 				<b>nobone</b>
 			</a>
@@ -194,7 +194,7 @@ nobone bone -h
 				<p><b>
 					<u>param</u>:
 					
-						<code>opts</code>
+						<code>modules</code>
 					
 					<em>{ Object }</em>
 				</b></p>
@@ -205,8 +205,24 @@ nobone bone -h
     renderer: {}
     db: null
     proxy: null
+
+    lang_dir: null # language set directory
 }
 </code></pre>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>opts</code>
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p><p>Other options.</p>
 </p>
 			</li>
 
@@ -232,7 +248,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L56">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L66">
 				
 				<b>close</b>
 			</a>
@@ -262,7 +278,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L79">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L89">
 				
 				<b>module_defaults</b>
 			</a>
@@ -318,7 +334,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L100">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L117">
 				
 				<b>client</b>
 			</a>
@@ -344,12 +360,18 @@ nobone bone -h
 				<p><b>
 					<u>param</u>:
 					
-						<code>auto</code>
+						<code>opts</code>
 					
-					<em>{ Boolean }</em>
+					<em>{ Object }</em>
 				</b></p>
-				<p><p>If true, and not on development mode
-return an empty string.</p>
+				<p><p>The options of the client, defaults:</p>
+<pre><code class="lang-coffee">{
+    auto_reload: process.env.NODE_ENV == &#39;development&#39;
+    lang_current: kit.lang_current
+    lang_data: kit.lang_data
+}
+</code></pre>
+<p>return an empty string.</p>
 </p>
 			</li>
 
@@ -2597,10 +2619,10 @@ and keep the current env variables.</p>
 		<h4>
 			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L457">
 				
-				<b>lang_data</b>
+				<b>lang_set</b>
 			</a>
 		</h4>
-		<p><p>Language data.</p>
+		<p><p>Language collection.</p>
 </p>
 
 		<ul>
@@ -2623,7 +2645,7 @@ and keep the current env variables.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee">kit.lang_data = {
+				<p><pre><code class="lang-coffee">kit.lang_set = {
     &#39;cn&#39;: { &#39;test&#39;: &#39;测试&#39; }
 }
 </code></pre>
@@ -2682,7 +2704,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L473">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L474">
 				
 				<b>lang</b>
 			</a>
@@ -2723,6 +2745,20 @@ and keep the current env variables.</p>
 
 			<li>
 				<p><b>
+					<u>param</u>:
+					
+						<code>lang_set</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>Specific a language collection.</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ String }</em>
@@ -2751,7 +2787,68 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L484">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L491">
+				
+				<b>lang_load</b>
+			</a>
+		</h4>
+		<p><p>Load language set directory and save them into
+the <code>kit.lang_set</code>.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>dir_path</code>
+					
+					<em>{ [type] }</em>
+				</b></p>
+				<p><p>[description]</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>return</u>:
+					
+					<em>{ [type] }</em>
+				</b></p>
+				<p><p>[description]</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><pre><code class="lang-coffee">kit.lang_load &#39;assets/lang&#39;
+kit.lang_current = &#39;cn&#39;
+kit.log &#39;test&#39;.l # This will log &#39;测试&#39;.
+</code></pre>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L513">
 				
 				<b>inspect</b>
 			</a>
@@ -2810,7 +2907,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L506">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L535">
 				
 				<b>log</b>
 			</a>
@@ -2875,7 +2972,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L554">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L583">
 				
 				<b>err</b>
 			</a>
@@ -2920,7 +3017,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L564">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L593">
 				
 				<b>pad</b>
 			</a>
@@ -2991,7 +3088,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L582">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L611">
 				
 				<b>daemonize</b>
 			</a>
@@ -3042,7 +3139,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L607">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L636">
 				
 				<b>prompt_get</b>
 			</a>
@@ -3088,7 +3185,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L632">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L661">
 				
 				<b>async</b>
 			</a>
@@ -3165,7 +3262,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L720">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L749">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3279,7 +3376,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L803">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L832">
 				
 				<b>generate_bone</b>
 			</a>
