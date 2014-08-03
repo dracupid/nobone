@@ -1,3 +1,7 @@
+* v0.4.1
+
+  * A more powerful bone template.
+
 * v0.3.9
 
   * Add a language helper.
