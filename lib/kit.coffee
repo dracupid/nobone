@@ -84,7 +84,7 @@ _.extend kit, {
 		Q.all patterns.map (p) ->
 			kit._glob p, opts
 			.then (paths) ->
-				_.union all_paths, paths
+				all_paths = _.union all_paths, paths
 		.then ->
 			all_paths
 
