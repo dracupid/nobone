@@ -22,7 +22,7 @@ get = (path, port) ->
 
 describe 'Basic:', ->
 
-	nb.service.use nb.renderer.static('bone/client')
+	nb.service.use nb.renderer.static('test/test_app')
 	nb.service.use '/test', nb.renderer.static('test')
 
 	port = 8022
@@ -37,15 +37,15 @@ describe 'Basic:', ->
 				get '/test/err_sample.css', port
 			])
 			.then (results) ->
-				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 84
+				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
 				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
 				assert.equal results[2], 'compile_error'
 			.then ->
-				nb.kit.readFile 'bone/client/main.coffee'
+				nb.kit.readFile 'test/test_app/main.coffee'
 			.then (str) ->
 				watcher_file_cache = str
 				# Test the watcher
-				nb.kit.outputFile 'bone/client/main.coffee', "console.log 'no'"
+				nb.kit.outputFile 'test/test_app/main.coffee', "console.log 'no'"
 			.then ->
 				deferred = Q.defer()
 				setTimeout(->
@@ -58,7 +58,7 @@ describe 'Basic:', ->
 			.then (code) ->
 				assert.equal code, "console.log('no');\n"
 			.then ->
-				nb.kit.outputFile 'bone/client/main.coffee', watcher_file_cache
+				nb.kit.outputFile 'test/test_app/main.coffee', watcher_file_cache
 			.done ->
 				server.close()
 				tdone()
@@ -69,7 +69,7 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render', (tdone) ->
-		nb.renderer.render('bone/index.ejs')
+		nb.renderer.render('test/test_app/index.ejs')
 		.done (tpl) ->
 			assert.equal tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
 			tdone()
@@ -77,7 +77,7 @@ describe 'Basic:', ->
 	it 'renderer with data', (tdone) ->
 		{ renderer: rr } = nobone()
 		rr.render(
-			'bone/index.ejs'
+			'test/test_app/index.ejs'
 			{ name: 'nobone' }
 		).done (page) ->
 			assert.equal page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
@@ -103,7 +103,7 @@ describe 'Basic:', ->
 		rr.file_handlers['.js'].compiler = (str) ->
 			str.length
 
-		rr.render 'bone/client/main.coffee'
+		rr.render 'test/test_app/main.coffee'
 		.done (len) ->
 			assert.equal len, watcher_file_cache.length
 			tdone()
@@ -124,7 +124,7 @@ describe 'Basic:', ->
 		ps = nb.kit.spawn('node', [
 			'bin/nobone.js'
 			'-p', port
-			'bone/client'
+			'test/test_app'
 		]).process
 
 		setTimeout(->
