@@ -1,5 +1,9 @@
 *.db
+prj.sublime-project
+prj.sublime-workspace
+appveyor.yml
+.travis.yml
 
 benchmark
-test
-lib/*.coffee
+test/*
+lib/*

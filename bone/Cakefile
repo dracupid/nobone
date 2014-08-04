@@ -21,3 +21,15 @@ task 'setup', 'setup', ->
 	.then ->
 		kit.log 'Setup done.'
 	.done()
+
+task 'test', 'test', (options) ->
+	[
+		'test/basic.coffee'
+	].forEach (file) ->
+		kit.spawn(mocha_bin, [
+			'-r', 'coffee-script/register'
+			'-R', 'spec'
+			file
+		]).process.on 'exit', (code) ->
+			if code != 0
+				process.exit code

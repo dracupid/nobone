@@ -52,7 +52,7 @@ cmder
 		.then (str) ->
 			conf = JSON.parse str
 			conf.scripts = {
-				test: "npm test"
+				test: "cake test"
 				install: "cake setup"
 			}
 			kit.outputFile package_path, JSON.stringify(conf, null, 2)
