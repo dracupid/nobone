@@ -60,7 +60,6 @@ cmder
 			conf.class_name = conf.name[0].toUpperCase() + conf.name[1..]
 			kit.generate_bone {
 				src_dir: kit.path.normalize(__dirname + '/../bone')
-				patterns: [__dirname + '/**', __dirname + '/**/.*']
 				dest_dir
 				data: conf
 			}
