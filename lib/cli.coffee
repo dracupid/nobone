@@ -69,6 +69,10 @@ cmder
 				cwd: dest_dir
 			}
 		.then ->
+			kit.spawn 'npm', ['install', '--save-dev', 'mocha', 'benchmark'], {
+				cwd: dest_dir
+			}
+		.then ->
 			kit.spawn dest_dir + '/node_modules/.bin/bower', ['init'], {
 				cwd: dest_dir
 			}
