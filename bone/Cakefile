@@ -26,7 +26,7 @@ task 'test', 'test', (options) ->
 	[
 		'test/basic.coffee'
 	].forEach (file) ->
-		kit.spawn(mocha_bin, [
+		kit.spawn('mocha', [
 			'-r', 'coffee-script/register'
 			'-R', 'spec'
 			file

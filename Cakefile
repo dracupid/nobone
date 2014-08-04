@@ -7,9 +7,6 @@ catch e
 
 Q = require 'q'
 
-coffee_bin = 'node_modules/.bin/coffee'
-mocha_bin = 'node_modules/.bin/mocha'
-
 option '-n', '--no-server', 'Test without standalone test'
 
 task 'dev', 'Dev Server', ->
@@ -27,7 +24,7 @@ task 'test', 'Basic test', (options) ->
 		# 'test/single.coffee'
 		'test/basic.coffee'
 	].forEach (file) ->
-		kit.spawn(mocha_bin, [
+		kit.spawn('mocha', [
 			'-r', 'coffee-script/register'
 			'-R', 'spec'
 			file
@@ -38,7 +35,7 @@ task 'test', 'Basic test', (options) ->
 task 'build', 'Compile coffee to js', build = ->
 	kit.log "Compile coffee..."
 
-	kit.spawn coffee_bin, [
+	kit.spawn 'coffee', [
 		'-o', 'dist'
 		'-cb', 'lib'
 	]
