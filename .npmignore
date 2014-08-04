@@ -1,5 +1,5 @@
+*.db
+
 benchmark
 test
-lib
-.*
-*.db
+lib/*.coffee

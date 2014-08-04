@@ -82,6 +82,8 @@ cmder
 				cwd: dest_dir
 			}
 		.then ->
+			kit.rename dest_dir + '/gitignore', dest_dir + '/.gitignore'
+		.then ->
 			kit.spawn 'git', ['init'], { cwd: dest_dir }
 		.then ->
 			kit.spawn 'git', ['add', '--all'], { cwd: dest_dir }
