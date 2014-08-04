@@ -92,7 +92,8 @@ cmder
 				kit.log 'Canceled'.yellow
 			else
 				throw err
-		.done()
+		.done ->
+			kit.log 'Scaffolding done.'.green
 
 cmder.parse process.argv
 
