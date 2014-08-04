@@ -80,10 +80,13 @@ _.extend kit, {
 		if _.isString patterns
 			patterns = [patterns]
 
+		all_paths = []
 		Q.all patterns.map (p) ->
 			kit._glob p, opts
-		.then (rets) ->
-			_.flatten rets
+			.then (paths) ->
+				_.union all_paths, paths
+		.then ->
+			all_paths
 
 	_glob: Q.denodeify glob
 
@@ -835,7 +838,7 @@ _.extend kit, {
 		###
 		_.defaults opts, {
 			src_dir: null
-			patterns: ['**', '.**']
+			patterns: ['**', '**/.*']
 			dest_dir: null
 			data: {}
 			compile: (str, data, path) ->
