@@ -838,7 +838,7 @@ _.extend kit, {
 		###
 		_.defaults opts, {
 			src_dir: null
-			patterns: ['**', '**/.*']
+			patterns: []
 			dest_dir: null
 			data: {}
 			compile: (str, data, path) ->
