@@ -101,8 +101,17 @@ _.extend kit, {
 	 * When the child process ends, it will resolve.
 	###
 	spawn: (cmd, args = [], opts = {}) ->
+		env = _.clone process.env
+		[
+			kit.path.normalize __dirname + '/../node_modules/.bin'
+			kit.path.normalize process.cwd() + '/node_modules/.bin'
+		].forEach (path) ->
+			if env.PATH.indexOf path < 0 and kit.fs.existsSync(path)
+				env.PATH = [path, env.PATH].join kit.path.delimiter
+
 		_.defaults opts, {
 			stdio: 'inherit'
+			env
 		}
 
 		if process.platform == 'win32'
@@ -117,8 +126,6 @@ _.extend kit, {
 		defer = Q.defer()
 
 		{ spawn } = kit.require 'child_process'
-
-		kit.extend_env()
 
 		try
 			ps = spawn cmd, args, opts
@@ -348,19 +355,6 @@ _.extend kit, {
 
 		defer.promise.req = req
 		defer.promise
-
-	###*
-	 * Automatically add `node_modules/.bin` to the `PATH` environment variable.
-	###
-	extend_env: ->
-		PATH = process.env.PATH
-		[
-			kit.path.normalize __dirname + '/../node_modules/.bin'
-			kit.path.normalize process.cwd() + '/node_modules/.bin'
-		].forEach (path) ->
-			if PATH.indexOf path < 0 and kit.fs.existsSync(path)
-				PATH = [path, PATH].join kit.path.delimiter
-		process.env.PATH = PATH
 
 	###*
 	 * Monitor an application and automatically restart it when file changed.

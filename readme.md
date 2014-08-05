@@ -2315,7 +2315,7 @@ When the child process ends, it will resolve.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L145">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L152">
 				
 				<b>open</b>
 			</a>
@@ -2374,7 +2374,7 @@ Now only support Windows and OSX.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L209">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L216">
 				
 				<b>request</b>
 			</a>
@@ -2453,26 +2453,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L355">
-				
-				<b>extend_env</b>
-			</a>
-		</h4>
-		<p><p>Automatically add <code>node_modules/.bin</code> to the <code>PATH</code> environment variable.</p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L377">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L371">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2524,7 +2505,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L430">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L424">
 				
 				<b>watch_files</b>
 			</a>
@@ -2571,7 +2552,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L442">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L436">
 				
 				<b>env_mode</b>
 			</a>
@@ -2617,7 +2598,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L460">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L454">
 				
 				<b>lang_set</b>
 			</a>
@@ -2662,7 +2643,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L467">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L461">
 				
 				<b>lang_current</b>
 			</a>
@@ -2704,7 +2685,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L477">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L471">
 				
 				<b>lang</b>
 			</a>
@@ -2787,7 +2768,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L494">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L488">
 				
 				<b>lang_load</b>
 			</a>
@@ -2848,7 +2829,7 @@ kit.log &#39;test&#39;.l # This will log &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L516">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L510">
 				
 				<b>inspect</b>
 			</a>
@@ -2907,7 +2888,7 @@ kit.log &#39;test&#39;.l # This will log &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L538">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L532">
 				
 				<b>log</b>
 			</a>
@@ -2972,7 +2953,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L586">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L580">
 				
 				<b>err</b>
 			</a>
@@ -3017,7 +2998,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L596">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L590">
 				
 				<b>pad</b>
 			</a>
@@ -3088,7 +3069,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L614">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L608">
 				
 				<b>daemonize</b>
 			</a>
@@ -3139,7 +3120,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L639">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L633">
 				
 				<b>prompt_get</b>
 			</a>
@@ -3185,7 +3166,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L664">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L658">
 				
 				<b>async</b>
 			</a>
@@ -3262,7 +3243,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L752">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L746">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3376,7 +3357,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L835">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L829">
 				
 				<b>generate_bone</b>
 			</a>
