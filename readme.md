@@ -1219,9 +1219,9 @@ the same with the compiled result file.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee"># The &#39;a.js&#39; file may not exsits, it will auto compile
-# the &#39;a.coffee&#39; to js code.
-renderer.render(&#39;a.js&#39;).done (js) -&gt; kit.log(js)
+				<p><pre><code class="lang-coffee"># The &#39;a.ejs&#39; file may not exsits, it will auto compile
+# the &#39;a.ejs&#39; or &#39;a.html&#39; to html.
+renderer.render(&#39;a.html&#39;).done (html) -&gt; kit.log(html)
 </code></pre>
 </p>
 			</li>

@@ -1,7 +1,7 @@
 * v0.4.3
 
  * Big Change: the `renderer.render` API. For example, now directly render
-   a coffee file should use 'a.js', not 'a.coffee'.
+   a ejs file should use 'a.html', not 'a.ejs'.
 
 * v0.4.2
 

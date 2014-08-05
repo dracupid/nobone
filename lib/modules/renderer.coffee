@@ -303,9 +303,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * the same with the compiled result file.
 	 * @example
 	 * ```coffee
-	 * # The 'a.js' file may not exsits, it will auto compile
-	 * # the 'a.coffee' to js code.
-	 * renderer.render('a.js').done (js) -> kit.log(js)
+	 * # The 'a.ejs' file may not exsits, it will auto compile
+	 * # the 'a.ejs' or 'a.html' to html.
+	 * renderer.render('a.html').done (html) -> kit.log(html)
 	 * ```
 	 * @param  {Any} data Extra data you want to send to the compiler.
 	 * @param  {Boolean} is_cache Whether to cache the result,
