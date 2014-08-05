@@ -1,6 +1,7 @@
 * v0.4.1
 
   * A more powerful bone template.
+  * Fix a cwd fatal bug.
 
 * v0.3.9
 
