@@ -358,7 +358,7 @@ _.extend kit, {
 			kit.path.normalize __dirname + '/../node_modules/.bin'
 			kit.path.normalize process.cwd() + '/node_modules/.bin'
 		].forEach (path) ->
-			if PATH.indexOf path < 0
+			if PATH.indexOf path < 0 and kit.fs.existsSync(path)
 				PATH = [path, PATH].join kit.path.delimiter
 		process.env.PATH = PATH
 
