@@ -117,10 +117,6 @@ describe 'Basic:', ->
 				tdone()
 
 	it 'cli', (tdone) ->
-		if process.env.no_server_test == 'on'
-			tdone()
-			return
-
 		port = 8223
 		ps = nb.kit.spawn('node', [
 			'bin/nobone.js'

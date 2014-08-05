@@ -7,8 +7,6 @@ catch e
 
 Q = require 'q'
 
-option '-n', '--no-server', 'Test without standalone test'
-
 task 'dev', 'Dev Server', ->
 	kit.monitor_app {
 		bin: 'coffee'
@@ -17,9 +15,6 @@ task 'dev', 'Dev Server', ->
 	}
 
 task 'test', 'Basic test', (options) ->
-	if options['no-server']
-		process.env.no_server_test = 'on'
-
 	[
 		# 'test/single.coffee'
 		'test/basic.coffee'
