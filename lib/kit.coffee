@@ -74,6 +74,7 @@ _.extend kit, {
 	###*
 	 * See the https://github.com/isaacs/node-glob
 	 * @param {String | Array} patterns Minimatch pattern.
+	 * @param {Object} opts The glob options.
 	 * @return {Promise} Contains the path list.
 	###
 	glob: (patterns, opts) ->
