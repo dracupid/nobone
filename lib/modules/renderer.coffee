@@ -299,14 +299,21 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * Render a file. It will auto detect the file extension and
 	 * choose the right compiler to handle the content.
-	 * @param  {String} path The file path
+	 * @param  {String} path The file path. The path extension should be
+	 * the same with the compiled result file.
+	 * @example
+	 * ```coffee
+	 * # The 'a.js' file may not exsits, it will auto compile
+	 * # the 'a.coffee' to js code.
+	 * renderer.render('a.js').done (js) -> kit.log(js)
+	 * ```
 	 * @param  {Any} data Extra data you want to send to the compiler.
 	 * @param  {Boolean} is_cache Whether to cache the result,
 	 * default is false.
 	 * @return {Promise} Contains the compiled content.
 	###
 	self.render = (path, data, is_cache = true) ->
-		handler = get_handler path, true
+		handler = get_handler path
 
 		if handler
 			handler.data = data
@@ -416,16 +423,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		compile(handler)
 
-	get_handler = (path, is_direct = false) ->
+	get_handler = (path) ->
 		ext_bin = kit.path.extname path
 
-		if is_direct
-			handler = _.find self.file_handlers, (el) ->
-				el.ext_src == ext_bin or el.ext_src.indexOf(ext_bin) > -1
-		else if ext_bin == ''
+		if ext_bin == ''
 			handler = _.find self.file_handlers, (el) -> el.default
-		else
+		else if self.file_handlers[ext_bin]
 			handler = self.file_handlers[ext_bin]
+		else
+			handler = _.find self.file_handlers, (el) ->
+				el.ext_src and el.ext_src.indexOf(ext_bin) > -1
 
 		if handler
 			handler = _.cloneDeep(handler)
@@ -439,10 +446,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if _.isString handler.compiler
 				handler.compiler = self.file_handlers[handler.compiler].compiler
 
-			if is_direct
-				handler.ext_bin = ''
-			else
-				handler.ext_src.push handler.ext_bin
+			handler.ext_src.push handler.ext_bin
 			handler.paths = handler.ext_src.map (el) ->
 				handler.pathless + el
 

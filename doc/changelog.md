@@ -1,3 +1,8 @@
+* v0.4.3
+
+ * Big Change: the `renderer.render` API. For example, now directly render
+   a coffee file should use 'a.js', not 'a.coffee'.
+
 * v0.4.2
 
   * A more powerful bone template.

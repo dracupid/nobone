@@ -69,15 +69,21 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render', (tdone) ->
-		nb.renderer.render('test/test_app/index.ejs')
+		nb.renderer.render('test/test_app/index.html')
 		.done (tpl) ->
 			assert.equal tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
+			tdone()
+
+	it 'render js directly', (tdone) ->
+		nb.renderer.render('test/test_app/test.js')
+		.done (str) ->
+			assert.equal str, 'var a = 10;'
 			tdone()
 
 	it 'renderer with data', (tdone) ->
 		{ renderer: rr } = nobone()
 		rr.render(
-			'test/test_app/index.ejs'
+			'test/test_app/index.html'
 			{ name: 'nobone' }
 		).done (page) ->
 			assert.equal page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
@@ -104,7 +110,7 @@ describe 'Basic:', ->
 		rr.file_handlers['.js'].compiler = (str) ->
 			str.length
 
-		rr.render 'test/test_app/main.coffee'
+		rr.render 'test/test_app/main.js'
 		.done (len) ->
 			assert.equal len, watcher_file_cache.length
 			tdone()
