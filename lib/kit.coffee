@@ -101,17 +101,18 @@ _.extend kit, {
 	 * When the child process ends, it will resolve.
 	###
 	spawn: (cmd, args = [], opts = {}) ->
-		env = _.clone process.env
+		PATH = process.env.PATH or process.env.Path
 		[
 			kit.path.normalize __dirname + '/../node_modules/.bin'
 			kit.path.normalize process.cwd() + '/node_modules/.bin'
 		].forEach (path) ->
-			if env.PATH.indexOf path < 0 and kit.fs.existsSync(path)
-				env.PATH = [path, env.PATH].join kit.path.delimiter
+			if PATH.indexOf(path) < 0 and kit.fs.existsSync(path)
+				PATH = [path, PATH].join kit.path.delimiter
+		process.env.PATH = PATH
+		process.env.Path = PATH
 
 		_.defaults opts, {
 			stdio: 'inherit'
-			env
 		}
 
 		if process.platform == 'win32'
