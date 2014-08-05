@@ -356,7 +356,7 @@ _.extend kit, {
 		PATH = process.env.PATH
 		[
 			kit.path.normalize __dirname + '/../node_modules/.bin'
-			kit.path.normalize process.cwd + '/node_modules/.bin'
+			kit.path.normalize process.cwd() + '/node_modules/.bin'
 		].forEach (path) ->
 			if PATH.indexOf path < 0
 				PATH = [path, PATH].join kit.path.delimiter
