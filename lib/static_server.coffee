@@ -14,10 +14,6 @@ marked_ejs =  kit.path.normalize __dirname + '/../assets/markdown/index.ejs'
 nobone_readme = kit.path.normalize __dirname + '/../readme.md'
 nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
 
-service.use renderer.static(root_dir)
-service.use renderer.static(__dirname + '/../assets')
-kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
-
 # Markdown support
 renderer.file_handlers['.md'].compiler = (str, path) ->
 	md = marked str
@@ -40,6 +36,10 @@ service.get '/nobone', (req, res) ->
 			path: 'Nobone'
 			body: marked md
 		})
+
+service.use renderer.static(root_dir)
+service.use renderer.static(__dirname + '/../assets')
+kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
 
 service.listen port, host, ->
 	kit.log "Listen: " + "#{host}:#{port}".cyan
