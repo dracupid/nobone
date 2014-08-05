@@ -96,6 +96,7 @@ describe 'Basic:', ->
 				}).then (d) ->
 					assert.equal d, 1
 					tdone()
+		.done()
 
 	it 'custom code_handler', (tdone) ->
 		{ renderer: rr } = nobone()
