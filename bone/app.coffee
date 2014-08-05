@@ -6,7 +6,7 @@
 } = require './lib'
 
 service.get '/', (req, res) ->
-	renderer.render 'views/index.ejs'
+	renderer.render 'views/index.html'
 	.done (tpl) ->
 		res.send tpl()
 

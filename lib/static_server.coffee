@@ -10,14 +10,14 @@ marked = require 'marked'
 
 [ host, port, root_dir ] = process.argv[2..]
 assets_dir = kit.path.normalize __dirname + '/../assets'
-marked_ejs =  kit.path.normalize __dirname + '/../assets/markdown/index.ejs'
+marked_html =  kit.path.normalize __dirname + '/../assets/markdown/index.html'
 nobone_readme = kit.path.normalize __dirname + '/../readme.md'
 nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
 
 # Markdown support
 renderer.file_handlers['.md'].compiler = (str, path) ->
 	md = marked str
-	renderer.render marked_ejs
+	renderer.render marked_html
 	.then (tpl) ->
 		tpl { path, body: md, inject_client: false }
 
@@ -27,7 +27,7 @@ service.get '/favicon.ico', (req, res) ->
 service.get '/nobone', (req, res) ->
 	Q = require 'q'
 	Q.all([
-		renderer.render marked_ejs
+		renderer.render marked_html
 		kit.readFile nobone_readme, 'utf8'
 	])
 	.done (rets) ->

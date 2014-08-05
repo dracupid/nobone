@@ -16,7 +16,7 @@ describe 'Basic:', ->
 
 	it 'the renderer with data should work', (tdone) ->
 		nb.renderer.render(
-			'bone/index.ejs'
+			'bone/index.html'
 			{ body: 'ok', name: 'nobone' }
 		).done (page) ->
 			nb.kit.log page

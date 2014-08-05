@@ -60,8 +60,9 @@ nobone.module_defaults().done (list) ->
 # Service
 nb.service.get '/', (req, res) ->
 	# Renderer
+	# It will auto-find the 'bone/index.ejs', and render it to html.
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
-	nb.renderer.render('bone/index.ejs')
+	nb.renderer.render('bone/index.html')
 	.done (tpl_func) ->
 		res.send tpl_func({ name: 'nobone' })
 
