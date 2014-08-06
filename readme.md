@@ -1057,7 +1057,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L201">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L203">
 				
 				<b>file_handlers</b>
 			</a>
@@ -1102,7 +1102,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L207">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L209">
 				
 				<b>cache_pool</b>
 			</a>
@@ -1133,7 +1133,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L230">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L232">
 				
 				<b>static</b>
 			</a>
@@ -1186,7 +1186,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L322">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L324">
 				
 				<b>render</b>
 			</a>
@@ -1306,7 +1306,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L346">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L348">
 				
 				<b>close</b>
 			</a>
@@ -1325,7 +1325,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L357">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L359">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1383,7 +1383,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L365">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L367">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1455,7 +1455,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L371">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L373">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1499,7 +1499,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L377">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L379">
 				
 				<b>e.file_modified</b>
 			</a>
