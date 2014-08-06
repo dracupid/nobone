@@ -69,7 +69,9 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render', (tdone) ->
-		nb.renderer.render('test/test_app/index.html')
+		nb.kit.glob 'test/test_app/*.ejs'
+		.then ([path]) ->
+			nb.renderer.render(path, '.html')
 		.done (tpl) ->
 			assert.equal tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
 			tdone()

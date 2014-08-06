@@ -307,12 +307,21 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * # the 'a.ejs' or 'a.html' to html.
 	 * renderer.render('a.html').done (html) -> kit.log(html)
 	 * ```
-	 * @param  {Any} data Extra data you want to send to the compiler.
+	 * @param  {String} ext Force the extension. Optional.
+	 * @param  {Object} data Extra data you want to send to the compiler. Optional.
 	 * @param  {Boolean} is_cache Whether to cache the result,
-	 * default is false.
+	 * default is false. Optional.
 	 * @return {Promise} Contains the compiled content.
 	###
-	self.render = (path, data, is_cache = true) ->
+	self.render = (path, ext, data, is_cache = true) ->
+		if _.isString ext
+			path = path[...-kit.path.extname(path).length] + ext
+		else if _.isBoolean ext
+			is_cache = ext
+			data = undefined
+		else
+			[data, is_cache] = [ext, data]
+
 		handler = get_handler path
 
 		if handler
