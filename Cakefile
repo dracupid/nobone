@@ -91,11 +91,11 @@ task 'code', 'Code Statistics of this project', ->
 	size_count = 0
 
 	kit.glob [
-		'Cakefile'
-	].concat [
 		'assets', 'benchmark', 'bin', 'bone', 'doc', 'examples', 'lib', 'test'
 	].map (el) -> el + '/**/*.+(js|coffee|styl|css|md|ejs|html)'
 	.then (paths) ->
+		paths.push 'Cakefile'
+
 		kit.log ' File Count: '.cyan + paths.length
 
 		kit.async 20, (i) ->
