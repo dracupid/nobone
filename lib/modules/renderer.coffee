@@ -114,8 +114,10 @@ renderer.defaults = {
 				if _.isObject data
 					render data
 				else
-					(data = {}) ->
+					func = (data = {}) ->
 						render data
+					func.toString = -> str
+					func
 		}
 		'.js': {
 			ext_src: '.coffee'
