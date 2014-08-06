@@ -310,7 +310,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {String} ext Force the extension. Optional.
 	 * @example
 	 * ```coffee
-	 * renderer.render('a.ejs', '.html').done (html) -> kit.log(html)
+	 * # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
+	 * renderer.render('a.ejs', '.html').done (html) -> html == '10'
+	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
 	 * ```
 	 * @param  {Object} data Extra data you want to send to the compiler. Optional.
 	 * @param  {Boolean} is_cache Whether to cache the result,

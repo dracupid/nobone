@@ -1,7 +1,8 @@
-* v0.4.3
+* v0.4.4
 
  * Big Change: the `renderer.render` API. For example, now directly render
    a ejs file should use 'a.html', not 'a.ejs'.
+   Or you can use `renderer.render('a.ejs', '.html')` to force '.html' output.
 
 * v0.4.2
 

@@ -68,12 +68,20 @@ describe 'Basic:', ->
 			assert.equal d.file_handlers['.js'].ext_src, '.coffee'
 			tdone()
 
-	it 'render', (tdone) ->
+	it 'render force html', (tdone) ->
 		nb.kit.glob 'test/test_app/*.ejs'
 		.then ([path]) ->
 			nb.renderer.render(path, '.html')
 		.done (tpl) ->
 			assert.equal tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
+			tdone()
+
+	it 'render raw', (tdone) ->
+		nb.kit.glob 'test/test_app/*.ejs'
+		.then ([path]) ->
+			nb.renderer.render(path)
+		.done (str) ->
+			assert.equal str.indexOf('<title><%= name %></title>'), 31
 			tdone()
 
 	it 'render js directly', (tdone) ->
