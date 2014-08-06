@@ -308,6 +308,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * renderer.render('a.html').done (html) -> kit.log(html)
 	 * ```
 	 * @param  {String} ext Force the extension. Optional.
+	 * @example
+	 * ```coffee
+	 * renderer.render('a.ejs', '.html').done (html) -> kit.log(html)
+	 * ```
 	 * @param  {Object} data Extra data you want to send to the compiler. Optional.
 	 * @param  {Boolean} is_cache Whether to cache the result,
 	 * default is false. Optional.
