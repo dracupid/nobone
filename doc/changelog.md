@@ -1,3 +1,8 @@
+- v0.4.7
+
+  - Optimize the performance of auto-reload.
+  - Fix a `render` option default value bug.
+
 - v0.4.6
 
   - Add cli '-d --doc' option.
