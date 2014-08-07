@@ -11,7 +11,6 @@ marked = require 'marked'
 [ host, port, root_dir ] = process.argv[2..]
 assets_dir = kit.path.normalize __dirname + '/../assets'
 marked_html =  kit.path.normalize __dirname + '/../assets/markdown/index.html'
-nobone_readme = kit.path.normalize __dirname + '/../readme.md'
 nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
 
 # Markdown support
@@ -24,21 +23,8 @@ renderer.file_handlers['.md'].compiler = (str, path) ->
 service.get '/favicon.ico', (req, res) ->
 	res.sendfile nobone_favicon
 
-service.get '/nobone', (req, res) ->
-	Q = require 'q'
-	Q.all([
-		renderer.render marked_html
-		kit.readFile nobone_readme, 'utf8'
-	])
-	.done (rets) ->
-		[tpl, md] = rets
-		res.send tpl({
-			path: 'Nobone'
-			body: marked md
-		})
-
 service.use renderer.static(root_dir)
-service.use renderer.static(__dirname + '/../assets')
+service.use renderer.static(assets_dir)
 kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
 
 service.listen port, host, ->

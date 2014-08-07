@@ -26,6 +26,7 @@ cmder
 		catch
 			return [list]
 	.option '-v, --ver', 'Print version.'
+	.option '-d, --doc', 'Open the web documentation.'
 
 cmder
 	.command 'bone <dest_dir>'
@@ -114,6 +115,33 @@ init = ->
 
 	nobone = require './nobone'
 	kit = nobone.kit
+
+	if cmder.doc
+		{ service, renderer } = nobone()
+		Q = require 'q'
+		marked = require 'marked'
+		marked_html = kit.path.normalize __dirname + '/../assets/markdown/index.html'
+		nobone_readme = kit.path.normalize __dirname + '/../readme.md'
+		assets_dir = kit.path.normalize __dirname + '/../assets'
+
+		service.get '/', (req, res) ->
+			Q.all([
+				renderer.render marked_html
+				kit.readFile nobone_readme, 'utf8'
+			])
+			.done (rets) ->
+				[tpl, md] = rets
+				res.send tpl({
+					path: 'Nobone'
+					body: marked md
+				})
+		service.use renderer.static(assets_dir)
+
+		service.listen 0, ->
+			port = service.server.address().port
+			kit.log "Listen: " + "#{cmder.host}:#{port}".cyan
+			kit.open 'http://127.0.0.1:' + port
+		return
 
 	if cmder.args[0]
 		fs = require 'fs'
