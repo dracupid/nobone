@@ -1187,7 +1187,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L324">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L325">
 				
 				<b>render</b>
 			</a>
@@ -1307,7 +1307,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L350">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L351">
 				
 				<b>close</b>
 			</a>
@@ -1326,7 +1326,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L361">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L362">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1384,7 +1384,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L369">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L370">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1456,7 +1456,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L375">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L376">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1500,7 +1500,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L381">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L382">
 				
 				<b>e.file_modified</b>
 			</a>
