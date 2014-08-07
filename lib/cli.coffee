@@ -141,6 +141,8 @@ init = ->
 			port = service.server.address().port
 			kit.log "Listen: " + "#{cmder.host}:#{port}".cyan
 			kit.open 'http://127.0.0.1:' + port
+			if process.platform != 'darwin' and process.platform != 'win32'
+				kit.log ('Visit: http://127.0.0.1:' + port).yellow
 		return
 
 	if cmder.args[0]
