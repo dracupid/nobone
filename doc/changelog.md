@@ -1,3 +1,7 @@
+- v0.4.6
+
+  - Add cli '-d --doc' option.
+
 - v0.4.5
 
   - Fix a etag bug of ejs compiler.
