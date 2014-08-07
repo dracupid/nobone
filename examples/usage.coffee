@@ -25,9 +25,9 @@ nobone.module_defaults().done (list) ->
 # Service
 nb.service.get '/', (req, res) ->
 	# Renderer
-	# It will auto-find the 'bone/index.ejs', and render it to html.
+	# It will auto-find the 'test/test_app/index.ejs', and render it to html.
 	# You can also render coffee, stylus, less, markdown, or define custom handlers.
-	nb.renderer.render('bone/index.html')
+	nb.renderer.render('test/test_app/index.html')
 	.done (tpl_func) ->
 		res.send tpl_func({ name: 'nobone' })
 
@@ -38,7 +38,7 @@ nb.service.listen port, ->
 	nb.kit.log 'Listen port ' + port
 
 # Static folder for auto-service of coffeescript and stylus, etc.
-nb.service.use nb.renderer.static('bone/client')
+nb.service.use nb.renderer.static('test/test_app')
 
 # Database
 # Nobone has a build-in file database.
