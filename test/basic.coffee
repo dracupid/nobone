@@ -80,8 +80,8 @@ describe 'Basic:', ->
 		nb.kit.glob 'test/test_app/*.ejs'
 		.then ([path]) ->
 			nb.renderer.render(path)
-		.done (str) ->
-			str = str.replace /\r\n/g, '\n'
+		.done (func) ->
+			str = func.toString().replace /\r\n/g, '\n'
 			assert.equal str.indexOf('<title><%= name %></title>'), 31
 			tdone()
 

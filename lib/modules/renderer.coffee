@@ -321,7 +321,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * default is false. Optional.
 	 * @return {Promise} Contains the compiled content.
 	###
-	self.render = (path, ext, data, is_cache = true) ->
+	self.render = (path, ext, data, is_cache) ->
 		if _.isString ext
 			path = path[...-kit.path.extname(path).length] + ext
 		else if _.isBoolean ext
@@ -329,6 +329,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			data = undefined
 		else
 			[data, is_cache] = [ext, data]
+
+		is_cache ?= true
 
 		handler = get_handler path
 
