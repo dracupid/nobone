@@ -58,6 +58,13 @@ class Nobone then constructor: (opts) ->
 				[].slice.apply(elems).forEach(handler)
 
 			switch msg.ext_bin
+				when '.js'
+					each 'script', (el) ->
+						# Only reload the page if the page has included
+						# the href.
+						if el.src.indexOf(msg.req_path) > -1
+							location.reload()
+
 				when '.css'
 					each 'link', (el) ->
 						if el.href.indexOf(msg.req_path) > -1
