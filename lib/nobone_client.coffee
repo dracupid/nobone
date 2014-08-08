@@ -33,7 +33,7 @@ class Nobone then constructor: (opts) ->
 		es.addEventListener 'file_modified', (e) ->
 			msg = JSON.parse(e.data)
 
-			console.log(">> file_modified: " + msg.path)
+			console.log(">> file_modified: " + msg.req_path)
 
 			reload_elem = (el, key) ->
 				if el[key].indexOf('?') == -1
