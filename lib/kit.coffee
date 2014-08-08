@@ -66,6 +66,12 @@ _.extend kit, {
 	fs: fs
 
 	###*
+	 * [q description]
+	 * @type {[type]}
+	###
+	q: Q
+
+	###*
 	 * See my [jhash][0] project.
 	 * [0]: https://github.com/ysmood/jhash
 	###
