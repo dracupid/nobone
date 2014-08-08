@@ -66,7 +66,7 @@ _.extend kit, {
 	fs: fs
 
 	###*
-	 * [q description]
+	 * The promise Q lib.
 	 * @type {[type]}
 	###
 	q: Q
@@ -657,8 +657,9 @@ _.extend kit, {
 	 * a concurrent limitation.
 	 * @param  {Int} limit The max task to run at the same time. It's optional.
 	 * Default is Infinity.
-	 * @param  {Array | Function} list A list of functions or promises. Each will return a promise.
-	 * If it is a function, it should be a iterator that returns a promise,
+	 * @param  {Array | Function} list
+	 * If the list is an array, it should be a list of functions or promises. And each function will return a promise.
+	 * If the list is a function, it should be a iterator that returns a promise,
 	 * when it returns `undefined`, the iteration ends.
 	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
 	 * @return {Promise} You can get each round's results by using the `promise.progress`.
