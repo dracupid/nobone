@@ -3304,7 +3304,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L751">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L752">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3418,7 +3418,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L834">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L835">
 				
 				<b>generate_bone</b>
 			</a>

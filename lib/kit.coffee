@@ -673,10 +673,11 @@ _.extend kit, {
 			list_len = list.length - 1
 			iter = (i) ->
 				return if i > list_len
-				if Q.isPromise list[i]
-					list[i]
-				else
+				if _.isFunction list[i]
 					list[i](i)
+				else
+					list[i]
+
 		else if _.isFunction list
 			iter = list
 		else
