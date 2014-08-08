@@ -473,9 +473,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		handler
 
 	watch = (handler) ->
-		Q.all handler.paths.map(kit.fileExists)
+		# async lock, make sure one file won't be watched twice.
+		watch.processing ?= []
+		paths = _.clone handler.paths
+		for p in handler.paths
+			if watch.processing.indexOf(p) > -1
+				_.remove paths, (el) -> el == p
+			else
+				watch.processing.push p
+
+		Q.all paths.map(kit.fileExists)
 		.then (rets) ->
-			path = handler.paths[rets.indexOf(true)]
+			path = paths[rets.indexOf(true)]
 			return if not path
 
 			emit self.e.watch_file, path, handler.req_path
@@ -505,6 +514,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					compile(handler).done()
 
 			kit.watch_file path, watcher
+			_.remove watch.processing, (el) -> el == path
 
 			# Extra watch_list
 			if handler.watch_list and handler.watch_list[path]
@@ -512,5 +522,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.done (paths) ->
 					for p in paths
 						emit self.e.watch_file, path + ' <- ' + p, handler.url
+						_.remove watch.processing, (el) -> el == p
+
 
 module.exports = renderer

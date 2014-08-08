@@ -1,3 +1,7 @@
+- v0.4.9
+
+  - Fix a file watch concurrent lock issue.
+
 - v0.4.8
 
   - Optimize the `kit.async` api.
