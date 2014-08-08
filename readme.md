@@ -133,7 +133,8 @@ nobone bone -h
 
 * How to view the documentation with TOC(table of contents)?
 
-  > Execute `nobone` at any folder. Then visit `http://127.0.0.1:8013/nobone`.
+  > Execute `nobone -d`, if you are on Windows or Mac,
+  > it will auto open the documentation.
 
 * Why I can't execute the entrance file with nobone cli tool?
 
