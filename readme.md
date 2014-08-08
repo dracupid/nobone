@@ -2237,7 +2237,7 @@ you should follow some rules to use it safely.</p>
 				<p><b>
 					<u>type</u>:
 					
-					<em>{ [type] }</em>
+					<em>{ Object }</em>
 				</b></p>
 				<p></p>
 			</li>
