@@ -67,7 +67,7 @@ _.extend kit, {
 
 	###*
 	 * The promise Q lib.
-	 * @type {[type]}
+	 * @type {Object}
 	###
 	q: Q
 
