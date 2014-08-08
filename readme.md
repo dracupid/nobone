@@ -3262,7 +3262,7 @@ Default is Infinity.</p>
 					
 					<em>{ Array | Function }</em>
 				</b></p>
-				<p><p>A list of functions. Each will return a promise.
+				<p><p>A list of functions or promises. Each will return a promise.
 If it is a function, it should be a iterator that returns a promise,
 when it returns <code>undefined</code>, the iteration ends.</p>
 </p>
@@ -3304,7 +3304,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L748">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L751">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3418,7 +3418,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L831">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L834">
 				
 				<b>generate_bone</b>
 			</a>

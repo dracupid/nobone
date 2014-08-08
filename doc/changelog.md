@@ -1,3 +1,7 @@
+- v0.4.8
+
+  - Optimize the `kit.async` api.
+
 - v0.4.7
 
   - Optimize the performance of auto-reload.

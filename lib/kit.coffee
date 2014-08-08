@@ -651,7 +651,7 @@ _.extend kit, {
 	 * a concurrent limitation.
 	 * @param  {Int} limit The max task to run at the same time. It's optional.
 	 * Default is Infinity.
-	 * @param  {Array | Function} list A list of functions. Each will return a promise.
+	 * @param  {Array | Function} list A list of functions or promises. Each will return a promise.
 	 * If it is a function, it should be a iterator that returns a promise,
 	 * when it returns `undefined`, the iteration ends.
 	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
@@ -673,7 +673,10 @@ _.extend kit, {
 			list_len = list.length - 1
 			iter = (i) ->
 				return if i > list_len
-				list[i](i)
+				if Q.isPromise list[i]
+					list[i]
+				else
+					list[i](i)
 		else if _.isFunction list
 			iter = list
 		else
