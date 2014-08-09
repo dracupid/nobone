@@ -18,14 +18,30 @@ happily. So other than js, the idea should be ported to any other language easil
 
 * Code you program, not configure.
 * Build for performance.
+* Not only a good dev-tool, but also works great on production.
 * Cross platform of course.
-* Focus on both production and development.
 
 *****************************************************************************
 
 ## Install
 
-    npm install nobone
+Install as an dependency:
+
+```shell
+npm install nobone
+
+# View a better nobone documentation than Github readme.
+node_modules/.bin/nobone --doc
+```
+
+Or you can install it globally:
+
+```shell
+npm i -g nobone
+
+# View a better nobone documentation than Github readme.
+nobone -d
+```
 
 *****************************************************************************
 

@@ -1,3 +1,7 @@
+- v0.5.0
+
+  - Update documentation.
+
 - v0.4.9
 
   - Fix a file watch concurrent lock issue.
