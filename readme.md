@@ -522,104 +522,15 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L51">
-				
-				<b>e.sse_connected</b>
-			</a>
-		</h4>
-		<p><p>Triggered when a sse connection started.
-The event name is a combination of sse_connected and req.path,
-for example: &quot;sse_connected/test&quot;</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>sse_connected</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>The</code>
-					
-					<em>{ SSE_session }</em>
-				</b></p>
-				<p><p>session object of current connection.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L58">
-				
-				<b>e.sse_close</b>
-			</a>
-		</h4>
-		<p><p>When a sse connection closed.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>sse_close</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ SSE_session }</em>
-				</b></p>
-				<p><p>The session object of current connection.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L129">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L114">
 				
 				<b>sse</b>
 			</a>
 		</h4>
 		<p><p>A Server-Sent Event Manager.
 The namespace of nobone sse is &#39;/nobone-sse&#39;.
-For more info see <a href="https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events">Using server-sent events</a></p>
+For more info see <a href="https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events">Using server-sent events</a>.
+NoBone use it to implement the auto-reload of the web assets.</p>
 </p>
 
 		<ul>
@@ -679,12 +590,102 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L139">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L125">
+				
+				<b>e.sse_connected</b>
+			</a>
+		</h4>
+		<p><p>This event will be triggered when a sse connection started.
+The event name is a combination of sse_connected and req.path,
+for example: &quot;sse_connected/test&quot;</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>sse_connected</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>session</code>
+					
+					<em>{ SSE_session }</em>
+				</b></p>
+				<p><p>The session object of current connection.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L132">
+				
+				<b>e.sse_close</b>
+			</a>
+		</h4>
+		<p><p>This event will be triggered when a sse connection closed.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>event</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>sse_close</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ SSE_session }</em>
+				</b></p>
+				<p><p>session The session object of current connection.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L140">
 				
 				<b>sse.create</b>
 			</a>
 		</h4>
-		<p><p>Create a sse session</p>
+		<p><p>Create a sse session.</p>
 </p>
 
 		<ul>
@@ -735,7 +736,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L154">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L155">
 				
 				<b>session.emit</b>
 			</a>
@@ -782,7 +783,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L181">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L182">
 				
 				<b>sse.emit</b>
 			</a>
@@ -904,12 +905,12 @@ Even for huge project its memory usage is negligible.</p>
 					
 					<em>{ Object }</em>
 				</b></p>
-				<p><p>Example:</p>
+				<p><p>Defaults:</p>
 <pre><code class="lang-coffee">{
     enable_watcher: process.env.NODE_ENV == &#39;development&#39;
     auto_log: process.env.NODE_ENV == &#39;development&#39;
 
-    # If renderer detect this pattern, it will auto inject `nobone_client.js`
+    # If renderer detects this pattern, it will auto-inject `nobone_client.js`
     # into the page.
     inject_client_reg: /&lt;html[^&lt;&gt;]*&gt;[\s\S]*&lt;\/html&gt;/i
     file_handlers: {
@@ -976,7 +977,7 @@ Even for huge project its memory usage is negligible.</p>
 				<b>compiler</b>
 			</a>
 		</h4>
-		<p><p>The compiler should fulfil two interface.
+		<p><p>The compiler should fulfil two interfaces.
 It should return a promise object. Only handles string.</p>
 </p>
 
@@ -1193,7 +1194,7 @@ of this static directory. Defaults:</p>
 				<b>render</b>
 			</a>
 		</h4>
-		<p><p>Render a file. It will auto detect the file extension and
+		<p><p>Render a file. It will auto-detect the file extension and
 choose the right compiler to handle the content.</p>
 </p>
 
@@ -1221,7 +1222,7 @@ the same with the compiled result file.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee"># The &#39;a.ejs&#39; file may not exsits, it will auto compile
+				<p><pre><code class="lang-coffee"># The &#39;a.ejs&#39; file may not exsits, it will auto-compile
 # the &#39;a.ejs&#39; or &#39;a.html&#39; to html.
 renderer.render(&#39;a.html&#39;).done (html) -&gt; kit.log(html)
 </code></pre>
@@ -2336,7 +2337,7 @@ you should follow some rules to use it safely.</p>
 				<b>spawn</b>
 			</a>
 		</h4>
-		<p><p>Safe version of <code>child_process.spawn</code> to run a process on Windows or Linux.
+		<p><p>A safer version of <code>child_process.spawn</code> to run a process on Windows or Linux.
 It will automatically add <code>node_modules/.bin</code> to the <code>PATH</code> environment variable.</p>
 </p>
 
@@ -2407,7 +2408,7 @@ When the child process ends, it will resolve.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L160">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L165">
 				
 				<b>open</b>
 			</a>
@@ -2449,11 +2450,26 @@ Now only support Windows and OSX.</p>
 
 			<li>
 				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><pre><code class="lang-coffee"># Open a webpage with the default browser.
+kit.open &#39;http://ysmood.org&#39;
+</code></pre>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
 					<u>return</u>:
 					
 					<em>{ Promise }</em>
 				</b></p>
-				<p></p>
+				<p><p>When the child process exits.</p>
+</p>
 			</li>
 
 			
@@ -2466,12 +2482,12 @@ Now only support Windows and OSX.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L224">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L229">
 				
 				<b>request</b>
 			</a>
 		</h4>
-		<p><p>A wrapper for <code>http.request</code> and <code>https.request</code>.</p>
+		<p><p>A powerful extended combination of <code>http.request</code> and <code>https.request</code>.</p>
 </p>
 
 		<ul>
@@ -2545,12 +2561,14 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L379">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L386">
 				
 				<b>monitor_app</b>
 			</a>
 		</h4>
-		<p><p>Monitor an application and automatically restart it when file changed.</p>
+		<p><p>Monitor an application and automatically restart it when file changed.
+When the monitored app exit with error, the monitor itself will also exit.
+It will make sure your app crash properly.</p>
 </p>
 
 		<ul>
@@ -2597,12 +2615,62 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L432">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L425">
+				
+				<b>watch_file</b>
+			</a>
+		</h4>
+		<p><p>Watch a file. If the file changes, the handler will be invoked.
+You can change the polling interval by using <code>process.env.polling_watch</code>
+variable.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>path</code>
+					
+					<em>{ String }</em>
+				</b></p>
+				<p><p>The file path</p>
+</p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>param</u>:
+					
+						<code>handler</code>
+					
+					<em>{ Function }</em>
+				</b></p>
+				<p><p>Event listener.</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L447">
 				
 				<b>watch_files</b>
 			</a>
 		</h4>
-		<p><p>Watch files, when file changes, the handler will be invoked.</p>
+		<p><p>Watch files, when file changes, the handler will be invoked.
+It takes the advantage of <code>kit.watch_file</code>.</p>
 </p>
 
 		<ul>
@@ -2644,7 +2712,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L444">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L459">
 				
 				<b>env_mode</b>
 			</a>
@@ -2690,99 +2758,13 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L462">
-				
-				<b>lang_set</b>
-			</a>
-		</h4>
-		<p><p>Language collection.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffee">kit.lang_set = {
-    &#39;cn&#39;: { &#39;test&#39;: &#39;测试&#39; }
-}
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L469">
-				
-				<b>lang_current</b>
-			</a>
-		</h4>
-		<p><p>Current default language.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>default</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>&#39;en&#39;</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L479">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L491">
 				
 				<b>lang</b>
 			</a>
 		</h4>
-		<p><p>Output the right language.</p>
+		<p><p>It will find the right <code>key/value</code> pair in your defined <code>kit.lang_set</code>.
+If it cannot file the one, it will output the key directly.</p>
 </p>
 
 		<ul>
@@ -2847,7 +2829,22 @@ and keep the current env variables.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p></p>
+				<p><p>Supports we have two json file in <code>langs_dir_path</code> folder.</p>
+<ul>
+<li>cn.js, content: <code>module.exports = { China: &#39;中国&#39; }</code></li>
+<li>jp.coffee, content: <code>module.exports = &#39;Good weather.&#39;: &#39;日和。&#39;</code></li>
+</ul>
+<pre><code class="lang-coffee">kit.lang_load &#39;langs_dir_path&#39;
+
+kit.lang_current = &#39;cn&#39;
+&#39;China&#39;.l # &#39;中国&#39;
+&#39;Good weather.&#39;.l(&#39;jp&#39;) # &#39;日和。&#39;
+
+kit.lang_current = &#39;en&#39;
+&#39;China&#39;.l # &#39;China&#39;
+&#39;Good weather.&#39;.l(&#39;jp&#39;) # &#39;Good weather.&#39;
+</code></pre>
+</p>
 			</li>
 
 			
@@ -2860,7 +2857,94 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L496">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L506">
+				
+				<b>lang_set</b>
+			</a>
+		</h4>
+		<p><p>Language collections.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ Object }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><pre><code class="lang-coffee">kit.lang_set = {
+    &#39;cn&#39;: { &#39;China&#39;: &#39;中国&#39; }
+}
+</code></pre>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L513">
+				
+				<b>lang_current</b>
+			</a>
+		</h4>
+		<p><p>Current default language.</p>
+</p>
+
+		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>type</u>:
+					
+					<em>{ String }</em>
+				</b></p>
+				<p></p>
+			</li>
+
+			
+
+			<li>
+				<p><b>
+					<u>default</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><p>&#39;en&#39;</p>
+</p>
+			</li>
+
+			
+		</ul>
+	</li>
+
+	
+
+	<hr>
+
+	<li>
+		<h4>
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L527">
 				
 				<b>lang_load</b>
 			</a>
@@ -2878,21 +2962,10 @@ the <code>kit.lang_set</code>.</p>
 					
 						<code>dir_path</code>
 					
-					<em>{ [type] }</em>
+					<em>{ String }</em>
 				</b></p>
-				<p><p>[description]</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ [type] }</em>
-				</b></p>
-				<p><p>[description]</p>
+				<p><p>The directory path that contains
+js or coffee files.</p>
 </p>
 			</li>
 
@@ -2906,7 +2979,7 @@ the <code>kit.lang_set</code>.</p>
 				</b></p>
 				<p><pre><code class="lang-coffee">kit.lang_load &#39;assets/lang&#39;
 kit.lang_current = &#39;cn&#39;
-kit.log &#39;test&#39;.l # This will log &#39;测试&#39;.
+kit.log &#39;test&#39;.l # This may output &#39;测试&#39;.
 </code></pre>
 </p>
 			</li>
@@ -2921,7 +2994,7 @@ kit.log &#39;test&#39;.l # This will log &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L518">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L549">
 				
 				<b>inspect</b>
 			</a>
@@ -2980,7 +3053,7 @@ kit.log &#39;test&#39;.l # This will log &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L540">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L571">
 				
 				<b>log</b>
 			</a>
@@ -3045,12 +3118,12 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L588">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L619">
 				
 				<b>err</b>
 			</a>
 		</h4>
-		<p><p>A log error shortcut for <code>kit.log</code></p>
+		<p><p>A log error shortcut for <code>kit.log(msg, &#39;error&#39;, opts)</code></p>
 </p>
 
 		<ul>
@@ -3090,7 +3163,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L598">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L633">
 				
 				<b>pad</b>
 			</a>
@@ -3099,6 +3172,19 @@ stack trace.</p>
 </p>
 
 		<ul>
+			
+
+			<li>
+				<p><b>
+					<u>example</u>:
+					
+					<em>{  }</em>
+				</b></p>
+				<p><pre><code class="lang-coffee">kit.pad &#39;1&#39;, 3 # &#39;001&#39;
+</code></pre>
+</p>
+			</li>
+
 			
 
 			<li>
@@ -3145,10 +3231,9 @@ stack trace.</p>
 				<p><b>
 					<u>return</u>:
 					
-					<em>{ [type] }</em>
+					<em>{ String }</em>
 				</b></p>
-				<p><p>[description]</p>
-</p>
+				<p></p>
 			</li>
 
 			
@@ -3161,7 +3246,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L616">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L651">
 				
 				<b>daemonize</b>
 			</a>
@@ -3212,13 +3297,13 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L641">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L676">
 				
 				<b>prompt_get</b>
 			</a>
 		</h4>
 		<p><p>Block terminal and wait for user inputs. Useful when you need
-user interaction.</p>
+in-terminal user interaction.</p>
 </p>
 
 		<ul>
@@ -3258,7 +3343,7 @@ user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L667">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L702">
 				
 				<b>async</b>
 			</a>
@@ -3335,7 +3420,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L759">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L794">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3449,7 +3534,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L842">
+			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L877">
 				
 				<b>generate_bone</b>
 			</a>

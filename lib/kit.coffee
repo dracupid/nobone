@@ -98,7 +98,7 @@ _.extend kit, {
 	_glob: Q.denodeify glob
 
 	###*
-	 * Safe version of `child_process.spawn` to run a process on Windows or Linux.
+	 * A safer version of `child_process.spawn` to run a process on Windows or Linux.
 	 * It will automatically add `node_modules/.bin` to the `PATH` environment variable.
 	 * @param  {String} cmd Path of an executable program.
 	 * @param  {Array} args CLI arguments.
@@ -155,7 +155,12 @@ _.extend kit, {
 	 * Now only support Windows and OSX.
 	 * @param  {String} cmd  The thing you want to open.
 	 * @param  {Object} opts The options of the node native `child_process.exec`.
-	 * @return {Promise}
+	 * @example
+	 * ```coffee
+	 * # Open a webpage with the default browser.
+	 * kit.open 'http://ysmood.org'
+	 * ```
+	 * @return {Promise} When the child process exits.
 	###
 	open: (cmd, opts = {}) ->
 		{ exec } = kit.require 'child_process'
@@ -180,7 +185,7 @@ _.extend kit, {
 		defer.promise
 
 	###*
-	 * A wrapper for `http.request` and `https.request`.
+	 * A powerful extended combination of `http.request` and `https.request`.
 	 * @param  {Object} opts The same as the [http.request][0], but with
 	 * some extra options:
 	 * ```coffee
@@ -366,6 +371,8 @@ _.extend kit, {
 
 	###*
 	 * Monitor an application and automatically restart it when file changed.
+	 * When the monitored app exit with error, the monitor itself will also exit.
+	 * It will make sure your app crash properly.
 	 * @param  {Object} opts Defaults:
 	 * ```coffee
 	 * {
@@ -408,6 +415,13 @@ _.extend kit, {
 
 		ps
 
+	###*
+	 * Watch a file. If the file changes, the handler will be invoked.
+	 * You can change the polling interval by using `process.env.polling_watch`
+	 * variable.
+	 * @param  {String}   path    The file path
+	 * @param  {Function} handler Event listener.
+	###
 	watch_file: (path, handler) ->
 		###
 			For samba server, we have to choose `watchFile` than `watch`
@@ -417,7 +431,7 @@ _.extend kit, {
 			path
 			{
 				persistent: false
-				interval: +process.env.polling_watch or 500
+				interval: +process.env.polling_watch or 300
 			}
 			(curr, prev) ->
 				handler(path, curr, prev)
@@ -425,6 +439,7 @@ _.extend kit, {
 
 	###*
 	 * Watch files, when file changes, the handler will be invoked.
+	 * It takes the advantage of `kit.watch_file`.
 	 * @param  {Array} patterns String array with minimatch syntax.
 	 * Such as `['\*.css', 'lib/\*\*.js']`.
 	 * @param  {Function} handler
@@ -450,12 +465,41 @@ _.extend kit, {
 		}
 
 	###*
-	 * Language collection.
+	 * It will find the right `key/value` pair in your defined `kit.lang_set`.
+	 * If it cannot file the one, it will output the key directly.
+	 * @param  {String} cmd  The original English text.
+	 * @param  {String} lang The target language name.
+	 * @param  {String} lang_set Specific a language collection.
+	 * @return {String}
+	 * @example
+	 * Supports we have two json file in `langs_dir_path` folder.
+	 * - cn.js, content: `module.exports = { China: '中国' }`
+	 * - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
+	 *
+	 * ```coffee
+	 * kit.lang_load 'langs_dir_path'
+	 *
+	 * kit.lang_current = 'cn'
+	 * 'China'.l # '中国'
+	 * 'Good weather.'.l('jp') # '日和。'
+	 *
+	 * kit.lang_current = 'en'
+	 * 'China'.l # 'China'
+	 * 'Good weather.'.l('jp') # 'Good weather.'
+	 * ```
+	###
+	lang: (cmd, name = kit.lang_current, lang_set = kit.lang_set) ->
+		i = cmd.lastIndexOf '|'
+		en = if i > -1 then cmd[...i] else cmd
+		lang_set[name]?[cmd] or en
+
+	###*
+	 * Language collections.
 	 * @type {Object}
 	 * @example
 	 * ```coffee
 	 * kit.lang_set = {
-	 * 	'cn': { 'test': '测试' }
+	 * 	'cn': { 'China': '中国' }
 	 * }
 	 * ```
 	###
@@ -469,28 +513,15 @@ _.extend kit, {
 	lang_current: 'en'
 
 	###*
-	 * Output the right language.
-	 * @param  {String} cmd  The original English text.
-	 * @param  {String} lang The target language name.
-	 * @param  {String} lang_set Specific a language collection.
-	 * @return {String}
-	 * @example
-	###
-	lang: (cmd, name = kit.lang_current, lang_set = kit.lang_set) ->
-		i = cmd.lastIndexOf '|'
-		en = if i > -1 then cmd[...i] else cmd
-		lang_set[name]?[cmd] or en
-
-	###*
 	 * Load language set directory and save them into
 	 * the `kit.lang_set`.
-	 * @param  {[type]} dir_path [description]
-	 * @return {[type]}          [description]
+	 * @param  {String} dir_path The directory path that contains
+	 * js or coffee files.
 	 * @example
 	 * ```coffee
 	 * kit.lang_load 'assets/lang'
 	 * kit.lang_current = 'cn'
-	 * kit.log 'test'.l # This will log '测试'.
+	 * kit.log 'test'.l # This may output '测试'.
 	 * ```
 	###
 	lang_load: (dir_path) ->
@@ -581,7 +612,7 @@ _.extend kit, {
 			console.log "\u0007\n"
 
 	###*
-	 * A log error shortcut for `kit.log`
+	 * A log error shortcut for `kit.log(msg, 'error', opts)`
 	 * @param  {Any} msg
 	 * @param  {Object} opts
 	###
@@ -590,10 +621,14 @@ _.extend kit, {
 
 	###*
 	 * String padding helper.
+	 * @example
+	 * ```coffee
+	 * kit.pad '1', 3 # '001'
+	 * ```
 	 * @param  {Sting | Number} str
 	 * @param  {Number} width
 	 * @param  {String} char Padding char. Default is '0'.
-	 * @return {[type]}       [description]
+	 * @return {String}
 	###
 	pad: (str, width, char = '0') ->
 		str = str + ''
@@ -634,7 +669,7 @@ _.extend kit, {
 
 	###*
 	 * Block terminal and wait for user inputs. Useful when you need
-	 * user interaction.
+	 * in-terminal user interaction.
 	 * @param  {Object} opts See the https://github.com/flatiron/prompt
 	 * @return {Promise} Contains the results of prompt.
 	###

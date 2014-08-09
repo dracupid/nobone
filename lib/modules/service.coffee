@@ -41,22 +41,6 @@ service = (opts = {}) ->
 
 		self.emit.apply self, arguments
 
-	###*
-	 * Triggered when a sse connection started.
-	 * The event name is a combination of sse_connected and req.path,
-	 * for example: "sse_connected/test"
-	 * @event sse_connected
-	 * @param {SSE_session} The session object of current connection.
-	###
-	self.e.sse_connected = 'sse_connected'
-
-	###*
-	 * When a sse connection closed.
-	 * @event sse_close
-	 * @type {SSE_session} The session object of current connection.
-	###
-	self.e.sse_close = 'sse_close'
-
 	_.extend self, {
 		server
 
@@ -107,7 +91,8 @@ init_sse = (self) ->
 	###*
 	 * A Server-Sent Event Manager.
 	 * The namespace of nobone sse is '/nobone-sse'.
-	 * For more info see [Using server-sent events][0]
+	 * For more info see [Using server-sent events][0].
+	 * NoBone use it to implement the auto-reload of the web assets.
 	 * [0]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 	 * @property {Array} sessions The sessions of connected clients.
 	 * A session object is something like:
@@ -131,7 +116,23 @@ init_sse = (self) ->
 	}
 
 	###*
-	 * Create a sse session
+	 * This event will be triggered when a sse connection started.
+	 * The event name is a combination of sse_connected and req.path,
+	 * for example: "sse_connected/test"
+	 * @event sse_connected
+	 * @param {SSE_session} session The session object of current connection.
+	###
+	self.e.sse_connected = 'sse_connected'
+
+	###*
+	 * This event will be triggered when a sse connection closed.
+	 * @event sse_close
+	 * @type {SSE_session} session The session object of current connection.
+	###
+	self.e.sse_close = 'sse_close'
+
+	###*
+	 * Create a sse session.
 	 * @param  {Express.req} req
 	 * @param  {Express.res} res
 	 * @return {SSE_session}

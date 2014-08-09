@@ -19,13 +19,13 @@ jhash = new kit.jhash.constructor
 
 ###*
  * Create a Renderer instance.
- * @param {Object} opts Example:
+ * @param {Object} opts Defaults:
  * ```coffee
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
  * 	auto_log: process.env.NODE_ENV == 'development'
  *
- * 	# If renderer detect this pattern, it will auto inject `nobone_client.js`
+ * 	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
  * 	# into the page.
  * 	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
  * 	file_handlers: {
@@ -75,7 +75,7 @@ renderer.defaults = {
 			default: true    # Whether it is a default handler, optional.
 			ext_src: ['.ejs']
 			###*
-			 * The compiler should fulfil two interface.
+			 * The compiler should fulfil two interfaces.
 			 * It should return a promise object. Only handles string.
 			 * @this {Renderer} The context of this function is the
 			 * current renderer.
@@ -300,13 +300,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				rnext()
 
 	###*
-	 * Render a file. It will auto detect the file extension and
+	 * Render a file. It will auto-detect the file extension and
 	 * choose the right compiler to handle the content.
 	 * @param  {String} path The file path. The path extension should be
 	 * the same with the compiled result file.
 	 * @example
 	 * ```coffee
-	 * # The 'a.ejs' file may not exsits, it will auto compile
+	 * # The 'a.ejs' file may not exsits, it will auto-compile
 	 * # the 'a.ejs' or 'a.html' to html.
 	 * renderer.render('a.html').done (html) -> kit.log(html)
 	 * ```
