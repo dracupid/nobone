@@ -16,7 +16,7 @@ Q = require 'q'
  * Main constructor.
  * @param  {Object} modules By default, it only load two modules,
  * `service` and `renderer`:
- * ```coffee
+ * ```coffeescript
  * {
  * 	service: {}
  * 	renderer: {}
@@ -104,7 +104,7 @@ _.extend nobone, {
 	 * The NoBone client helper.
 	 * @static
 	 * @param {Object} opts The options of the client, defaults:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	auto_reload: process.env.NODE_ENV == 'development'
 	 * 	lang_current: kit.lang_current

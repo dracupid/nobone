@@ -47,7 +47,7 @@ nobone -d
 
 ## Quick Start
 
-For more examples, go through the [examples](https://github.com/ysmood/nobone/tree/master/examples) folder.
+For more examples, go through the [examples](examples) folder.
 
 ```coffee
 process.env.NODE_ENV = 'development'
@@ -177,7 +177,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L8">
+			<a href="lib/nobone.coffee#L8">
 				
 				<b>Overview</b>
 			</a>
@@ -198,7 +198,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L31">
+			<a href="lib/nobone.coffee#L31">
 				
 				<b>nobone</b>
 			</a>
@@ -219,7 +219,7 @@ nobone bone -h
 				</b></p>
 				<p><p>By default, it only load two modules,
 <code>service</code> and <code>renderer</code>:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     service: {}
     renderer: {}
     db: null
@@ -267,7 +267,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L66">
+			<a href="lib/nobone.coffee#L66">
 				
 				<b>close</b>
 			</a>
@@ -297,7 +297,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L89">
+			<a href="lib/nobone.coffee#L89">
 				
 				<b>module_defaults</b>
 			</a>
@@ -353,7 +353,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/nobone.coffee#L117">
+			<a href="lib/nobone.coffee#L117">
 				
 				<b>client</b>
 			</a>
@@ -384,7 +384,7 @@ nobone bone -h
 					<em>{ Object }</em>
 				</b></p>
 				<p><p>The options of the client, defaults:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     auto_reload: process.env.NODE_ENV == &#39;development&#39;
     lang_current: kit.lang_current
     lang_data: kit.lang_data
@@ -425,7 +425,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L6">
+			<a href="lib/modules/service.coffee#L6">
 				
 				<b>Overview</b>
 			</a>
@@ -456,7 +456,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L24">
+			<a href="lib/modules/service.coffee#L24">
 				
 				<b>service</b>
 			</a>
@@ -476,7 +476,7 @@ nobone bone -h
 					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     auto_log: process.env.NODE_ENV == &#39;development&#39;
     enable_remote_log: process.env.NODE_ENV == &#39;development&#39;
     enable_sse: process.env.NODE_ENV == &#39;development&#39;
@@ -507,7 +507,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L34">
+			<a href="lib/modules/service.coffee#L34">
 				
 				<b>server</b>
 			</a>
@@ -538,7 +538,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L114">
+			<a href="lib/modules/service.coffee#L114">
 				
 				<b>sse</b>
 			</a>
@@ -560,7 +560,7 @@ NoBone use it to implement the auto-reload of the web assets.</p>
 				</b></p>
 				<p><p>sessions The sessions of connected clients.
 A session object is something like:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     req  # The express.js req object.
     res  # The express.js res object.
 }
@@ -577,7 +577,7 @@ A session object is something like:</p>
 					<em>{  }</em>
 				</b></p>
 				<p><p>You browser code should be something like this:</p>
-<pre><code class="lang-coffee">es = new EventSource(&#39;/nobone-sse&#39;)
+<pre><code class="lang-coffeescript">es = new EventSource(&#39;/nobone-sse&#39;)
 es.addEventListener(&#39;event_name&#39;, (e) -&gt;
     msg = JSON.parse(e.data)
     console.log(msg)
@@ -606,7 +606,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L125">
+			<a href="lib/modules/service.coffee#L125">
 				
 				<b>e.sse_connected</b>
 			</a>
@@ -653,7 +653,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L132">
+			<a href="lib/modules/service.coffee#L132">
 				
 				<b>e.sse_close</b>
 			</a>
@@ -696,7 +696,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L140">
+			<a href="lib/modules/service.coffee#L140">
 				
 				<b>sse.create</b>
 			</a>
@@ -752,7 +752,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L155">
+			<a href="lib/modules/service.coffee#L155">
 				
 				<b>session.emit</b>
 			</a>
@@ -799,7 +799,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/service.coffee#L182">
+			<a href="lib/modules/service.coffee#L182">
 				
 				<b>sse.emit</b>
 			</a>
@@ -868,7 +868,7 @@ broadcast to all clients.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L8">
+			<a href="lib/modules/renderer.coffee#L8">
 				
 				<b>Overview</b>
 			</a>
@@ -902,7 +902,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L67">
+			<a href="lib/modules/renderer.coffee#L67">
 				
 				<b>renderer</b>
 			</a>
@@ -922,7 +922,7 @@ Even for huge project its memory usage is negligible.</p>
 					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     enable_watcher: process.env.NODE_ENV == &#39;development&#39;
     auto_log: process.env.NODE_ENV == &#39;development&#39;
 
@@ -988,7 +988,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L88">
+			<a href="lib/modules/renderer.coffee#L88">
 				
 				<b>compiler</b>
 			</a>
@@ -1076,7 +1076,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L203">
+			<a href="lib/modules/renderer.coffee#L203">
 				
 				<b>file_handlers</b>
 			</a>
@@ -1094,7 +1094,7 @@ Manipulate them at runtime.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee"># We return js directly.
+				<p><pre><code class="lang-coffeescript"># We return js directly.
 renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 </code></pre>
 </p>
@@ -1121,7 +1121,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L209">
+			<a href="lib/modules/renderer.coffee#L209">
 				
 				<b>cache_pool</b>
 			</a>
@@ -1152,7 +1152,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L232">
+			<a href="lib/modules/renderer.coffee#L232">
 				
 				<b>static</b>
 			</a>
@@ -1174,7 +1174,7 @@ Static folder to automatically serve coffeescript and stylus.</p>
 				</b></p>
 				<p><p>If it&#39;s a string it represents the root_dir
 of this static directory. Defaults:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     root_dir: &#39;.&#39;
     index: process.env.NODE_ENV == &#39;development&#39; # Whether enable serve direcotry index.
     inject_client: process.env.NODE_ENV == &#39;development&#39;
@@ -1205,7 +1205,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L325">
+			<a href="lib/modules/renderer.coffee#L325">
 				
 				<b>render</b>
 			</a>
@@ -1238,7 +1238,7 @@ the same with the compiled result file.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee"># The &#39;a.ejs&#39; file may not exsits, it will auto-compile
+				<p><pre><code class="lang-coffeescript"># The &#39;a.ejs&#39; file may not exsits, it will auto-compile
 # the &#39;a.ejs&#39; or &#39;a.html&#39; to html.
 renderer.render(&#39;a.html&#39;).done (html) -&gt; kit.log(html)
 </code></pre>
@@ -1267,7 +1267,7 @@ renderer.render(&#39;a.html&#39;).done (html) -&gt; kit.log(html)
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee"># if the content of &#39;a.ejs&#39; is &#39;&lt;% var a = 10 %&gt;&lt;%= a %&gt;&#39;
+				<p><pre><code class="lang-coffeescript"># if the content of &#39;a.ejs&#39; is &#39;&lt;% var a = 10 %&gt;&lt;%= a %&gt;&#39;
 renderer.render(&#39;a.ejs&#39;, &#39;.html&#39;).done (html) -&gt; html == &#39;10&#39;
 renderer.render(&#39;a.ejs&#39;).done (str) -&gt; str == &#39;&lt;% var a = 10 %&gt;&lt;%= a %&gt;&#39;
 </code></pre>
@@ -1325,7 +1325,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L351">
+			<a href="lib/modules/renderer.coffee#L351">
 				
 				<b>close</b>
 			</a>
@@ -1344,7 +1344,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L362">
+			<a href="lib/modules/renderer.coffee#L362">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1402,7 +1402,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L370">
+			<a href="lib/modules/renderer.coffee#L370">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1474,7 +1474,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L376">
+			<a href="lib/modules/renderer.coffee#L376">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1518,7 +1518,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/renderer.coffee#L382">
+			<a href="lib/modules/renderer.coffee#L382">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1571,7 +1571,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L5">
+			<a href="lib/modules/db.coffee#L5">
 				
 				<b>Overview</b>
 			</a>
@@ -1590,7 +1590,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L18">
+			<a href="lib/modules/db.coffee#L18">
 				
 				<b>db</b>
 			</a>
@@ -1610,7 +1610,7 @@ default is false. Optional.</p>
 					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     db_path: &#39;./nobone.db&#39;
 }
 </code></pre>
@@ -1638,7 +1638,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/db.coffee#L28">
+			<a href="lib/modules/db.coffee#L28">
 				
 				<b>jdb.loaded</b>
 			</a>
@@ -1678,7 +1678,7 @@ the db is totally loaded.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L7">
+			<a href="lib/modules/proxy.coffee#L7">
 				
 				<b>Overview</b>
 			</a>
@@ -1710,7 +1710,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L18">
+			<a href="lib/modules/proxy.coffee#L18">
 				
 				<b>proxy</b>
 			</a>
@@ -1755,7 +1755,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L31">
+			<a href="lib/modules/proxy.coffee#L31">
 				
 				<b>url</b>
 			</a>
@@ -1842,7 +1842,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L66">
+			<a href="lib/modules/proxy.coffee#L66">
 				
 				<b>connect</b>
 			</a>
@@ -1941,7 +1941,7 @@ Most times used with https proxing.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee">nobone = require &#39;nobone&#39;
+				<p><pre><code class="lang-coffeescript">nobone = require &#39;nobone&#39;
 { proxy, service } = nobone { proxy:{}, service: {} }
 
 # Directly connect to the original site.
@@ -1960,7 +1960,7 @@ service.server.on &#39;connect&#39;, proxy.connect
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L105">
+			<a href="lib/modules/proxy.coffee#L105">
 				
 				<b>pac</b>
 			</a>
@@ -1995,7 +1995,7 @@ service.server.on &#39;connect&#39;, proxy.connect
 				</b></p>
 				<p><p>Your custom pac rules.
 It gives you three helpers.</p>
-<pre><code class="lang-coffee">url # The current client request url.
+<pre><code class="lang-coffeescript">url # The current client request url.
 host # The host name derived from the url.
 curr_host = &#39;PROXY host:port;&#39; # Nobone server host address.
 direct =  &quot;DIRECT;&quot;
@@ -2027,7 +2027,7 @@ proxy = (target) -&gt; # return &#39;PROXY target;&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/modules/proxy.coffee#L142">
+			<a href="lib/modules/proxy.coffee#L142">
 				
 				<b>tunnel</b>
 			</a>
@@ -2056,7 +2056,7 @@ See the project <a href="https://github.com/koichik/node-tunnel">node-tunnel</a>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L14">
+			<a href="lib/kit.coffee#L14">
 				
 				<b>kit</b>
 			</a>
@@ -2088,7 +2088,7 @@ Most time I use it to handle files and system staffs.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L27">
+			<a href="lib/kit.coffee#L27">
 				
 				<b>kit_extends_fs_q</b>
 			</a>
@@ -2105,7 +2105,7 @@ Most time I use it to handle files and system staffs.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee">kit.readFile(&#39;test.txt&#39;).done (str) -&gt;
+				<p><pre><code class="lang-coffeescript">kit.readFile(&#39;test.txt&#39;).done (str) -&gt;
     console.log str
 
 kit.outputFile(&#39;a.txt&#39;, &#39;test&#39;).done()
@@ -2123,7 +2123,7 @@ kit.outputFile(&#39;a.txt&#39;, &#39;test&#39;).done()
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L43">
+			<a href="lib/kit.coffee#L43">
 				
 				<b>require</b>
 			</a>
@@ -2183,7 +2183,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L56">
+			<a href="lib/kit.coffee#L56">
 				
 				<b>path</b>
 			</a>
@@ -2202,7 +2202,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L61">
+			<a href="lib/kit.coffee#L61">
 				
 				<b>url</b>
 			</a>
@@ -2221,7 +2221,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L66">
+			<a href="lib/kit.coffee#L66">
 				
 				<b>fs</b>
 			</a>
@@ -2240,7 +2240,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L72">
+			<a href="lib/kit.coffee#L72">
 				
 				<b>q</b>
 			</a>
@@ -2270,7 +2270,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L78">
+			<a href="lib/kit.coffee#L78">
 				
 				<b>jhash</b>
 			</a>
@@ -2289,7 +2289,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L86">
+			<a href="lib/kit.coffee#L86">
 				
 				<b>glob</b>
 			</a>
@@ -2348,7 +2348,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L110">
+			<a href="lib/kit.coffee#L110">
 				
 				<b>spawn</b>
 			</a>
@@ -2424,7 +2424,7 @@ When the child process ends, it will resolve.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L165">
+			<a href="lib/kit.coffee#L165">
 				
 				<b>open</b>
 			</a>
@@ -2470,7 +2470,7 @@ Now only support Windows and OSX.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee"># Open a webpage with the default browser.
+				<p><pre><code class="lang-coffeescript"># Open a webpage with the default browser.
 kit.open &#39;http://ysmood.org&#39;
 </code></pre>
 </p>
@@ -2498,7 +2498,7 @@ kit.open &#39;http://ysmood.org&#39;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L229">
+			<a href="lib/kit.coffee#L232">
 				
 				<b>request</b>
 			</a>
@@ -2519,17 +2519,20 @@ kit.open &#39;http://ysmood.org&#39;
 				</b></p>
 				<p><p>The same as the <a href="http://nodejs.org/api/http.html#http_http_request_options_callback">http.request</a>, but with
 some extra options:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     url: &#39;It is not optional, String or Url Object.&#39;
     body: true # Other than return `res` with `res.body`, return `body` directly.
     redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
+
+    # Set null to use buffer, optional.
+    # It supports GBK, Shift_JIS etc.
+    # For more info, see https://github.com/ashtuchkin/iconv-lite
     res_encoding: &#39;auto&#39;
-        Set null to use buffer, optional.
-        It supports GBK, Shift_JIS etc.
-        For more info, see https://github.com/ashtuchkin/iconv-lite
+
+    # It&#39;s string, object or buffer, optional. When it&#39;s an object,
+    # The request will be &#39;application/x-www-form-urlencoded&#39;.
     req_data: null
-        It&#39;s string, object or buffer, optional. When it&#39;s an object,
-        The request will be &#39;application/x-www-form-urlencoded&#39;.
+
     auto_end_req: true # auto end the request.
     req_pipe: Readable Stream.
     res_pipe: Writable Stream.
@@ -2550,7 +2553,7 @@ some extra options:</p>
 				<p><p>Contains the http response object,
 it has an extra <code>body</code> property.
 You can also get the request object by using <code>Promise.req</code>, for example:</p>
-<pre><code class="lang-coffee">p = kit.request &#39;http://test.com&#39;
+<pre><code class="lang-coffeescript">p = kit.request &#39;http://test.com&#39;
 p.req.on &#39;response&#39;, (res) -&gt;
     kit.log res.headers[&#39;content-length&#39;]
 p.done (body) -&gt;
@@ -2577,7 +2580,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L386">
+			<a href="lib/kit.coffee#L389">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2599,7 +2602,7 @@ It will make sure your app crash properly.</p>
 					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     bin: &#39;node&#39;
     args: [&#39;app.js&#39;]
     watch_list: [&#39;app.js&#39;]
@@ -2631,7 +2634,7 @@ It will make sure your app crash properly.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L425">
+			<a href="lib/kit.coffee#L428">
 				
 				<b>watch_file</b>
 			</a>
@@ -2680,7 +2683,7 @@ variable.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L447">
+			<a href="lib/kit.coffee#L450">
 				
 				<b>watch_files</b>
 			</a>
@@ -2728,7 +2731,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L459">
+			<a href="lib/kit.coffee#L462">
 				
 				<b>env_mode</b>
 			</a>
@@ -2774,7 +2777,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L491">
+			<a href="lib/kit.coffee#L494">
 				
 				<b>lang</b>
 			</a>
@@ -2850,7 +2853,7 @@ If it cannot file the one, it will output the key directly.</p>
 <li>cn.js, content: <code>module.exports = { China: &#39;中国&#39; }</code></li>
 <li>jp.coffee, content: <code>module.exports = &#39;Good weather.&#39;: &#39;日和。&#39;</code></li>
 </ul>
-<pre><code class="lang-coffee">kit.lang_load &#39;langs_dir_path&#39;
+<pre><code class="lang-coffeescript">kit.lang_load &#39;langs_dir_path&#39;
 
 kit.lang_current = &#39;cn&#39;
 &#39;China&#39;.l # &#39;中国&#39;
@@ -2873,7 +2876,7 @@ kit.lang_current = &#39;en&#39;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L506">
+			<a href="lib/kit.coffee#L509">
 				
 				<b>lang_set</b>
 			</a>
@@ -2901,7 +2904,7 @@ kit.lang_current = &#39;en&#39;
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee">kit.lang_set = {
+				<p><pre><code class="lang-coffeescript">kit.lang_set = {
     &#39;cn&#39;: { &#39;China&#39;: &#39;中国&#39; }
 }
 </code></pre>
@@ -2918,7 +2921,7 @@ kit.lang_current = &#39;en&#39;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L513">
+			<a href="lib/kit.coffee#L516">
 				
 				<b>lang_current</b>
 			</a>
@@ -2960,7 +2963,7 @@ kit.lang_current = &#39;en&#39;
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L527">
+			<a href="lib/kit.coffee#L530">
 				
 				<b>lang_load</b>
 			</a>
@@ -2993,7 +2996,7 @@ js or coffee files.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee">kit.lang_load &#39;assets/lang&#39;
+				<p><pre><code class="lang-coffeescript">kit.lang_load &#39;assets/lang&#39;
 kit.lang_current = &#39;cn&#39;
 kit.log &#39;test&#39;.l # This may output &#39;测试&#39;.
 </code></pre>
@@ -3010,7 +3013,7 @@ kit.log &#39;test&#39;.l # This may output &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L549">
+			<a href="lib/kit.coffee#L552">
 				
 				<b>inspect</b>
 			</a>
@@ -3069,7 +3072,7 @@ kit.log &#39;test&#39;.l # This may output &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L571">
+			<a href="lib/kit.coffee#L574">
 				
 				<b>log</b>
 			</a>
@@ -3134,7 +3137,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L619">
+			<a href="lib/kit.coffee#L622">
 				
 				<b>err</b>
 			</a>
@@ -3179,7 +3182,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L633">
+			<a href="lib/kit.coffee#L636">
 				
 				<b>pad</b>
 			</a>
@@ -3196,7 +3199,7 @@ stack trace.</p>
 					
 					<em>{  }</em>
 				</b></p>
-				<p><pre><code class="lang-coffee">kit.pad &#39;1&#39;, 3 # &#39;001&#39;
+				<p><pre><code class="lang-coffeescript">kit.pad &#39;1&#39;, 3 # &#39;001&#39;
 </code></pre>
 </p>
 			</li>
@@ -3262,7 +3265,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L651">
+			<a href="lib/kit.coffee#L654">
 				
 				<b>daemonize</b>
 			</a>
@@ -3313,7 +3316,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L676">
+			<a href="lib/kit.coffee#L679">
 				
 				<b>prompt_get</b>
 			</a>
@@ -3359,7 +3362,7 @@ in-terminal user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L702">
+			<a href="lib/kit.coffee#L705">
 				
 				<b>async</b>
 			</a>
@@ -3436,7 +3439,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L794">
+			<a href="lib/kit.coffee#L797">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3499,7 +3502,7 @@ It will traverse through all the comments.</p>
 					<em>{ Object }</em>
 				</b></p>
 				<p><p>Parser options:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     comment_reg: RegExp
     split_reg: RegExp
     tag_name_reg: RegExp
@@ -3520,7 +3523,7 @@ It will traverse through all the comments.</p>
 					<em>{ Array }</em>
 				</b></p>
 				<p><p>The parsed comments. Each item is something like:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     module: &#39;nobone&#39;
     name: &#39;parse_comment&#39;
     description: &#39;A comments parser for coffee-script.&#39;
@@ -3550,7 +3553,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/lib/kit.coffee#L877">
+			<a href="lib/kit.coffee#L880">
 				
 				<b>generate_bone</b>
 			</a>
@@ -3571,7 +3574,7 @@ The <code>lib/cli.coffee</code> used it as an example.</p>
 					<em>{ Object }</em>
 				</b></p>
 				<p><p>Defaults:</p>
-<pre><code class="lang-coffee">{
+<pre><code class="lang-coffeescript">{
     src_dir: null
     patterns: &#39;**&#39;
     dest_dir: null

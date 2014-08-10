@@ -17,7 +17,7 @@ kit = {}
  * kit extends all the Q functions of [fs-more][0].
  * [0]: https://github.com/ysmood/fs-more
  * @example
- * ```coffee
+ * ```coffeescript
  * kit.readFile('test.txt').done (str) ->
  * 	console.log str
  *
@@ -156,7 +156,7 @@ _.extend kit, {
 	 * @param  {String} cmd  The thing you want to open.
 	 * @param  {Object} opts The options of the node native `child_process.exec`.
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * # Open a webpage with the default browser.
 	 * kit.open 'http://ysmood.org'
 	 * ```
@@ -188,18 +188,21 @@ _.extend kit, {
 	 * A powerful extended combination of `http.request` and `https.request`.
 	 * @param  {Object} opts The same as the [http.request][0], but with
 	 * some extra options:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	url: 'It is not optional, String or Url Object.'
 	 * 	body: true # Other than return `res` with `res.body`, return `body` directly.
 	 * 	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
+	 *
+	 * 	# Set null to use buffer, optional.
+	 * 	# It supports GBK, Shift_JIS etc.
+	 * 	# For more info, see https://github.com/ashtuchkin/iconv-lite
 	 * 	res_encoding: 'auto'
-	 * 		Set null to use buffer, optional.
-	 * 		It supports GBK, Shift_JIS etc.
-	 * 		For more info, see https://github.com/ashtuchkin/iconv-lite
+	 *
+	 * 	# It's string, object or buffer, optional. When it's an object,
+	 * 	# The request will be 'application/x-www-form-urlencoded'.
 	 * 	req_data: null
-	 * 		It's string, object or buffer, optional. When it's an object,
-	 * 		The request will be 'application/x-www-form-urlencoded'.
+	 *
 	 * 	auto_end_req: true # auto end the request.
 	 * 	req_pipe: Readable Stream.
 	 * 	res_pipe: Writable Stream.
@@ -210,7 +213,7 @@ _.extend kit, {
 	 * @return {Promise} Contains the http response object,
 	 * it has an extra `body` property.
 	 * You can also get the request object by using `Promise.req`, for example:
-	 * ```coffee
+	 * ```coffeescript
 	 * p = kit.request 'http://test.com'
 	 * p.req.on 'response', (res) ->
 	 * 	kit.log res.headers['content-length']
@@ -374,7 +377,7 @@ _.extend kit, {
 	 * When the monitored app exit with error, the monitor itself will also exit.
 	 * It will make sure your app crash properly.
 	 * @param  {Object} opts Defaults:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	bin: 'node'
 	 * 	args: ['app.js']
@@ -476,7 +479,7 @@ _.extend kit, {
 	 * - cn.js, content: `module.exports = { China: '中国' }`
 	 * - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
 	 *
-	 * ```coffee
+	 * ```coffeescript
 	 * kit.lang_load 'langs_dir_path'
 	 *
 	 * kit.lang_current = 'cn'
@@ -497,7 +500,7 @@ _.extend kit, {
 	 * Language collections.
 	 * @type {Object}
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * kit.lang_set = {
 	 * 	'cn': { 'China': '中国' }
 	 * }
@@ -518,7 +521,7 @@ _.extend kit, {
 	 * @param  {String} dir_path The directory path that contains
 	 * js or coffee files.
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * kit.lang_load 'assets/lang'
 	 * kit.lang_current = 'cn'
 	 * kit.log 'test'.l # This may output '测试'.
@@ -622,7 +625,7 @@ _.extend kit, {
 	###*
 	 * String padding helper.
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * kit.pad '1', 3 # '001'
 	 * ```
 	 * @param  {Sting | Number} str
@@ -763,7 +766,7 @@ _.extend kit, {
 	 * @param  {String} code Coffee source code.
 	 * @param  {String} path The path of the source code.
 	 * @param  {Object} opts Parser options:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	comment_reg: RegExp
 	 * 	split_reg: RegExp
@@ -773,7 +776,7 @@ _.extend kit, {
 	 * 	description_reg: RegExp
 	 * }```
 	 * @return {Array} The parsed comments. Each item is something like:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	module: 'nobone'
 	 * 	name: 'parse_comment'
@@ -863,7 +866,7 @@ _.extend kit, {
 	 * A scaffolding helper to generate template project.
 	 * The `lib/cli.coffee` used it as an example.
 	 * @param  {Object} opts Defaults:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	src_dir: null
 	 * 	patterns: '**'

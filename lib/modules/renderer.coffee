@@ -20,7 +20,7 @@ jhash = new kit.jhash.constructor
 ###*
  * Create a Renderer instance.
  * @param {Object} opts Defaults:
- * ```coffee
+ * ```coffeescript
  * {
  * 	enable_watcher: process.env.NODE_ENV == 'development'
  * 	auto_log: process.env.NODE_ENV == 'development'
@@ -194,7 +194,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * You can access all the file_handlers here.
 	 * Manipulate them at runtime.
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * # We return js directly.
 	 * renderer.file_handlers['.js'].compiler = (str) -> str
 	 * ```
@@ -220,7 +220,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Static folder to automatically serve coffeescript and stylus.
 	 * @param  {String | Object} opts If it's a string it represents the root_dir
 	 * of this static directory. Defaults:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	root_dir: '.'
 	 * 	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
@@ -305,14 +305,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {String} path The file path. The path extension should be
 	 * the same with the compiled result file.
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * # The 'a.ejs' file may not exsits, it will auto-compile
 	 * # the 'a.ejs' or 'a.html' to html.
 	 * renderer.render('a.html').done (html) -> kit.log(html)
 	 * ```
 	 * @param  {String} ext Force the extension. Optional.
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
 	 * renderer.render('a.ejs', '.html').done (html) -> html == '10'
 	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'

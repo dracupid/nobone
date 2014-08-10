@@ -55,7 +55,7 @@ proxy = (opts = {}) ->
 	 * @param {Int} port The port force to. It's optional.
 	 * @param {Function} err Custom error handler.
 	 * @example
-	 * ```coffee
+	 * ```coffeescript
 	 * nobone = require 'nobone'
 	 * { proxy, service } = nobone { proxy:{}, service: {} }
 	 *
@@ -92,7 +92,7 @@ proxy = (opts = {}) ->
 	 * @param {String} curr_host The current host for proxy server. It's optional.
 	 * @param  {Function} rule_handler Your custom pac rules.
 	 * It gives you three helpers.
-	 * ```coffee
+	 * ```coffeescript
 	 * url # The current client request url.
 	 * host # The host name derived from the url.
 	 * curr_host = 'PROXY host:port;' # Nobone server host address.

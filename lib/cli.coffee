@@ -121,6 +121,7 @@ init = ->
 		Q = require 'q'
 		marked = require 'marked'
 		marked_html = kit.path.normalize __dirname + '/../assets/markdown/index.html'
+		source_html = kit.path.normalize __dirname + '/../assets/markdown/source.html'
 		nobone_readme = kit.path.normalize __dirname + '/../readme.md'
 		assets_dir = kit.path.normalize __dirname + '/../assets'
 
@@ -132,9 +133,21 @@ init = ->
 			.done (rets) ->
 				[tpl, md] = rets
 				res.send tpl({
-					path: 'Nobone'
 					body: marked md
 				})
+
+		service.get '/*.coffee', (req, res) ->
+			Q.all([
+				renderer.render source_html
+				kit.readFile req.path[1..], 'utf8'
+			])
+			.done (rets) ->
+				[tpl, source] = rets
+				res.send tpl({
+					path: req.path
+					body: source
+				})
+
 		service.use renderer.static(assets_dir)
 
 		service.listen 0, ->

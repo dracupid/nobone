@@ -47,7 +47,7 @@ nobone -d
 
 ## Quick Start
 
-For more examples, go through the [examples](https://github.com/ysmood/nobone/tree/master/examples) folder.
+For more examples, go through the [examples](examples) folder.
 
 ```coffee
 <%- usage %>
@@ -99,7 +99,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="https://github.com/ysmood/nobone/blob/master/<%= el.path %>#L<%= el.line %>">
+			<a href="<%= el.path %>#L<%= el.line %>">
 				<%
 					var name = el.name.replace('self.', '');
 					if (_.find(el.tags, function (el) {

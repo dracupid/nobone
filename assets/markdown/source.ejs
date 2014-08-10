@@ -4,20 +4,21 @@
 	<link rel="stylesheet" href="/markdown/github.css">
 	<script src="/markdown/highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
-	<title>Nobone Documentation</title>
+	<title>Source - <%= path %></title>
 </head>
 <body>
 
 <div id="main">
-	<%- body %>
-</div>
 
-<div id="toc">
-	<h1>Table of Contents</h1>
-	<div class="content"></div>
-</div>
+<h4>
+	Source File: <code><%= path %></code>
+</h4>
 
-<script type="text/javascript" src="/markdown/main.js"></script>
+<pre><code class="lang-coffeescript">
+<%= body %>
+</code></pre>
+
+</div>
 
 </body>
 </html>

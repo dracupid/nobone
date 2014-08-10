@@ -12,7 +12,7 @@ kit = require '../kit'
 ###*
  * Create a Service instance.
  * @param  {Object} opts Defaults:
- * ```coffee
+ * ```coffeescript
  * {
  * 	auto_log: process.env.NODE_ENV == 'development'
  * 	enable_remote_log: process.env.NODE_ENV == 'development'
@@ -96,14 +96,14 @@ init_sse = (self) ->
 	 * [0]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 	 * @property {Array} sessions The sessions of connected clients.
 	 * A session object is something like:
-	 * ```coffee
+	 * ```coffeescript
 	 * {
 	 * 	req  # The express.js req object.
 	 * 	res  # The express.js res object.
 	 * }
 	 * ```
 	 * @example You browser code should be something like this:
-	 * ```coffee
+	 * ```coffeescript
 	 * es = new EventSource('/nobone-sse')
 	 * es.addEventListener('event_name', (e) ->
 	 * 	msg = JSON.parse(e.data)
