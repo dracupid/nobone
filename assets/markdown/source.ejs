@@ -28,6 +28,7 @@
 	el.parentElement.setAttribute('class', 'brush: ' + lang + '; highlight: ' + location.hash.replace('#L', ''));
 	el.parentElement.innerHTML = el.innerHTML;
 
+	SyntaxHighlighter.defaults['toolbar'] = false;
 	SyntaxHighlighter.all();
 
 	window.addEventListener('load', function () {
