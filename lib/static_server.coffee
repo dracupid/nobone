@@ -24,7 +24,7 @@ service.get '/favicon.ico', (req, res) ->
 	res.sendfile nobone_favicon
 
 service.use renderer.static(root_dir)
-service.use renderer.static(assets_dir)
+service.use '/assets', renderer.static(assets_dir)
 kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
 
 service.listen port, host, ->

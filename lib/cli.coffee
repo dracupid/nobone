@@ -132,6 +132,7 @@ init = ->
 			])
 			.done (rets) ->
 				[tpl, md] = rets
+				md = md.replace /\[\!\[NPM.+\)/, ''
 				res.send tpl({
 					body: marked md
 				})
