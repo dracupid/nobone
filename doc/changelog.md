@@ -1,5 +1,6 @@
 - v0.5.0
 
+  - Fix a markdown cache bug.
   - Update documentation.
 
 - v0.4.9
