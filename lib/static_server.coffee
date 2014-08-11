@@ -18,7 +18,7 @@ renderer.file_handlers['.md'].compiler = (str, path) ->
 	md = marked str
 	renderer.render marked_html
 	.then (tpl) ->
-		tpl { path, body: md, inject_client: false }
+		tpl { path, body: md }
 
 service.get '/favicon.ico', (req, res) ->
 	res.sendfile nobone_favicon
