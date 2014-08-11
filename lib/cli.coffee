@@ -126,7 +126,11 @@ init = ->
 		nobone_readme = kit.path.normalize __dirname + '/../readme.md'
 		assets_dir = kit.path.normalize __dirname + '/../assets'
 
+		doc_cache = null
 		service.get '/', (req, res) ->
+			if doc_cache
+				return res.send doc_cache
+
 			Q.all([
 				renderer.render marked_html
 				kit.readFile nobone_readme, 'utf8'
@@ -139,9 +143,10 @@ init = ->
 					links.push p
 					return ''
 				md += '\n' + links.join('')
-				res.send tpl({
+				doc_cache = tpl({
 					body: marked md
 				})
+				res.send doc_cache
 
 		service.get '/*.coffee', (req, res) ->
 			Q.all([
