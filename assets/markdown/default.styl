@@ -1,208 +1,344 @@
 #main {
-	font-size: 15px;
-	line-height: 1.7;
-	overflow: hidden; }
-	#main > *:first-child {
-		margin-top: 0 !important; }
-	#main > *:last-child {
-		margin-bottom: 0 !important; }
-	#main a.absent {
-		color: #c00; }
-	#main a.anchor {
-		display: block;
-		padding-left: 30px;
-		margin-left: -30px;
-		cursor: pointer;
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0; }
-	#main h1, #main h2, #main h3, #main h4, #main h5, #main h6 {
-		margin: 1em 0 15px;
-		padding: 0;
-		font-weight: bold;
-		line-height: 1.7;
-		cursor: text;
-		position: relative; }
-		#main h1 .octicon-link, #main h2 .octicon-link, #main h3 .octicon-link, #main h4 .octicon-link, #main h5 .octicon-link, #main h6 .octicon-link {
-			display: none;
-			color: #000; }
-		#main h1:hover a.anchor, #main h2:hover a.anchor, #main h3:hover a.anchor, #main h4:hover a.anchor, #main h5:hover a.anchor, #main h6:hover a.anchor {
-			text-decoration: none;
-			line-height: 1;
-			padding-left: 0;
-			margin-left: -22px;
-			top: 15%; }
-			#main h1:hover a.anchor .octicon-link, #main h2:hover a.anchor .octicon-link, #main h3:hover a.anchor .octicon-link, #main h4:hover a.anchor .octicon-link, #main h5:hover a.anchor .octicon-link, #main h6:hover a.anchor .octicon-link {
-				display: inline-block; }
-		#main h1 tt, #main h1 code, #main h2 tt, #main h2 code, #main h3 tt, #main h3 code, #main h4 tt, #main h4 code, #main h5 tt, #main h5 code, #main h6 tt, #main h6 code {
-			font-size: inherit; }
-	#main h1 {
-		font-size: 2.5em;
-		border-bottom: 1px solid #ddd; }
-	#main h2 {
-		font-size: 2em;
-		border-bottom: 1px solid #eee; }
-	#main h3 {
-		font-size: 1.5em; }
-	#main h4 {
-		font-size: 1.2em; }
-	#main h5 {
-		font-size: 1em; }
-	#main h6 {
-		color: #777;
-		font-size: 1em; }
-	#main p,
-	#main blockquote,
-	#main ul, #main ol, #main dl,
-	#main table,
-	#main pre {
-		margin: 15px 0; }
-	#main hr {
-		background: transparent url("/assets/primer/markdown/dirty-shade-3d43d541b0f089487a139219bbf0309c6b1f2cd8.png") repeat-x 0 0;
-		border: 0 none;
-		color: #ccc;
-		height: 4px;
-		padding: 0;
-		margin: 15px 0; }
-	#main li p.first {
-		display: inline-block; }
-	#main ul, #main ol {
-		padding-left: 30px; }
-		#main ul.no-list, #main ol.no-list {
-			list-style-type: none;
-			padding: 0; }
-	#main ul ul,
-	#main ul ol,
-	#main ol ol,
-	#main ol ul {
-		margin-top: 0;
-		margin-bottom: 0; }
-	#main dl {
-		padding: 0; }
-	#main dl dt {
-		font-size: 14px;
-		font-weight: bold;
-		font-style: italic;
-		padding: 0;
-		margin-top: 15px; }
-	#main dl dd {
-		margin-bottom: 15px;
-		padding: 0 15px; }
-	#main blockquote {
-		border-left: 4px solid #DDD;
-		padding: 0 15px;
-		color: #777; }
-		#main blockquote > :first-child {
-			margin-top: 0px; }
-		#main blockquote > :last-child {
-			margin-bottom: 0px; }
-	#main table {
-		width: 100%;
-		overflow: auto;
-		display: block;
-		border-spacing: 0;
-		border-collapse: collapse; }
-		#main table th {
-			font-weight: bold; }
-		#main table th, #main table td {
-			border: 1px solid #ddd;
-			padding: 6px 13px; }
-		#main table tr {
-			border-top: 1px solid #ccc;
-			background-color: #fff; }
-			#main table tr:nth-child(2n) {
-				background-color: #f8f8f8; }
-	#main img {
-		-moz-box-sizing: border-box;
-		box-sizing: border-box; }
-	#main span.frame {
-		display: block;
-		overflow: hidden; }
-		#main span.frame > span {
-			border: 1px solid #ddd;
-			display: block;
-			float: left;
-			overflow: hidden;
-			margin: 13px 0 0;
-			padding: 7px;
-			width: auto; }
-		#main span.frame span img {
-			display: block;
-			float: left; }
-		#main span.frame span span {
-			clear: both;
-			color: #333;
-			display: block;
-			padding: 5px 0 0; }
-	#main span.align-center {
-		display: block;
-		overflow: hidden;
-		clear: both; }
-		#main span.align-center > span {
-			display: block;
-			overflow: hidden;
-			margin: 13px auto 0;
-			text-align: center; }
-		#main span.align-center span img {
-			margin: 0 auto;
-			text-align: center; }
-	#main span.align-right {
-		display: block;
-		overflow: hidden;
-		clear: both; }
-		#main span.align-right > span {
-			display: block;
-			overflow: hidden;
-			margin: 13px 0 0;
-			text-align: right; }
-		#main span.align-right span img {
-			margin: 0;
-			text-align: right; }
-	#main span.float-left {
-		display: block;
-		margin-right: 13px;
-		overflow: hidden;
-		float: left; }
-		#main span.float-left span {
-			margin: 13px 0 0; }
-	#main span.float-right {
-		display: block;
-		margin-left: 13px;
-		overflow: hidden;
-		float: right; }
-		#main span.float-right > span {
-			display: block;
-			overflow: hidden;
-			margin: 13px auto 0;
-			text-align: right; }
-	#main code, #main tt {
-		margin: 0 2px;
-		padding: 0px 5px;
-		border: 1px solid #ddd;
-		background-color: #f8f8f8;
-		border-radius: 3px; }
-	#main code {
-		white-space: nowrap; }
-	#main pre > code {
-		margin: 0;
-		padding: 0;
-		white-space: pre;
-		border: none;
-		background: transparent; }
-	#main pre {
-		background-color: #f8f8f8;
-		border: 1px solid #ddd;
-		font-size: 13px;
-		line-height: 19px;
-		overflow: auto;
-		padding: 6px 10px;
-		border-radius: 3px; }
-	#main pre code, #main pre tt {
-		margin: 0;
-		padding: 0;
-		background-color: transparent;
-		border: none; }
+    overflow: hidden;
+    font-family: "Helvetica Neue", Helvetica, Arial, freesans, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    word-wrap: break-word
+}
+
+#main>*:first-child {
+    margin-top: 0 !important
+}
+
+#main>*:last-child {
+    margin-bottom: 0 !important
+}
+
+#main .absent {
+    color: #c00
+}
+
+#main .anchor {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    padding-right: 6px;
+    padding-left: 30px;
+    margin-left: -30px
+}
+
+#main .anchor:focus {
+    outline: none
+}
+
+#main h1,#main h2,#main h3,#main h4,#main h5,#main h6 {
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 16px;
+    font-weight: bold;
+    line-height: 1.4
+}
+
+#main h1 .octicon-link,#main h2 .octicon-link,#main h3 .octicon-link,#main h4 .octicon-link,#main h5 .octicon-link,#main h6 .octicon-link {
+    display: none;
+    color: #000;
+    vertical-align: middle
+}
+
+#main h1:hover .anchor,#main h2:hover .anchor,#main h3:hover .anchor,#main h4:hover .anchor,#main h5:hover .anchor,#main h6:hover .anchor {
+    height: 1em;
+    padding-left: 8px;
+    margin-left: -30px;
+    line-height: 1;
+    text-decoration: none
+}
+
+#main h1:hover .anchor .octicon-link,#main h2:hover .anchor .octicon-link,#main h3:hover .anchor .octicon-link,#main h4:hover .anchor .octicon-link,#main h5:hover .anchor .octicon-link,#main h6:hover .anchor .octicon-link {
+    display: inline-block
+}
+
+#main h1 tt,#main h1 code,#main h2 tt,#main h2 code,#main h3 tt,#main h3 code,#main h4 tt,#main h4 code,#main h5 tt,#main h5 code,#main h6 tt,#main h6 code {
+    font-size: inherit
+}
+
+#main h1 {
+    padding-bottom: 0.3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee
+}
+
+#main h2 {
+    padding-bottom: 0.3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee
+}
+
+#main h3 {
+    font-size: 1.5em;
+    line-height: 1.43
+}
+
+#main h4 {
+    font-size: 1.25em
+}
+
+#main h5 {
+    font-size: 1em
+}
+
+#main h6 {
+    font-size: 1em;
+    color: #777
+}
+
+#main p,#main blockquote,#main ul,#main ol,#main dl,#main table,#main pre {
+    margin-top: 0;
+    margin-bottom: 16px
+}
+
+#main hr {
+    height: 4px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none
+}
+
+#main ul,#main ol {
+    padding-left: 2em
+}
+
+#main ul.no-list,#main ol.no-list {
+    padding: 0;
+    list-style-type: none
+}
+
+#main ul ul,#main ul ol,#main ol ol,#main ol ul {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+#main li>p {
+    margin-top: 16px
+}
+
+#main dl {
+    padding: 0
+}
+
+#main dl dt {
+    padding: 0;
+    margin-top: 16px;
+    font-size: 1em;
+    font-style: italic;
+    font-weight: bold
+}
+
+#main dl dd {
+    padding: 0 16px;
+    margin-bottom: 16px
+}
+
+#main blockquote {
+    padding: 0 15px;
+    color: #777;
+    border-left: 4px solid #ddd
+}
+
+#main blockquote>:first-child {
+    margin-top: 0
+}
+
+#main blockquote>:last-child {
+    margin-bottom: 0
+}
+
+#main table {
+    display: block;
+    width: 100%;
+    overflow: auto
+}
+
+#main table th {
+    font-weight: bold
+}
+
+#main table th,#main table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd
+}
+
+#main table tr {
+    background-color: #fff;
+    border-top: 1px solid #ccc
+}
+
+#main table tr:nth-child(2n) {
+    background-color: #f8f8f8
+}
+
+#main img {
+    max-width: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+#main span.frame {
+    display: block;
+    overflow: hidden
+}
+
+#main span.frame>span {
+    display: block;
+    float: left;
+    width: auto;
+    padding: 7px;
+    margin: 13px 0 0;
+    overflow: hidden;
+    border: 1px solid #ddd
+}
+
+#main span.frame span img {
+    display: block;
+    float: left
+}
+
+#main span.frame span span {
+    display: block;
+    padding: 5px 0 0;
+    clear: both;
+    color: #333
+}
+
+#main span.align-center {
+    display: block;
+    overflow: hidden;
+    clear: both
+}
+
+#main span.align-center>span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: center
+}
+
+#main span.align-center span img {
+    margin: 0 auto;
+    text-align: center
+}
+
+#main span.align-right {
+    display: block;
+    overflow: hidden;
+    clear: both
+}
+
+#main span.align-right>span {
+    display: block;
+    margin: 13px 0 0;
+    overflow: hidden;
+    text-align: right
+}
+
+#main span.align-right span img {
+    margin: 0;
+    text-align: right
+}
+
+#main span.float-left {
+    display: block;
+    float: left;
+    margin-right: 13px;
+    overflow: hidden
+}
+
+#main span.float-left span {
+    margin: 13px 0 0
+}
+
+#main span.float-right {
+    display: block;
+    float: right;
+    margin-left: 13px;
+    overflow: hidden
+}
+
+#main span.float-right>span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: right
+}
+
+#main code,#main tt {
+    padding: 0;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin: 0;
+    font-size: 85%;
+    background-color: rgba(0,0,0,0.04);
+    border-radius: 3px
+}
+
+#main code br,#main tt br {
+    display: none
+}
+
+#main del code {
+    text-decoration: inherit;
+    vertical-align: text-top
+}
+
+#main pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    white-space: pre;
+    background: transparent;
+    border: 0
+}
+
+#main .highlight {
+    margin-bottom: 16px
+}
+
+#main .highlight pre,#main pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border-radius: 3px
+}
+
+#main .highlight pre {
+    margin-bottom: 0
+}
+
+#main pre {
+    word-wrap: normal
+}
+
+#main pre code,#main pre tt {
+    display: inline;
+    max-width: initial;
+    padding: 0;
+    margin: 0;
+    overflow: initial;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0
+}
+
+#main pre code:before,#main pre code:after,#main pre tt:before,#main pre tt:after {
+    content: normal
+}
 
 
 
