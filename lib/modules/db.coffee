@@ -12,7 +12,8 @@ _ = require 'lodash'
  * ```coffeescript
  * {
  * 	db_path: './nobone.db'
- * }```
+ * }
+ * ```
  * @return {Jdb}
 ###
 db = (opts = {}) ->

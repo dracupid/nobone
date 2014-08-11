@@ -383,7 +383,8 @@ _.extend kit, {
 	 * 	args: ['app.js']
 	 * 	watch_list: ['app.js']
 	 * 	mode: 'development'
-	 * }```
+	 * }
+	 * ```
 	 * @return {Process} The child process.
 	###
 	monitor_app: (opts) ->
@@ -774,7 +775,8 @@ _.extend kit, {
 	 * 	type_reg: RegExp
 	 * 	name_reg: RegExp
 	 * 	description_reg: RegExp
-	 * }```
+	 * }
+	 * ```
 	 * @return {Array} The parsed comments. Each item is something like:
 	 * ```coffeescript
 	 * {
@@ -792,7 +794,8 @@ _.extend kit, {
 	 * 			line: 32 # The line number of the target in the file.
 	 * 		}
 	 * 	]
-	 * }```
+	 * }
+	 * ```
 	###
 	parse_comment: (module_name, code, path = '', opts = {}) ->
 		_.defaults opts, {
@@ -804,15 +807,13 @@ _.extend kit, {
 			description_reg: /^([\s\S]*)/
 		}
 
-		marked = kit.require 'marked'
-
 		parse_info = (block) ->
 			# Clean the prefix '*'
 			arr = block.split(opts.split_reg).map (el) ->
 				el.replace(/^[ \t]+\*[ \t]?/mg, '').trim()
 
 			{
-				description: marked(arr[0] or '')
+				description: arr[0] or ''
 				tags: arr[1..].map (el) ->
 					parse_tag = (reg) ->
 						m = el.match reg
@@ -831,14 +832,9 @@ _.extend kit, {
 						tag.type = type
 						if tag.tag_name == 'param'
 							tag.name = parse_tag opts.name_reg
-						tag.description = marked(
-							parse_tag(opts.description_reg) or ''
-						)
+						tag.description = parse_tag(opts.description_reg) or ''
 					else
-						tag.description = marked(
-							parse_tag(opts.description_reg) or ''
-						)
-
+						tag.description = parse_tag(opts.description_reg) or ''
 					tag
 			}
 
@@ -874,7 +870,8 @@ _.extend kit, {
 	 * 	data: {}
 	 * 	compile: (str, data, path) ->
 	 * 		compile str
-	 * }```
+	 * }
+	 * ```
 	 * @return {Promise}
 	###
 	generate_bone: (opts) ->

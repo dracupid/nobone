@@ -167,3444 +167,1101 @@ nobone bone -h
 
 ## Modules API
 
-
-
-<h3>nobone</h3>
-<ul>
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/nobone.coffee#L8" target="_blank">
-				
-				<b>Overview</b>
-			</a>
-		</h4>
-		<p><p>NoBone has several modules and a helper lib.
-<strong>All the modules are optional</strong>.</p>
-<p>Most of the async functions are inplemented with <a href="https://github.com/kriskowal/q">Q</a>.</p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/nobone.coffee#L31" target="_blank">
-				
-				<b>nobone</b>
-			</a>
-		</h4>
-		<p><p>Main constructor.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>modules</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>By default, it only load two modules,
-<code>service</code> and <code>renderer</code>:</p>
-<pre><code class="lang-coffeescript">{
-    service: {}
-    renderer: {}
-    db: null
-    proxy: null
-
-    lang_dir: null # language set directory
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Other options.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>A nobone instance.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/nobone.coffee#L66" target="_blank">
-				
-				<b>close</b>
-			</a>
-		</h4>
-		<p><p>Release the resources.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/nobone.coffee#L89" target="_blank">
-				
-				<b>module_defaults</b>
-			</a>
-		</h4>
-		<p><p>Help you to get the default options of moduels.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>static</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>name</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Module name, if not set, return all modules&#39; defaults.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>A promise object which will produce the defaults.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/nobone.coffee#L117" target="_blank">
-				
-				<b>client</b>
-			</a>
-		</h4>
-		<p><p>The NoBone client helper.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>static</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>The options of the client, defaults:</p>
-<pre><code class="lang-coffeescript">{
-    auto_reload: process.env.NODE_ENV == &#39;development&#39;
-    lang_current: kit.lang_current
-    lang_data: kit.lang_data
-}
-</code></pre>
-<p>return an empty string.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The html of client helper.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-</ul>
-
-<hr>
-
-
-
-<h3>service</h3>
-<ul>
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L6" target="_blank">
-				
-				<b>Overview</b>
-			</a>
-		</h4>
-		<p><p>It is just a Express.js wrap.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>extends</u>:
-					
-					<em>{ Express }</em>
-				</b></p>
-				<p><p><a href="http://expressjs.com/4x/api.html">Ref</a></p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L24" target="_blank">
-				
-				<b>service</b>
-			</a>
-		</h4>
-		<p><p>Create a Service instance.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults:</p>
-<pre><code class="lang-coffeescript">{
-    auto_log: process.env.NODE_ENV == &#39;development&#39;
-    enable_remote_log: process.env.NODE_ENV == &#39;development&#39;
-    enable_sse: process.env.NODE_ENV == &#39;development&#39;
-    express: {}
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Service }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L34" target="_blank">
-				
-				<b>server</b>
-			</a>
-		</h4>
-		<p><p>The server object of the express object.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ http.Server }</em>
-				</b></p>
-				<p><p><a href="http://nodejs.org/api/http.html#http_class_http_server">Ref</a></p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L114" target="_blank">
-				
-				<b>sse</b>
-			</a>
-		</h4>
-		<p><p>A Server-Sent Event Manager.
-The namespace of nobone sse is &#39;/nobone-sse&#39;.
-For more info see <a href="https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events">Using server-sent events</a>.
-NoBone use it to implement the auto-reload of the web assets.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>property</u>:
-					
-					<em>{ Array }</em>
-				</b></p>
-				<p><p>sessions The sessions of connected clients.
-A session object is something like:</p>
-<pre><code class="lang-coffeescript">{
-    req  # The express.js req object.
-    res  # The express.js res object.
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>You browser code should be something like this:</p>
-<pre><code class="lang-coffeescript">es = new EventSource(&#39;/nobone-sse&#39;)
-es.addEventListener(&#39;event_name&#39;, (e) -&gt;
-    msg = JSON.parse(e.data)
-    console.log(msg)
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ SSE }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L125" target="_blank">
-				
-				<b>e.sse_connected</b>
-			</a>
-		</h4>
-		<p><p>This event will be triggered when a sse connection started.
-The event name is a combination of sse_connected and req.path,
-for example: &quot;sse_connected/test&quot;</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>sse_connected</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>session</code>
-					
-					<em>{ SSE_session }</em>
-				</b></p>
-				<p><p>The session object of current connection.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L132" target="_blank">
-				
-				<b>e.sse_close</b>
-			</a>
-		</h4>
-		<p><p>This event will be triggered when a sse connection closed.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>sse_close</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ SSE_session }</em>
-				</b></p>
-				<p><p>session The session object of current connection.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L140" target="_blank">
-				
-				<b>sse.create</b>
-			</a>
-		</h4>
-		<p><p>Create a sse session.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>req</code>
-					
-					<em>{ Express.req }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>res</code>
-					
-					<em>{ Express.res }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ SSE_session }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L155" target="_blank">
-				
-				<b>session.emit</b>
-			</a>
-		</h4>
-		<p><p>Emit message to client.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>event</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The event name.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>msg</code>
-					
-					<em>{ Object | String }</em>
-				</b></p>
-				<p><p>The message to send to the client.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/service.coffee#L182" target="_blank">
-				
-				<b>sse.emit</b>
-			</a>
-		</h4>
-		<p><p>Broadcast a event to clients.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>event</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The event name.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>msg</code>
-					
-					<em>{ Object | String }</em>
-				</b></p>
-				<p><p>The data you want to emit to session.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>[path] The namespace of target sessions. If not set,
-broadcast to all clients.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-</ul>
-
-<hr>
-
-
-
-<h3>renderer</h3>
-<ul>
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L8" target="_blank">
-				
-				<b>Overview</b>
-			</a>
-		</h4>
-		<p><p>A abstract renderer for any string resources, such as template, source content, etc.
-It automatically uses high performance memory cache.
-You can run the benchmark to see the what differences it makes.
-Even for huge project its memory usage is negligible.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>extends</u>:
-					
-					<em>{ events.EventEmitter }</em>
-				</b></p>
-				<p><p><a href="http://nodejs.org/api/events.html#events_class_events_eventemitter">Ref</a></p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L67" target="_blank">
-				
-				<b>renderer</b>
-			</a>
-		</h4>
-		<p><p>Create a Renderer instance.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults:</p>
-<pre><code class="lang-coffeescript">{
-    enable_watcher: process.env.NODE_ENV == &#39;development&#39;
-    auto_log: process.env.NODE_ENV == &#39;development&#39;
-
-    # If renderer detects this pattern, it will auto-inject `nobone_client.js`
-    # into the page.
-    inject_client_reg: /&lt;html[^&lt;&gt;]*&gt;[\s\S]*&lt;\/html&gt;/i
-    file_handlers: {
-        &#39;.html&#39;: {
-            default: true
-            ext_src: &#39;.ejs&#39;
-            watch_list: {
-                &#39;path&#39;: [pattern1, ...] # Extra files to watch.
-            }
-            encoding: &#39;utf8&#39; # optional, default is &#39;utf8&#39;
-            compiler: (str, path, ext_src, data) -&gt; ...
-        }
-        &#39;.js&#39;: {
-            ext_src: &#39;.coffee&#39;
-            compiler: (str, path) -&gt; ...
-        }
-        &#39;.css&#39;: {
-            ext_src: [&#39;.styl&#39;, &#39;.less&#39;]
-            compiler: (str, path) -&gt; ...
-        }
-        &#39;.md&#39;: {
-            type: &#39;html&#39; # Force type, optional.
-            ext_src: [&#39;.md&#39;, &#39;.markdown&#39;]
-            compiler: (str, path) -&gt; ...
-        }
-        &#39;.jpg&#39;: {
-            encoding: null # To use buffer.
-            compiler: (buf) -&gt; buf
-        }
-        &#39;.png&#39;: {
-            encoding: null # To use buffer.
-            compiler: &#39;.jpg&#39; # Use the compiler of &#39;.jpg&#39;
-        }
-        &#39;.gif&#39; ...
+### nobone
+
+- #### <a href="lib/nobone.coffee#L8" target="_blank"><b>Overview</b></a>
+
+  NoBone has several modules and a helper lib.
+  **All the modules are optional**.
+  
+  Most of the async functions are inplemented with [Q][0].
+  [0]: https://github.com/kriskowal/q
+
+- #### <a href="lib/nobone.coffee#L32" target="_blank"><b>nobone</b></a>
+
+  Main constructor.
+
+  - **<u>param</u>**: `modules` { _Object_ }
+
+    By default, it only load two modules,
+    `service` and `renderer`:
+    ```coffeescript
+    {
+    	service: {}
+    	renderer: {}
+    	db: null
+    	proxy: null
+    
+    	lang_dir: null # language set directory
     }
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Renderer }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L88" target="_blank">
-				
-				<b>compiler</b>
-			</a>
-		</h4>
-		<p><p>The compiler should fulfil two interfaces.
-It should return a promise object. Only handles string.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>this</u>:
-					
-					<em>{ Renderer }</em>
-				</b></p>
-				<p><p>The context of this function is the
-current renderer.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>str</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Source content.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>For debug info.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>data</code>
-					
-					<em>{ Any }</em>
-				</b></p>
-				<p><p>The data sent from the <code>render</code> function.
-when you call the <code>render</code> directly. Default is an empty object: <code>{ }</code>.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Any }</em>
-				</b></p>
-				<p><p>Promise or any thing that contains the compiled content.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L203" target="_blank">
-				
-				<b>file_handlers</b>
-			</a>
-		</h4>
-		<p><p>You can access all the file_handlers here.
-Manipulate them at runtime.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript"># We return js directly.
-renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L209" target="_blank">
-				
-				<b>cache_pool</b>
-			</a>
-		</h4>
-		<p><p>The cache pool of the result of <code>file_handlers.compiler</code></p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Key is the file path.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L232" target="_blank">
-				
-				<b>static</b>
-			</a>
-		</h4>
-		<p><p>Set a static directory.
-Static folder to automatically serve coffeescript and stylus.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ String | Object }</em>
-				</b></p>
-				<p><p>If it&#39;s a string it represents the root_dir
-of this static directory. Defaults:</p>
-<pre><code class="lang-coffeescript">{
-    root_dir: &#39;.&#39;
-    index: process.env.NODE_ENV == &#39;development&#39; # Whether enable serve direcotry index.
-    inject_client: process.env.NODE_ENV == &#39;development&#39;
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Middleware }</em>
-				</b></p>
-				<p><p>Experss.js middleware.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L325" target="_blank">
-				
-				<b>render</b>
-			</a>
-		</h4>
-		<p><p>Render a file. It will auto-detect the file extension and
-choose the right compiler to handle the content.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The file path. The path extension should be
-the same with the compiled result file.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript"># The &#39;a.ejs&#39; file may not exsits, it will auto-compile
-# the &#39;a.ejs&#39; or &#39;a.html&#39; to html.
-renderer.render(&#39;a.html&#39;).done (html) -&gt; kit.log(html)
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>ext</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Force the extension. Optional.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript"># if the content of &#39;a.ejs&#39; is &#39;&lt;% var a = 10 %&gt;&lt;%= a %&gt;&#39;
-renderer.render(&#39;a.ejs&#39;, &#39;.html&#39;).done (html) -&gt; html == &#39;10&#39;
-renderer.render(&#39;a.ejs&#39;).done (str) -&gt; str == &#39;&lt;% var a = 10 %&gt;&lt;%= a %&gt;&#39;
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>data</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Extra data you want to send to the compiler. Optional.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>is_cache</code>
-					
-					<em>{ Boolean }</em>
-				</b></p>
-				<p><p>Whether to cache the result,
-default is false. Optional.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>Contains the compiled content.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L351" target="_blank">
-				
-				<b>close</b>
-			</a>
-		</h4>
-		<p><p>Release the resources.</p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L362" target="_blank">
-				
-				<b>e.compile_error</b>
-			</a>
-		</h4>
-		<p></p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>compile_error</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ string }</em>
-				</b></p>
-				<p><p>The error file.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>err</code>
-					
-					<em>{ Error }</em>
-				</b></p>
-				<p><p>The error info.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L370" target="_blank">
-				
-				<b>e.watch_file</b>
-			</a>
-		</h4>
-		<p></p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>watch_file</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ string }</em>
-				</b></p>
-				<p><p>The path of the file.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>curr</code>
-					
-					<em>{ fs.Stats }</em>
-				</b></p>
-				<p><p>Current state.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>prev</code>
-					
-					<em>{ fs.Stats }</em>
-				</b></p>
-				<p><p>Previous state.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L376" target="_blank">
-				
-				<b>e.file_deleted</b>
-			</a>
-		</h4>
-		<p></p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>file_deleted</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ string }</em>
-				</b></p>
-				<p><p>The path of the file.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/renderer.coffee#L382" target="_blank">
-				
-				<b>e.file_modified</b>
-			</a>
-		</h4>
-		<p></p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>event</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>file_modified</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ string }</em>
-				</b></p>
-				<p><p>The path of the file.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-</ul>
-
-<hr>
-
-
-
-<h3>db</h3>
-<ul>
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/db.coffee#L5" target="_blank">
-				
-				<b>Overview</b>
-			</a>
-		</h4>
-		<p><p>See my <a href="https://github.com/ysmood/jdb">jdb</a> project.</p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/db.coffee#L18" target="_blank">
-				
-				<b>db</b>
-			</a>
-		</h4>
-		<p><p>Create a JDB instance.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults:</p>
-<pre><code class="lang-coffeescript">{
-    db_path: &#39;./nobone.db&#39;
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Jdb }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/db.coffee#L28" target="_blank">
-				
-				<b>jdb.loaded</b>
-			</a>
-		</h4>
-		<p><p>A promise object that help you to detect when
-the db is totally loaded.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-</ul>
-
-<hr>
-
-
-
-<h3>proxy</h3>
-<ul>
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/proxy.coffee#L7" target="_blank">
-				
-				<b>Overview</b>
-			</a>
-		</h4>
-		<p><p>For test, page injection development.
-A cross platform Fiddler alternative.
-Most time used with SwitchySharp.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>extends</u>:
-					
-					<em>{ http-proxy.ProxyServer }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/proxy.coffee#L18" target="_blank">
-				
-				<b>proxy</b>
-			</a>
-		</h4>
-		<p><p>Create a Proxy instance.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults: <code>{ }</code></p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Proxy }</em>
-				</b></p>
-				<p><p>For more, see <a href="https://github.com/nodejitsu/node-http-proxy">node-http-proxy</a></p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/proxy.coffee#L31" target="_blank">
-				
-				<b>url</b>
-			</a>
-		</h4>
-		<p><p>Use it to proxy one url to another.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>req</code>
-					
-					<em>{ http.IncomingMessage }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>res</code>
-					
-					<em>{ http.ServerResponse }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>url</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The target url force to.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Other options.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>err</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Custom error handler.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/proxy.coffee#L66" target="_blank">
-				
-				<b>connect</b>
-			</a>
-		</h4>
-		<p><p>Http CONNECT method tunneling proxy helper.
-Most times used with https proxing.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>req</code>
-					
-					<em>{ http.IncomingMessage }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>sock</code>
-					
-					<em>{ net.Socket }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>head</code>
-					
-					<em>{ Buffer }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>host</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The host force to. It&#39;s optional.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>port</code>
-					
-					<em>{ Int }</em>
-				</b></p>
-				<p><p>The port force to. It&#39;s optional.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>err</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Custom error handler.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript">nobone = require &#39;nobone&#39;
-{ proxy, service } = nobone { proxy:{}, service: {} }
-
-# Directly connect to the original site.
-service.server.on &#39;connect&#39;, proxy.connect
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/proxy.coffee#L105" target="_blank">
-				
-				<b>pac</b>
-			</a>
-		</h4>
-		<p><p>A pac helper.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>curr_host</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The current host for proxy server. It&#39;s optional.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>rule_handler</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Your custom pac rules.
-It gives you three helpers.</p>
-<pre><code class="lang-coffeescript">url # The current client request url.
-host # The host name derived from the url.
-curr_host = &#39;PROXY host:port;&#39; # Nobone server host address.
-direct =  &quot;DIRECT;&quot;
-match = (pattern) -&gt; # A function use shExpMatch to match your url.
-proxy = (target) -&gt; # return &#39;PROXY target;&#39;.
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Express Middleware.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/modules/proxy.coffee#L142" target="_blank">
-				
-				<b>tunnel</b>
-			</a>
-		</h4>
-		<p><p>HTTP/HTTPS Agents for tunneling proxies.
-See the project <a href="https://github.com/koichik/node-tunnel">node-tunnel</a></p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-</ul>
-
-<hr>
-
-
-
-<h3>kit</h3>
-<ul>
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L14" target="_blank">
-				
-				<b>kit</b>
-			</a>
-		</h4>
-		<p><p>The <code>kit</code> lib of NoBone will load by default and is not optional.
-All the async functions in <code>kit</code> return promise object.
-Most time I use it to handle files and system staffs.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L27" target="_blank">
-				
-				<b>kit_extends_fs_q</b>
-			</a>
-		</h4>
-		<p><p>kit extends all the Q functions of <a href="https://github.com/ysmood/fs-more">fs-more</a>.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript">kit.readFile(&#39;test.txt&#39;).done (str) -&gt;
-    console.log str
-
-kit.outputFile(&#39;a.txt&#39;, &#39;test&#39;).done()
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L43" target="_blank">
-				
-				<b>require</b>
-			</a>
-		</h4>
-		<p><p>Much much faster than the native require of node, but
-you should follow some rules to use it safely.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>module_name</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Moudle path is not allowed!</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>done</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Run only the first time after the module loaded.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Module }</em>
-				</b></p>
-				<p><p>The module that you require.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L56" target="_blank">
-				
-				<b>path</b>
-			</a>
-		</h4>
-		<p><p>Node native module</p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L61" target="_blank">
-				
-				<b>url</b>
-			</a>
-		</h4>
-		<p><p>Node native module</p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L66" target="_blank">
-				
-				<b>fs</b>
-			</a>
-		</h4>
-		<p><p>See my project <a href="https://github.com/ysmood/fs-more">fs-more</a></p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L72" target="_blank">
-				
-				<b>q</b>
-			</a>
-		</h4>
-		<p><p>The promise Q lib.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L78" target="_blank">
-				
-				<b>jhash</b>
-			</a>
-		</h4>
-		<p><p>See my <a href="https://github.com/ysmood/jhash">jhash</a> project.</p>
-</p>
-
-		<ul>
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L86" target="_blank">
-				
-				<b>glob</b>
-			</a>
-		</h4>
-		<p><p>See the <a href="https://github.com/isaacs/node-glob">https://github.com/isaacs/node-glob</a></p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>patterns</code>
-					
-					<em>{ String | Array }</em>
-				</b></p>
-				<p><p>Minimatch pattern.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>The glob options.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>Contains the path list.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L110" target="_blank">
-				
-				<b>spawn</b>
-			</a>
-		</h4>
-		<p><p>A safer version of <code>child_process.spawn</code> to run a process on Windows or Linux.
-It will automatically add <code>node_modules/.bin</code> to the <code>PATH</code> environment variable.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>cmd</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Path of an executable program.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>args</code>
-					
-					<em>{ Array }</em>
-				</b></p>
-				<p><p>CLI arguments.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Process options. Same with the Node.js official doc.
-Default will inherit the parent&#39;s stdio.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>The <code>promise.process</code> is the child process object.
-When the child process ends, it will resolve.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L165" target="_blank">
-				
-				<b>open</b>
-			</a>
-		</h4>
-		<p><p>Open a thing that your system can recognize.
-Now only support Windows and OSX.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>cmd</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The thing you want to open.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>The options of the node native <code>child_process.exec</code>.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript"># Open a webpage with the default browser.
-kit.open &#39;http://ysmood.org&#39;
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>When the child process exits.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L232" target="_blank">
-				
-				<b>request</b>
-			</a>
-		</h4>
-		<p><p>A powerful extended combination of <code>http.request</code> and <code>https.request</code>.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>The same as the <a href="http://nodejs.org/api/http.html#http_http_request_options_callback">http.request</a>, but with
-some extra options:</p>
-<pre><code class="lang-coffeescript">{
-    url: &#39;It is not optional, String or Url Object.&#39;
-    body: true # Other than return `res` with `res.body`, return `body` directly.
-    redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
-
-    # Set null to use buffer, optional.
-    # It supports GBK, Shift_JIS etc.
-    # For more info, see https://github.com/ashtuchkin/iconv-lite
-    res_encoding: &#39;auto&#39;
-
-    # It&#39;s string, object or buffer, optional. When it&#39;s an object,
-    # The request will be &#39;application/x-www-form-urlencoded&#39;.
-    req_data: null
-
-    auto_end_req: true # auto end the request.
-    req_pipe: Readable Stream.
-    res_pipe: Writable Stream.
-}
-</code></pre>
-<p>And if set opts as string, it will be treated as the url.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>Contains the http response object,
-it has an extra <code>body</code> property.
-You can also get the request object by using <code>Promise.req</code>, for example:</p>
-<pre><code class="lang-coffeescript">p = kit.request &#39;http://test.com&#39;
-p.req.on &#39;response&#39;, (res) -&gt;
-    kit.log res.headers[&#39;content-length&#39;]
-p.done (body) -&gt;
-    kit.log body # html or buffer
-
-kit.request {
-    url: &#39;https://test.com&#39;
-    body: false
-}
-.done (res) -&gt;
-    kit.log res.body
-    kit.log res.headers
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L389" target="_blank">
-				
-				<b>monitor_app</b>
-			</a>
-		</h4>
-		<p><p>Monitor an application and automatically restart it when file changed.
-When the monitored app exit with error, the monitor itself will also exit.
-It will make sure your app crash properly.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults:</p>
-<pre><code class="lang-coffeescript">{
-    bin: &#39;node&#39;
-    args: [&#39;app.js&#39;]
-    watch_list: [&#39;app.js&#39;]
-    mode: &#39;development&#39;
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Process }</em>
-				</b></p>
-				<p><p>The child process.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L428" target="_blank">
-				
-				<b>watch_file</b>
-			</a>
-		</h4>
-		<p><p>Watch a file. If the file changes, the handler will be invoked.
-You can change the polling interval by using <code>process.env.polling_watch</code>
-variable.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The file path</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>handler</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p><p>Event listener.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L450" target="_blank">
-				
-				<b>watch_files</b>
-			</a>
-		</h4>
-		<p><p>Watch files, when file changes, the handler will be invoked.
-It takes the advantage of <code>kit.watch_file</code>.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>patterns</code>
-					
-					<em>{ Array }</em>
-				</b></p>
-				<p><p>String array with minimatch syntax.
-Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>handler</code>
-					
-					<em>{ Function }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L462" target="_blank">
-				
-				<b>env_mode</b>
-			</a>
-		</h4>
-		<p><p>A shortcut to set process option with specific mode,
-and keep the current env variables.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>mode</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>&#39;development&#39;, &#39;production&#39;, etc.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p><code>process.env</code> object.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L494" target="_blank">
-				
-				<b>lang</b>
-			</a>
-		</h4>
-		<p><p>It will find the right <code>key/value</code> pair in your defined <code>kit.lang_set</code>.
-If it cannot file the one, it will output the key directly.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>cmd</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The original English text.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>lang</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The target language name.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>lang_set</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Specific a language collection.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>Supports we have two json file in <code>langs_dir_path</code> folder.</p>
-<ul>
-<li>cn.js, content: <code>module.exports = { China: &#39;中国&#39; }</code></li>
-<li>jp.coffee, content: <code>module.exports = &#39;Good weather.&#39;: &#39;日和。&#39;</code></li>
-</ul>
-<pre><code class="lang-coffeescript">kit.lang_load &#39;langs_dir_path&#39;
-
-kit.lang_current = &#39;cn&#39;
-&#39;China&#39;.l # &#39;中国&#39;
-&#39;Good weather.&#39;.l(&#39;jp&#39;) # &#39;日和。&#39;
-
-kit.lang_current = &#39;en&#39;
-&#39;China&#39;.l # &#39;China&#39;
-&#39;Good weather.&#39;.l(&#39;jp&#39;) # &#39;Good weather.&#39;
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L509" target="_blank">
-				
-				<b>lang_set</b>
-			</a>
-		</h4>
-		<p><p>Language collections.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript">kit.lang_set = {
-    &#39;cn&#39;: { &#39;China&#39;: &#39;中国&#39; }
-}
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L516" target="_blank">
-				
-				<b>lang_current</b>
-			</a>
-		</h4>
-		<p><p>Current default language.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>type</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>default</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><p>&#39;en&#39;</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L530" target="_blank">
-				
-				<b>lang_load</b>
-			</a>
-		</h4>
-		<p><p>Load language set directory and save them into
-the <code>kit.lang_set</code>.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>dir_path</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The directory path that contains
-js or coffee files.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript">kit.lang_load &#39;assets/lang&#39;
-kit.lang_current = &#39;cn&#39;
-kit.log &#39;test&#39;.l # This may output &#39;测试&#39;.
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L552" target="_blank">
-				
-				<b>inspect</b>
-			</a>
-		</h4>
-		<p><p>For debugging use. Dump a colorful object.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>obj</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Your target object.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Options. Default:
-{ colors: true, depth: 5 }</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L574" target="_blank">
-				
-				<b>log</b>
-			</a>
-		</h4>
-		<p><p>A better log for debugging, it uses the <code>kit.inspect</code> to log.</p>
-<p>You can use terminal command like <code>log_reg=&#39;pattern&#39; node app.js</code> to
-filter the log info.</p>
-<p>You can use <code>log_trace=&#39;on&#39; node app.js</code> to force each log end with a
-stack trace.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>msg</code>
-					
-					<em>{ Any }</em>
-				</b></p>
-				<p><p>Your log message.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>action</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>&#39;log&#39;, &#39;error&#39;, &#39;warn&#39;.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Default is same with <code>kit.inspect</code></p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L622" target="_blank">
-				
-				<b>err</b>
-			</a>
-		</h4>
-		<p><p>A log error shortcut for <code>kit.log(msg, &#39;error&#39;, opts)</code></p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>msg</code>
-					
-					<em>{ Any }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L636" target="_blank">
-				
-				<b>pad</b>
-			</a>
-		</h4>
-		<p><p>String padding helper.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>example</u>:
-					
-					<em>{  }</em>
-				</b></p>
-				<p><pre><code class="lang-coffeescript">kit.pad &#39;1&#39;, 3 # &#39;001&#39;
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>str</code>
-					
-					<em>{ Sting | Number }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>width</code>
-					
-					<em>{ Number }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>char</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Padding char. Default is &#39;0&#39;.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ String }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L654" target="_blank">
-				
-				<b>daemonize</b>
-			</a>
-		</h4>
-		<p><p>Daemonize a program.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults:
-{
-    bin: &#39;node&#39;
-    args: [&#39;app.js&#39;]
-    stdout: &#39;stdout.log&#39;
-    stderr: &#39;stderr.log&#39;
-}</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Porcess }</em>
-				</b></p>
-				<p><p>The daemonized process.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L679" target="_blank">
-				
-				<b>prompt_get</b>
-			</a>
-		</h4>
-		<p><p>Block terminal and wait for user inputs. Useful when you need
-in-terminal user interaction.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>See the <a href="https://github.com/flatiron/prompt">https://github.com/flatiron/prompt</a></p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>Contains the results of prompt.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L705" target="_blank">
-				
-				<b>async</b>
-			</a>
-		</h4>
-		<p><p>An throttle version of <code>Q.all</code>, it runs all the tasks under
-a concurrent limitation.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>limit</code>
-					
-					<em>{ Int }</em>
-				</b></p>
-				<p><p>The max task to run at the same time. It&#39;s optional.
-Default is Infinity.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>list</code>
-					
-					<em>{ Array | Function }</em>
-				</b></p>
-				<p><p>If the list is an array, it should be a list of functions or promises. And each function will return a promise.
-If the list is a function, it should be a iterator that returns a promise,
-when it returns <code>undefined</code>, the iteration ends.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>save_resutls</code>
-					
-					<em>{ Boolean }</em>
-				</b></p>
-				<p><p>Whether to save each promise&#39;s result or not.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p><p>You can get each round&#39;s results by using the <code>promise.progress</code>.</p>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L797" target="_blank">
-				
-				<b>parse_comment</b>
-			</a>
-		</h4>
-		<p><p>A comments parser for coffee-script. Used to generate documentation automatically.
-It will traverse through all the comments.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>module_name</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The name of the module it belongs to.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>code</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>Coffee source code.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>path</code>
-					
-					<em>{ String }</em>
-				</b></p>
-				<p><p>The path of the source code.</p>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Parser options:</p>
-<pre><code class="lang-coffeescript">{
-    comment_reg: RegExp
-    split_reg: RegExp
-    tag_name_reg: RegExp
-    type_reg: RegExp
-    name_reg: RegExp
-    description_reg: RegExp
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Array }</em>
-				</b></p>
-				<p><p>The parsed comments. Each item is something like:</p>
-<pre><code class="lang-coffeescript">{
-    module: &#39;nobone&#39;
-    name: &#39;parse_comment&#39;
-    description: &#39;A comments parser for coffee-script.&#39;
-    tags: [
-        {
-            tag_name: &#39;param&#39;
-            type: &#39;string&#39;
-            name: &#39;code&#39;
-            description: &#39;The name of the module it belongs to.&#39;
-            path: &#39;http://the_path_of_source_code&#39;
-            index: 256 # The target char index in the file.
-            line: 32 # The line number of the target in the file.
-        }
-    ]
-}
-</code></pre>
-</p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="lib/kit.coffee#L880" target="_blank">
-				
-				<b>generate_bone</b>
-			</a>
-		</h4>
-		<p><p>A scaffolding helper to generate template project.
-The <code>lib/cli.coffee</code> used it as an example.</p>
-</p>
-
-		<ul>
-			
-
-			<li>
-				<p><b>
-					<u>param</u>:
-					
-						<code>opts</code>
-					
-					<em>{ Object }</em>
-				</b></p>
-				<p><p>Defaults:</p>
-<pre><code class="lang-coffeescript">{
-    src_dir: null
-    patterns: &#39;**&#39;
-    dest_dir: null
-    data: {}
-    compile: (str, data, path) -&gt;
-        compile str
-}
-</code></pre>
-</p>
-			</li>
-
-			
-
-			<li>
-				<p><b>
-					<u>return</u>:
-					
-					<em>{ Promise }</em>
-				</b></p>
-				<p></p>
-			</li>
-
-			
-		</ul>
-	</li>
-
-	
-</ul>
-
-<hr>
+    ```
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Other options.
+
+  - **<u>return</u>**:  { _Object_ }
+
+    A nobone instance.
+
+- #### <a href="lib/nobone.coffee#L67" target="_blank"><b>close</b></a>
+
+  Release the resources.
+
+  - **<u>return</u>**:  { _Promise_ }
+
+- #### <a href="lib/nobone.coffee#L90" target="_blank"><b>module_defaults</b></a>
+
+  Help you to get the default options of moduels.
+
+  - **<u>static</u>**:
+
+  - **<u>param</u>**: `name` { _String_ }
+
+    Module name, if not set, return all modules' defaults.
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    A promise object which will produce the defaults.
+
+- #### <a href="lib/nobone.coffee#L118" target="_blank"><b>client</b></a>
+
+  The NoBone client helper.
+
+  - **<u>static</u>**:
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    The options of the client, defaults:
+    ```coffeescript
+    {
+    	auto_reload: process.env.NODE_ENV == 'development'
+    	lang_current: kit.lang_current
+    	lang_data: kit.lang_data
+    }
+    ```
+    return an empty string.
+
+  - **<u>return</u>**:  { _String_ }
+
+    The html of client helper.
+
+### service
+
+- #### <a href="lib/modules/service.coffee#L6" target="_blank"><b>Overview</b></a>
+
+  It is just a Express.js wrap.
+
+  - **<u>extends</u>**:  { _Express_ }
+
+    [Ref][0]
+    [0]: http://expressjs.com/4x/api.html
+
+- #### <a href="lib/modules/service.coffee#L25" target="_blank"><b>service</b></a>
+
+  Create a Service instance.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Defaults:
+    ```coffeescript
+    {
+    	auto_log: process.env.NODE_ENV == 'development'
+    	enable_remote_log: process.env.NODE_ENV == 'development'
+    	enable_sse: process.env.NODE_ENV == 'development'
+    	express: {}
+    }
+    ```
+
+  - **<u>return</u>**:  { _Service_ }
+
+- #### <a href="lib/modules/service.coffee#L35" target="_blank"><b>server</b></a>
+
+  The server object of the express object.
+
+  - **<u>type</u>**:  { _http.Server_ }
+
+    [Ref](http://nodejs.org/api/http.html#http_class_http_server)
+
+- #### <a href="lib/modules/service.coffee#L115" target="_blank"><b>sse</b></a>
+
+  A Server-Sent Event Manager.
+  The namespace of nobone sse is '/nobone-sse'.
+  For more info see [Using server-sent events][0].
+  NoBone use it to implement the auto-reload of the web assets.
+  [0]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
+
+  - **<u>property</u>**:  { _Array_ }
+
+    sessions The sessions of connected clients.
+    A session object is something like:
+    ```coffeescript
+    {
+    	req  # The express.js req object.
+    	res  # The express.js res object.
+    }
+    ```
+
+  - **<u>example</u>**:
+
+    You browser code should be something like this:
+    ```coffeescript
+    es = new EventSource('/nobone-sse')
+    es.addEventListener('event_name', (e) ->
+    	msg = JSON.parse(e.data)
+    	console.log(msg)
+    ```
+
+  - **<u>type</u>**:  { _SSE_ }
+
+- #### <a href="lib/modules/service.coffee#L126" target="_blank"><b>e.sse_connected</b></a>
+
+  This event will be triggered when a sse connection started.
+  The event name is a combination of sse_connected and req.path,
+  for example: "sse_connected/test"
+
+  - **<u>event</u>**:
+
+    sse_connected
+
+  - **<u>param</u>**: `session` { _SSE_session_ }
+
+    The session object of current connection.
+
+- #### <a href="lib/modules/service.coffee#L133" target="_blank"><b>e.sse_close</b></a>
+
+  This event will be triggered when a sse connection closed.
+
+  - **<u>event</u>**:
+
+    sse_close
+
+  - **<u>type</u>**:  { _SSE_session_ }
+
+    session The session object of current connection.
+
+- #### <a href="lib/modules/service.coffee#L141" target="_blank"><b>sse.create</b></a>
+
+  Create a sse session.
+
+  - **<u>param</u>**: `req` { _Express.req_ }
+
+  - **<u>param</u>**: `res` { _Express.res_ }
+
+  - **<u>return</u>**:  { _SSE_session_ }
+
+- #### <a href="lib/modules/service.coffee#L156" target="_blank"><b>session.emit</b></a>
+
+  Emit message to client.
+
+  - **<u>param</u>**: `event` { _String_ }
+
+    The event name.
+
+  - **<u>param</u>**: `msg` { _Object | String_ }
+
+    The message to send to the client.
+
+- #### <a href="lib/modules/service.coffee#L183" target="_blank"><b>sse.emit</b></a>
+
+  Broadcast a event to clients.
+
+  - **<u>param</u>**: `event` { _String_ }
+
+    The event name.
+
+  - **<u>param</u>**: `msg` { _Object | String_ }
+
+    The data you want to emit to session.
+
+  - **<u>param</u>**:  { _String_ }
+
+    [path] The namespace of target sessions. If not set,
+    broadcast to all clients.
+
+### renderer
+
+- #### <a href="lib/modules/renderer.coffee#L8" target="_blank"><b>Overview</b></a>
+
+  A abstract renderer for any string resources, such as template, source content, etc.
+  It automatically uses high performance memory cache.
+  You can run the benchmark to see the what differences it makes.
+  Even for huge project its memory usage is negligible.
+
+  - **<u>extends</u>**:  { _events.EventEmitter_ }
+
+    [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
+
+- #### <a href="lib/modules/renderer.coffee#L68" target="_blank"><b>renderer</b></a>
+
+  Create a Renderer instance.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Defaults:
+    ```coffeescript
+    {
+    	enable_watcher: process.env.NODE_ENV == 'development'
+    	auto_log: process.env.NODE_ENV == 'development'
+    
+    	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
+    	# into the page.
+    	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
+    	file_handlers: {
+    		'.html': {
+    			default: true
+    			ext_src: '.ejs'
+    			watch_list: {
+    				'path': [pattern1, ...] # Extra files to watch.
+    			}
+    			encoding: 'utf8' # optional, default is 'utf8'
+    			compiler: (str, path, ext_src, data) -> ...
+    		}
+    		'.js': {
+    			ext_src: '.coffee'
+    			compiler: (str, path) -> ...
+    		}
+    		'.css': {
+    			ext_src: ['.styl', '.less']
+    			compiler: (str, path) -> ...
+    		}
+    		'.md': {
+    			type: 'html' # Force type, optional.
+    			ext_src: ['.md', '.markdown']
+    			compiler: (str, path) -> ...
+    		}
+    		'.jpg': {
+    			encoding: null # To use buffer.
+    			compiler: (buf) -> buf
+    		}
+    		'.png': {
+    			encoding: null # To use buffer.
+    			compiler: '.jpg' # Use the compiler of '.jpg'
+    		}
+    		'.gif' ...
+    	}
+    }
+    ```
+
+  - **<u>return</u>**:  { _Renderer_ }
+
+- #### <a href="lib/modules/renderer.coffee#L89" target="_blank"><b>compiler</b></a>
+
+  The compiler should fulfil two interfaces.
+  It should return a promise object. Only handles string.
+
+  - **<u>this</u>**:  { _Renderer_ }
+
+    The context of this function is the
+    current renderer.
+
+  - **<u>param</u>**: `str` { _String_ }
+
+    Source content.
+
+  - **<u>param</u>**: `path` { _String_ }
+
+    For debug info.
+
+  - **<u>param</u>**: `data` { _Any_ }
+
+    The data sent from the `render` function.
+    when you call the `render` directly. Default is an empty object: `{ }`.
+
+  - **<u>return</u>**:  { _Any_ }
+
+    Promise or any thing that contains the compiled content.
+
+- #### <a href="lib/modules/renderer.coffee#L204" target="_blank"><b>file_handlers</b></a>
+
+  You can access all the file_handlers here.
+  Manipulate them at runtime.
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    # We return js directly.
+    renderer.file_handlers['.js'].compiler = (str) -> str
+    ```
+
+  - **<u>type</u>**:  { _Object_ }
+
+- #### <a href="lib/modules/renderer.coffee#L210" target="_blank"><b>cache_pool</b></a>
+
+  The cache pool of the result of `file_handlers.compiler`
+
+  - **<u>type</u>**:  { _Object_ }
+
+    Key is the file path.
+
+- #### <a href="lib/modules/renderer.coffee#L233" target="_blank"><b>static</b></a>
+
+  Set a static directory.
+  Static folder to automatically serve coffeescript and stylus.
+
+  - **<u>param</u>**: `opts` { _String | Object_ }
+
+    If it's a string it represents the root_dir
+    of this static directory. Defaults:
+    ```coffeescript
+    {
+    	root_dir: '.'
+    	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
+    	inject_client: process.env.NODE_ENV == 'development'
+    }
+    ```
+
+  - **<u>return</u>**:  { _Middleware_ }
+
+    Experss.js middleware.
+
+- #### <a href="lib/modules/renderer.coffee#L326" target="_blank"><b>render</b></a>
+
+  Render a file. It will auto-detect the file extension and
+  choose the right compiler to handle the content.
+
+  - **<u>param</u>**: `path` { _String_ }
+
+    The file path. The path extension should be
+    the same with the compiled result file.
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    # The 'a.ejs' file may not exsits, it will auto-compile
+    # the 'a.ejs' or 'a.html' to html.
+    renderer.render('a.html').done (html) -> kit.log(html)
+    ```
+
+  - **<u>param</u>**: `ext` { _String_ }
+
+    Force the extension. Optional.
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
+    renderer.render('a.ejs', '.html').done (html) -> html == '10'
+    renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
+    ```
+
+  - **<u>param</u>**: `data` { _Object_ }
+
+    Extra data you want to send to the compiler. Optional.
+
+  - **<u>param</u>**: `is_cache` { _Boolean_ }
+
+    Whether to cache the result,
+    default is false. Optional.
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    Contains the compiled content.
+
+- #### <a href="lib/modules/renderer.coffee#L352" target="_blank"><b>close</b></a>
+
+  Release the resources.
+
+- #### <a href="lib/modules/renderer.coffee#L363" target="_blank"><b>e.compile_error</b></a>
+
+  - **<u>event</u>**:
+
+    compile_error
+
+  - **<u>param</u>**: `path` { _string_ }
+
+    The error file.
+
+  - **<u>param</u>**: `err` { _Error_ }
+
+    The error info.
+
+- #### <a href="lib/modules/renderer.coffee#L371" target="_blank"><b>e.watch_file</b></a>
+
+  - **<u>event</u>**:
+
+    watch_file
+
+  - **<u>param</u>**: `path` { _string_ }
+
+    The path of the file.
+
+  - **<u>param</u>**: `curr` { _fs.Stats_ }
+
+    Current state.
+
+  - **<u>param</u>**: `prev` { _fs.Stats_ }
+
+    Previous state.
+
+- #### <a href="lib/modules/renderer.coffee#L377" target="_blank"><b>e.file_deleted</b></a>
+
+  - **<u>event</u>**:
+
+    file_deleted
+
+  - **<u>param</u>**: `path` { _string_ }
+
+    The path of the file.
+
+- #### <a href="lib/modules/renderer.coffee#L383" target="_blank"><b>e.file_modified</b></a>
+
+  - **<u>event</u>**:
+
+    file_modified
+
+  - **<u>param</u>**: `path` { _string_ }
+
+    The path of the file.
+
+### db
+
+- #### <a href="lib/modules/db.coffee#L5" target="_blank"><b>Overview</b></a>
+
+  See my [jdb][0] project.
+  [0]: https://github.com/ysmood/jdb
+
+- #### <a href="lib/modules/db.coffee#L19" target="_blank"><b>db</b></a>
+
+  Create a JDB instance.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Defaults:
+    ```coffeescript
+    {
+    	db_path: './nobone.db'
+    }
+    ```
+
+  - **<u>return</u>**:  { _Jdb_ }
+
+- #### <a href="lib/modules/db.coffee#L29" target="_blank"><b>jdb.loaded</b></a>
+
+  A promise object that help you to detect when
+  the db is totally loaded.
+
+  - **<u>type</u>**:  { _Promise_ }
+
+### proxy
+
+- #### <a href="lib/modules/proxy.coffee#L7" target="_blank"><b>Overview</b></a>
+
+  For test, page injection development.
+  A cross platform Fiddler alternative.
+  Most time used with SwitchySharp.
+
+  - **<u>extends</u>**:  { _http-proxy.ProxyServer_ }
+
+- #### <a href="lib/modules/proxy.coffee#L18" target="_blank"><b>proxy</b></a>
+
+  Create a Proxy instance.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Defaults: `{ }`
+
+  - **<u>return</u>**:  { _Proxy_ }
+
+    For more, see [node-http-proxy][0]
+    [0]: https://github.com/nodejitsu/node-http-proxy
+
+- #### <a href="lib/modules/proxy.coffee#L31" target="_blank"><b>url</b></a>
+
+  Use it to proxy one url to another.
+
+  - **<u>param</u>**: `req` { _http.IncomingMessage_ }
+
+  - **<u>param</u>**: `res` { _http.ServerResponse_ }
+
+  - **<u>param</u>**: `url` { _String_ }
+
+    The target url force to.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Other options.
+
+  - **<u>param</u>**: `err` { _Function_ }
+
+    Custom error handler.
+
+- #### <a href="lib/modules/proxy.coffee#L66" target="_blank"><b>connect</b></a>
+
+  Http CONNECT method tunneling proxy helper.
+  Most times used with https proxing.
+
+  - **<u>param</u>**: `req` { _http.IncomingMessage_ }
+
+  - **<u>param</u>**: `sock` { _net.Socket_ }
+
+  - **<u>param</u>**: `head` { _Buffer_ }
+
+  - **<u>param</u>**: `host` { _String_ }
+
+    The host force to. It's optional.
+
+  - **<u>param</u>**: `port` { _Int_ }
+
+    The port force to. It's optional.
+
+  - **<u>param</u>**: `err` { _Function_ }
+
+    Custom error handler.
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    nobone = require 'nobone'
+    { proxy, service } = nobone { proxy:{}, service: {} }
+    
+    # Directly connect to the original site.
+    service.server.on 'connect', proxy.connect
+    ```
+
+- #### <a href="lib/modules/proxy.coffee#L105" target="_blank"><b>pac</b></a>
+
+  A pac helper.
+
+  - **<u>param</u>**: `curr_host` { _String_ }
+
+    The current host for proxy server. It's optional.
+
+  - **<u>param</u>**: `rule_handler` { _Function_ }
+
+    Your custom pac rules.
+    It gives you three helpers.
+    ```coffeescript
+    url # The current client request url.
+    host # The host name derived from the url.
+    curr_host = 'PROXY host:port;' # Nobone server host address.
+    direct =  "DIRECT;"
+    match = (pattern) -> # A function use shExpMatch to match your url.
+    proxy = (target) -> # return 'PROXY target;'.
+    ```
+
+  - **<u>return</u>**:  { _Function_ }
+
+    Express Middleware.
+
+- #### <a href="lib/modules/proxy.coffee#L142" target="_blank"><b>tunnel</b></a>
+
+  HTTP/HTTPS Agents for tunneling proxies.
+  See the project [node-tunnel][0]
+  [0]: https://github.com/koichik/node-tunnel
+
+### kit
+
+- #### <a href="lib/kit.coffee#L14" target="_blank"><b>kit</b></a>
+
+  The `kit` lib of NoBone will load by default and is not optional.
+  All the async functions in `kit` return promise object.
+  Most time I use it to handle files and system staffs.
+
+  - **<u>type</u>**:  { _Object_ }
+
+- #### <a href="lib/kit.coffee#L27" target="_blank"><b>kit_extends_fs_q</b></a>
+
+  kit extends all the Q functions of [fs-more][0].
+  [0]: https://github.com/ysmood/fs-more
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    kit.readFile('test.txt').done (str) ->
+    	console.log str
+    
+    kit.outputFile('a.txt', 'test').done()
+    ```
+
+- #### <a href="lib/kit.coffee#L43" target="_blank"><b>require</b></a>
+
+  Much much faster than the native require of node, but
+  you should follow some rules to use it safely.
+
+  - **<u>param</u>**: `module_name` { _String_ }
+
+    Moudle path is not allowed!
+
+  - **<u>param</u>**: `done` { _Function_ }
+
+    Run only the first time after the module loaded.
+
+  - **<u>return</u>**:  { _Module_ }
+
+    The module that you require.
+
+- #### <a href="lib/kit.coffee#L56" target="_blank"><b>path</b></a>
+
+  Node native module
+
+- #### <a href="lib/kit.coffee#L61" target="_blank"><b>url</b></a>
+
+  Node native module
+
+- #### <a href="lib/kit.coffee#L66" target="_blank"><b>fs</b></a>
+
+  See my project [fs-more](https://github.com/ysmood/fs-more)
+
+- #### <a href="lib/kit.coffee#L72" target="_blank"><b>q</b></a>
+
+  The promise Q lib.
+
+  - **<u>type</u>**:  { _Object_ }
+
+- #### <a href="lib/kit.coffee#L78" target="_blank"><b>jhash</b></a>
+
+  See my [jhash][0] project.
+  [0]: https://github.com/ysmood/jhash
+
+- #### <a href="lib/kit.coffee#L86" target="_blank"><b>glob</b></a>
+
+  See the https://github.com/isaacs/node-glob
+
+  - **<u>param</u>**: `patterns` { _String | Array_ }
+
+    Minimatch pattern.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    The glob options.
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    Contains the path list.
+
+- #### <a href="lib/kit.coffee#L110" target="_blank"><b>spawn</b></a>
+
+  A safer version of `child_process.spawn` to run a process on Windows or Linux.
+  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
+
+  - **<u>param</u>**: `cmd` { _String_ }
+
+    Path of an executable program.
+
+  - **<u>param</u>**: `args` { _Array_ }
+
+    CLI arguments.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Process options. Same with the Node.js official doc.
+    Default will inherit the parent's stdio.
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    The `promise.process` is the child process object.
+    When the child process ends, it will resolve.
+
+- #### <a href="lib/kit.coffee#L165" target="_blank"><b>open</b></a>
+
+  Open a thing that your system can recognize.
+  Now only support Windows and OSX.
+
+  - **<u>param</u>**: `cmd` { _String_ }
+
+    The thing you want to open.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    The options of the node native `child_process.exec`.
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    # Open a webpage with the default browser.
+    kit.open 'http://ysmood.org'
+    ```
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    When the child process exits.
+
+- #### <a href="lib/kit.coffee#L232" target="_blank"><b>request</b></a>
+
+  A powerful extended combination of `http.request` and `https.request`.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    The same as the [http.request][0], but with
+    some extra options:
+    ```coffeescript
+    {
+    	url: 'It is not optional, String or Url Object.'
+    	body: true # Other than return `res` with `res.body`, return `body` directly.
+    	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
+    
+    	# Set null to use buffer, optional.
+    	# It supports GBK, Shift_JIS etc.
+    	# For more info, see https://github.com/ashtuchkin/iconv-lite
+    	res_encoding: 'auto'
+    
+    	# It's string, object or buffer, optional. When it's an object,
+    	# The request will be 'application/x-www-form-urlencoded'.
+    	req_data: null
+    
+    	auto_end_req: true # auto end the request.
+    	req_pipe: Readable Stream.
+    	res_pipe: Writable Stream.
+    }
+    ```
+    And if set opts as string, it will be treated as the url.
+    [0]: http://nodejs.org/api/http.html#http_http_request_options_callback
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    Contains the http response object,
+    it has an extra `body` property.
+    You can also get the request object by using `Promise.req`, for example:
+    ```coffeescript
+    p = kit.request 'http://test.com'
+    p.req.on 'response', (res) ->
+    	kit.log res.headers['content-length']
+    p.done (body) ->
+    	kit.log body # html or buffer
+    
+    kit.request {
+    	url: 'https://test.com'
+    	body: false
+    }
+    .done (res) ->
+    	kit.log res.body
+    	kit.log res.headers
+    ```
+
+- #### <a href="lib/kit.coffee#L390" target="_blank"><b>monitor_app</b></a>
+
+  Monitor an application and automatically restart it when file changed.
+  When the monitored app exit with error, the monitor itself will also exit.
+  It will make sure your app crash properly.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Defaults:
+    ```coffeescript
+    {
+    	bin: 'node'
+    	args: ['app.js']
+    	watch_list: ['app.js']
+    	mode: 'development'
+    }
+    ```
+
+  - **<u>return</u>**:  { _Process_ }
+
+    The child process.
+
+- #### <a href="lib/kit.coffee#L429" target="_blank"><b>watch_file</b></a>
+
+  Watch a file. If the file changes, the handler will be invoked.
+  You can change the polling interval by using `process.env.polling_watch`
+  variable.
+
+  - **<u>param</u>**: `path` { _String_ }
+
+    The file path
+
+  - **<u>param</u>**: `handler` { _Function_ }
+
+    Event listener.
+
+- #### <a href="lib/kit.coffee#L451" target="_blank"><b>watch_files</b></a>
+
+  Watch files, when file changes, the handler will be invoked.
+  It takes the advantage of `kit.watch_file`.
+
+  - **<u>param</u>**: `patterns` { _Array_ }
+
+    String array with minimatch syntax.
+    Such as `['\*.css', 'lib/\*\*.js']`.
+
+  - **<u>param</u>**: `handler` { _Function_ }
+
+- #### <a href="lib/kit.coffee#L463" target="_blank"><b>env_mode</b></a>
+
+  A shortcut to set process option with specific mode,
+  and keep the current env variables.
+
+  - **<u>param</u>**: `mode` { _String_ }
+
+    'development', 'production', etc.
+
+  - **<u>return</u>**:  { _Object_ }
+
+    `process.env` object.
+
+- #### <a href="lib/kit.coffee#L495" target="_blank"><b>lang</b></a>
+
+  It will find the right `key/value` pair in your defined `kit.lang_set`.
+  If it cannot file the one, it will output the key directly.
+
+  - **<u>param</u>**: `cmd` { _String_ }
+
+    The original English text.
+
+  - **<u>param</u>**: `lang` { _String_ }
+
+    The target language name.
+
+  - **<u>param</u>**: `lang_set` { _String_ }
+
+    Specific a language collection.
+
+  - **<u>return</u>**:  { _String_ }
+
+  - **<u>example</u>**:
+
+    Supports we have two json file in `langs_dir_path` folder.
+    - cn.js, content: `module.exports = { China: '中国' }`
+    - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
+    
+    ```coffeescript
+    kit.lang_load 'langs_dir_path'
+    
+    kit.lang_current = 'cn'
+    'China'.l # '中国'
+    'Good weather.'.l('jp') # '日和。'
+    
+    kit.lang_current = 'en'
+    'China'.l # 'China'
+    'Good weather.'.l('jp') # 'Good weather.'
+    ```
+
+- #### <a href="lib/kit.coffee#L510" target="_blank"><b>lang_set</b></a>
+
+  Language collections.
+
+  - **<u>type</u>**:  { _Object_ }
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    kit.lang_set = {
+    	'cn': { 'China': '中国' }
+    }
+    ```
+
+- #### <a href="lib/kit.coffee#L517" target="_blank"><b>lang_current</b></a>
+
+  Current default language.
+
+  - **<u>type</u>**:  { _String_ }
+
+  - **<u>default</u>**:
+
+    'en'
+
+- #### <a href="lib/kit.coffee#L531" target="_blank"><b>lang_load</b></a>
+
+  Load language set directory and save them into
+  the `kit.lang_set`.
+
+  - **<u>param</u>**: `dir_path` { _String_ }
+
+    The directory path that contains
+    js or coffee files.
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    kit.lang_load 'assets/lang'
+    kit.lang_current = 'cn'
+    kit.log 'test'.l # This may output '测试'.
+    ```
+
+- #### <a href="lib/kit.coffee#L553" target="_blank"><b>inspect</b></a>
+
+  For debugging use. Dump a colorful object.
+
+  - **<u>param</u>**: `obj` { _Object_ }
+
+    Your target object.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Options. Default:
+    { colors: true, depth: 5 }
+
+  - **<u>return</u>**:  { _String_ }
+
+- #### <a href="lib/kit.coffee#L575" target="_blank"><b>log</b></a>
+
+  A better log for debugging, it uses the `kit.inspect` to log.
+  
+  You can use terminal command like `log_reg='pattern' node app.js` to
+  filter the log info.
+  
+  You can use `log_trace='on' node app.js` to force each log end with a
+  stack trace.
+
+  - **<u>param</u>**: `msg` { _Any_ }
+
+    Your log message.
+
+  - **<u>param</u>**: `action` { _String_ }
+
+    'log', 'error', 'warn'.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Default is same with `kit.inspect`
+
+- #### <a href="lib/kit.coffee#L623" target="_blank"><b>err</b></a>
+
+  A log error shortcut for `kit.log(msg, 'error', opts)`
+
+  - **<u>param</u>**: `msg` { _Any_ }
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+- #### <a href="lib/kit.coffee#L637" target="_blank"><b>pad</b></a>
+
+  String padding helper.
+
+  - **<u>example</u>**:
+
+    ```coffeescript
+    kit.pad '1', 3 # '001'
+    ```
+
+  - **<u>param</u>**: `str` { _Sting | Number_ }
+
+  - **<u>param</u>**: `width` { _Number_ }
+
+  - **<u>param</u>**: `char` { _String_ }
+
+    Padding char. Default is '0'.
+
+  - **<u>return</u>**:  { _String_ }
+
+- #### <a href="lib/kit.coffee#L655" target="_blank"><b>daemonize</b></a>
+
+  Daemonize a program.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Defaults:
+    {
+    	bin: 'node'
+    	args: ['app.js']
+    	stdout: 'stdout.log'
+    	stderr: 'stderr.log'
+    }
+
+  - **<u>return</u>**:  { _Porcess_ }
+
+    The daemonized process.
+
+- #### <a href="lib/kit.coffee#L680" target="_blank"><b>prompt_get</b></a>
+
+  Block terminal and wait for user inputs. Useful when you need
+  in-terminal user interaction.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    See the https://github.com/flatiron/prompt
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    Contains the results of prompt.
+
+- #### <a href="lib/kit.coffee#L706" target="_blank"><b>async</b></a>
+
+  An throttle version of `Q.all`, it runs all the tasks under
+  a concurrent limitation.
+
+  - **<u>param</u>**: `limit` { _Int_ }
+
+    The max task to run at the same time. It's optional.
+    Default is Infinity.
+
+  - **<u>param</u>**: `list` { _Array | Function_ }
+
+    If the list is an array, it should be a list of functions or promises. And each function will return a promise.
+    If the list is a function, it should be a iterator that returns a promise,
+    when it returns `undefined`, the iteration ends.
+
+  - **<u>param</u>**: `save_resutls` { _Boolean_ }
+
+    Whether to save each promise's result or not.
+
+  - **<u>return</u>**:  { _Promise_ }
+
+    You can get each round's results by using the `promise.progress`.
+
+- #### <a href="lib/kit.coffee#L800" target="_blank"><b>parse_comment</b></a>
+
+  A comments parser for coffee-script. Used to generate documentation automatically.
+  It will traverse through all the comments.
+
+  - **<u>param</u>**: `module_name` { _String_ }
+
+    The name of the module it belongs to.
+
+  - **<u>param</u>**: `code` { _String_ }
+
+    Coffee source code.
+
+  - **<u>param</u>**: `path` { _String_ }
+
+    The path of the source code.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Parser options:
+    ```coffeescript
+    {
+    	comment_reg: RegExp
+    	split_reg: RegExp
+    	tag_name_reg: RegExp
+    	type_reg: RegExp
+    	name_reg: RegExp
+    	description_reg: RegExp
+    }
+    ```
+
+  - **<u>return</u>**:  { _Array_ }
+
+    The parsed comments. Each item is something like:
+    ```coffeescript
+    {
+    	module: 'nobone'
+    	name: 'parse_comment'
+    	description: 'A comments parser for coffee-script.'
+    	tags: [
+    		{
+    			tag_name: 'param'
+    			type: 'string'
+    			name: 'code'
+    			description: 'The name of the module it belongs to.'
+    			path: 'http://the_path_of_source_code'
+    			index: 256 # The target char index in the file.
+    			line: 32 # The line number of the target in the file.
+    		}
+    	]
+    }
+    ```
+
+- #### <a href="lib/kit.coffee#L877" target="_blank"><b>generate_bone</b></a>
+
+  A scaffolding helper to generate template project.
+  The `lib/cli.coffee` used it as an example.
+
+  - **<u>param</u>**: `opts` { _Object_ }
+
+    Defaults:
+    ```coffeescript
+    {
+    	src_dir: null
+    	patterns: '**'
+    	dest_dir: null
+    	data: {}
+    	compile: (str, data, path) ->
+    		compile str
+    }
+    ```
+
+  - **<u>return</u>**:  { _Promise_ }
 
 
 
@@ -3616,86 +1273,36 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 
 ## Unit Test
 
-	npm test
+  npm test
 
 *****************************************************************************
 
 ## Benchmark
 
 
-<p><h3>Memory vs Stream</h3>
-Memory cache is faster than direct file streaming even on SSD machine.</p>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Performance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>memory</td>
-<td>1,167 ops/sec ±4.11% (68 runs sampled)</td>
-</tr>
-<tr>
-<td>stream</td>
-<td>759 ops/sec ±2.77% (79 runs sampled)</td>
-</tr>
-</tbody>
-</table>
+<h3>Memory vs Stream</h3>
+Memory cache is faster than direct file streaming even on SSD machine.
 
+Type   | Performance
+------ | ---------------
+memory | 1,167 ops/sec ±4.11% (68 runs sampled)
+stream |   759 ops/sec ±2.77% (79 runs sampled)
 
-<p><h3>crc32 vs jhash</h3>
+<h3>crc32 vs jhash</h3>
 As we can see, jhash is about 1.5x faster than crc32.
-Their results of collision test are nearly the same.</p>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Performance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>crc buffer</td>
-<td>5,903 ops/sec ±0.52% (100 runs sampled)</td>
-</tr>
-<tr>
-<td>crc str</td>
-<td>54,045 ops/sec ±6.67% (83 runs sampled)</td>
-</tr>
-<tr>
-<td>jhash buffer</td>
-<td>9,756 ops/sec ±0.67% (101 runs sampled)</td>
-</tr>
-<tr>
-<td>jhash str</td>
-<td>72,056 ops/sec ±0.36% (94 runs sampled)</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Time</th>
-<th>Collision</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>jhash</td>
-<td>10.002s</td>
-<td>0.004007480630510286% (15 / 374300)</td>
-</tr>
-<tr>
-<td>crc32</td>
-<td>10.001s</td>
-<td>0.004445855827246745% (14 / 314900)</td>
-</tr>
-</tbody>
-</table>
+Their results of collision test are nearly the same.
 
+Type         | Performance
+------------ | ----------------
+crc buffer   | 5,903 ops/sec ±0.52% (100 runs sampled)
+crc str      | 54,045 ops/sec ±6.67% (83 runs sampled)
+jhash buffer | 9,756 ops/sec ±0.67% (101 runs sampled)
+jhash str    | 72,056 ops/sec ±0.36% (94 runs sampled)
+
+Type   | Time    | Collision
+------ | ------- | -------------
+jhash  | 10.002s | 0.004007480630510286% (15 / 374300)
+crc32  | 10.001s | 0.004445855827246745% (14 / 314900)
 
 
 *****************************************************************************

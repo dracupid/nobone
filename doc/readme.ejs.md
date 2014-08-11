@@ -89,53 +89,7 @@ nobone bone -h
 
 ## Modules API
 
-<% _.each(mods, function(mod, mod_name) { %>
-
-<h3><%- mod_name %></h3>
-<ul>
-	<% _.each(mod, function(el) { %>
-
-	<hr>
-
-	<li>
-		<h4>
-			<a href="<%= el.path %>#L<%= el.line %>" target="_blank">
-				<%
-					var name = el.name.replace('self.', '');
-					if (_.find(el.tags, function (el) {
-						return el.tag == 'return';
-					}))
-						name += '()'
-				%>
-				<b><%= name %></b>
-			</a>
-		</h4>
-		<p><%- el.description %></p>
-
-		<ul>
-			<% _.each(el.tags, function(tag) { %>
-
-			<li>
-				<p><b>
-					<u><%- tag.tag_name %></u>:
-					<% if (tag.name) { %>
-						<code><%- tag.name %></code>
-					<% } %>
-					<em>{ <%- tag.type %> }</em>
-				</b></p>
-				<p><%- tag.description %></p>
-			</li>
-
-			<% }); %>
-		</ul>
-	</li>
-
-	<% }); %>
-</ul>
-
-<hr>
-
-<% }); %>
+<%- mods_api %>
 
 ## Changelog
 
@@ -145,7 +99,7 @@ See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/chan
 
 ## Unit Test
 
-	npm test
+  npm test
 
 *****************************************************************************
 

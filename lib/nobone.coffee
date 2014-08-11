@@ -24,7 +24,8 @@ Q = require 'q'
  * 	proxy: null
  *
  * 	lang_dir: null # language set directory
- * }```
+ * }
+ * ```
  * @param {Object} opts Other options.
  * @return {Object} A nobone instance.
 ###

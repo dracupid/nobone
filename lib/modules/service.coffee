@@ -18,7 +18,8 @@ kit = require '../kit'
  * 	enable_remote_log: process.env.NODE_ENV == 'development'
  * 	enable_sse: process.env.NODE_ENV == 'development'
  * 	express: {}
- * }```
+ * }
+ * ```
  * @return {Service}
 ###
 service = (opts = {}) ->

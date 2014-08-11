@@ -74,6 +74,37 @@ task 'build', 'Compile coffee to js', build = ->
 		ejs = require 'ejs'
 		data._ = _
 
+		indent = (str, num = 0) ->
+			s = _.range(num).reduce ((s) -> s + ' '), ''
+			s + str.trim().replace(/\n/g, '\n' + s)
+
+		data.mods_api = ''
+
+		for mod_name, mod of data.mods
+			data.mods_api += """### #{mod_name}\n\n"""
+			for method in mod
+				method.name = method.name.replace 'self.', ''
+				method_str = indent """
+					- #### <a href="#{method.path}#L#{method.line}" target="_blank"><b>#{method.name}</b></a>
+				"""
+				method_str += '\n\n'
+				if method.description
+					method_str += indent method.description, 2
+					method_str += '\n\n'
+
+				for tag in method.tags
+					tname = if tag.name then "`#{tag.name}`" else ''
+					ttype = if tag.type then "{ _#{tag.type}_ }" else ''
+					method_str += indent """
+						- **<u>#{tag.tag_name}</u>**: #{tname} #{ttype}
+					""", 2
+					method_str += '\n\n'
+					if tag.description
+						method_str += indent tag.description, 4
+						method_str += '\n\n'
+
+				data.mods_api += method_str
+
 		out = ejs.render data.tpl, data
 
 		kit.outputFile 'readme.md', out

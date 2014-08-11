@@ -61,7 +61,8 @@ jhash = new kit.jhash.constructor
  * 		}
  * 		'.gif' ...
  * 	}
- * }```
+ * }
+ * ```
  * @return {Renderer}
 ###
 renderer = (opts) -> new Renderer(opts)

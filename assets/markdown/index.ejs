@@ -23,7 +23,7 @@
 
 <script type="text/javascript">
 	[].slice.apply(document.querySelectorAll('pre code[class]')).forEach(function (el) {
-		lang = el.getAttribute('class').replace('lang-', '');
+		var lang = el.getAttribute('class').replace('lang-', '');
 		el.parentElement.setAttribute('class', 'brush: ' + lang + ';');
 		el.parentElement.innerHTML = el.innerHTML
 	});
