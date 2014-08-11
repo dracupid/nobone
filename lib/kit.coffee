@@ -34,31 +34,125 @@ _.extend kit, {
 	require_cache: {}
 
 	###*
-	 * Much much faster than the native require of node, but
-	 * you should follow some rules to use it safely.
-	 * @param  {String}   module_name Moudle path is not allowed!
-	 * @param  {Function} done Run only the first time after the module loaded.
-	 * @return {Module} The module that you require.
+	 * An throttle version of `Q.all`, it runs all the tasks under
+	 * a concurrent limitation.
+	 * @param  {Int} limit The max task to run at the same time. It's optional.
+	 * Default is Infinity.
+	 * @param  {Array | Function} list
+	 * If the list is an array, it should be a list of functions or promises. And each function will return a promise.
+	 * If the list is a function, it should be a iterator that returns a promise,
+	 * when it returns `undefined`, the iteration ends.
+	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
+	 * @return {Promise} You can get each round's results by using the `promise.progress`.
 	###
-	require: (module_name, done) ->
-		if not kit.require_cache[module_name]
-			if module_name[0] == '.'
-				throw new Error('Only module name is allowed: ' + module_name)
+	async: (limit, list, save_resutls = true) ->
+		from = 0
+		resutls = []
+		iter_index = 0
+		is_iter_done = false
+		defer = Q.defer()
 
-			kit.require_cache[module_name] = require module_name
-			done? kit.require_cache[module_name]
+		if not _.isNumber limit
+			save_resutls = list
+			list = limit
+			limit = Infinity
 
-		kit.require_cache[module_name]
+		if _.isArray list
+			list_len = list.length - 1
+			iter = (i) ->
+				return if i > list_len
+				if _.isFunction list[i]
+					list[i](i)
+				else
+					list[i]
+
+		else if _.isFunction list
+			iter = list
+		else
+			throw new Error('unknown list type: ' + typeof list)
+
+		round = ->
+			curr = []
+			for i in [0 ... limit]
+				p = iter(iter_index++)
+				if is_iter_done or p == undefined
+					is_iter_done = true
+					break
+				if Q.isPromise p
+					p.then (ret) -> defer.notify ret
+				else
+					defer.notify p
+				curr.push p
+
+			if curr.length > 0
+				Q.all curr
+				.catch (err) ->
+					defer.reject err
+				.then (rets) ->
+					if save_resutls
+						resutls = resutls.concat rets
+					round()
+			else
+				if save_resutls
+					defer.resolve resutls
+				else
+					defer.resolve()
+
+		round()
+
+		defer.promise
 
 	###*
-	 * Node native module
+	 * Daemonize a program.
+	 * @param  {Object} opts Defaults:
+	 * {
+	 * 	bin: 'node'
+	 * 	args: ['app.js']
+	 * 	stdout: 'stdout.log'
+	 * 	stderr: 'stderr.log'
+	 * }
+	 * @return {Porcess} The daemonized process.
 	###
-	path: require 'path'
+	daemonize: (opts = {}) ->
+		_.defaults opts, {
+			bin: 'node'
+			args: ['app.js']
+			stdout: 'stdout.log'
+			stderr: 'stderr.log'
+		}
+
+		out_log = os.openSync(opts.stdout, 'a')
+		err_log = os.openSync(opts.stderr, 'a')
+
+		p = kit.spawn(opts.bin, opts.args, {
+			detached: true
+			stdio: [ 'ignore', out_log, err_log ]
+		}).process
+		p.unref()
+		kit.log "Run as background daemon, PID: #{p.pid}".yellow
+		p
 
 	###*
-	 * Node native module
+	 * A shortcut to set process option with specific mode,
+	 * and keep the current env variables.
+	 * @param  {String} mode 'development', 'production', etc.
+	 * @return {Object} `process.env` object.
 	###
-	url: require 'url'
+	env_mode: (mode) ->
+		{
+			env: _.defaults(
+				{ NODE_ENV: mode }
+				process.env
+			)
+		}
+
+	###*
+	 * A log error shortcut for `kit.log(msg, 'error', opts)`
+	 * @param  {Any} msg
+	 * @param  {Object} opts
+	###
+	err: (msg, opts = {}) ->
+		kit.log msg, 'error', opts
 
 	###*
 	 * See my project [fs-more](https://github.com/ysmood/fs-more)
@@ -66,16 +160,50 @@ _.extend kit, {
 	fs: fs
 
 	###*
-	 * The promise Q lib.
-	 * @type {Object}
+	 * A scaffolding helper to generate template project.
+	 * The `lib/cli.coffee` used it as an example.
+	 * @param  {Object} opts Defaults:
+	 * ```coffeescript
+	 * {
+	 * 	src_dir: null
+	 * 	patterns: '**'
+	 * 	dest_dir: null
+	 * 	data: {}
+	 * 	compile: (str, data, path) ->
+	 * 		compile str
+	 * }
+	 * ```
+	 * @return {Promise}
 	###
-	q: Q
+	generate_bone: (opts) ->
+		###
+			It will treat all the files in the path as an ejs file
+		###
+		_.defaults opts, {
+			src_dir: null
+			patterns: ['**', '**/.*']
+			dest_dir: null
+			data: {}
+			compile: (str, data, path) ->
+				ejs = kit.require 'ejs'
+				data.filename = path
+				ejs.render str, data
+		}
 
-	###*
-	 * See my [jhash][jhash] project.
-	 * [jhash]: https://github.com/ysmood/jhash
-	###
-	jhash: require 'jhash'
+		kit.glob(opts.patterns, { cwd: opts.src_dir })
+		.then (paths) ->
+			Q.all paths.map (path) ->
+				src_path = kit.path.join opts.src_dir, path
+				dest_path = kit.path.join opts.dest_dir, path
+
+				kit.readFile(src_path, 'utf8')
+				.then (str) ->
+					opts.compile str, opts.data, src_path
+				.then (code) ->
+					kit.outputFile dest_path, code
+				.catch (err) ->
+					if err.code != 'EISDIR'
+						throw err
 
 	###*
 	 * See the https://github.com/isaacs/node-glob
@@ -98,57 +226,204 @@ _.extend kit, {
 	_glob: Q.denodeify glob
 
 	###*
-	 * A safer version of `child_process.spawn` to run a process on Windows or Linux.
-	 * It will automatically add `node_modules/.bin` to the `PATH` environment variable.
-	 * @param  {String} cmd Path of an executable program.
-	 * @param  {Array} args CLI arguments.
-	 * @param  {Object} opts Process options. Same with the Node.js official doc.
-	 * Default will inherit the parent's stdio.
-	 * @return {Promise} The `promise.process` is the child process object.
-	 * When the child process ends, it will resolve.
+	 * See my [jhash][jhash] project.
+	 * [jhash]: https://github.com/ysmood/jhash
 	###
-	spawn: (cmd, args = [], opts = {}) ->
-		PATH = process.env.PATH or process.env.Path
-		[
-			kit.path.normalize __dirname + '/../node_modules/.bin'
-			kit.path.normalize process.cwd() + '/node_modules/.bin'
-		].forEach (path) ->
-			if PATH.indexOf(path) < 0 and kit.fs.existsSync(path)
-				PATH = [path, PATH].join kit.path.delimiter
-		process.env.PATH = PATH
-		process.env.Path = PATH
+	jhash: require 'jhash'
 
-		_.defaults opts, {
-			stdio: 'inherit'
+	###*
+	 * It will find the right `key/value` pair in your defined `kit.lang_set`.
+	 * If it cannot file the one, it will output the key directly.
+	 * @param  {String} cmd  The original English text.
+	 * @param  {String} lang The target language name.
+	 * @param  {String} lang_set Specific a language collection.
+	 * @return {String}
+	 * @example
+	 * Supports we have two json file in `langs_dir_path` folder.
+	 * - cn.js, content: `module.exports = { China: '中国' }`
+	 * - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
+	 *
+	 * ```coffeescript
+	 * kit.lang_load 'langs_dir_path'
+	 *
+	 * kit.lang_current = 'cn'
+	 * 'China'.l # '中国'
+	 * 'Good weather.'.l('jp') # '日和。'
+	 *
+	 * kit.lang_current = 'en'
+	 * 'China'.l # 'China'
+	 * 'Good weather.'.l('jp') # 'Good weather.'
+	 * ```
+	###
+	lang: (cmd, name = kit.lang_current, lang_set = kit.lang_set) ->
+		i = cmd.lastIndexOf '|'
+		en = if i > -1 then cmd[...i] else cmd
+		lang_set[name]?[cmd] or en
+
+	###*
+	 * Language collections.
+	 * @type {Object}
+	 * @example
+	 * ```coffeescript
+	 * kit.lang_set = {
+	 * 	'cn': { 'China': '中国' }
+	 * }
+	 * ```
+	###
+	lang_set: {}
+
+	###*
+	 * Current default language.
+	 * @type {String}
+	 * @default 'en'
+	###
+	lang_current: 'en'
+
+	###*
+	 * Load language set directory and save them into
+	 * the `kit.lang_set`.
+	 * @param  {String} dir_path The directory path that contains
+	 * js or coffee files.
+	 * @example
+	 * ```coffeescript
+	 * kit.lang_load 'assets/lang'
+	 * kit.lang_current = 'cn'
+	 * kit.log 'test'.l # This may output '测试'.
+	 * ```
+	###
+	lang_load: (dir_path) ->
+		return if not _.isString dir_path
+		dir_path = kit.fs.realpathSync dir_path
+
+		paths = kit.fs.readdirSync dir_path
+		for p in paths
+			ext = kit.path.extname p
+			continue if _.isEmpty ext
+			name = kit.path.basename p, ext
+			kit.lang_set[name] = require kit.path.join(dir_path, name)
+
+		Object.defineProperty String.prototype, 'l', {
+			get: (name, lang_set) -> kit.lang this, name, lang_set
 		}
 
-		if process.platform == 'win32'
-			cmd_ext = cmd + '.cmd'
-			if fs.existsSync cmd_ext
-				cmd = cmd_ext
-			else
-				which = kit.require 'which'
-				cmd = which.sync(cmd)
-			cmd = kit.path.normalize cmd
+	###*
+	 * For debugging use. Dump a colorful object.
+	 * @param  {Object} obj Your target object.
+	 * @param  {Object} opts Options. Default:
+	 * { colors: true, depth: 5 }
+	 * @return {String}
+	###
+	inspect: (obj, opts) ->
+		util = kit.require 'util'
 
-		defer = Q.defer()
+		_.defaults opts, {
+			colors: process.env.NODE_ENV == 'development'
+			depth: 5
+		}
 
-		{ spawn } = kit.require 'child_process'
+		str = util.inspect obj, opts
 
-		try
-			ps = spawn cmd, args, opts
-		catch err
-			defer.reject err
+	###*
+	 * A better log for debugging, it uses the `kit.inspect` to log.
+	 *
+	 * You can use terminal command like `log_reg='pattern' node app.js` to
+	 * filter the log info.
+	 *
+	 * You can use `log_trace='on' node app.js` to force each log end with a
+	 * stack trace.
+	 * @param  {Any} msg Your log message.
+	 * @param  {String} action 'log', 'error', 'warn'.
+	 * @param  {Object} opts Default is same with `kit.inspect`
+	###
+	log: (msg, action = 'log', opts = {}) ->
+		if not kit.last_log_time
+			kit.last_log_time = new Date
+			if process.env.log_reg
+				console.log '>> Log should match:'.yellow, process.env.log_reg
+				kit.log_reg = new RegExp(process.env.log_reg)
 
-		ps.on 'error', (err) ->
-			defer.reject err
+		time = new Date()
+		time_delta = (+time - +kit.last_log_time).toString().magenta + 'ms'
+		kit.last_log_time = time
+		time = [
+			[
+				kit.pad time.getFullYear(), 4
+				kit.pad time.getMonth() + 1, 2
+				kit.pad time.getDate(), 2
+			].join('-')
+			[
+				kit.pad time.getHours(), 2
+				kit.pad time.getMinutes(), 2
+				kit.pad time.getSeconds(), 2
+			].join(':')
+		].join(' ').grey
 
-		ps.on 'exit', (worker, code, signal) ->
-			defer.resolve { worker, code, signal }
 
-		defer.promise.process = ps
+		log = ->
+			str = _.toArray(arguments).join ' '
 
-		return defer.promise
+			if kit.log_reg and not kit.log_reg.test(str)
+				return
+
+			console[action] str.replace /\n/g, '\n  '
+
+		if _.isObject msg
+			log "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
+		else
+			log "[#{time}]", msg, time_delta
+
+		if process.env.log_trace == 'on'
+			log (new Error).stack.replace('Error:', '\nStack trace:').grey
+
+		if action == 'error'
+			console.log "\u0007\n"
+
+	###*
+	 * Monitor an application and automatically restart it when file changed.
+	 * When the monitored app exit with error, the monitor itself will also exit.
+	 * It will make sure your app crash properly.
+	 * @param  {Object} opts Defaults:
+	 * ```coffeescript
+	 * {
+	 * 	bin: 'node'
+	 * 	args: ['app.js']
+	 * 	watch_list: ['app.js']
+	 * 	mode: 'development'
+	 * }
+	 * ```
+	 * @return {Process} The child process.
+	###
+	monitor_app: (opts) ->
+		_.defaults opts, {
+			bin: 'node'
+			args: ['app.js']
+			watch_list: ['app.js']
+			mode: 'development'
+		}
+
+		ps = null
+		start = ->
+			ps = kit.spawn(
+				opts.bin
+				opts.args
+				kit.env_mode opts.mode
+			).process
+
+		start()
+
+		process.on 'SIGINT', ->
+			ps.kill 'SIGINT'
+
+		kit.watch_files opts.watch_list, (path, curr, prev) ->
+			if curr.mtime != prev.mtime
+				kit.log "Reload app, modified: ".yellow + path +
+					'\n' + _.times(64, ->'*').join('').yellow
+				ps.kill 'SIGINT'
+				start()
+
+		kit.log "Monitor: ".yellow + opts.watch_list
+
+		ps
 
 	###*
 	 * Open a thing that your system can recognize.
@@ -183,6 +458,170 @@ _.extend kit, {
 				defer.resolve { stdout, stderr }
 
 		defer.promise
+
+	###*
+	 * String padding helper.
+	 * @example
+	 * ```coffeescript
+	 * kit.pad '1', 3 # '001'
+	 * ```
+	 * @param  {Sting | Number} str
+	 * @param  {Number} width
+	 * @param  {String} char Padding char. Default is '0'.
+	 * @return {String}
+	###
+	pad: (str, width, char = '0') ->
+		str = str + ''
+		if str.length >= width
+			str
+		else
+			new Array(width - str.length + 1).join(char) + str
+
+	###*
+	 * A comments parser for coffee-script. Used to generate documentation automatically.
+	 * It will traverse through all the comments.
+	 * @param  {String} module_name The name of the module it belongs to.
+	 * @param  {String} code Coffee source code.
+	 * @param  {String} path The path of the source code.
+	 * @param  {Object} opts Parser options:
+	 * ```coffeescript
+	 * {
+	 * 	comment_reg: RegExp
+	 * 	split_reg: RegExp
+	 * 	tag_name_reg: RegExp
+	 * 	type_reg: RegExp
+	 * 	name_reg: RegExp
+	 * 	description_reg: RegExp
+	 * }
+	 * ```
+	 * @return {Array} The parsed comments. Each item is something like:
+	 * ```coffeescript
+	 * {
+	 * 	module: 'nobone'
+	 * 	name: 'parse_comment'
+	 * 	description: 'A comments parser for coffee-script.'
+	 * 	tags: [
+	 * 		{
+	 * 			tag_name: 'param'
+	 * 			type: 'string'
+	 * 			name: 'code'
+	 * 			description: 'The name of the module it belongs to.'
+	 * 			path: 'http://the_path_of_source_code'
+	 * 			index: 256 # The target char index in the file.
+	 * 			line: 32 # The line number of the target in the file.
+	 * 		}
+	 * 	]
+	 * }
+	 * ```
+	###
+	parse_comment: (module_name, code, path = '', opts = {}) ->
+		_.defaults opts, {
+			comment_reg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
+			split_reg: /^\s+\* @/m
+			tag_name_reg: /^([\w\.]+)\s*/
+			type_reg: /^\{(.+?)\}\s*/
+			name_reg: /^(\w+)\s*/
+			description_reg: /^([\s\S]*)/
+		}
+
+		parse_info = (block) ->
+			# Clean the prefix '*'
+			arr = block.split(opts.split_reg).map (el) ->
+				el.replace(/^[ \t]+\*[ \t]?/mg, '').trim()
+
+			{
+				description: arr[0] or ''
+				tags: arr[1..].map (el) ->
+					parse_tag = (reg) ->
+						m = el.match reg
+						if m and m[1]
+							el = el[m[0].length..]
+							m[1]
+						else
+							null
+
+					tag = {}
+
+					tag.tag_name = parse_tag opts.tag_name_reg
+
+					type = parse_tag opts.type_reg
+					if type
+						tag.type = type
+						if tag.tag_name == 'param'
+							tag.name = parse_tag opts.name_reg
+						tag.description = parse_tag(opts.description_reg) or ''
+					else
+						tag.description = parse_tag(opts.description_reg) or ''
+					tag
+			}
+
+		comments = []
+		m = null
+		while (m = opts.comment_reg.exec(code)) != null
+			info = parse_info m[1]
+			comments.push {
+				module: module_name
+				name: m[2]
+				description: info.description
+				tags: info.tags
+				path
+				index: opts.comment_reg.lastIndex
+				line: _.reduce(code[...opts.comment_reg.lastIndex]
+				, (count, char) ->
+					count++ if char == '\n'
+					count
+				, 1)
+			}
+
+		return comments
+
+	###*
+	 * Node native module
+	###
+	path: require 'path'
+
+	###*
+	 * Block terminal and wait for user inputs. Useful when you need
+	 * in-terminal user interaction.
+	 * @param  {Object} opts See the https://github.com/flatiron/prompt
+	 * @return {Promise} Contains the results of prompt.
+	###
+	prompt_get: (opts) ->
+		prompt = kit.require 'prompt', (prompt) ->
+			prompt.message = '>> '
+			prompt.delimiter = ''
+
+		defer = Q.defer()
+		prompt.get opts, (err, res) ->
+			if err
+				defer.reject err
+			else
+				defer.resolve res
+
+		defer.promise
+
+	###*
+	 * The promise Q lib.
+	 * @type {Object}
+	###
+	q: Q
+
+	###*
+	 * Much much faster than the native require of node, but
+	 * you should follow some rules to use it safely.
+	 * @param  {String}   module_name Moudle path is not allowed!
+	 * @param  {Function} done Run only the first time after the module loaded.
+	 * @return {Module} The module that you require.
+	###
+	require: (module_name, done) ->
+		if not kit.require_cache[module_name]
+			if module_name[0] == '.'
+				throw new Error('Only module name is allowed: ' + module_name)
+
+			kit.require_cache[module_name] = require module_name
+			done? kit.require_cache[module_name]
+
+		kit.require_cache[module_name]
 
 	###*
 	 * A powerful extended combination of `http.request` and `https.request`.
@@ -373,51 +812,62 @@ _.extend kit, {
 		defer.promise
 
 	###*
-	 * Monitor an application and automatically restart it when file changed.
-	 * When the monitored app exit with error, the monitor itself will also exit.
-	 * It will make sure your app crash properly.
-	 * @param  {Object} opts Defaults:
-	 * ```coffeescript
-	 * {
-	 * 	bin: 'node'
-	 * 	args: ['app.js']
-	 * 	watch_list: ['app.js']
-	 * 	mode: 'development'
-	 * }
-	 * ```
-	 * @return {Process} The child process.
+	 * A safer version of `child_process.spawn` to run a process on Windows or Linux.
+	 * It will automatically add `node_modules/.bin` to the `PATH` environment variable.
+	 * @param  {String} cmd Path of an executable program.
+	 * @param  {Array} args CLI arguments.
+	 * @param  {Object} opts Process options. Same with the Node.js official doc.
+	 * Default will inherit the parent's stdio.
+	 * @return {Promise} The `promise.process` is the child process object.
+	 * When the child process ends, it will resolve.
 	###
-	monitor_app: (opts) ->
+	spawn: (cmd, args = [], opts = {}) ->
+		PATH = process.env.PATH or process.env.Path
+		[
+			kit.path.normalize __dirname + '/../node_modules/.bin'
+			kit.path.normalize process.cwd() + '/node_modules/.bin'
+		].forEach (path) ->
+			if PATH.indexOf(path) < 0 and kit.fs.existsSync(path)
+				PATH = [path, PATH].join kit.path.delimiter
+		process.env.PATH = PATH
+		process.env.Path = PATH
+
 		_.defaults opts, {
-			bin: 'node'
-			args: ['app.js']
-			watch_list: ['app.js']
-			mode: 'development'
+			stdio: 'inherit'
 		}
 
-		ps = null
-		start = ->
-			ps = kit.spawn(
-				opts.bin
-				opts.args
-				kit.env_mode opts.mode
-			).process
+		if process.platform == 'win32'
+			cmd_ext = cmd + '.cmd'
+			if fs.existsSync cmd_ext
+				cmd = cmd_ext
+			else
+				which = kit.require 'which'
+				cmd = which.sync(cmd)
+			cmd = kit.path.normalize cmd
 
-		start()
+		defer = Q.defer()
 
-		process.on 'SIGINT', ->
-			ps.kill 'SIGINT'
+		{ spawn } = kit.require 'child_process'
 
-		kit.watch_files opts.watch_list, (path, curr, prev) ->
-			if curr.mtime != prev.mtime
-				kit.log "Reload app, modified: ".yellow + path +
-					'\n' + _.times(64, ->'*').join('').yellow
-				ps.kill 'SIGINT'
-				start()
+		try
+			ps = spawn cmd, args, opts
+		catch err
+			defer.reject err
 
-		kit.log "Monitor: ".yellow + opts.watch_list
+		ps.on 'error', (err) ->
+			defer.reject err
 
-		ps
+		ps.on 'exit', (worker, code, signal) ->
+			defer.resolve { worker, code, signal }
+
+		defer.promise.process = ps
+
+		return defer.promise
+
+	###*
+	 * Node native module
+	###
+	url: require 'url'
 
 	###*
 	 * Watch a file. If the file changes, the handler will be invoked.
@@ -453,456 +903,6 @@ _.extend kit, {
 			paths.forEach (path) ->
 				kit.watch_file path, handler
 			paths
-
-	###*
-	 * A shortcut to set process option with specific mode,
-	 * and keep the current env variables.
-	 * @param  {String} mode 'development', 'production', etc.
-	 * @return {Object} `process.env` object.
-	###
-	env_mode: (mode) ->
-		{
-			env: _.defaults(
-				{ NODE_ENV: mode }
-				process.env
-			)
-		}
-
-	###*
-	 * It will find the right `key/value` pair in your defined `kit.lang_set`.
-	 * If it cannot file the one, it will output the key directly.
-	 * @param  {String} cmd  The original English text.
-	 * @param  {String} lang The target language name.
-	 * @param  {String} lang_set Specific a language collection.
-	 * @return {String}
-	 * @example
-	 * Supports we have two json file in `langs_dir_path` folder.
-	 * - cn.js, content: `module.exports = { China: '中国' }`
-	 * - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
-	 *
-	 * ```coffeescript
-	 * kit.lang_load 'langs_dir_path'
-	 *
-	 * kit.lang_current = 'cn'
-	 * 'China'.l # '中国'
-	 * 'Good weather.'.l('jp') # '日和。'
-	 *
-	 * kit.lang_current = 'en'
-	 * 'China'.l # 'China'
-	 * 'Good weather.'.l('jp') # 'Good weather.'
-	 * ```
-	###
-	lang: (cmd, name = kit.lang_current, lang_set = kit.lang_set) ->
-		i = cmd.lastIndexOf '|'
-		en = if i > -1 then cmd[...i] else cmd
-		lang_set[name]?[cmd] or en
-
-	###*
-	 * Language collections.
-	 * @type {Object}
-	 * @example
-	 * ```coffeescript
-	 * kit.lang_set = {
-	 * 	'cn': { 'China': '中国' }
-	 * }
-	 * ```
-	###
-	lang_set: {}
-
-	###*
-	 * Current default language.
-	 * @type {String}
-	 * @default 'en'
-	###
-	lang_current: 'en'
-
-	###*
-	 * Load language set directory and save them into
-	 * the `kit.lang_set`.
-	 * @param  {String} dir_path The directory path that contains
-	 * js or coffee files.
-	 * @example
-	 * ```coffeescript
-	 * kit.lang_load 'assets/lang'
-	 * kit.lang_current = 'cn'
-	 * kit.log 'test'.l # This may output '测试'.
-	 * ```
-	###
-	lang_load: (dir_path) ->
-		return if not _.isString dir_path
-		dir_path = kit.fs.realpathSync dir_path
-
-		paths = kit.fs.readdirSync dir_path
-		for p in paths
-			ext = kit.path.extname p
-			continue if _.isEmpty ext
-			name = kit.path.basename p, ext
-			kit.lang_set[name] = require kit.path.join(dir_path, name)
-
-		Object.defineProperty String.prototype, 'l', {
-			get: (name, lang_set) -> kit.lang this, name, lang_set
-		}
-
-	###*
-	 * For debugging use. Dump a colorful object.
-	 * @param  {Object} obj Your target object.
-	 * @param  {Object} opts Options. Default:
-	 * { colors: true, depth: 5 }
-	 * @return {String}
-	###
-	inspect: (obj, opts) ->
-		util = kit.require 'util'
-
-		_.defaults opts, {
-			colors: process.env.NODE_ENV == 'development'
-			depth: 5
-		}
-
-		str = util.inspect obj, opts
-
-	###*
-	 * A better log for debugging, it uses the `kit.inspect` to log.
-	 *
-	 * You can use terminal command like `log_reg='pattern' node app.js` to
-	 * filter the log info.
-	 *
-	 * You can use `log_trace='on' node app.js` to force each log end with a
-	 * stack trace.
-	 * @param  {Any} msg Your log message.
-	 * @param  {String} action 'log', 'error', 'warn'.
-	 * @param  {Object} opts Default is same with `kit.inspect`
-	###
-	log: (msg, action = 'log', opts = {}) ->
-		if not kit.last_log_time
-			kit.last_log_time = new Date
-			if process.env.log_reg
-				console.log '>> Log should match:'.yellow, process.env.log_reg
-				kit.log_reg = new RegExp(process.env.log_reg)
-
-		time = new Date()
-		time_delta = (+time - +kit.last_log_time).toString().magenta + 'ms'
-		kit.last_log_time = time
-		time = [
-			[
-				kit.pad time.getFullYear(), 4
-				kit.pad time.getMonth() + 1, 2
-				kit.pad time.getDate(), 2
-			].join('-')
-			[
-				kit.pad time.getHours(), 2
-				kit.pad time.getMinutes(), 2
-				kit.pad time.getSeconds(), 2
-			].join(':')
-		].join(' ').grey
-
-
-		log = ->
-			str = _.toArray(arguments).join ' '
-
-			if kit.log_reg and not kit.log_reg.test(str)
-				return
-
-			console[action] str.replace /\n/g, '\n  '
-
-		if _.isObject msg
-			log "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
-		else
-			log "[#{time}]", msg, time_delta
-
-		if process.env.log_trace == 'on'
-			log (new Error).stack.replace('Error:', '\nStack trace:').grey
-
-		if action == 'error'
-			console.log "\u0007\n"
-
-	###*
-	 * A log error shortcut for `kit.log(msg, 'error', opts)`
-	 * @param  {Any} msg
-	 * @param  {Object} opts
-	###
-	err: (msg, opts = {}) ->
-		kit.log msg, 'error', opts
-
-	###*
-	 * String padding helper.
-	 * @example
-	 * ```coffeescript
-	 * kit.pad '1', 3 # '001'
-	 * ```
-	 * @param  {Sting | Number} str
-	 * @param  {Number} width
-	 * @param  {String} char Padding char. Default is '0'.
-	 * @return {String}
-	###
-	pad: (str, width, char = '0') ->
-		str = str + ''
-		if str.length >= width
-			str
-		else
-			new Array(width - str.length + 1).join(char) + str
-
-	###*
-	 * Daemonize a program.
-	 * @param  {Object} opts Defaults:
-	 * {
-	 * 	bin: 'node'
-	 * 	args: ['app.js']
-	 * 	stdout: 'stdout.log'
-	 * 	stderr: 'stderr.log'
-	 * }
-	 * @return {Porcess} The daemonized process.
-	###
-	daemonize: (opts = {}) ->
-		_.defaults opts, {
-			bin: 'node'
-			args: ['app.js']
-			stdout: 'stdout.log'
-			stderr: 'stderr.log'
-		}
-
-		out_log = os.openSync(opts.stdout, 'a')
-		err_log = os.openSync(opts.stderr, 'a')
-
-		p = kit.spawn(opts.bin, opts.args, {
-			detached: true
-			stdio: [ 'ignore', out_log, err_log ]
-		}).process
-		p.unref()
-		kit.log "Run as background daemon, PID: #{p.pid}".yellow
-		p
-
-	###*
-	 * Block terminal and wait for user inputs. Useful when you need
-	 * in-terminal user interaction.
-	 * @param  {Object} opts See the https://github.com/flatiron/prompt
-	 * @return {Promise} Contains the results of prompt.
-	###
-	prompt_get: (opts) ->
-		prompt = kit.require 'prompt', (prompt) ->
-			prompt.message = '>> '
-			prompt.delimiter = ''
-
-		defer = Q.defer()
-		prompt.get opts, (err, res) ->
-			if err
-				defer.reject err
-			else
-				defer.resolve res
-
-		defer.promise
-
-	###*
-	 * An throttle version of `Q.all`, it runs all the tasks under
-	 * a concurrent limitation.
-	 * @param  {Int} limit The max task to run at the same time. It's optional.
-	 * Default is Infinity.
-	 * @param  {Array | Function} list
-	 * If the list is an array, it should be a list of functions or promises. And each function will return a promise.
-	 * If the list is a function, it should be a iterator that returns a promise,
-	 * when it returns `undefined`, the iteration ends.
-	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
-	 * @return {Promise} You can get each round's results by using the `promise.progress`.
-	###
-	async: (limit, list, save_resutls = true) ->
-		from = 0
-		resutls = []
-		iter_index = 0
-		is_iter_done = false
-		defer = Q.defer()
-
-		if not _.isNumber limit
-			save_resutls = list
-			list = limit
-			limit = Infinity
-
-		if _.isArray list
-			list_len = list.length - 1
-			iter = (i) ->
-				return if i > list_len
-				if _.isFunction list[i]
-					list[i](i)
-				else
-					list[i]
-
-		else if _.isFunction list
-			iter = list
-		else
-			throw new Error('unknown list type: ' + typeof list)
-
-		round = ->
-			curr = []
-			for i in [0 ... limit]
-				p = iter(iter_index++)
-				if is_iter_done or p == undefined
-					is_iter_done = true
-					break
-				if Q.isPromise p
-					p.then (ret) -> defer.notify ret
-				else
-					defer.notify p
-				curr.push p
-
-			if curr.length > 0
-				Q.all curr
-				.catch (err) ->
-					defer.reject err
-				.then (rets) ->
-					if save_resutls
-						resutls = resutls.concat rets
-					round()
-			else
-				if save_resutls
-					defer.resolve resutls
-				else
-					defer.resolve()
-
-		round()
-
-		defer.promise
-
-	###*
-	 * A comments parser for coffee-script. Used to generate documentation automatically.
-	 * It will traverse through all the comments.
-	 * @param  {String} module_name The name of the module it belongs to.
-	 * @param  {String} code Coffee source code.
-	 * @param  {String} path The path of the source code.
-	 * @param  {Object} opts Parser options:
-	 * ```coffeescript
-	 * {
-	 * 	comment_reg: RegExp
-	 * 	split_reg: RegExp
-	 * 	tag_name_reg: RegExp
-	 * 	type_reg: RegExp
-	 * 	name_reg: RegExp
-	 * 	description_reg: RegExp
-	 * }
-	 * ```
-	 * @return {Array} The parsed comments. Each item is something like:
-	 * ```coffeescript
-	 * {
-	 * 	module: 'nobone'
-	 * 	name: 'parse_comment'
-	 * 	description: 'A comments parser for coffee-script.'
-	 * 	tags: [
-	 * 		{
-	 * 			tag_name: 'param'
-	 * 			type: 'string'
-	 * 			name: 'code'
-	 * 			description: 'The name of the module it belongs to.'
-	 * 			path: 'http://the_path_of_source_code'
-	 * 			index: 256 # The target char index in the file.
-	 * 			line: 32 # The line number of the target in the file.
-	 * 		}
-	 * 	]
-	 * }
-	 * ```
-	###
-	parse_comment: (module_name, code, path = '', opts = {}) ->
-		_.defaults opts, {
-			comment_reg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
-			split_reg: /^\s+\* @/m
-			tag_name_reg: /^([\w\.]+)\s*/
-			type_reg: /^\{(.+?)\}\s*/
-			name_reg: /^(\w+)\s*/
-			description_reg: /^([\s\S]*)/
-		}
-
-		parse_info = (block) ->
-			# Clean the prefix '*'
-			arr = block.split(opts.split_reg).map (el) ->
-				el.replace(/^[ \t]+\*[ \t]?/mg, '').trim()
-
-			{
-				description: arr[0] or ''
-				tags: arr[1..].map (el) ->
-					parse_tag = (reg) ->
-						m = el.match reg
-						if m and m[1]
-							el = el[m[0].length..]
-							m[1]
-						else
-							null
-
-					tag = {}
-
-					tag.tag_name = parse_tag opts.tag_name_reg
-
-					type = parse_tag opts.type_reg
-					if type
-						tag.type = type
-						if tag.tag_name == 'param'
-							tag.name = parse_tag opts.name_reg
-						tag.description = parse_tag(opts.description_reg) or ''
-					else
-						tag.description = parse_tag(opts.description_reg) or ''
-					tag
-			}
-
-		comments = []
-		m = null
-		while (m = opts.comment_reg.exec(code)) != null
-			info = parse_info m[1]
-			comments.push {
-				module: module_name
-				name: m[2]
-				description: info.description
-				tags: info.tags
-				path
-				index: opts.comment_reg.lastIndex
-				line: _.reduce(code[...opts.comment_reg.lastIndex]
-				, (count, char) ->
-					count++ if char == '\n'
-					count
-				, 1)
-			}
-
-		return comments
-
-	###*
-	 * A scaffolding helper to generate template project.
-	 * The `lib/cli.coffee` used it as an example.
-	 * @param  {Object} opts Defaults:
-	 * ```coffeescript
-	 * {
-	 * 	src_dir: null
-	 * 	patterns: '**'
-	 * 	dest_dir: null
-	 * 	data: {}
-	 * 	compile: (str, data, path) ->
-	 * 		compile str
-	 * }
-	 * ```
-	 * @return {Promise}
-	###
-	generate_bone: (opts) ->
-		###
-			It will treat all the files in the path as an ejs file
-		###
-		_.defaults opts, {
-			src_dir: null
-			patterns: ['**', '**/.*']
-			dest_dir: null
-			data: {}
-			compile: (str, data, path) ->
-				ejs = kit.require 'ejs'
-				data.filename = path
-				ejs.render str, data
-		}
-
-		kit.glob(opts.patterns, { cwd: opts.src_dir })
-		.then (paths) ->
-			Q.all paths.map (path) ->
-				src_path = kit.path.join opts.src_dir, path
-				dest_path = kit.path.join opts.dest_dir, path
-
-				kit.readFile(src_path, 'utf8')
-				.then (str) ->
-					opts.compile str, opts.data, src_path
-				.then (code) ->
-					kit.outputFile dest_path, code
-				.catch (err) ->
-					if err.code != 'EISDIR'
-						throw err
 
 }
 

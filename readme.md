@@ -774,47 +774,95 @@ nobone bone -h
    kit.outputFile('a.txt', 'test').done()
    ```
 
-- #### <a href="lib/kit.coffee#L43" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L48" target="_blank"><b>async</b></a>
 
- Much much faster than the native require of node, but
- you should follow some rules to use it safely.
+ An throttle version of `Q.all`, it runs all the tasks under
+ a concurrent limitation.
 
- - **<u>param</u>**: `module_name` { _String_ }
+ - **<u>param</u>**: `limit` { _Int_ }
 
-   Moudle path is not allowed!
+   The max task to run at the same time. It's optional.
+   Default is Infinity.
 
- - **<u>param</u>**: `done` { _Function_ }
+ - **<u>param</u>**: `list` { _Array | Function_ }
 
-   Run only the first time after the module loaded.
+   If the list is an array, it should be a list of functions or promises. And each function will return a promise.
+   If the list is a function, it should be a iterator that returns a promise,
+   when it returns `undefined`, the iteration ends.
 
- - **<u>return</u>**:  { _Module_ }
+ - **<u>param</u>**: `save_resutls` { _Boolean_ }
 
-   The module that you require.
+   Whether to save each promise's result or not.
 
-- #### <a href="lib/kit.coffee#L56" target="_blank"><b>path</b></a>
+ - **<u>return</u>**:  { _Promise_ }
 
- Node native module
+   You can get each round's results by using the `promise.progress`.
 
-- #### <a href="lib/kit.coffee#L61" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L116" target="_blank"><b>daemonize</b></a>
 
- Node native module
+ Daemonize a program.
 
-- #### <a href="lib/kit.coffee#L66" target="_blank"><b>fs</b></a>
+ - **<u>param</u>**: `opts` { _Object_ }
+
+   Defaults:
+   {
+   	bin: 'node'
+   	args: ['app.js']
+   	stdout: 'stdout.log'
+   	stderr: 'stderr.log'
+   }
+
+ - **<u>return</u>**:  { _Porcess_ }
+
+   The daemonized process.
+
+- #### <a href="lib/kit.coffee#L141" target="_blank"><b>env_mode</b></a>
+
+ A shortcut to set process option with specific mode,
+ and keep the current env variables.
+
+ - **<u>param</u>**: `mode` { _String_ }
+
+   'development', 'production', etc.
+
+ - **<u>return</u>**:  { _Object_ }
+
+   `process.env` object.
+
+- #### <a href="lib/kit.coffee#L154" target="_blank"><b>err</b></a>
+
+ A log error shortcut for `kit.log(msg, 'error', opts)`
+
+ - **<u>param</u>**: `msg` { _Any_ }
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+- #### <a href="lib/kit.coffee#L160" target="_blank"><b>fs</b></a>
 
  See my project [fs-more](https://github.com/ysmood/fs-more)
 
-- #### <a href="lib/kit.coffee#L72" target="_blank"><b>q</b></a>
+- #### <a href="lib/kit.coffee#L178" target="_blank"><b>generate_bone</b></a>
 
- The promise Q lib.
+ A scaffolding helper to generate template project.
+ The `lib/cli.coffee` used it as an example.
 
- - **<u>type</u>**:  { _Object_ }
+ - **<u>param</u>**: `opts` { _Object_ }
 
-- #### <a href="lib/kit.coffee#L78" target="_blank"><b>jhash</b></a>
+   Defaults:
+   ```coffeescript
+   {
+   	src_dir: null
+   	patterns: '**'
+   	dest_dir: null
+   	data: {}
+   	compile: (str, data, path) ->
+   		compile str
+   }
+   ```
 
- See my [jhash][jhash] project.
- [jhash]: https://github.com/ysmood/jhash
+ - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/kit.coffee#L86" target="_blank"><b>glob</b></a>
+- #### <a href="lib/kit.coffee#L214" target="_blank"><b>glob</b></a>
 
  See the https://github.com/isaacs/node-glob
 
@@ -830,167 +878,12 @@ nobone bone -h
 
    Contains the path list.
 
-- #### <a href="lib/kit.coffee#L110" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L232" target="_blank"><b>jhash</b></a>
 
- A safer version of `child_process.spawn` to run a process on Windows or Linux.
- It will automatically add `node_modules/.bin` to the `PATH` environment variable.
+ See my [jhash][jhash] project.
+ [jhash]: https://github.com/ysmood/jhash
 
- - **<u>param</u>**: `cmd` { _String_ }
-
-   Path of an executable program.
-
- - **<u>param</u>**: `args` { _Array_ }
-
-   CLI arguments.
-
- - **<u>param</u>**: `opts` { _Object_ }
-
-   Process options. Same with the Node.js official doc.
-   Default will inherit the parent's stdio.
-
- - **<u>return</u>**:  { _Promise_ }
-
-   The `promise.process` is the child process object.
-   When the child process ends, it will resolve.
-
-- #### <a href="lib/kit.coffee#L165" target="_blank"><b>open</b></a>
-
- Open a thing that your system can recognize.
- Now only support Windows and OSX.
-
- - **<u>param</u>**: `cmd` { _String_ }
-
-   The thing you want to open.
-
- - **<u>param</u>**: `opts` { _Object_ }
-
-   The options of the node native `child_process.exec`.
-
- - **<u>example</u>**:
-
-   ```coffeescript
-   # Open a webpage with the default browser.
-   kit.open 'http://ysmood.org'
-   ```
-
- - **<u>return</u>**:  { _Promise_ }
-
-   When the child process exits.
-
-- #### <a href="lib/kit.coffee#L232" target="_blank"><b>request</b></a>
-
- A powerful extended combination of `http.request` and `https.request`.
-
- - **<u>param</u>**: `opts` { _Object_ }
-
-   The same as the [http.request][http.request], but with
-   some extra options:
-   ```coffeescript
-   {
-   	url: 'It is not optional, String or Url Object.'
-   	body: true # Other than return `res` with `res.body`, return `body` directly.
-   	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
-   
-   	# Set null to use buffer, optional.
-   	# It supports GBK, Shift_JIS etc.
-   	# For more info, see https://github.com/ashtuchkin/iconv-lite
-   	res_encoding: 'auto'
-   
-   	# It's string, object or buffer, optional. When it's an object,
-   	# The request will be 'application/x-www-form-urlencoded'.
-   	req_data: null
-   
-   	auto_end_req: true # auto end the request.
-   	req_pipe: Readable Stream.
-   	res_pipe: Writable Stream.
-   }
-   ```
-   And if set opts as string, it will be treated as the url.
-   [http.request]: http://nodejs.org/api/http.html#http_http_request_options_callback
-
- - **<u>return</u>**:  { _Promise_ }
-
-   Contains the http response object,
-   it has an extra `body` property.
-   You can also get the request object by using `Promise.req`, for example:
-   ```coffeescript
-   p = kit.request 'http://test.com'
-   p.req.on 'response', (res) ->
-   	kit.log res.headers['content-length']
-   p.done (body) ->
-   	kit.log body # html or buffer
-   
-   kit.request {
-   	url: 'https://test.com'
-   	body: false
-   }
-   .done (res) ->
-   	kit.log res.body
-   	kit.log res.headers
-   ```
-
-- #### <a href="lib/kit.coffee#L390" target="_blank"><b>monitor_app</b></a>
-
- Monitor an application and automatically restart it when file changed.
- When the monitored app exit with error, the monitor itself will also exit.
- It will make sure your app crash properly.
-
- - **<u>param</u>**: `opts` { _Object_ }
-
-   Defaults:
-   ```coffeescript
-   {
-   	bin: 'node'
-   	args: ['app.js']
-   	watch_list: ['app.js']
-   	mode: 'development'
-   }
-   ```
-
- - **<u>return</u>**:  { _Process_ }
-
-   The child process.
-
-- #### <a href="lib/kit.coffee#L429" target="_blank"><b>watch_file</b></a>
-
- Watch a file. If the file changes, the handler will be invoked.
- You can change the polling interval by using `process.env.polling_watch`
- variable.
-
- - **<u>param</u>**: `path` { _String_ }
-
-   The file path
-
- - **<u>param</u>**: `handler` { _Function_ }
-
-   Event listener.
-
-- #### <a href="lib/kit.coffee#L451" target="_blank"><b>watch_files</b></a>
-
- Watch files, when file changes, the handler will be invoked.
- It takes the advantage of `kit.watch_file`.
-
- - **<u>param</u>**: `patterns` { _Array_ }
-
-   String array with minimatch syntax.
-   Such as `['\*.css', 'lib/\*\*.js']`.
-
- - **<u>param</u>**: `handler` { _Function_ }
-
-- #### <a href="lib/kit.coffee#L463" target="_blank"><b>env_mode</b></a>
-
- A shortcut to set process option with specific mode,
- and keep the current env variables.
-
- - **<u>param</u>**: `mode` { _String_ }
-
-   'development', 'production', etc.
-
- - **<u>return</u>**:  { _Object_ }
-
-   `process.env` object.
-
-- #### <a href="lib/kit.coffee#L495" target="_blank"><b>lang</b></a>
+- #### <a href="lib/kit.coffee#L258" target="_blank"><b>lang</b></a>
 
  It will find the right `key/value` pair in your defined `kit.lang_set`.
  If it cannot file the one, it will output the key directly.
@@ -1027,7 +920,7 @@ nobone bone -h
    'Good weather.'.l('jp') # 'Good weather.'
    ```
 
-- #### <a href="lib/kit.coffee#L510" target="_blank"><b>lang_set</b></a>
+- #### <a href="lib/kit.coffee#L273" target="_blank"><b>lang_set</b></a>
 
  Language collections.
 
@@ -1041,7 +934,7 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L517" target="_blank"><b>lang_current</b></a>
+- #### <a href="lib/kit.coffee#L280" target="_blank"><b>lang_current</b></a>
 
  Current default language.
 
@@ -1051,7 +944,7 @@ nobone bone -h
 
    'en'
 
-- #### <a href="lib/kit.coffee#L531" target="_blank"><b>lang_load</b></a>
+- #### <a href="lib/kit.coffee#L294" target="_blank"><b>lang_load</b></a>
 
  Load language set directory and save them into
  the `kit.lang_set`.
@@ -1069,7 +962,7 @@ nobone bone -h
    kit.log 'test'.l # This may output '测试'.
    ```
 
-- #### <a href="lib/kit.coffee#L553" target="_blank"><b>inspect</b></a>
+- #### <a href="lib/kit.coffee#L316" target="_blank"><b>inspect</b></a>
 
  For debugging use. Dump a colorful object.
 
@@ -1084,7 +977,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L575" target="_blank"><b>log</b></a>
+- #### <a href="lib/kit.coffee#L338" target="_blank"><b>log</b></a>
 
  A better log for debugging, it uses the `kit.inspect` to log.
  
@@ -1106,15 +999,53 @@ nobone bone -h
 
    Default is same with `kit.inspect`
 
-- #### <a href="lib/kit.coffee#L623" target="_blank"><b>err</b></a>
+- #### <a href="lib/kit.coffee#L396" target="_blank"><b>monitor_app</b></a>
 
- A log error shortcut for `kit.log(msg, 'error', opts)`
-
- - **<u>param</u>**: `msg` { _Any_ }
+ Monitor an application and automatically restart it when file changed.
+ When the monitored app exit with error, the monitor itself will also exit.
+ It will make sure your app crash properly.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-- #### <a href="lib/kit.coffee#L637" target="_blank"><b>pad</b></a>
+   Defaults:
+   ```coffeescript
+   {
+   	bin: 'node'
+   	args: ['app.js']
+   	watch_list: ['app.js']
+   	mode: 'development'
+   }
+   ```
+
+ - **<u>return</u>**:  { _Process_ }
+
+   The child process.
+
+- #### <a href="lib/kit.coffee#L440" target="_blank"><b>open</b></a>
+
+ Open a thing that your system can recognize.
+ Now only support Windows and OSX.
+
+ - **<u>param</u>**: `cmd` { _String_ }
+
+   The thing you want to open.
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+   The options of the node native `child_process.exec`.
+
+ - **<u>example</u>**:
+
+   ```coffeescript
+   # Open a webpage with the default browser.
+   kit.open 'http://ysmood.org'
+   ```
+
+ - **<u>return</u>**:  { _Promise_ }
+
+   When the child process exits.
+
+- #### <a href="lib/kit.coffee#L473" target="_blank"><b>pad</b></a>
 
  String padding helper.
 
@@ -1134,62 +1065,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L655" target="_blank"><b>daemonize</b></a>
-
- Daemonize a program.
-
- - **<u>param</u>**: `opts` { _Object_ }
-
-   Defaults:
-   {
-   	bin: 'node'
-   	args: ['app.js']
-   	stdout: 'stdout.log'
-   	stderr: 'stderr.log'
-   }
-
- - **<u>return</u>**:  { _Porcess_ }
-
-   The daemonized process.
-
-- #### <a href="lib/kit.coffee#L680" target="_blank"><b>prompt_get</b></a>
-
- Block terminal and wait for user inputs. Useful when you need
- in-terminal user interaction.
-
- - **<u>param</u>**: `opts` { _Object_ }
-
-   See the https://github.com/flatiron/prompt
-
- - **<u>return</u>**:  { _Promise_ }
-
-   Contains the results of prompt.
-
-- #### <a href="lib/kit.coffee#L706" target="_blank"><b>async</b></a>
-
- An throttle version of `Q.all`, it runs all the tasks under
- a concurrent limitation.
-
- - **<u>param</u>**: `limit` { _Int_ }
-
-   The max task to run at the same time. It's optional.
-   Default is Infinity.
-
- - **<u>param</u>**: `list` { _Array | Function_ }
-
-   If the list is an array, it should be a list of functions or promises. And each function will return a promise.
-   If the list is a function, it should be a iterator that returns a promise,
-   when it returns `undefined`, the iteration ends.
-
- - **<u>param</u>**: `save_resutls` { _Boolean_ }
-
-   Whether to save each promise's result or not.
-
- - **<u>return</u>**:  { _Promise_ }
-
-   You can get each round's results by using the `promise.progress`.
-
-- #### <a href="lib/kit.coffee#L800" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L517" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1242,26 +1118,150 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L877" target="_blank"><b>generate_bone</b></a>
+- #### <a href="lib/kit.coffee#L581" target="_blank"><b>path</b></a>
 
- A scaffolding helper to generate template project.
- The `lib/cli.coffee` used it as an example.
+ Node native module
+
+- #### <a href="lib/kit.coffee#L589" target="_blank"><b>prompt_get</b></a>
+
+ Block terminal and wait for user inputs. Useful when you need
+ in-terminal user interaction.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   ```coffeescript
-   {
-   	src_dir: null
-   	patterns: '**'
-   	dest_dir: null
-   	data: {}
-   	compile: (str, data, path) ->
-   		compile str
-   }
-   ```
+   See the https://github.com/flatiron/prompt
 
  - **<u>return</u>**:  { _Promise_ }
+
+   Contains the results of prompt.
+
+- #### <a href="lib/kit.coffee#L607" target="_blank"><b>q</b></a>
+
+ The promise Q lib.
+
+ - **<u>type</u>**:  { _Object_ }
+
+- #### <a href="lib/kit.coffee#L616" target="_blank"><b>require</b></a>
+
+ Much much faster than the native require of node, but
+ you should follow some rules to use it safely.
+
+ - **<u>param</u>**: `module_name` { _String_ }
+
+   Moudle path is not allowed!
+
+ - **<u>param</u>**: `done` { _Function_ }
+
+   Run only the first time after the module loaded.
+
+ - **<u>return</u>**:  { _Module_ }
+
+   The module that you require.
+
+- #### <a href="lib/kit.coffee#L671" target="_blank"><b>request</b></a>
+
+ A powerful extended combination of `http.request` and `https.request`.
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+   The same as the [http.request][http.request], but with
+   some extra options:
+   ```coffeescript
+   {
+   	url: 'It is not optional, String or Url Object.'
+   	body: true # Other than return `res` with `res.body`, return `body` directly.
+   	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
+   
+   	# Set null to use buffer, optional.
+   	# It supports GBK, Shift_JIS etc.
+   	# For more info, see https://github.com/ashtuchkin/iconv-lite
+   	res_encoding: 'auto'
+   
+   	# It's string, object or buffer, optional. When it's an object,
+   	# The request will be 'application/x-www-form-urlencoded'.
+   	req_data: null
+   
+   	auto_end_req: true # auto end the request.
+   	req_pipe: Readable Stream.
+   	res_pipe: Writable Stream.
+   }
+   ```
+   And if set opts as string, it will be treated as the url.
+   [http.request]: http://nodejs.org/api/http.html#http_http_request_options_callback
+
+ - **<u>return</u>**:  { _Promise_ }
+
+   Contains the http response object,
+   it has an extra `body` property.
+   You can also get the request object by using `Promise.req`, for example:
+   ```coffeescript
+   p = kit.request 'http://test.com'
+   p.req.on 'response', (res) ->
+   	kit.log res.headers['content-length']
+   p.done (body) ->
+   	kit.log body # html or buffer
+   
+   kit.request {
+   	url: 'https://test.com'
+   	body: false
+   }
+   .done (res) ->
+   	kit.log res.body
+   	kit.log res.headers
+   ```
+
+- #### <a href="lib/kit.coffee#L824" target="_blank"><b>spawn</b></a>
+
+ A safer version of `child_process.spawn` to run a process on Windows or Linux.
+ It will automatically add `node_modules/.bin` to the `PATH` environment variable.
+
+ - **<u>param</u>**: `cmd` { _String_ }
+
+   Path of an executable program.
+
+ - **<u>param</u>**: `args` { _Array_ }
+
+   CLI arguments.
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+   Process options. Same with the Node.js official doc.
+   Default will inherit the parent's stdio.
+
+ - **<u>return</u>**:  { _Promise_ }
+
+   The `promise.process` is the child process object.
+   When the child process ends, it will resolve.
+
+- #### <a href="lib/kit.coffee#L870" target="_blank"><b>url</b></a>
+
+ Node native module
+
+- #### <a href="lib/kit.coffee#L879" target="_blank"><b>watch_file</b></a>
+
+ Watch a file. If the file changes, the handler will be invoked.
+ You can change the polling interval by using `process.env.polling_watch`
+ variable.
+
+ - **<u>param</u>**: `path` { _String_ }
+
+   The file path
+
+ - **<u>param</u>**: `handler` { _Function_ }
+
+   Event listener.
+
+- #### <a href="lib/kit.coffee#L901" target="_blank"><b>watch_files</b></a>
+
+ Watch files, when file changes, the handler will be invoked.
+ It takes the advantage of `kit.watch_file`.
+
+ - **<u>param</u>**: `patterns` { _Array_ }
+
+   String array with minimatch syntax.
+   Such as `['\*.css', 'lib/\*\*.js']`.
+
+ - **<u>param</u>**: `handler` { _Function_ }
 
 
 
