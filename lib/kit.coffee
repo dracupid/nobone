@@ -155,7 +155,8 @@ _.extend kit, {
 		kit.log msg, 'error', opts
 
 	###*
-	 * See my project [fs-more](https://github.com/ysmood/fs-more)
+	 * See my project [fs-more][fs-more].
+	 * [fs-more]: https://github.com/ysmood/fs-more
 	###
 	fs: fs
 

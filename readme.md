@@ -837,11 +837,12 @@ nobone bone -h
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-- #### <a href="lib/kit.coffee#L160" target="_blank"><b>fs</b></a>
+- #### <a href="lib/kit.coffee#L161" target="_blank"><b>fs</b></a>
 
- See my project [fs-more](https://github.com/ysmood/fs-more)
+ See my project [fs-more][fs-more].
+ [fs-more]: https://github.com/ysmood/fs-more
 
-- #### <a href="lib/kit.coffee#L178" target="_blank"><b>generate_bone</b></a>
+- #### <a href="lib/kit.coffee#L179" target="_blank"><b>generate_bone</b></a>
 
  A scaffolding helper to generate template project.
  The `lib/cli.coffee` used it as an example.
@@ -862,7 +863,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/kit.coffee#L214" target="_blank"><b>glob</b></a>
+- #### <a href="lib/kit.coffee#L215" target="_blank"><b>glob</b></a>
 
  See the https://github.com/isaacs/node-glob
 
@@ -878,12 +879,12 @@ nobone bone -h
 
    Contains the path list.
 
-- #### <a href="lib/kit.coffee#L232" target="_blank"><b>jhash</b></a>
+- #### <a href="lib/kit.coffee#L233" target="_blank"><b>jhash</b></a>
 
  See my [jhash][jhash] project.
  [jhash]: https://github.com/ysmood/jhash
 
-- #### <a href="lib/kit.coffee#L258" target="_blank"><b>lang</b></a>
+- #### <a href="lib/kit.coffee#L259" target="_blank"><b>lang</b></a>
 
  It will find the right `key/value` pair in your defined `kit.lang_set`.
  If it cannot file the one, it will output the key directly.
@@ -920,7 +921,7 @@ nobone bone -h
    'Good weather.'.l('jp') # 'Good weather.'
    ```
 
-- #### <a href="lib/kit.coffee#L273" target="_blank"><b>lang_set</b></a>
+- #### <a href="lib/kit.coffee#L274" target="_blank"><b>lang_set</b></a>
 
  Language collections.
 
@@ -934,7 +935,7 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L280" target="_blank"><b>lang_current</b></a>
+- #### <a href="lib/kit.coffee#L281" target="_blank"><b>lang_current</b></a>
 
  Current default language.
 
@@ -944,7 +945,7 @@ nobone bone -h
 
    'en'
 
-- #### <a href="lib/kit.coffee#L294" target="_blank"><b>lang_load</b></a>
+- #### <a href="lib/kit.coffee#L295" target="_blank"><b>lang_load</b></a>
 
  Load language set directory and save them into
  the `kit.lang_set`.
@@ -962,7 +963,7 @@ nobone bone -h
    kit.log 'test'.l # This may output '测试'.
    ```
 
-- #### <a href="lib/kit.coffee#L316" target="_blank"><b>inspect</b></a>
+- #### <a href="lib/kit.coffee#L317" target="_blank"><b>inspect</b></a>
 
  For debugging use. Dump a colorful object.
 
@@ -977,7 +978,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L338" target="_blank"><b>log</b></a>
+- #### <a href="lib/kit.coffee#L339" target="_blank"><b>log</b></a>
 
  A better log for debugging, it uses the `kit.inspect` to log.
  
@@ -999,7 +1000,7 @@ nobone bone -h
 
    Default is same with `kit.inspect`
 
-- #### <a href="lib/kit.coffee#L396" target="_blank"><b>monitor_app</b></a>
+- #### <a href="lib/kit.coffee#L397" target="_blank"><b>monitor_app</b></a>
 
  Monitor an application and automatically restart it when file changed.
  When the monitored app exit with error, the monitor itself will also exit.
@@ -1021,7 +1022,7 @@ nobone bone -h
 
    The child process.
 
-- #### <a href="lib/kit.coffee#L440" target="_blank"><b>open</b></a>
+- #### <a href="lib/kit.coffee#L441" target="_blank"><b>open</b></a>
 
  Open a thing that your system can recognize.
  Now only support Windows and OSX.
@@ -1045,7 +1046,7 @@ nobone bone -h
 
    When the child process exits.
 
-- #### <a href="lib/kit.coffee#L473" target="_blank"><b>pad</b></a>
+- #### <a href="lib/kit.coffee#L474" target="_blank"><b>pad</b></a>
 
  String padding helper.
 
@@ -1065,7 +1066,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L517" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L518" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1118,11 +1119,11 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L581" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L582" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L589" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L590" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1135,13 +1136,13 @@ nobone bone -h
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L607" target="_blank"><b>q</b></a>
+- #### <a href="lib/kit.coffee#L608" target="_blank"><b>q</b></a>
 
  The promise Q lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L616" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L617" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1158,7 +1159,7 @@ nobone bone -h
 
    The module that you require.
 
-- #### <a href="lib/kit.coffee#L671" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L672" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1210,7 +1211,7 @@ nobone bone -h
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L824" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L825" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1233,11 +1234,11 @@ nobone bone -h
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L870" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L871" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L879" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L880" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`
@@ -1251,7 +1252,7 @@ nobone bone -h
 
    Event listener.
 
-- #### <a href="lib/kit.coffee#L901" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L902" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.

@@ -134,6 +134,12 @@ init = ->
 			.done (rets) ->
 				[tpl, md] = rets
 				md = md.replace /\[\!\[NPM.+\)/, ''
+				links = []
+				md = md.replace /\s+(\[.+?\]:.+?\n)/g, (m, p) ->
+					links.push p
+					return ''
+				md += '\n' + links.join('')
+				kit.outputFile 'o.md', md
 				res.send tpl({
 					body: marked md
 				})
