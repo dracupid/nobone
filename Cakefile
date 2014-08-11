@@ -89,7 +89,7 @@ task 'build', 'Compile coffee to js', build = ->
 				"""
 				method_str += '\n\n'
 				if method.description
-					method_str += indent method.description, 2
+					method_str += indent method.description, 1
 					method_str += '\n\n'
 
 				for tag in method.tags
@@ -97,10 +97,10 @@ task 'build', 'Compile coffee to js', build = ->
 					ttype = if tag.type then "{ _#{tag.type}_ }" else ''
 					method_str += indent """
 						- **<u>#{tag.tag_name}</u>**: #{tname} #{ttype}
-					""", 2
+					""", 1
 					method_str += '\n\n'
 					if tag.description
-						method_str += indent tag.description, 4
+						method_str += indent tag.description, 3
 						method_str += '\n\n'
 
 				data.mods_api += method_str

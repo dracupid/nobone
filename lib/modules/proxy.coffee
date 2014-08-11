@@ -12,8 +12,8 @@ kit = require '../kit'
 ###*
  * Create a Proxy instance.
  * @param  {Object} opts Defaults: `{ }`
- * @return {Proxy} For more, see [node-http-proxy][0]
- * [0]: https://github.com/nodejitsu/node-http-proxy
+ * @return {Proxy} For more, see [node-http-proxy][node-http-proxy]
+ * [node-http-proxy]: https://github.com/nodejitsu/node-http-proxy
 ###
 proxy = (opts = {}) ->
 	_.defaults opts, proxy.defaults
@@ -136,8 +136,8 @@ proxy = (opts = {}) ->
 
 	###*
 	 * HTTP/HTTPS Agents for tunneling proxies.
-	 * See the project [node-tunnel][0]
-	 * [0]: https://github.com/koichik/node-tunnel
+	 * See the project [node-tunnel][node-tunnel]
+	 * [node-tunnel]: https://github.com/koichik/node-tunnel
 	###
 	self.tunnel = require 'tunnel'
 

@@ -1,6 +1,6 @@
 ###*
- * See my [jdb][0] project.
- * [0]: https://github.com/ysmood/jdb
+ * See my [jdb][jdb] project.
+ * [jdb]: https://github.com/ysmood/jdb
 ###
 Overview = 'db'
 

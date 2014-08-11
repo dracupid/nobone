@@ -2,8 +2,8 @@
  * NoBone has several modules and a helper lib.
  * **All the modules are optional**.
  *
- * Most of the async functions are inplemented with [Q][0].
- * [0]: https://github.com/kriskowal/q
+ * Most of the async functions are inplemented with [Q][Q].
+ * [Q]: https://github.com/kriskowal/q
 ###
 Overview = 'nobone'
 

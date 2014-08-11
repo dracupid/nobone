@@ -1,7 +1,7 @@
 ###*
  * It is just a Express.js wrap.
- * @extends {Express} [Ref][0]
- * [0]: http://expressjs.com/4x/api.html
+ * @extends {Express} [Ref][express]
+ * [express]: http://expressjs.com/4x/api.html
 ###
 Overview = 'service'
 
@@ -92,9 +92,9 @@ init_sse = (self) ->
 	###*
 	 * A Server-Sent Event Manager.
 	 * The namespace of nobone sse is '/nobone-sse'.
-	 * For more info see [Using server-sent events][0].
+	 * For more info see [Using server-sent events][Using server-sent events].
 	 * NoBone use it to implement the auto-reload of the web assets.
-	 * [0]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
+	 * [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 	 * @property {Array} sessions The sessions of connected clients.
 	 * A session object is something like:
 	 * ```coffeescript

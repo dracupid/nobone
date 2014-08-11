@@ -117,6 +117,7 @@ init = ->
 	kit = nobone.kit
 
 	if cmder.doc
+		process.env.NODE_ENV = 'production'
 		{ service, renderer } = nobone()
 		Q = require 'q'
 		marked = require 'marked'
