@@ -1,3 +1,13 @@
+#main * {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#main table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 #main {
     overflow: hidden;
     font-family: "Helvetica Neue", Helvetica, Arial, freesans, sans-serif;
@@ -179,12 +189,6 @@
 
 #main table tr:nth-child(2n) {
     background-color: #f8f8f8
-}
-
-#main img {
-    max-width: 100%;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box
 }
 
 #main span.frame {
@@ -393,7 +397,6 @@ body
 	h1
 		font-size 18px
 		height 20px
-		margin 10px
 		cursor pointer
 		&:hover
 			text-decoration: underline

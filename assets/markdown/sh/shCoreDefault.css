@@ -54,7 +54,9 @@
 
 .syntaxhighlighter {
   width: 100% !important;
-  margin: 1em 0 1em 0 !important;
+  margin: 0.5em 0 !important;
+  padding: 0.7em 0;
+  border-radius: 3px;
   position: relative !important;
   overflow: auto !important;
   font-size: 0.95em !important;
@@ -226,13 +228,13 @@
 }
 
 .syntaxhighlighter {
-  background-color: white !important;
+  background-color: #f7f7f7 !important;
 }
 .syntaxhighlighter .line.alt1 {
-  background-color: white !important;
+  background-color: #f7f7f7 !important;
 }
 .syntaxhighlighter .line.alt2 {
-  background-color: white !important;
+  background-color: #f7f7f7 !important;
 }
 .syntaxhighlighter .line.highlighted.alt1, .syntaxhighlighter .line.highlighted.alt2 {
   background-color: #e0e0e0 !important;
