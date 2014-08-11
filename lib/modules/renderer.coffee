@@ -467,7 +467,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if _.isString handler.compiler
 				handler.compiler = self.file_handlers[handler.compiler].compiler
 
-			handler.ext_src.push handler.ext_bin
+			if handler.ext_src.indexOf(handler.ext_bin) == -1
+				handler.ext_src.push handler.ext_bin
+
 			handler.paths = handler.ext_src.map (el) ->
 				handler.pathless + el
 
