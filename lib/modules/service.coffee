@@ -96,6 +96,8 @@ init_sse = (self) ->
 	 * NoBone use it to implement the auto-reload of the web assets.
 	 * [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 	 * @property {Array} sessions The sessions of connected clients.
+	 * @property {Integer} retry The reconnection time to use when attempting to send the event, unit is ms.
+	 * Default is 1000ms.
 	 * A session object is something like:
 	 * ```coffeescript
 	 * {
@@ -114,6 +116,7 @@ init_sse = (self) ->
 	###
 	self.sse = {
 		sessions: []
+		retry: 1000
 	}
 
 	###*
@@ -158,6 +161,7 @@ init_sse = (self) ->
 			res.write """
 			id: #{Date.now()}
 			event: #{event}
+			retry: #{self.sse.retry}
 			data: #{msg}\n\n
 			"""
 

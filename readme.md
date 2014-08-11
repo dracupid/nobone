@@ -283,7 +283,7 @@ nobone bone -h
 
    [Ref](http://nodejs.org/api/http.html#http_class_http_server)
 
-- #### <a href="lib/modules/service.coffee#L115" target="_blank"><b>sse</b></a>
+- #### <a href="lib/modules/service.coffee#L117" target="_blank"><b>sse</b></a>
 
  A Server-Sent Event Manager.
  The namespace of nobone sse is '/nobone-sse'.
@@ -294,6 +294,11 @@ nobone bone -h
  - **<u>property</u>**:  { _Array_ }
 
    sessions The sessions of connected clients.
+
+ - **<u>property</u>**:  { _Integer_ }
+
+   retry The reconnection time to use when attempting to send the event, unit is ms.
+   Default is 1000ms.
    A session object is something like:
    ```coffeescript
    {
@@ -314,7 +319,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _SSE_ }
 
-- #### <a href="lib/modules/service.coffee#L126" target="_blank"><b>e.sse_connected</b></a>
+- #### <a href="lib/modules/service.coffee#L129" target="_blank"><b>e.sse_connected</b></a>
 
  This event will be triggered when a sse connection started.
  The event name is a combination of sse_connected and req.path,
@@ -328,7 +333,7 @@ nobone bone -h
 
    The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L133" target="_blank"><b>e.sse_close</b></a>
+- #### <a href="lib/modules/service.coffee#L136" target="_blank"><b>e.sse_close</b></a>
 
  This event will be triggered when a sse connection closed.
 
@@ -340,7 +345,7 @@ nobone bone -h
 
    session The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L141" target="_blank"><b>sse.create</b></a>
+- #### <a href="lib/modules/service.coffee#L144" target="_blank"><b>sse.create</b></a>
 
  Create a sse session.
 
@@ -350,7 +355,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _SSE_session_ }
 
-- #### <a href="lib/modules/service.coffee#L156" target="_blank"><b>session.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L159" target="_blank"><b>session.emit</b></a>
 
  Emit message to client.
 
@@ -362,7 +367,7 @@ nobone bone -h
 
    The message to send to the client.
 
-- #### <a href="lib/modules/service.coffee#L183" target="_blank"><b>sse.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L187" target="_blank"><b>sse.emit</b></a>
 
  Broadcast a event to clients.
 
