@@ -1,3 +1,7 @@
+- v0.5.1
+
+  - Add retry time option for see.
+
 - v0.5.0
 
   - Fix a markdown cache bug.
