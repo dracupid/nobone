@@ -148,7 +148,7 @@ init = ->
 					body: source
 				})
 
-		service.use renderer.static(assets_dir)
+		service.use '/assets', renderer.static(assets_dir)
 
 		service.listen 0, ->
 			port = service.server.address().port
