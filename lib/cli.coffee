@@ -139,7 +139,6 @@ init = ->
 					links.push p
 					return ''
 				md += '\n' + links.join('')
-				kit.outputFile 'o.md', md
 				res.send tpl({
 					body: marked md
 				})
