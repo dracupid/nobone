@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="/markdown/github.css">
-	<script src="/markdown/highlight.pack.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script src="/markdown/sh/shCore.js"></script>
+	<script src="/markdown/sh/brushes.js"></script>
+	<link rel="stylesheet" href="/markdown/sh/shCoreDefault.css">
+
+	<link rel="stylesheet" href="/markdown/default.css">
 	<title>Source - <%= path %></title>
 </head>
 <body>
@@ -19,6 +21,22 @@
 </code></pre>
 
 </div>
+
+<script type="text/javascript">
+	var el = document.querySelector('pre code[class]');
+	var lang = el.getAttribute('class').replace('lang-', '');
+	el.parentElement.setAttribute('class', 'brush: ' + lang + '; highlight: ' + location.hash.replace('#L', ''));
+	el.parentElement.innerHTML = el.innerHTML;
+
+	SyntaxHighlighter.all();
+
+	window.addEventListener('load', function () {
+		setTimeout(function () {
+			document.querySelector('.highlighted').scrollIntoView();
+		}, 0);
+	});
+
+</script>
 
 </body>
 </html>

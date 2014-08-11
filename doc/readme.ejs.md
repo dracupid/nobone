@@ -99,7 +99,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="<%= el.path %>#L<%= el.line %>">
+			<a href="<%= el.path %>#L<%= el.line %>" target="_blank">
 				<%
 					var name = el.name.replace('self.', '');
 					if (_.find(el.tags, function (el) {

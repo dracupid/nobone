@@ -177,7 +177,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/nobone.coffee#L8">
+			<a href="lib/nobone.coffee#L8" target="_blank">
 				
 				<b>Overview</b>
 			</a>
@@ -198,7 +198,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/nobone.coffee#L31">
+			<a href="lib/nobone.coffee#L31" target="_blank">
 				
 				<b>nobone</b>
 			</a>
@@ -267,7 +267,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/nobone.coffee#L66">
+			<a href="lib/nobone.coffee#L66" target="_blank">
 				
 				<b>close</b>
 			</a>
@@ -297,7 +297,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/nobone.coffee#L89">
+			<a href="lib/nobone.coffee#L89" target="_blank">
 				
 				<b>module_defaults</b>
 			</a>
@@ -353,7 +353,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/nobone.coffee#L117">
+			<a href="lib/nobone.coffee#L117" target="_blank">
 				
 				<b>client</b>
 			</a>
@@ -425,7 +425,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L6">
+			<a href="lib/modules/service.coffee#L6" target="_blank">
 				
 				<b>Overview</b>
 			</a>
@@ -456,7 +456,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L24">
+			<a href="lib/modules/service.coffee#L24" target="_blank">
 				
 				<b>service</b>
 			</a>
@@ -507,7 +507,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L34">
+			<a href="lib/modules/service.coffee#L34" target="_blank">
 				
 				<b>server</b>
 			</a>
@@ -538,7 +538,7 @@ nobone bone -h
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L114">
+			<a href="lib/modules/service.coffee#L114" target="_blank">
 				
 				<b>sse</b>
 			</a>
@@ -606,7 +606,7 @@ es.addEventListener(&#39;event_name&#39;, (e) -&gt;
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L125">
+			<a href="lib/modules/service.coffee#L125" target="_blank">
 				
 				<b>e.sse_connected</b>
 			</a>
@@ -653,7 +653,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L132">
+			<a href="lib/modules/service.coffee#L132" target="_blank">
 				
 				<b>e.sse_close</b>
 			</a>
@@ -696,7 +696,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L140">
+			<a href="lib/modules/service.coffee#L140" target="_blank">
 				
 				<b>sse.create</b>
 			</a>
@@ -752,7 +752,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L155">
+			<a href="lib/modules/service.coffee#L155" target="_blank">
 				
 				<b>session.emit</b>
 			</a>
@@ -799,7 +799,7 @@ for example: &quot;sse_connected/test&quot;</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/service.coffee#L182">
+			<a href="lib/modules/service.coffee#L182" target="_blank">
 				
 				<b>sse.emit</b>
 			</a>
@@ -868,7 +868,7 @@ broadcast to all clients.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L8">
+			<a href="lib/modules/renderer.coffee#L8" target="_blank">
 				
 				<b>Overview</b>
 			</a>
@@ -902,7 +902,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L67">
+			<a href="lib/modules/renderer.coffee#L67" target="_blank">
 				
 				<b>renderer</b>
 			</a>
@@ -988,7 +988,7 @@ Even for huge project its memory usage is negligible.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L88">
+			<a href="lib/modules/renderer.coffee#L88" target="_blank">
 				
 				<b>compiler</b>
 			</a>
@@ -1076,7 +1076,7 @@ when you call the <code>render</code> directly. Default is an empty object: <cod
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L203">
+			<a href="lib/modules/renderer.coffee#L203" target="_blank">
 				
 				<b>file_handlers</b>
 			</a>
@@ -1121,7 +1121,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L209">
+			<a href="lib/modules/renderer.coffee#L209" target="_blank">
 				
 				<b>cache_pool</b>
 			</a>
@@ -1152,7 +1152,7 @@ renderer.file_handlers[&#39;.js&#39;].compiler = (str) -&gt; str
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L232">
+			<a href="lib/modules/renderer.coffee#L232" target="_blank">
 				
 				<b>static</b>
 			</a>
@@ -1205,7 +1205,7 @@ of this static directory. Defaults:</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L325">
+			<a href="lib/modules/renderer.coffee#L325" target="_blank">
 				
 				<b>render</b>
 			</a>
@@ -1325,7 +1325,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L351">
+			<a href="lib/modules/renderer.coffee#L351" target="_blank">
 				
 				<b>close</b>
 			</a>
@@ -1344,7 +1344,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L362">
+			<a href="lib/modules/renderer.coffee#L362" target="_blank">
 				
 				<b>e.compile_error</b>
 			</a>
@@ -1402,7 +1402,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L370">
+			<a href="lib/modules/renderer.coffee#L370" target="_blank">
 				
 				<b>e.watch_file</b>
 			</a>
@@ -1474,7 +1474,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L376">
+			<a href="lib/modules/renderer.coffee#L376" target="_blank">
 				
 				<b>e.file_deleted</b>
 			</a>
@@ -1518,7 +1518,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/renderer.coffee#L382">
+			<a href="lib/modules/renderer.coffee#L382" target="_blank">
 				
 				<b>e.file_modified</b>
 			</a>
@@ -1571,7 +1571,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/db.coffee#L5">
+			<a href="lib/modules/db.coffee#L5" target="_blank">
 				
 				<b>Overview</b>
 			</a>
@@ -1590,7 +1590,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/db.coffee#L18">
+			<a href="lib/modules/db.coffee#L18" target="_blank">
 				
 				<b>db</b>
 			</a>
@@ -1638,7 +1638,7 @@ default is false. Optional.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/db.coffee#L28">
+			<a href="lib/modules/db.coffee#L28" target="_blank">
 				
 				<b>jdb.loaded</b>
 			</a>
@@ -1678,7 +1678,7 @@ the db is totally loaded.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/proxy.coffee#L7">
+			<a href="lib/modules/proxy.coffee#L7" target="_blank">
 				
 				<b>Overview</b>
 			</a>
@@ -1710,7 +1710,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/proxy.coffee#L18">
+			<a href="lib/modules/proxy.coffee#L18" target="_blank">
 				
 				<b>proxy</b>
 			</a>
@@ -1755,7 +1755,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/proxy.coffee#L31">
+			<a href="lib/modules/proxy.coffee#L31" target="_blank">
 				
 				<b>url</b>
 			</a>
@@ -1842,7 +1842,7 @@ Most time used with SwitchySharp.</p>
 
 	<li>
 		<h4>
-			<a href="lib/modules/proxy.coffee#L66">
+			<a href="lib/modules/proxy.coffee#L66" target="_blank">
 				
 				<b>connect</b>
 			</a>
@@ -1960,7 +1960,7 @@ service.server.on &#39;connect&#39;, proxy.connect
 
 	<li>
 		<h4>
-			<a href="lib/modules/proxy.coffee#L105">
+			<a href="lib/modules/proxy.coffee#L105" target="_blank">
 				
 				<b>pac</b>
 			</a>
@@ -2027,7 +2027,7 @@ proxy = (target) -&gt; # return &#39;PROXY target;&#39;.
 
 	<li>
 		<h4>
-			<a href="lib/modules/proxy.coffee#L142">
+			<a href="lib/modules/proxy.coffee#L142" target="_blank">
 				
 				<b>tunnel</b>
 			</a>
@@ -2056,7 +2056,7 @@ See the project <a href="https://github.com/koichik/node-tunnel">node-tunnel</a>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L14">
+			<a href="lib/kit.coffee#L14" target="_blank">
 				
 				<b>kit</b>
 			</a>
@@ -2088,7 +2088,7 @@ Most time I use it to handle files and system staffs.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L27">
+			<a href="lib/kit.coffee#L27" target="_blank">
 				
 				<b>kit_extends_fs_q</b>
 			</a>
@@ -2123,7 +2123,7 @@ kit.outputFile(&#39;a.txt&#39;, &#39;test&#39;).done()
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L43">
+			<a href="lib/kit.coffee#L43" target="_blank">
 				
 				<b>require</b>
 			</a>
@@ -2183,7 +2183,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L56">
+			<a href="lib/kit.coffee#L56" target="_blank">
 				
 				<b>path</b>
 			</a>
@@ -2202,7 +2202,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L61">
+			<a href="lib/kit.coffee#L61" target="_blank">
 				
 				<b>url</b>
 			</a>
@@ -2221,7 +2221,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L66">
+			<a href="lib/kit.coffee#L66" target="_blank">
 				
 				<b>fs</b>
 			</a>
@@ -2240,7 +2240,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L72">
+			<a href="lib/kit.coffee#L72" target="_blank">
 				
 				<b>q</b>
 			</a>
@@ -2270,7 +2270,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L78">
+			<a href="lib/kit.coffee#L78" target="_blank">
 				
 				<b>jhash</b>
 			</a>
@@ -2289,7 +2289,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L86">
+			<a href="lib/kit.coffee#L86" target="_blank">
 				
 				<b>glob</b>
 			</a>
@@ -2348,7 +2348,7 @@ you should follow some rules to use it safely.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L110">
+			<a href="lib/kit.coffee#L110" target="_blank">
 				
 				<b>spawn</b>
 			</a>
@@ -2424,7 +2424,7 @@ When the child process ends, it will resolve.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L165">
+			<a href="lib/kit.coffee#L165" target="_blank">
 				
 				<b>open</b>
 			</a>
@@ -2498,7 +2498,7 @@ kit.open &#39;http://ysmood.org&#39;
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L232">
+			<a href="lib/kit.coffee#L232" target="_blank">
 				
 				<b>request</b>
 			</a>
@@ -2580,7 +2580,7 @@ kit.request {
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L389">
+			<a href="lib/kit.coffee#L389" target="_blank">
 				
 				<b>monitor_app</b>
 			</a>
@@ -2634,7 +2634,7 @@ It will make sure your app crash properly.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L428">
+			<a href="lib/kit.coffee#L428" target="_blank">
 				
 				<b>watch_file</b>
 			</a>
@@ -2683,7 +2683,7 @@ variable.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L450">
+			<a href="lib/kit.coffee#L450" target="_blank">
 				
 				<b>watch_files</b>
 			</a>
@@ -2731,7 +2731,7 @@ Such as <code>[&#39;\*.css&#39;, &#39;lib/\*\*.js&#39;]</code>.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L462">
+			<a href="lib/kit.coffee#L462" target="_blank">
 				
 				<b>env_mode</b>
 			</a>
@@ -2777,7 +2777,7 @@ and keep the current env variables.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L494">
+			<a href="lib/kit.coffee#L494" target="_blank">
 				
 				<b>lang</b>
 			</a>
@@ -2876,7 +2876,7 @@ kit.lang_current = &#39;en&#39;
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L509">
+			<a href="lib/kit.coffee#L509" target="_blank">
 				
 				<b>lang_set</b>
 			</a>
@@ -2921,7 +2921,7 @@ kit.lang_current = &#39;en&#39;
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L516">
+			<a href="lib/kit.coffee#L516" target="_blank">
 				
 				<b>lang_current</b>
 			</a>
@@ -2963,7 +2963,7 @@ kit.lang_current = &#39;en&#39;
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L530">
+			<a href="lib/kit.coffee#L530" target="_blank">
 				
 				<b>lang_load</b>
 			</a>
@@ -3013,7 +3013,7 @@ kit.log &#39;test&#39;.l # This may output &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L552">
+			<a href="lib/kit.coffee#L552" target="_blank">
 				
 				<b>inspect</b>
 			</a>
@@ -3072,7 +3072,7 @@ kit.log &#39;test&#39;.l # This may output &#39;测试&#39;.
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L574">
+			<a href="lib/kit.coffee#L574" target="_blank">
 				
 				<b>log</b>
 			</a>
@@ -3137,7 +3137,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L622">
+			<a href="lib/kit.coffee#L622" target="_blank">
 				
 				<b>err</b>
 			</a>
@@ -3182,7 +3182,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L636">
+			<a href="lib/kit.coffee#L636" target="_blank">
 				
 				<b>pad</b>
 			</a>
@@ -3265,7 +3265,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L654">
+			<a href="lib/kit.coffee#L654" target="_blank">
 				
 				<b>daemonize</b>
 			</a>
@@ -3316,7 +3316,7 @@ stack trace.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L679">
+			<a href="lib/kit.coffee#L679" target="_blank">
 				
 				<b>prompt_get</b>
 			</a>
@@ -3362,7 +3362,7 @@ in-terminal user interaction.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L705">
+			<a href="lib/kit.coffee#L705" target="_blank">
 				
 				<b>async</b>
 			</a>
@@ -3439,7 +3439,7 @@ when it returns <code>undefined</code>, the iteration ends.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L797">
+			<a href="lib/kit.coffee#L797" target="_blank">
 				
 				<b>parse_comment</b>
 			</a>
@@ -3553,7 +3553,7 @@ It will traverse through all the comments.</p>
 
 	<li>
 		<h4>
-			<a href="lib/kit.coffee#L880">
+			<a href="lib/kit.coffee#L880" target="_blank">
 				
 				<b>generate_bone</b>
 			</a>
