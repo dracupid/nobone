@@ -432,7 +432,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		compiled = compile(handler)
 
 		if opts.enable_watcher
-			compiled.then -> watch handler
+			compiled.then -> setTimeout(->
+				watch handler
+			, 300)
 
 		compiled
 
