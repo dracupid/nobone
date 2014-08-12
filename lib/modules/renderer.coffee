@@ -397,7 +397,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, arguments
 
-	compile = (handler, cache = true) ->
+	compile = (handler, is_cache = true) ->
 		Q.all handler.paths.map(kit.fileExists)
 		.then (rets) ->
 			ext_index = rets.indexOf(true)
@@ -416,7 +416,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else
 						handler.compiler bin, path, handler.data
 				.then (content) ->
-					return content if not cache
+					return content if not is_cache
 					cache_pool[path] = content
 				.catch (err) ->
 					emit self.e.compile_error, path, err
@@ -506,13 +506,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						return
 
 					if curr.mtime != prev.mtime
-						emit(
-							self.e.file_modified
-							path
-							handler.type or handler.ext_bin
-							handler.req_path
-						)
-						compile(handler).done()
+						compile(handler).done ->
+							emit(
+								self.e.file_modified
+								path
+								handler.type or handler.ext_bin
+								handler.req_path
+							)
 
 				kit.watch_file path, watcher
 				emit self.e.watch_file, handler.path, handler.req_path
