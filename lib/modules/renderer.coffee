@@ -134,26 +134,40 @@ renderer.defaults = {
 					code
 		}
 		'.css': {
-			ext_src: ['.styl', '.less']
-			dependency_reg: /^\s*@import\s+['"]?([^'"]+)['"]?/
+			ext_src: ['.styl', '.less', '.sass', '.scss']
 			compiler: (str, path, data = {}) ->
 				ext_src = kit.path.extname path
 				_.defaults data, {
 					filename: path
 					compress: process.env.NODE_ENV == 'production'
 				}
-				if ext_src == '.styl'
-					stylus = kit.require 'stylus'
-					Q.ninvoke stylus, 'render', str, data
-				else
-					try
-						less = kit.require('less')
-					catch e
-						kit.err '"npm install less" first.'.red
+				switch ext_src
+					when '.styl'
+						@dependency_reg = /^\s*@import\s+['"]?([^'"]+)['"]?/
+						stylus = kit.require 'stylus'
+						Q.ninvoke stylus, 'render', str, data
 
-					parser = new less.Parser(data)
-					Q.ninvoke(parser, 'parse', str)
-					.then (tree) -> tree.toCSS data
+					when '.less'
+						@dependency_reg = /^\s*@import\s+['"]([^'"]+)['"]/
+						try
+							less = kit.require('less')
+						catch e
+							kit.err '"npm install less" first.'.red
+
+						parser = new less.Parser(data)
+						Q.ninvoke(parser, 'parse', str)
+						.then (tree) -> tree.toCSS data
+
+					when '.sass', '.scss'
+						@dependency_reg = /^\s*@import\s+['"]?([^'"]+)['"]?/
+						try
+							sass = kit.require 'node-sass'
+						catch e
+							kit.err '"npm install node-sass" first.'.red
+						sass.renderSync _.defaults data, {
+							data: str
+							includePaths: [kit.path.dirname path]
+						}
 		}
 		'.md': {
 			type: 'html' # Force type, optional.
