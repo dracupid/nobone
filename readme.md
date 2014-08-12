@@ -283,7 +283,7 @@ nobone bone -h
 
    [Ref](http://nodejs.org/api/http.html#http_class_http_server)
 
-- #### <a href="lib/modules/service.coffee#L117" target="_blank"><b>sse</b></a>
+- #### <a href="lib/modules/service.coffee#L119" target="_blank"><b>sse</b></a>
 
  A Server-Sent Event Manager.
  The namespace of nobone sse is '/nobone-sse'.
@@ -319,7 +319,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _SSE_ }
 
-- #### <a href="lib/modules/service.coffee#L129" target="_blank"><b>e.sse_connected</b></a>
+- #### <a href="lib/modules/service.coffee#L131" target="_blank"><b>e.sse_connected</b></a>
 
  This event will be triggered when a sse connection started.
  The event name is a combination of sse_connected and req.path,
@@ -333,7 +333,7 @@ nobone bone -h
 
    The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L136" target="_blank"><b>e.sse_close</b></a>
+- #### <a href="lib/modules/service.coffee#L138" target="_blank"><b>e.sse_close</b></a>
 
  This event will be triggered when a sse connection closed.
 
@@ -345,7 +345,7 @@ nobone bone -h
 
    session The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L144" target="_blank"><b>sse.create</b></a>
+- #### <a href="lib/modules/service.coffee#L146" target="_blank"><b>sse.create</b></a>
 
  Create a sse session.
 
@@ -355,7 +355,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _SSE_session_ }
 
-- #### <a href="lib/modules/service.coffee#L159" target="_blank"><b>session.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L161" target="_blank"><b>session.emit</b></a>
 
  Emit message to client.
 
@@ -367,7 +367,7 @@ nobone bone -h
 
    The message to send to the client.
 
-- #### <a href="lib/modules/service.coffee#L187" target="_blank"><b>sse.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L189" target="_blank"><b>sse.emit</b></a>
 
  Broadcast a event to clients.
 
@@ -397,7 +397,7 @@ nobone bone -h
 
    [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
 
-- #### <a href="lib/modules/renderer.coffee#L68" target="_blank"><b>renderer</b></a>
+- #### <a href="lib/modules/renderer.coffee#L64" target="_blank"><b>renderer</b></a>
 
  Create a Renderer instance.
 
@@ -416,9 +416,7 @@ nobone bone -h
    		'.html': {
    			default: true
    			ext_src: '.ejs'
-   			watch_list: {
-   				'path': [pattern1, ...] # Extra files to watch.
-   			}
+   			watch_list: [path1, path2, ...] # Extra files to watch.
    			encoding: 'utf8' # optional, default is 'utf8'
    			compiler: (str, path, ext_src, data) -> ...
    		}
@@ -450,15 +448,15 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Renderer_ }
 
-- #### <a href="lib/modules/renderer.coffee#L89" target="_blank"><b>compiler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L87" target="_blank"><b>compiler</b></a>
 
  The compiler should fulfil two interfaces.
  It should return a promise object. Only handles string.
 
- - **<u>this</u>**:  { _Renderer_ }
+ - **<u>this</u>**:  { _File_handler_ }
 
-   The context of this function is the
-   current renderer.
+   It has a extra property `opts` which is the
+   options of the current renderer.
 
  - **<u>param</u>**: `str` { _String_ }
 
@@ -476,8 +474,10 @@ nobone bone -h
  - **<u>return</u>**:  { _Any_ }
 
    Promise or any thing that contains the compiled content.
+   If you need source map support, the content must be an object
+   with `source_map` and `source` properties.
 
-- #### <a href="lib/modules/renderer.coffee#L204" target="_blank"><b>file_handlers</b></a>
+- #### <a href="lib/modules/renderer.coffee#L203" target="_blank"><b>file_handlers</b></a>
 
  You can access all the file_handlers here.
  Manipulate them at runtime.
@@ -491,7 +491,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/modules/renderer.coffee#L210" target="_blank"><b>cache_pool</b></a>
+- #### <a href="lib/modules/renderer.coffee#L209" target="_blank"><b>cache_pool</b></a>
 
  The cache pool of the result of `file_handlers.compiler`
 
@@ -499,7 +499,7 @@ nobone bone -h
 
    Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L233" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L232" target="_blank"><b>static</b></a>
 
  Set a static directory.
  Static folder to automatically serve coffeescript and stylus.
@@ -520,7 +520,7 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L326" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L332" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -563,11 +563,11 @@ nobone bone -h
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L352" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L357" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L363" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L368" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:
 
@@ -581,7 +581,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L371" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L376" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:
 
@@ -599,7 +599,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L377" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L382" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:
 
@@ -609,7 +609,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L383" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L388" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:
 

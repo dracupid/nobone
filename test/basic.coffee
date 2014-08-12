@@ -34,7 +34,7 @@ describe 'Basic:', ->
 			Q.all([
 				get '/main.js', port
 				get '/default.css', port
-				get '/test/err_sample.css', port
+				get '/err_sample.css', port
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
