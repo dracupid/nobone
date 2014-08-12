@@ -27,7 +27,7 @@ nb.service.get '/', (req, res) ->
 	# Renderer
 	# It will auto-find the 'test/test_app/index.ejs', and render it to html.
 	# You can also render coffee, stylus, less, sass, markdown, or define custom handlers.
-	# When you modifies the `test/test_app/index.ejs`, the page will auto-reload.
+	# When you modify the `test/test_app/index.ejs`, the page will auto-reload.
 	nb.renderer.render('test/test_app/index.html')
 	.done (tpl_func) ->
 		res.send tpl_func({ name: 'nobone' })
