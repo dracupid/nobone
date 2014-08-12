@@ -403,14 +403,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else
 						handler.compiler bin, path, handler.data
 				.then (content) ->
-					if not cache
-						return content
-
-					if not _.isString content
-						body = content.toString()
-					else
-						body = content
-
+					return content if not cache
 					cache_pool[path] = content
 				.catch (err) ->
 					emit self.e.compile_error, path, err
