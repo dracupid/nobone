@@ -1,6 +1,8 @@
 - v0.5.1
 
   - Add retry time option for see.
+  - Add default sass support.
+  - Add auto dependency watch support.
 
 - v0.5.0
 
