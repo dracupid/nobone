@@ -3,6 +3,7 @@
   - Add retry time option for see.
   - Add default sass support.
   - Add auto dependency watch support.
+  - Optimize markdown style.
 
 - v0.5.0
 
