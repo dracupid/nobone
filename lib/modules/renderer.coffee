@@ -511,13 +511,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					return
 
 				if curr.mtime != prev.mtime
+					emit(
+						self.e.file_modified
+						path
+						handler.type or handler.ext_bin
+						handler.req_path
+					)
 					compile(handler).done ->
-						emit(
-							self.e.file_modified
-							path
-							handler.type or handler.ext_bin
-							handler.req_path
-						)
 
 			for path in handler.watch_list
 				kit.watch_file path, watcher
@@ -525,25 +525,32 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				_.remove watch.processing, (el) -> el == path
 		.done()
 
+	force_ext = (path, ext) ->
+		kit.path.join(
+			kit.path.dirname path
+			kit.path.basename path, ext
+		) + ext
+
 	get_dependencies = (handler, curr_path) ->
 		reg = new RegExp(handler.dependency_reg.source, 'g')
 		if curr_path
-			handler.watch_list.push curr_path
-			kit.readFile(curr_path, 'utf8').then (str) ->
+			kit.readFile(curr_path, 'utf8')
+			.then (str) ->
+				handler.watch_list.push curr_path
 				matches = str.match reg
 				return if not matches
 				Q.all matches.map (m) ->
 					path = m.match(handler.dependency_reg)[1]
-					dep_path = kit.path.join(handler.dirname, path + handler.ext)
+					dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
 					get_dependencies handler, dep_path
-
+			.catch -> return
 		else
 			return Q() if not handler.source
 			matches = handler.source.match reg
 			return Q() if not matches
 			Q.all matches.map (m) ->
 				path = m.match(handler.dependency_reg)[1]
-				dep_path = kit.path.join(handler.dirname, path + handler.ext)
+				dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
 				get_dependencies handler, dep_path
 
 	# Parse the dependencies.
