@@ -15,6 +15,8 @@ express = require 'express'
 { EventEmitter } = require 'events'
 fs = kit.require 'fs'
 
+jhash = new kit.jhash.constructor
+
 ###*
  * Create a Renderer instance.
  * @param {Object} opts Defaults:
@@ -30,6 +32,9 @@ fs = kit.require 'fs'
  * 		'.html': {
  * 			default: true
  * 			ext_src: '.ejs'
+ * 			watch_list: {
+ * 				'path': [pattern1, ...] # Extra files to watch.
+ * 			}
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			compiler: (str, path, ext_src, data) -> ...
  * 		}
@@ -79,17 +84,7 @@ renderer.defaults = {
 			 * @param  {String} path For debug info.
 			 * @param  {Any} data The data sent from the `render` function.
 			 * when you call the `render` directly. Default is an empty object: `{ }`.
-			 * @return {Promise} The promise should contain a string, buffer or object.
-			 * If it's an object, the object should fulfil:
-			 * ```coffee
-			 * {
-			 * 	content: 'string, buffer or function'
-			 *
-			 * 	# Most time it is used for dependencies.
-			 * 	# By default it's the compiled file itsself.
-			 * 	watch_list: ['path1', 'path2', ...]
-			 * }
-			 * ```
+			 * @return {Any} Promise or any thing that contains the compiled content.
 			###
 			compiler: (str, path, data) ->
 				self = @
@@ -118,12 +113,12 @@ renderer.defaults = {
 						html
 
 				if _.isObject data
-					content = render data
+					render data
 				else
-					content = (data = {}) ->
+					func = (data = {}) ->
 						render data
-					content.toString = -> str
-				{ content }
+					func.toString = -> str
+					func
 		}
 		'.js': {
 			ext_src: '.coffee'
@@ -271,10 +266,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						res.status 500
 						return res.send self.e.compile_error
 
-					if _.isObject(cache) and cache.content
-						content = cache.content
-					else
-						content = cache
+					content = cache.content
 
 					res.type handler.type or handler.ext_bin
 
@@ -289,6 +281,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							err = new Error(body)
 							err.name = 'unknown_type'
 							throw err
+
+					res.set 'ETag', cache.etag
 
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
@@ -346,10 +340,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.data = data
 			if is_cache
 				get_cache(handler).then (cache) ->
-					if _.isObject(cache) and cache.content
-						cache.content
-					else
-						cache
+					cache.content
 			else
 				compile handler, false
 		else
@@ -401,7 +392,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, arguments
 
-	compile = (handler, is_cache = true) ->
+	compile = (handler, cache = true) ->
 		Q.all handler.paths.map(kit.fileExists)
 		.then (rets) ->
 			ext_index = rets.indexOf(true)
@@ -418,10 +409,19 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						bin
 					else
 						handler.compiler.call self, bin, path, handler.data
-				.then (cache) ->
-					return cache if not is_cache
+				.then (content) ->
+					if not cache
+						return content
 
-					cache_pool[path] = cache
+					if not _.isString content
+						body = content.toString()
+					else
+						body = content
+					hash = jhash.hash body
+					len = body.length.toString(36)
+					etag = "W/\"#{len}-#{hash}\""
+
+					cache_pool[path] = { content, etag }
 				.catch (err) ->
 					emit self.e.compile_error, path, err
 					cache_pool[path] = null
