@@ -76,6 +76,8 @@ renderer.defaults = {
 			###*
 			 * The compiler should fulfil two interfaces.
 			 * It should return a promise object. Only handles string.
+			 * @this {File_handler} It has a extra property `opts` which is the
+			 * options of the current renderer.
 			 * @param  {String} str Source content.
 			 * @param  {String} path For debug info.
 			 * @param  {Any} data The data sent from the `render` function.
@@ -394,12 +396,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				kit.readFile path, encoding
 				.then (bin) ->
 					if handler.type and handler.type != ext
-						return handler.compiler.call self, bin, path, handler.data
+						return handler.compiler bin, path, handler.data
 
 					if ext == handler.ext_bin
 						bin
 					else
-						handler.compiler.call self, bin, path, handler.data
+						handler.compiler bin, path, handler.data
 				.then (content) ->
 					if not cache
 						return content
@@ -427,10 +429,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if cache
 			return Q(cache)
 
-		if opts.enable_watcher
-			watch handler
+		compiled = compile(handler)
 
-		compile(handler)
+		if opts.enable_watcher
+			compiled.then -> watch handler
+
+		compiled
 
 	get_handler = (path) ->
 		ext_bin = kit.path.extname path
@@ -460,6 +464,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 			handler.paths = handler.ext_src.map (el) ->
 				handler.pathless + el
+
+			handler.opts = self.opts
 
 		handler
 
