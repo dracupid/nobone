@@ -30,9 +30,7 @@ fs = kit.require 'fs'
  * 		'.html': {
  * 			default: true
  * 			ext_src: '.ejs'
- * 			watch_list: {
- * 				'path': [pattern1, ...] # Extra files to watch.
- * 			}
+ * 			watch_list: [path1, path2, ...] # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			compiler: (str, path, ext_src, data) -> ...
  * 		}
@@ -135,6 +133,7 @@ renderer.defaults = {
 		}
 		'.css': {
 			ext_src: ['.styl', '.less']
+			dependency_reg: /^\s*@import\s+['"]?([^'"]+)['"]?/g
 			compiler: (str, path, data = {}) ->
 				ext_src = kit.path.extname path
 				_.defaults data, {
@@ -391,6 +390,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			ext_index = rets.indexOf(true)
 			path = handler.paths[ext_index]
 			if path
+				handler.path = path
 				ext = handler.ext_src[ext_index]
 				encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 				kit.readFile path, encoding
@@ -451,6 +451,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler = _.cloneDeep(handler)
+			handler.watch_list ?= []
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
@@ -474,54 +475,43 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	watch = (handler) ->
 		# async lock, make sure one file won't be watched twice.
 		watch.processing ?= []
-		paths = _.clone handler.paths
-		for p in handler.paths
-			if watch.processing.indexOf(p) > -1
-				_.remove paths, (el) -> el == p
-			else
-				watch.processing.push p
 
-		Q.all paths.map(kit.fileExists)
-		.then (rets) ->
-			path = paths[rets.indexOf(true)]
-			return if not path
+		Q.fcall ->
+			gen_watch_list(handler)
+		.then ->
+			return if handler.watch_list.length == 0
 
-			emit self.e.watch_file, path, handler.req_path
-			watcher = (path, curr, prev) ->
-				# If moved or deleted
-				if curr.mtime.getTime() == 0
-					emit self.e.file_deleted, path
-					delete cache_pool[path]
-					fs.unwatchFile(path, watcher)
+			for path in handler.watch_list
+				watcher = (path, curr, prev) ->
+					# If moved or deleted
+					if curr.mtime.getTime() == 0
+						emit self.e.file_deleted, path + ' -> '.cyan + handler.path
+						delete cache_pool[path]
+						fs.unwatchFile(path, watcher)
+						return
 
-					# Extra watch_list
-					if handler.watch_list and handler.watch_list[path]
-						kit.glob handler.watch_list[path]
-						.done (paths) ->
-							for p in paths
-								emit self.e.file_deleted, path + ' <- ' + p
-								fs.unwatchFile(p, watcher)
-					return
+					if curr.mtime != prev.mtime
+						emit(
+							self.e.file_modified
+							path
+							handler.type or handler.ext_bin
+							handler.req_path
+						)
+						compile(handler).done()
 
-				if curr.mtime != prev.mtime
-					emit(
-						self.e.file_modified
-						path
-						handler.type or handler.ext_bin
-						handler.req_path
-					)
-					compile(handler).done()
+				kit.watch_file path, watcher
+				emit self.e.watch_file, handler.path, handler.req_path
 
-			kit.watch_file path, watcher
-			_.remove watch.processing, (el) -> el == path
+				_.remove watch.processing, (el) -> el == p
 
-			# Extra watch_list
-			if handler.watch_list and handler.watch_list[path]
-				kit.watch_files handler.watch_list[path], watcher
-				.done (paths) ->
-					for p in paths
-						emit self.e.watch_file, path + ' <- ' + p, handler.url
-						_.remove watch.processing, (el) -> el == p
+	# Parse the dependencies.
+	gen_watch_list = (handler) ->
+		return if not handler.path
 
+		if watch.processing.indexOf(handler.path) > -1
+			_.remove paths, (el) -> el == handler.path
+		else
+			watch.processing.push handler.path
+			handler.watch_list.push handler.path
 
 module.exports = renderer
