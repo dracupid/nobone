@@ -1,4 +1,4 @@
-- v0.5.1
+- v0.5.2
 
   - Add retry time option for see.
   - Add default sass support.
