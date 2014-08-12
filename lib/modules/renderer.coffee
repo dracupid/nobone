@@ -135,7 +135,7 @@ renderer.defaults = {
 		}
 		'.css': {
 			ext_src: ['.styl', '.less']
-			dependency_reg: /^\s*@import\s+['"]?([^'"]+)['"]?/g
+			dependency_reg: /^\s*@import\s+['"]?([^'"]+)['"]?/
 			compiler: (str, path, data = {}) ->
 				ext_src = kit.path.extname path
 				_.defaults data, {
@@ -414,6 +414,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					if ext == handler.ext_bin
 						bin
 					else
+						handler.source = bin
 						handler.compiler bin, path, handler.data
 				.then (content) ->
 					return content if not is_cache
@@ -468,8 +469,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
+			handler.dirname = kit.path.dirname(path)
 			handler.pathless = kit.path.join(
-				kit.path.dirname(path)
+				handler.dirname
 				kit.path.basename(path, ext_bin)
 			)
 			if _.isString handler.compiler
@@ -494,37 +496,68 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		.then ->
 			return if handler.watch_list.length == 0
 
-			for path in handler.watch_list
-				watcher = (path, curr, prev) ->
-					# If moved or deleted
-					if curr.mtime.getTime() == 0
-						emit self.e.file_deleted, path + ' -> '.cyan + handler.path
+			watcher = (path, curr, prev) ->
+				# If moved or deleted
+				if curr.mtime.getTime() == 0
+					fs.unwatchFile(path, watcher)
+
+					# If its the source child, remove all parents.
+					if cache_pool[path]
+						for p in handler.watch_list
+							fs.unwatchFile p, watcher
 						delete cache_pool[path]
-						fs.unwatchFile(path, watcher)
-						return
 
-					if curr.mtime != prev.mtime
-						compile(handler).done ->
-							emit(
-								self.e.file_modified
-								path
-								handler.type or handler.ext_bin
-								handler.req_path
-							)
+					emit self.e.file_deleted, path + ' -> '.cyan + handler.path
+					return
 
+				if curr.mtime != prev.mtime
+					compile(handler).done ->
+						emit(
+							self.e.file_modified
+							path
+							handler.type or handler.ext_bin
+							handler.req_path
+						)
+
+			for path in handler.watch_list
 				kit.watch_file path, watcher
-				emit self.e.watch_file, handler.path, handler.req_path
+				emit self.e.watch_file, path, handler.req_path
+				_.remove watch.processing, (el) -> el == path
+		.done()
 
-				_.remove watch.processing, (el) -> el == p
+	get_dependencies = (handler, curr_path) ->
+		reg = new RegExp(handler.dependency_reg.source, 'g')
+		if curr_path
+			handler.watch_list.push curr_path
+			kit.readFile(curr_path, 'utf8').then (str) ->
+				matches = str.match reg
+				return if not matches
+				Q.all matches.map (m) ->
+					path = m.match(handler.dependency_reg)[1]
+					dep_path = kit.path.join(handler.dirname, path + handler.ext)
+					get_dependencies handler, dep_path
+
+		else
+			return Q() if not handler.source
+			matches = handler.source.match reg
+			return Q() if not matches
+			Q.all matches.map (m) ->
+				path = m.match(handler.dependency_reg)[1]
+				dep_path = kit.path.join(handler.dirname, path + handler.ext)
+				get_dependencies handler, dep_path
 
 	# Parse the dependencies.
 	gen_watch_list = (handler) ->
 		return if not handler.path
+		handler.ext = kit.path.extname handler.path
 
 		if watch.processing.indexOf(handler.path) > -1
 			_.remove paths, (el) -> el == handler.path
 		else
 			watch.processing.push handler.path
 			handler.watch_list.push handler.path
+
+		if handler.dependency_reg
+			get_dependencies handler
 
 module.exports = renderer
