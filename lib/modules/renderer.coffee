@@ -15,8 +15,6 @@ express = require 'express'
 { EventEmitter } = require 'events'
 fs = kit.require 'fs'
 
-jhash = new kit.jhash.constructor
-
 ###*
  * Create a Renderer instance.
  * @param {Object} opts Defaults:
@@ -78,8 +76,6 @@ renderer.defaults = {
 			###*
 			 * The compiler should fulfil two interfaces.
 			 * It should return a promise object. Only handles string.
-			 * @this {Renderer} The context of this function is the
-			 * current renderer.
 			 * @param  {String} str Source content.
 			 * @param  {String} path For debug info.
 			 * @param  {Any} data The data sent from the `render` function.
@@ -266,23 +262,19 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						res.status 500
 						return res.send self.e.compile_error
 
-					content = cache.content
-
 					res.type handler.type or handler.ext_bin
 
-					switch content.constructor.name
+					switch cache.constructor.name
 						when 'String', 'Buffer'
-							body = content
+							body = cache
 						when 'Function'
-							body = content()
+							body = cache()
 						else
 							body = 'The compiler should produce a string or function: '.red +
-								path.cyan + '\n' + kit.inspect(content).yellow
+								path.cyan + '\n' + kit.inspect(cache).yellow
 							err = new Error(body)
 							err.name = 'unknown_type'
 							throw err
-
-					res.set 'ETag', cache.etag
 
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
@@ -339,8 +331,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if handler
 			handler.data = data
 			if is_cache
-				get_cache(handler).then (cache) ->
-					cache.content
+				get_cache(handler)
 			else
 				compile handler, false
 		else
@@ -417,11 +408,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						body = content.toString()
 					else
 						body = content
-					hash = jhash.hash body
-					len = body.length.toString(36)
-					etag = "W/\"#{len}-#{hash}\""
 
-					cache_pool[path] = { content, etag }
+					cache_pool[path] = content
 				.catch (err) ->
 					emit self.e.compile_error, path, err
 					cache_pool[path] = null
