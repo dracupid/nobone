@@ -71,6 +71,7 @@ renderer.defaults = {
 		'.html': {
 			default: true    # Whether it is a default handler, optional.
 			ext_src: ['.ejs']
+			dependency_reg: /^<%[\n\r\s]*include\s+['"]?([^'"]+)['"]?[\n\r\s]%>/
 			###*
 			 * The compiler should fulfil two interfaces.
 			 * It should return a promise object. Only handles string.
