@@ -38,7 +38,7 @@ describe 'Basic:', ->
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
-				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\n"
+				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}\n"
 				assert.equal results[2], 'compile_error'
 			.then ->
 				nb.kit.readFile 'test/test_app/main.coffee'
@@ -144,7 +144,7 @@ describe 'Basic:', ->
 		setTimeout(->
 			get '/default.css', port
 			.then (res) ->
-				assert.equal res, "h1 {\n  color: #126dd0;\n}\n"
+				assert.equal res, "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}\n"
 				tdone()
 			.fin ->
 				ps.kill 'SIGINT'
