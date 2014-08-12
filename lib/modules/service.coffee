@@ -45,6 +45,8 @@ service = (opts = {}) ->
 	_.extend self, {
 		server
 
+		express
+
 		listen: ->
 			server.listen.apply server, arguments
 		close: (callback) ->
