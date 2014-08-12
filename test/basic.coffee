@@ -69,7 +69,7 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render force html', (tdone) ->
-		nb.kit.glob 'test/test_app/*.ejs'
+		nb.kit.glob 'test/test_app/inde*.ejs'
 		.then ([path]) ->
 			nb.renderer.render(path, '.html')
 		.done (tpl) ->
@@ -77,12 +77,13 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render raw', (tdone) ->
-		nb.kit.glob 'test/test_app/*.ejs'
+		nb.kit.glob 'test/test_app/include.ejs'
 		.then ([path]) ->
 			nb.renderer.render(path)
 		.done (func) ->
 			str = func.toString().replace /\r\n/g, '\n'
-			assert.equal str.indexOf('<title><%= name %></title>'), 31
+			nb.kit.log str
+			assert.equal str.indexOf('include-content'), 75
 			tdone()
 
 	it 'render js directly', (tdone) ->
