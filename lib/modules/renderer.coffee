@@ -81,6 +81,8 @@ renderer.defaults = {
 			 * @param  {Any} data The data sent from the `render` function.
 			 * when you call the `render` directly. Default is an empty object: `{ }`.
 			 * @return {Any} Promise or any thing that contains the compiled content.
+			 * If you need source map support, the content must be an object
+			 * with `source_map` and `source` properties.
 			###
 			compiler: (str, path, data) ->
 				self = @
@@ -271,11 +273,22 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						when 'Function'
 							body = cache()
 						else
-							body = 'The compiler should produce a string or function: '.red +
-								path.cyan + '\n' + kit.inspect(cache).yellow
-							err = new Error(body)
-							err.name = 'unknown_type'
-							throw err
+							if cache.source_map and cache.source
+								if handler.is_source_map
+									body = cache.source_map
+								else
+									source_map_comment = "sourceMappingURL=#{handler.req_path}.map"
+									if handler.ext_bin == '.js'
+										source_map_comment = "\n//# #{source_map_comment}\n"
+									else
+										source_map_comment = "\n/*# #{source_map_comment} */\n"
+									body = cache.source + source_map_comment
+							else
+								body = 'The compiler should produce a string, buffer or function: '.red +
+									path.cyan + '\n' + kit.inspect(cache).yellow
+								err = new Error(body)
+								err.name = 'unknown_type'
+								throw err
 
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
@@ -427,12 +440,20 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if opts.enable_watcher
 			compiled.then -> setTimeout(->
 				watch handler
-			, 300)
+			, 100)
 
 		compiled
 
 	get_handler = (path) ->
 		ext_bin = kit.path.extname path
+
+		if ext_bin == '.map'
+			path = kit.path.join(
+				kit.path.dirname(path)
+				kit.path.basename(path, ext_bin)
+			)
+			ext_bin = kit.path.extname path
+			is_source_map = true
 
 		if ext_bin == ''
 			handler = _.find self.file_handlers, (el) -> el.default
@@ -444,6 +465,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler = _.cloneDeep(handler)
+			handler.is_source_map = is_source_map
 			handler.watch_list ?= []
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
