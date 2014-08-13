@@ -1,3 +1,9 @@
+- v0.5.3
+
+  - Fix rewatching empty cache bug.
+  - Add a `kit.unwatch` api.
+  - Fix a unwatch bug.
+
 - v0.5.2
 
   - Add retry time option for see.

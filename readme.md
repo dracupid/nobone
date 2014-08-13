@@ -1256,10 +1256,11 @@ nobone bone -h
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L880" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L882" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`
+ For samba server, we have to choose `watchFile` than `watch`.
  variable.
 
  - **<u>param</u>**: `path` { _String_ }
@@ -1270,7 +1271,23 @@ nobone bone -h
 
    Event listener.
 
-- #### <a href="lib/kit.coffee#L902" target="_blank"><b>watch_files</b></a>
+ - **<u>return</u>**:  { _Function_ }
+
+   The real listener.
+
+- #### <a href="lib/kit.coffee#L905" target="_blank"><b>unwatch_file</b></a>
+
+ Unwatch a specific path with specific handler.
+
+ - **<u>param</u>**: `path` { _[type]_ }
+
+   The file path.
+
+ - **<u>param</u>**: `handler` { _[type]_ }
+
+   Event listener.
+
+- #### <a href="lib/kit.coffee#L917" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.

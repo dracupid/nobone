@@ -873,24 +873,39 @@ _.extend kit, {
 	###*
 	 * Watch a file. If the file changes, the handler will be invoked.
 	 * You can change the polling interval by using `process.env.polling_watch`
+	 * For samba server, we have to choose `watchFile` than `watch`.
 	 * variable.
 	 * @param  {String}   path    The file path
 	 * @param  {Function} handler Event listener.
+	 * @return {Function} The real listener.
 	###
 	watch_file: (path, handler) ->
-		###
-			For samba server, we have to choose `watchFile` than `watch`
-		###
-
+		listener = 	(curr, prev) ->
+			handler(path, curr, prev)
 		fs.watchFile(
 			path
 			{
 				persistent: false
 				interval: +process.env.polling_watch or 300
 			}
-			(curr, prev) ->
-				handler(path, curr, prev)
+			listener
 		)
+		kit.watch_list_list.push {
+			path, listener, handler
+		}
+		listener
+
+	watch_list_list: []
+
+	###*
+	 * Unwatch a specific path with specific handler.
+	 * @param  {[type]} path    The file path.
+	 * @param  {[type]} handler Event listener.
+	###
+	unwatch_file: (path, handler) ->
+		for el in kit.watch_list_list
+			if el.path == path and el.handler == handler
+				kit.fs.unwatchFile path, el.listener
 
 	###*
 	 * Watch files, when file changes, the handler will be invoked.
