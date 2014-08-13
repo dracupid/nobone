@@ -448,7 +448,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		cache = _.find cache_pool, (v, k) ->
 			handler.paths.indexOf(k) > -1
 
-		if cache
+		if cache != undefined
 			return Q(cache)
 
 		compiled = compile(handler)
