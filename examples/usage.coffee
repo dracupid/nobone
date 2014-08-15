@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'development'
 
 nobone = require 'nobone'
 
-port = 8013
+port = 8219
 
 # If you want to init without a specific module,
 # for example 'db' and 'service' module, just exclude them:
@@ -25,10 +25,10 @@ nobone.module_defaults().done (list) ->
 # Service
 nb.service.get '/', (req, res) ->
 	# Renderer
-	# It will auto-find the 'test/test_app/index.ejs', and render it to html.
+	# It will auto-find the 'examples/fixtures/index.ejs', and render it to html.
 	# You can also render coffee, stylus, less, sass, markdown, or define custom handlers.
-	# When you modify the `test/test_app/index.ejs`, the page will auto-reload.
-	nb.renderer.render('test/test_app/index.html')
+	# When you modify the `examples/fixtures/index.ejs`, the page will auto-reload.
+	nb.renderer.render('examples/fixtures/index.html')
 	.done (tpl_func) ->
 		res.send tpl_func({ name: 'nobone' })
 
@@ -42,7 +42,7 @@ nb.service.listen port, ->
 	nb.kit.open 'http://127.0.0.1:' + port
 
 # Static folder for auto-service of coffeescript and stylus, etc.
-nb.service.use nb.renderer.static('test/test_app')
+nb.service.use nb.renderer.static('examples/fixtures')
 
 # Database
 # Nobone has a build-in file database.
