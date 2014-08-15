@@ -144,7 +144,7 @@ renderer.defaults = {
 				}
 				switch ext_src
 					when '.styl'
-						@dependency_reg = /^\s*@import\s+['"]?([^'"]+)['"]?/
+						@dependency_reg = /^\s*(?:@import|@require)\s+['"]?([^'"]+)['"]?/
 						stylus = kit.require 'stylus'
 						Q.ninvoke stylus, 'render', str, data
 
