@@ -86,7 +86,7 @@ renderer.defaults = {
 			###
 			compiler: (str, path, data) ->
 				self = @
-				switch ext_src
+				switch @ext
 					when '.ejs'
 						@dependency_reg = /^<%[\n\r\s]*include\s+['"]?([^'"]+)['"]?[\n\r\s]%>/
 						compiler = kit.require 'ejs'
@@ -98,7 +98,6 @@ renderer.defaults = {
 							kit.err '"npm install jade" first.'.red
 				tpl_fn = compiler.compile str, {
 					filename: path
-					compileDebug: process.env.NODE_ENV == 'development'
 					debug: process.env.NODE_ENV == 'development'
 				}
 
@@ -149,12 +148,11 @@ renderer.defaults = {
 		'.css': {
 			ext_src: ['.styl', '.less', '.sass', '.scss']
 			compiler: (str, path, data = {}) ->
-				ext_src = kit.path.extname path
 				_.defaults data, {
 					filename: path
 					compress: process.env.NODE_ENV == 'production'
 				}
-				switch ext_src
+				switch @ext
 					when '.styl'
 						@dependency_reg = /^\s*(?:@import|@require)\s+['"]?([^'"]+)['"]?/
 						stylus = kit.require 'stylus'
@@ -435,6 +433,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 				kit.readFile path, encoding
 				.then (bin) ->
+					handler.ext = ext
 					if handler.type and handler.type != ext
 						return handler.compiler bin, path, handler.data
 
@@ -447,7 +446,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					return content if not is_cache
 					cache_pool[path] = content
 				.catch (err) ->
-					emit self.e.compile_error, path, err
+					emit self.e.compile_error, path, err.stack
 					cache_pool[path] = null
 			else
 				err = new Error('File not exists: ' + handler.pathless)
