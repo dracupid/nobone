@@ -29,8 +29,8 @@ nb.service.get '/', (req, res) ->
 	# You can also render jade, coffee, stylus, less, sass, markdown, or define custom handlers.
 	# When you modify the `examples/fixtures/index.ejs`, the page will auto-reload.
 	nb.renderer.render('examples/fixtures/index.html')
-	.done (tpl_func) ->
-		res.send tpl_func({ name: 'nobone' })
+	.done (tpl_fn) ->
+		res.send tpl_fn({ name: 'nobone' })
 
 # Launch express.js
 nb.service.listen port, ->

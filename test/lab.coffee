@@ -4,10 +4,10 @@ _ = require 'lodash'
 { kit, renderer: rr, service: srv } = nobone()
 
 srv.get '/', (req, res) ->
-	rr.render 'test/test_app/index.html'
-	.done (tpl) ->
-		res.send tpl({ name: '' })
+	rr.render 'test/fixtures/jade.html'
+	.done (tpl_fn) ->
+		res.send tpl_fn()
 
-srv.use rr.static('test/test_app')
+srv.use rr.static('test/fixtures')
 
-srv.listen 8013
+srv.listen 8122
