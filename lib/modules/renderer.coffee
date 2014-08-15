@@ -29,7 +29,7 @@ fs = kit.require 'fs'
  * 	file_handlers: {
  * 		'.html': {
  * 			default: true
- * 			ext_src: '.ejs'
+ * 			ext_src: ['.ejs', '.jade']
  * 			watch_list: [path1, path2, ...] # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			compiler: (str, path, ext_src, data) -> ...
@@ -70,8 +70,7 @@ renderer.defaults = {
 	file_handlers: {
 		'.html': {
 			default: true    # Whether it is a default handler, optional.
-			ext_src: ['.ejs']
-			dependency_reg: /^<%[\n\r\s]*include\s+['"]?([^'"]+)['"]?[\n\r\s]%>/
+			ext_src: ['.ejs', '.jade']
 			###*
 			 * The compiler should fulfil two interfaces.
 			 * It should return a promise object. Only handles string.
@@ -87,8 +86,21 @@ renderer.defaults = {
 			###
 			compiler: (str, path, data) ->
 				self = @
-				ejs = kit.require 'ejs'
-				tpl = ejs.compile str, { filename: path }
+				switch ext_src
+					when '.ejs'
+						@dependency_reg = /^<%[\n\r\s]*include\s+['"]?([^'"]+)['"]?[\n\r\s]%>/
+						compiler = kit.require 'ejs'
+					when '.jade'
+						@dependency_reg = /^\s*(?:include|extends)\s+(.+)/
+						try
+							compiler = kit.require 'jade'
+						catch e
+							kit.err '"npm install jade" first.'.red
+				tpl_fn = compiler.compile str, {
+					filename: path
+					compileDebug: process.env.NODE_ENV == 'development'
+					debug: process.env.NODE_ENV == 'development'
+				}
 
 				render = (data) ->
 					_.defaults data, {
@@ -102,7 +114,7 @@ renderer.defaults = {
 							conservativeCollapse: true
 						}
 					}
-					html = tpl data
+					html = tpl_fn data
 					if data.inject_client and
 					self.opts.inject_client_reg.test html
 						html += nobone.client()
