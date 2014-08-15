@@ -26,7 +26,7 @@ nobone.module_defaults().done (list) ->
 nb.service.get '/', (req, res) ->
 	# Renderer
 	# It will auto-find the 'examples/fixtures/index.ejs', and render it to html.
-	# You can also render coffee, stylus, less, sass, markdown, or define custom handlers.
+	# You can also render jade, coffee, stylus, less, sass, markdown, or define custom handlers.
 	# When you modify the `examples/fixtures/index.ejs`, the page will auto-reload.
 	nb.renderer.render('examples/fixtures/index.html')
 	.done (tpl_func) ->
