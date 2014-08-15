@@ -575,7 +575,7 @@ nobone bone -h
  - **<u>param</u>**: `is_cache` { _Boolean_ }
 
    Whether to cache the result,
-   default is false. Optional.
+   default is true. Optional.
 
  - **<u>return</u>**:  { _Promise_ }
 

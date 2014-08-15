@@ -348,7 +348,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * ```
 	 * @param  {Object} data Extra data you want to send to the compiler. Optional.
 	 * @param  {Boolean} is_cache Whether to cache the result,
-	 * default is false. Optional.
+	 * default is true. Optional.
 	 * @return {Promise} Contains the compiled content.
 	###
 	self.render = (path, ext, data, is_cache) ->
