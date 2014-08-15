@@ -22,7 +22,7 @@ get = (path, port) ->
 
 describe 'Basic:', ->
 
-	nb.service.use nb.renderer.static('test/test_app')
+	nb.service.use nb.renderer.static('test/fixtures')
 	nb.service.use '/test', nb.renderer.static('test')
 
 	port = 8022
@@ -41,11 +41,11 @@ describe 'Basic:', ->
 				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}\nh1 input {\n  color: #00f;\n}\n"
 				assert.equal results[2], 'compile_error'
 			.then ->
-				nb.kit.readFile 'test/test_app/main.coffee'
+				nb.kit.readFile 'test/fixtures/main.coffee'
 			.then (str) ->
 				watcher_file_cache = str
 				# Test the watcher
-				nb.kit.outputFile 'test/test_app/main.coffee', "console.log 'no'"
+				nb.kit.outputFile 'test/fixtures/main.coffee', "console.log 'no'"
 			.then ->
 				deferred = Q.defer()
 				setTimeout(->
@@ -58,7 +58,7 @@ describe 'Basic:', ->
 			.then (code) ->
 				assert.equal code, "console.log('no');\n"
 			.then ->
-				nb.kit.outputFile 'test/test_app/main.coffee', watcher_file_cache
+				nb.kit.outputFile 'test/fixtures/main.coffee', watcher_file_cache
 			.done ->
 				server.close()
 				tdone()
@@ -69,7 +69,7 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render force html', (tdone) ->
-		nb.kit.glob 'test/test_app/inde*.ejs'
+		nb.kit.glob 'test/fixtures/inde*.ejs'
 		.then ([path]) ->
 			nb.renderer.render(path, '.html')
 		.done (tpl) ->
@@ -77,17 +77,16 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render raw', (tdone) ->
-		nb.kit.glob 'test/test_app/include.ejs'
+		nb.kit.glob 'test/fixtures/include.ejs'
 		.then ([path]) ->
 			nb.renderer.render(path)
 		.done (func) ->
 			str = func.toString().replace /\r\n/g, '\n'
-			nb.kit.log str
 			assert.equal str.indexOf('include-content'), 75
 			tdone()
 
 	it 'render js directly', (tdone) ->
-		nb.renderer.render('test/test_app/test.js')
+		nb.renderer.render('test/fixtures/test.js')
 		.done (str) ->
 			assert.equal str, 'var a = 10;'
 			tdone()
@@ -95,7 +94,7 @@ describe 'Basic:', ->
 	it 'renderer with data', (tdone) ->
 		{ renderer: rr } = nobone()
 		rr.render(
-			'test/test_app/index.html'
+			'test/fixtures/index.html'
 			{ name: 'nobone' }
 		).done (page) ->
 			assert.equal page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
@@ -122,7 +121,7 @@ describe 'Basic:', ->
 		rr.file_handlers['.js'].compiler = (str) ->
 			str.length
 
-		rr.render 'test/test_app/main.js'
+		rr.render 'test/fixtures/main.js'
 		.done (len) ->
 			assert.equal len, watcher_file_cache.length
 			tdone()
@@ -139,7 +138,7 @@ describe 'Basic:', ->
 		ps = nb.kit.spawn('node', [
 			'bin/nobone.js'
 			'-p', port
-			'test/test_app'
+			'test/fixtures'
 		]).process
 
 		setTimeout(->
