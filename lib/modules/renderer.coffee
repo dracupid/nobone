@@ -96,10 +96,7 @@ renderer.defaults = {
 							compiler = kit.require 'jade'
 						catch e
 							kit.err '"npm install jade" first.'.red
-				tpl_fn = compiler.compile str, {
-					filename: path
-					debug: process.env.NODE_ENV == 'development'
-				}
+				tpl_fn = compiler.compile str, { filename: path }
 
 				render = (data) ->
 					_.defaults data, {
