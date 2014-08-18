@@ -149,9 +149,10 @@ init = ->
 				res.send doc_cache
 
 		service.get '/*.coffee', (req, res) ->
+			path = kit.path.normalize __dirname + '/../' + req.path[1..]
 			Q.all([
 				renderer.render source_html
-				kit.readFile kit.path.join(__dirname, req.path[1..]), 'utf8'
+				kit.readFile path, 'utf8'
 			])
 			.done (rets) ->
 				[tpl, source] = rets

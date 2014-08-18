@@ -6,4 +6,3 @@ appveyor.yml
 
 benchmark
 test/*
-lib/*
