@@ -3,6 +3,7 @@
   - Fix rewatching empty cache bug.
   - Add a `kit.unwatch` api.
   - Fix a unwatch bug.
+  - Fix a doc path bug.
 
 - v0.5.2
 
