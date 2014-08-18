@@ -151,7 +151,7 @@ init = ->
 		service.get '/*.coffee', (req, res) ->
 			Q.all([
 				renderer.render source_html
-				kit.readFile req.path[1..], 'utf8'
+				kit.readFile kit.path.join(__dirname, req.path[1..]), 'utf8'
 			])
 			.done (rets) ->
 				[tpl, source] = rets
