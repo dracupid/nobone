@@ -242,7 +242,7 @@ nobone bone -h
 
    A promise object which will produce the defaults.
 
-- #### <a href="lib/nobone.coffee#L118" target="_blank"><b>client</b></a>
+- #### <a href="lib/nobone.coffee#L119" target="_blank"><b>client</b></a>
 
  The NoBone client helper.
 
@@ -256,13 +256,17 @@ nobone bone -h
    	auto_reload: process.env.NODE_ENV == 'development'
    	lang_current: kit.lang_current
    	lang_data: kit.lang_data
+   	host: '' # The host of the event source.
    }
    ```
-   return an empty string.
+
+ - **<u>param</u>**: `use_js` { _Boolean_ }
+
+   By default use html. Default is false.
 
  - **<u>return</u>**:  { _String_ }
 
-   The html of client helper.
+   The code of client helper.
 
 ### service
 
@@ -301,7 +305,7 @@ nobone bone -h
 
    [Ref](http://nodejs.org/api/http.html#http_class_http_server)
 
-- #### <a href="lib/modules/service.coffee#L119" target="_blank"><b>sse</b></a>
+- #### <a href="lib/modules/service.coffee#L125" target="_blank"><b>sse</b></a>
 
  A Server-Sent Event Manager.
  The namespace of nobone sse is '/nobone-sse'.
@@ -337,7 +341,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _SSE_ }
 
-- #### <a href="lib/modules/service.coffee#L131" target="_blank"><b>e.sse_connected</b></a>
+- #### <a href="lib/modules/service.coffee#L137" target="_blank"><b>e.sse_connected</b></a>
 
  This event will be triggered when a sse connection started.
  The event name is a combination of sse_connected and req.path,
@@ -351,7 +355,7 @@ nobone bone -h
 
    The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L138" target="_blank"><b>e.sse_close</b></a>
+- #### <a href="lib/modules/service.coffee#L144" target="_blank"><b>e.sse_close</b></a>
 
  This event will be triggered when a sse connection closed.
 
@@ -363,7 +367,7 @@ nobone bone -h
 
    session The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L146" target="_blank"><b>sse.create</b></a>
+- #### <a href="lib/modules/service.coffee#L152" target="_blank"><b>sse.create</b></a>
 
  Create a sse session.
 
@@ -373,7 +377,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _SSE_session_ }
 
-- #### <a href="lib/modules/service.coffee#L161" target="_blank"><b>session.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L167" target="_blank"><b>session.emit</b></a>
 
  Emit message to client.
 
@@ -385,7 +389,7 @@ nobone bone -h
 
    The message to send to the client.
 
-- #### <a href="lib/modules/service.coffee#L189" target="_blank"><b>sse.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L195" target="_blank"><b>sse.emit</b></a>
 
  Broadcast a event to clients.
 

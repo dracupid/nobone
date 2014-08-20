@@ -110,30 +110,40 @@ _.extend nobone, {
 	 * 	auto_reload: process.env.NODE_ENV == 'development'
 	 * 	lang_current: kit.lang_current
 	 * 	lang_data: kit.lang_data
+	 * 	host: '' # The host of the event source.
 	 * }
 	 * ```
-	 * return an empty string.
-	 * @return {String} The html of client helper.
+	 * @param {Boolean} use_js By default use html. Default is false.
+	 * @return {String} The code of client helper.
 	###
-	client: (opts = {}) ->
-		if nobone.client_cache
-			return nobone.client_cache
+	client: (opts = {}, use_js = false) ->
+		if nobone.client_js_cache
+			js = nobone.client_js_cache
+		else
+			js = kit.fs.readFileSync(__dirname + '/../dist/nobone_client.js')
+			nobone.client_js_cache = js
 
-		fs = kit.require 'fs'
-		js = fs.readFileSync(__dirname + '/../dist/nobone_client.js')
 		opts_str = JSON.stringify _.defaults(opts, {
 			auto_reload: process.env.NODE_ENV == 'development'
 			lang_current: kit.lang_current
 			lang_data: kit.lang_data
+			host: ''
 		})
-		html = """
-			\n\n<!-- Nobone Client Helper -->
-			<script type="text/javascript">
-			#{js}
-			window.nb = new Nobone(#{opts_str});
-			</script>\n\n
+
+		js = """
+			\n#{js}
+			window.nb = new Nobone(#{opts_str});\n
 		"""
-		nobone.client_cache = html
+
+		if use_js
+			js
+		else
+			"""
+				\n\n<!-- Nobone Client Helper -->
+				<script type="text/javascript">
+				#{js}
+				</script>\n\n
+			"""
 
 }
 

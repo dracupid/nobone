@@ -1,6 +1,7 @@
 # The NoBone helper for browser
 
 class Nobone then constructor: (opts) ->
+	'use strict'
 
 	self = @
 
@@ -25,7 +26,7 @@ class Nobone then constructor: (opts) ->
 		opts.lang_data[lang]?[cmd] or en
 
 	init_auto_reload = ->
-		es = new EventSource('/nobone-sse/auto_reload')
+		es = new EventSource(opts.host + '/nobone-sse/auto_reload')
 
 		es.addEventListener 'error', (e) ->
 			console.warn(e.message)
