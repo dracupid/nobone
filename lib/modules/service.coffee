@@ -59,6 +59,11 @@ service = (opts = {}) ->
 		len = body.length.toString(36)
 		"W/\"#{len}-#{hash}\""
 
+	if opts.allow_origin
+		self.use (req, res, next) ->
+			res.set 'Access-Control-Allow-Origin', opts.allow_origin
+			next()
+
 	if opts.enable_remote_log
 		init_remote_log self
 
@@ -71,6 +76,7 @@ service.defaults = {
 	auto_log: process.env.NODE_ENV == 'development'
 	enable_remote_log: process.env.NODE_ENV == 'development'
 	enable_sse: process.env.NODE_ENV == 'development'
+	allow_origin: if process.env.NODE_ENV == 'development' then '*' else null
 	express: {}
 }
 
