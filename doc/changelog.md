@@ -1,6 +1,8 @@
 - v0.5.4
 
   - Expose lodash as `kit._`.
+  - Better nobone client api.
+  - Now on dev mode default `Access-Control-Allow-Origin` is allow all.
 
 - v0.5.3
 
