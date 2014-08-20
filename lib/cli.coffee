@@ -163,7 +163,7 @@ init = ->
 
 		service.use '/assets', renderer.static(assets_dir)
 
-		service.listen 0, ->
+		service.listen cmder.port or 0, ->
 			port = service.server.address().port
 			kit.log "Listen: " + "#{cmder.host}:#{port}".cyan
 			kit.open 'http://127.0.0.1:' + port
