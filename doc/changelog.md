@@ -1,3 +1,7 @@
+- v0.5.4
+
+  - Expose lodash as `kit._`.
+
 - v0.5.3
 
   - Fix rewatching empty cache bug.

@@ -31,6 +31,12 @@ for k, v of fs
 
 _.extend kit, {
 
+	###*
+	 * The lodash lib.
+	 * @type {Object}
+	###
+	_: _
+
 	require_cache: {}
 
 	###*
