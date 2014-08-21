@@ -8,6 +8,7 @@ marked_html = kit.path.normalize __dirname + '/../assets/markdown/index.html'
 source_html = kit.path.normalize __dirname + '/../assets/markdown/source.html'
 nobone_readme = kit.path.normalize __dirname + '/../readme.md'
 assets_dir = kit.path.normalize __dirname + '/../assets'
+nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
 
 doc_cache = null
 service.get '/', (req, res) ->
@@ -45,6 +46,8 @@ service.get '/*.coffee', (req, res) ->
 		})
 
 service.use '/assets', renderer.static(assets_dir)
+service.get '/favicon.ico', (req, res) ->
+	res.sendfile nobone_favicon
 
 module.exports = (opts) ->
 	service.listen opts.port, ->
