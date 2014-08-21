@@ -470,7 +470,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Renderer_ }
 
-- #### <a href="lib/modules/renderer.coffee#L87" target="_blank"><b>compiler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L93" target="_blank"><b>compiler</b></a>
 
  The compiler should fulfil two interfaces.
  It should return a promise object. Only handles string.
@@ -491,7 +491,13 @@ nobone bone -h
  - **<u>param</u>**: `data` { _Any_ }
 
    The data sent from the `render` function.
-   when you call the `render` directly. Default is an empty object: `{ }`.
+   when you call the `render` directly. Default is an object:
+   ```coffeescript
+   {
+   	_: lodash
+   	inject_client: process.env.NODE_ENV == 'development'
+   }
+   ```
 
  - **<u>return</u>**:  { _Any_ }
 
@@ -499,7 +505,7 @@ nobone bone -h
    If you need source map support, the content must be an object
    with `source_map` and `source` properties.
 
-- #### <a href="lib/modules/renderer.coffee#L225" target="_blank"><b>file_handlers</b></a>
+- #### <a href="lib/modules/renderer.coffee#L220" target="_blank"><b>file_handlers</b></a>
 
  You can access all the file_handlers here.
  Manipulate them at runtime.
@@ -513,7 +519,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/modules/renderer.coffee#L231" target="_blank"><b>cache_pool</b></a>
+- #### <a href="lib/modules/renderer.coffee#L226" target="_blank"><b>cache_pool</b></a>
 
  The cache pool of the result of `file_handlers.compiler`
 
@@ -521,7 +527,7 @@ nobone bone -h
 
    Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L254" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L249" target="_blank"><b>static</b></a>
 
  Set a static directory.
  Static folder to automatically serve coffeescript and stylus.
@@ -542,7 +548,7 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L354" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L349" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -585,11 +591,11 @@ nobone bone -h
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L379" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L374" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L390" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L385" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:
 
@@ -603,7 +609,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L398" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L393" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:
 
@@ -621,7 +627,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L404" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L399" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:
 
@@ -631,7 +637,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L410" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L405" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:
 
