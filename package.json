@@ -30,7 +30,6 @@
     "express": "~4.5.0",
     "fs-more": "*",
     "glob": "~4.0.2",
-    "html-minifier": "~0.6.6",
     "http-proxy": "~1.1.4",
     "iconv-lite": "~0.4.4",
     "jdb": "*",

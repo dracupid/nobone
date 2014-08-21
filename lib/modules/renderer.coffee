@@ -79,7 +79,13 @@ renderer.defaults = {
 			 * @param  {String} str Source content.
 			 * @param  {String} path For debug info.
 			 * @param  {Any} data The data sent from the `render` function.
-			 * when you call the `render` directly. Default is an empty object: `{ }`.
+			 * when you call the `render` directly. Default is an object:
+			 * ```coffeescript
+			 * {
+			 * 	_: lodash
+			 * 	inject_client: process.env.NODE_ENV == 'development'
+			 * }
+			 * ```
 			 * @return {Any} Promise or any thing that contains the compiled content.
 			 * If you need source map support, the content must be an object
 			 * with `source_map` and `source` properties.
@@ -102,22 +108,11 @@ renderer.defaults = {
 					_.defaults data, {
 						_
 						inject_client: process.env.NODE_ENV == 'development'
-						compress: process.env.NODE_ENV == 'production'
-						compress_opts: {
-							removeAttributeQuotes: true
-							removeComments: true
-							collapseWhitespace: true
-							conservativeCollapse: true
-						}
 					}
 					html = tpl_fn data
 					if data.inject_client and
 					self.opts.inject_client_reg.test html
 						html += nobone.client()
-					if data.compress
-						kit.require('html-minifier').minify html, data.compress_opts
-					else
-						html
 
 				if _.isObject data
 					render data
