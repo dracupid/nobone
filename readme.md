@@ -404,10 +404,11 @@ nobone bone -h
 
 ### renderer
 
-- #### <a href="lib/modules/renderer.coffee#L8" target="_blank"><b>Overview</b></a>
+- #### <a href="lib/modules/renderer.coffee#L9" target="_blank"><b>Overview</b></a>
 
  A abstract renderer for any content, such as source code or image files.
  It automatically uses high performance memory cache.
+ This renderer helps nobone to implement a **passive compilation architecture**.
  You can run the benchmark to see the what differences it makes.
  Even for huge project the memory usage is negligible.
 
@@ -415,7 +416,7 @@ nobone bone -h
 
    [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
 
-- #### <a href="lib/modules/renderer.coffee#L64" target="_blank"><b>renderer</b></a>
+- #### <a href="lib/modules/renderer.coffee#L65" target="_blank"><b>renderer</b></a>
 
  Create a Renderer instance.
 
@@ -466,7 +467,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Renderer_ }
 
-- #### <a href="lib/modules/renderer.coffee#L93" target="_blank"><b>compiler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L94" target="_blank"><b>compiler</b></a>
 
  The compiler should fulfil two interfaces.
  It should return a promise object. Only handles string.
@@ -501,7 +502,7 @@ nobone bone -h
    If you need source map support, the content must be an object
    with `source_map` and `source` properties.
 
-- #### <a href="lib/modules/renderer.coffee#L221" target="_blank"><b>file_handlers</b></a>
+- #### <a href="lib/modules/renderer.coffee#L222" target="_blank"><b>file_handlers</b></a>
 
  You can access all the file_handlers here.
  Manipulate them at runtime.
@@ -515,7 +516,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/modules/renderer.coffee#L227" target="_blank"><b>cache_pool</b></a>
+- #### <a href="lib/modules/renderer.coffee#L228" target="_blank"><b>cache_pool</b></a>
 
  The cache pool of the result of `file_handlers.compiler`
 
@@ -523,7 +524,7 @@ nobone bone -h
 
    Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L250" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L251" target="_blank"><b>static</b></a>
 
  Set a static directory.
  Static folder to automatically serve coffeescript and stylus.
@@ -544,7 +545,7 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L350" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L351" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -587,11 +588,11 @@ nobone bone -h
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L375" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L376" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L386" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L387" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**: `compile_error` { _Event_ }
 
@@ -603,7 +604,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L394" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L395" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**: `watch_file` { _Event_ }
 
@@ -619,7 +620,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L400" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L401" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**: `file_deleted` { _Event_ }
 
@@ -627,7 +628,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L406" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L407" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**: `file_modified` { _Event_ }
 
