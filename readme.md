@@ -347,9 +347,7 @@ nobone bone -h
  The event name is a combination of sse_connected and req.path,
  for example: "sse_connected/test"
 
- - **<u>event</u>**:
-
-   sse_connected
+ - **<u>event</u>**: `sse_connected` { _Event_ }
 
  - **<u>param</u>**: `session` { _SSE_session_ }
 
@@ -359,13 +357,11 @@ nobone bone -h
 
  This event will be triggered when a sse connection closed.
 
- - **<u>event</u>**:
+ - **<u>event</u>**: `sse_close` { _Event_ }
 
-   sse_close
+ - **<u>param</u>**: `session` { _SSE_session_ }
 
- - **<u>type</u>**:  { _SSE_session_ }
-
-   session The session object of current connection.
+   The session object of current connection.
 
 - #### <a href="lib/modules/service.coffee#L152" target="_blank"><b>sse.create</b></a>
 
@@ -597,9 +593,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L386" target="_blank"><b>e.compile_error</b></a>
 
- - **<u>event</u>**:
-
-   compile_error
+ - **<u>event</u>**: `compile_error` { _Event_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -611,9 +605,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L394" target="_blank"><b>e.watch_file</b></a>
 
- - **<u>event</u>**:
-
-   watch_file
+ - **<u>event</u>**: `watch_file` { _Event_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -629,9 +621,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L400" target="_blank"><b>e.file_deleted</b></a>
 
- - **<u>event</u>**:
-
-   file_deleted
+ - **<u>event</u>**: `file_deleted` { _Event_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -639,9 +629,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L406" target="_blank"><b>e.file_modified</b></a>
 
- - **<u>event</u>**:
-
-   file_modified
+ - **<u>event</u>**: `file_modified` { _Event_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -1158,11 +1146,11 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L588" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L589" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L596" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L597" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1175,13 +1163,13 @@ nobone bone -h
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L614" target="_blank"><b>q</b></a>
+- #### <a href="lib/kit.coffee#L615" target="_blank"><b>q</b></a>
 
  The promise Q lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L623" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L624" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1198,7 +1186,7 @@ nobone bone -h
 
    The module that you require.
 
-- #### <a href="lib/kit.coffee#L678" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L679" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1250,7 +1238,7 @@ nobone bone -h
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L831" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L832" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1273,11 +1261,11 @@ nobone bone -h
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L877" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L878" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L888" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L889" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`
@@ -1296,7 +1284,7 @@ nobone bone -h
 
    The real listener.
 
-- #### <a href="lib/kit.coffee#L911" target="_blank"><b>unwatch_file</b></a>
+- #### <a href="lib/kit.coffee#L912" target="_blank"><b>unwatch_file</b></a>
 
  Unwatch a specific path with specific handler.
 
@@ -1308,7 +1296,7 @@ nobone bone -h
 
    Event listener.
 
-- #### <a href="lib/kit.coffee#L923" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L924" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.

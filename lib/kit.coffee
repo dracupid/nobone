@@ -528,6 +528,7 @@ _.extend kit, {
 			tag_name_reg: /^([\w\.]+)\s*/
 			type_reg: /^\{(.+?)\}\s*/
 			name_reg: /^(\w+)\s*/
+			name_tags: ['param', 'property', 'event']
 			description_reg: /^([\s\S]*)/
 		}
 
@@ -554,7 +555,7 @@ _.extend kit, {
 					type = parse_tag opts.type_reg
 					if type
 						tag.type = type
-						if tag.tag_name == 'param' or tag.tag_name == 'property'
+						if opts.name_tags.indexOf(tag.tag_name) > -1
 							tag.name = parse_tag opts.name_reg
 						tag.description = parse_tag(opts.description_reg) or ''
 					else
