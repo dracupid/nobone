@@ -498,6 +498,7 @@ _.extend kit, {
 	 * 	tag_name_reg: RegExp
 	 * 	type_reg: RegExp
 	 * 	name_reg: RegExp
+	 * 	name_tags: ['param', 'property', 'event']
 	 * 	description_reg: RegExp
 	 * }
 	 * ```

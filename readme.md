@@ -1093,7 +1093,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L524" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L525" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1120,6 +1120,7 @@ nobone bone -h
    	tag_name_reg: RegExp
    	type_reg: RegExp
    	name_reg: RegExp
+   	name_tags: ['param', 'property', 'event']
    	description_reg: RegExp
    }
    ```
@@ -1146,11 +1147,11 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L589" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L590" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L597" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L598" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1163,13 +1164,13 @@ nobone bone -h
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L615" target="_blank"><b>q</b></a>
+- #### <a href="lib/kit.coffee#L616" target="_blank"><b>q</b></a>
 
  The promise Q lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L624" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L625" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1186,7 +1187,7 @@ nobone bone -h
 
    The module that you require.
 
-- #### <a href="lib/kit.coffee#L679" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L680" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1238,7 +1239,7 @@ nobone bone -h
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L832" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L833" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1261,11 +1262,11 @@ nobone bone -h
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L878" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L879" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L889" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L890" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`
@@ -1284,7 +1285,7 @@ nobone bone -h
 
    The real listener.
 
-- #### <a href="lib/kit.coffee#L912" target="_blank"><b>unwatch_file</b></a>
+- #### <a href="lib/kit.coffee#L913" target="_blank"><b>unwatch_file</b></a>
 
  Unwatch a specific path with specific handler.
 
@@ -1296,7 +1297,7 @@ nobone bone -h
 
    Event listener.
 
-- #### <a href="lib/kit.coffee#L924" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L925" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
