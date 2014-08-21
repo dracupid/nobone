@@ -99,9 +99,9 @@ init_remote_log = (self) ->
 init_sse = (self) ->
 	###*
 	 * A Server-Sent Event Manager.
-	 * The namespace of nobone sse is '/nobone-sse'.
+	 * The namespace of nobone sse is `/nobone-sse`.
 	 * For more info see [Using server-sent events][Using server-sent events].
-	 * NoBone use it to implement the auto-reload of the web assets.
+	 * NoBone use it to implement the live-reload of web assets.
 	 * [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 	 * @property {Array} sessions The sessions of connected clients.
 	 * @property {Integer} retry The reconnection time to use when attempting to send the event, unit is ms.

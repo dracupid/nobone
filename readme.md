@@ -308,18 +308,18 @@ nobone bone -h
 - #### <a href="lib/modules/service.coffee#L125" target="_blank"><b>sse</b></a>
 
  A Server-Sent Event Manager.
- The namespace of nobone sse is '/nobone-sse'.
+ The namespace of nobone sse is `/nobone-sse`.
  For more info see [Using server-sent events][Using server-sent events].
- NoBone use it to implement the auto-reload of the web assets.
+ NoBone use it to implement the live-reload of web assets.
  [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 
- - **<u>property</u>**:  { _Array_ }
+ - **<u>property</u>**: `sessions` { _Array_ }
 
-   sessions The sessions of connected clients.
+   The sessions of connected clients.
 
- - **<u>property</u>**:  { _Integer_ }
+ - **<u>property</u>**: `retry` { _Integer_ }
 
-   retry The reconnection time to use when attempting to send the event, unit is ms.
+   The reconnection time to use when attempting to send the event, unit is ms.
    Default is 1000ms.
    A session object is something like:
    ```coffeescript
@@ -505,7 +505,7 @@ nobone bone -h
    If you need source map support, the content must be an object
    with `source_map` and `source` properties.
 
-- #### <a href="lib/modules/renderer.coffee#L220" target="_blank"><b>file_handlers</b></a>
+- #### <a href="lib/modules/renderer.coffee#L221" target="_blank"><b>file_handlers</b></a>
 
  You can access all the file_handlers here.
  Manipulate them at runtime.
@@ -519,7 +519,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/modules/renderer.coffee#L226" target="_blank"><b>cache_pool</b></a>
+- #### <a href="lib/modules/renderer.coffee#L227" target="_blank"><b>cache_pool</b></a>
 
  The cache pool of the result of `file_handlers.compiler`
 
@@ -527,7 +527,7 @@ nobone bone -h
 
    Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L249" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L250" target="_blank"><b>static</b></a>
 
  Set a static directory.
  Static folder to automatically serve coffeescript and stylus.
@@ -548,7 +548,7 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L349" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L350" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -591,11 +591,11 @@ nobone bone -h
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L374" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L375" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L385" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L386" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:
 
@@ -609,7 +609,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L393" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L394" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:
 
@@ -627,7 +627,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L399" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L400" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:
 
@@ -637,7 +637,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L405" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L406" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:
 
