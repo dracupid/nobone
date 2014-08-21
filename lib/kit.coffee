@@ -554,7 +554,7 @@ _.extend kit, {
 					type = parse_tag opts.type_reg
 					if type
 						tag.type = type
-						if tag.tag_name == 'param'
+						if tag.tag_name == 'param' or tag.tag_name == 'property'
 							tag.name = parse_tag opts.name_reg
 						tag.description = parse_tag(opts.description_reg) or ''
 					else
