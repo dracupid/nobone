@@ -1,8 +1,8 @@
 ###*
- * A abstract renderer for any string resources, such as template, source content, etc.
+ * A abstract renderer for any content, such as source code or image files.
  * It automatically uses high performance memory cache.
  * You can run the benchmark to see the what differences it makes.
- * Even for huge project its memory usage is negligible.
+ * Even for huge project the memory usage is negligible.
  * @extends {events.EventEmitter} [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
 ###
 Overview = 'renderer'

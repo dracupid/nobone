@@ -410,10 +410,10 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L8" target="_blank"><b>Overview</b></a>
 
- A abstract renderer for any string resources, such as template, source content, etc.
+ A abstract renderer for any content, such as source code or image files.
  It automatically uses high performance memory cache.
  You can run the benchmark to see the what differences it makes.
- Even for huge project its memory usage is negligible.
+ Even for huge project the memory usage is negligible.
 
  - **<u>extends</u>**:  { _events.EventEmitter_ }
 
