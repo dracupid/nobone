@@ -33,7 +33,8 @@ cmder
 	.description 'A guid to create server scaffolding.'
 	.action (dest_dir) ->
 		is_action = true
-		require './bone'
+		bone = require './bone'
+		bone dest_dir
 
 cmder.parse process.argv
 
