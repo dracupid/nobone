@@ -1,3 +1,7 @@
+- v0.5.5
+
+  - Delete the `html-minifier` module.
+
 - v0.5.4
 
   - Expose lodash as `kit._`.
