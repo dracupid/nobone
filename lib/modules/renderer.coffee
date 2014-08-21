@@ -113,6 +113,7 @@ renderer.defaults = {
 					if data.inject_client and
 					self.opts.inject_client_reg.test html
 						html += nobone.client()
+					html
 
 				if _.isObject data
 					render data
