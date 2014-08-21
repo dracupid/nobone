@@ -1,7 +1,7 @@
 ###*
  * A abstract renderer for any content, such as source code or image files.
  * It automatically uses high performance memory cache.
- * This renderer helps nobone to implement a **passive compilation architecture**.
+ * This renderer helps nobone to build a **passive compilation architecture**.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project the memory usage is negligible.
  * @extends {events.EventEmitter} [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
