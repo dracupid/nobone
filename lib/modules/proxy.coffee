@@ -16,7 +16,7 @@ kit = require '../kit'
  * [node-http-proxy]: https://github.com/nodejitsu/node-http-proxy
 ###
 proxy = (opts = {}) ->
-	_.defaults opts, proxy.defaults
+	_.defaults opts, {}
 
 	self = require('http-proxy').createProxyServer opts
 
@@ -142,7 +142,5 @@ proxy = (opts = {}) ->
 	self.tunnel = require 'tunnel'
 
 	return self
-
-proxy.defaults = {}
 
 module.exports = proxy

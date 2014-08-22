@@ -23,7 +23,13 @@ kit = require '../kit'
  * @return {Service}
 ###
 service = (opts = {}) ->
-	_.defaults opts, service.defaults
+	_.defaults opts, {
+		auto_log: process.env.NODE_ENV == 'development'
+		enable_remote_log: process.env.NODE_ENV == 'development'
+		enable_sse: process.env.NODE_ENV == 'development'
+		allow_origin: if process.env.NODE_ENV == 'development' then '*' else null
+		express: {}
+	}
 
 	express = require 'express'
 	self = express opts.express
@@ -71,14 +77,6 @@ service = (opts = {}) ->
 		init_sse self
 
 	self
-
-service.defaults = {
-	auto_log: process.env.NODE_ENV == 'development'
-	enable_remote_log: process.env.NODE_ENV == 'development'
-	enable_sse: process.env.NODE_ENV == 'development'
-	allow_origin: if process.env.NODE_ENV == 'development' then '*' else null
-	express: {}
-}
 
 
 init_remote_log = (self) ->

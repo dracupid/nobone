@@ -64,144 +64,141 @@ fs = kit.require 'fs'
 ###
 renderer = (opts) -> new Renderer(opts)
 
-renderer.defaults = {
-	enable_watcher: process.env.NODE_ENV == 'development'
-	auto_log: process.env.NODE_ENV == 'development'
-	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
-	file_handlers: {
-		'.html': {
-			default: true    # Whether it is a default handler, optional.
-			ext_src: ['.ejs', '.jade']
-			###*
-			 * The compiler should fulfil two interfaces.
-			 * It should return a promise object. Only handles string.
-			 * @this {File_handler} It has a extra property `opts` which is the
-			 * options of the current renderer.
-			 * @param  {String} str Source content.
-			 * @param  {String} path For debug info.
-			 * @param  {Any} data The data sent from the `render` function.
-			 * when you call the `render` directly. Default is an object:
-			 * ```coffeescript
-			 * {
-			 * 	_: lodash
-			 * 	inject_client: process.env.NODE_ENV == 'development'
-			 * }
-			 * ```
-			 * @return {Any} Promise or any thing that contains the compiled content.
-			 * If you need source map support, the content must be an object
-			 * with `source_map` and `source` properties.
-			###
-			compiler: (str, path, data) ->
-				self = @
-				switch @ext
-					when '.ejs'
-						@dependency_reg = /^<%[\n\r\s]*include\s+['"]?([^'"]+)['"]?[\n\r\s]%>/
-						compiler = kit.require 'ejs'
-					when '.jade'
-						@dependency_reg = /^\s*(?:include|extends)\s+(.+)/
-						try
-							compiler = kit.require 'jade'
-						catch e
-							kit.err '"npm install jade" first.'.red
-				tpl_fn = compiler.compile str, { filename: path }
-
-				render = (data) ->
-					_.defaults data, {
-						_
-						inject_client: process.env.NODE_ENV == 'development'
-					}
-					html = tpl_fn data
-					if data.inject_client and
-					self.opts.inject_client_reg.test html
-						html += nobone.client()
-					html
-
-				if _.isObject data
-					render data
-				else
-					func = (data = {}) ->
-						render data
-					func.toString = -> str
-					func
-		}
-		'.js': {
-			ext_src: '.coffee'
-			compiler: (str, path, data = {}) ->
-				coffee = kit.require 'coffee-script'
-				code = coffee.compile str, _.defaults(data, {
-					bare: true
-					compress: process.env.NODE_ENV == 'production'
-					compress_opts: { fromString: true }
-				})
-				if data.compress
-					ug = kit.require 'uglify-js'
-					ug.minify(code, data.compress_opts).code
-				else
-					code
-		}
-		'.css': {
-			ext_src: ['.styl', '.less', '.sass', '.scss']
-			compiler: (str, path, data = {}) ->
-				_.defaults data, {
-					filename: path
-					compress: process.env.NODE_ENV == 'production'
-				}
-				switch @ext
-					when '.styl'
-						@dependency_reg = /^\s*(?:@import|@require)\s+['"]?([^'"]+)['"]?/
-						stylus = kit.require 'stylus'
-						Q.ninvoke stylus, 'render', str, data
-
-					when '.less'
-						@dependency_reg = /^\s*@import\s+['"]([^'"]+)['"]/
-						try
-							less = kit.require('less')
-						catch e
-							kit.err '"npm install less" first.'.red
-
-						parser = new less.Parser(data)
-						Q.ninvoke(parser, 'parse', str)
-						.then (tree) -> tree.toCSS data
-
-					when '.sass', '.scss'
-						@dependency_reg = /^\s*@import\s+['"]?([^'"]+)['"]?/
-						try
-							sass = kit.require 'node-sass'
-						catch e
-							kit.err '"npm install node-sass" first.'.red
-						sass.renderSync _.defaults data, {
-							data: str
-							includePaths: [kit.path.dirname path]
-						}
-		}
-		'.md': {
-			type: 'html' # Force type, optional.
-			ext_src: ['.md','.markdown']
-			compiler: (str, path, data = {}) ->
-				marked = kit.require 'marked'
-				marked str, data
-		}
-		'.jpg': {
-			encoding: null # To use buffer.
-			compiler: (buf) -> buf
-		}
-		'.png': {
-			encoding: null
-			compiler: '.jpg'
-		}
-		'.gif': {
-			encoding: null
-			compiler: '.jpg'
-		}
-	}
-}
-
 
 class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	super
 
-	_.defaults opts, renderer.defaults
+	_.defaults opts, {
+		enable_watcher: process.env.NODE_ENV == 'development'
+		auto_log: process.env.NODE_ENV == 'development'
+		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
+		file_handlers: {
+			'.html': {
+				default: true    # Whether it is a default handler, optional.
+				ext_src: ['.ejs', '.jade']
+				###*
+				 * The compiler can handle any type of file.
+				 * @this {File_handler} It has a extra property `opts` which is the
+				 * options of the current renderer.
+				 * @param  {String} str Source content.
+				 * @param  {String} path For debug info.
+				 * @param  {Any} data The data sent from the `render` function.
+				 * when you call the `render` directly. Default is an object:
+				 * ```coffeescript
+				 * {
+				 * 	_: lodash
+				 * 	inject_client: process.env.NODE_ENV == 'development'
+				 * }
+				 * ```
+				 * @return {Any} Promise or any thing that contains the compiled content.
+				 * If you need source map support, the content must be an object
+				 * with `source_map` and `source` properties.
+				###
+				compiler: (str, path, data) ->
+					self = @
+					switch @ext
+						when '.ejs'
+							@dependency_reg = /^<%[\n\r\s]*include\s+['"]?([^'"]+)['"]?[\n\r\s]%>/
+							compiler = kit.require 'ejs'
+						when '.jade'
+							@dependency_reg = /^\s*(?:include|extends)\s+(.+)/
+							try
+								compiler = kit.require 'jade'
+							catch e
+								kit.err '"npm install jade" first.'.red
+					tpl_fn = compiler.compile str, { filename: path }
+
+					render = (data) ->
+						_.defaults data, {
+							_
+							inject_client: process.env.NODE_ENV == 'development'
+						}
+						html = tpl_fn data
+						if data.inject_client and
+						self.opts.inject_client_reg.test html
+							html += nobone.client()
+						html
+
+					if _.isObject data
+						render data
+					else
+						func = (data = {}) ->
+							render data
+						func.toString = -> str
+						func
+			}
+			'.js': {
+				ext_src: '.coffee'
+				compiler: (str, path, data = {}) ->
+					coffee = kit.require 'coffee-script'
+					code = coffee.compile str, _.defaults(data, {
+						bare: true
+						compress: process.env.NODE_ENV == 'production'
+						compress_opts: { fromString: true }
+					})
+					if data.compress
+						ug = kit.require 'uglify-js'
+						ug.minify(code, data.compress_opts).code
+					else
+						code
+			}
+			'.css': {
+				ext_src: ['.styl', '.less', '.sass', '.scss']
+				compiler: (str, path, data = {}) ->
+					_.defaults data, {
+						filename: path
+						compress: process.env.NODE_ENV == 'production'
+					}
+					switch @ext
+						when '.styl'
+							@dependency_reg = /^\s*(?:@import|@require)\s+['"]?([^'"]+)['"]?/
+							stylus = kit.require 'stylus'
+							Q.ninvoke stylus, 'render', str, data
+
+						when '.less'
+							@dependency_reg = /^\s*@import\s+['"]([^'"]+)['"]/
+							try
+								less = kit.require('less')
+							catch e
+								kit.err '"npm install less" first.'.red
+
+							parser = new less.Parser(data)
+							Q.ninvoke(parser, 'parse', str)
+							.then (tree) -> tree.toCSS data
+
+						when '.sass', '.scss'
+							@dependency_reg = /^\s*@import\s+['"]?([^'"]+)['"]?/
+							try
+								sass = kit.require 'node-sass'
+							catch e
+								kit.err '"npm install node-sass" first.'.red
+							sass.renderSync _.defaults data, {
+								data: str
+								includePaths: [kit.path.dirname path]
+							}
+			}
+			'.md': {
+				type: 'html' # Force type, optional.
+				ext_src: ['.md','.markdown']
+				compiler: (str, path, data = {}) ->
+					marked = kit.require 'marked'
+					marked str, data
+			}
+			'.jpg': {
+				encoding: null # To use buffer.
+				compiler: (buf) -> buf
+			}
+			'.png': {
+				encoding: null
+				compiler: '.jpg'
+			}
+			'.gif': {
+				encoding: null
+				compiler: '.jpg'
+			}
+		}
+	}
 
 	self = @
 

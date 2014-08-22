@@ -17,7 +17,9 @@ _ = require 'lodash'
  * @return {Jdb}
 ###
 db = (opts = {}) ->
-	_.defaults opts, db.defaults
+	_.defaults opts, {
+		db_path: './nobone.db'
+	}
 
 	jdb = new (require 'jdb')
 
@@ -29,9 +31,5 @@ db = (opts = {}) ->
 	jdb.loaded = jdb.init opts
 
 	jdb
-
-db.defaults = {
-	db_path: './nobone.db'
-}
 
 module.exports = db
