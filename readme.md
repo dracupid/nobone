@@ -103,11 +103,6 @@ nb = nobone {
 	service: {}
 }
 
-# Print all available modules with their default options.
-nobone.module_defaults().done (list) ->
-	nb.kit.log 'module_defaults'
-	nb.kit.log list
-
 # Service
 nb.service.get '/', (req, res) ->
 	# Renderer
@@ -228,21 +223,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/nobone.coffee#L90" target="_blank"><b>module_defaults</b></a>
-
- Help you to get the default options of moduels.
-
- - **<u>static</u>**:
-
- - **<u>param</u>**: `name` { _String_ }
-
-   Module name, if not set, return all modules' defaults.
-
- - **<u>return</u>**:  { _Promise_ }
-
-   A promise object which will produce the defaults.
-
-- #### <a href="lib/nobone.coffee#L119" target="_blank"><b>client</b></a>
+- #### <a href="lib/nobone.coffee#L99" target="_blank"><b>client</b></a>
 
  The NoBone client helper.
 
@@ -297,7 +278,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Service_ }
 
-- #### <a href="lib/modules/service.coffee#L35" target="_blank"><b>server</b></a>
+- #### <a href="lib/modules/service.coffee#L41" target="_blank"><b>server</b></a>
 
  The server object of the express object.
 
@@ -305,7 +286,7 @@ nobone bone -h
 
    [Ref](http://nodejs.org/api/http.html#http_class_http_server)
 
-- #### <a href="lib/modules/service.coffee#L125" target="_blank"><b>sse</b></a>
+- #### <a href="lib/modules/service.coffee#L123" target="_blank"><b>sse</b></a>
 
  A Server-Sent Event Manager.
  The namespace of nobone sse is `/nobone-sse`.
@@ -341,7 +322,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _SSE_ }
 
-- #### <a href="lib/modules/service.coffee#L137" target="_blank"><b>e.sse_connected</b></a>
+- #### <a href="lib/modules/service.coffee#L135" target="_blank"><b>e.sse_connected</b></a>
 
  This event will be triggered when a sse connection started.
  The event name is a combination of sse_connected and req.path,
@@ -353,7 +334,7 @@ nobone bone -h
 
    The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L144" target="_blank"><b>e.sse_close</b></a>
+- #### <a href="lib/modules/service.coffee#L142" target="_blank"><b>e.sse_close</b></a>
 
  This event will be triggered when a sse connection closed.
 
@@ -363,7 +344,7 @@ nobone bone -h
 
    The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee#L152" target="_blank"><b>sse.create</b></a>
+- #### <a href="lib/modules/service.coffee#L150" target="_blank"><b>sse.create</b></a>
 
  Create a sse session.
 
@@ -373,7 +354,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _SSE_session_ }
 
-- #### <a href="lib/modules/service.coffee#L167" target="_blank"><b>session.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L165" target="_blank"><b>session.emit</b></a>
 
  Emit message to client.
 
@@ -385,7 +366,7 @@ nobone bone -h
 
    The message to send to the client.
 
-- #### <a href="lib/modules/service.coffee#L195" target="_blank"><b>sse.emit</b></a>
+- #### <a href="lib/modules/service.coffee#L193" target="_blank"><b>sse.emit</b></a>
 
  Broadcast a event to clients.
 
@@ -467,10 +448,9 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Renderer_ }
 
-- #### <a href="lib/modules/renderer.coffee#L94" target="_blank"><b>compiler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L98" target="_blank"><b>compiler</b></a>
 
- The compiler should fulfil two interfaces.
- It should return a promise object. Only handles string.
+ The compiler can handle any type of file.
 
  - **<u>this</u>**:  { _File_handler_ }
 
@@ -502,7 +482,7 @@ nobone bone -h
    If you need source map support, the content must be an object
    with `source_map` and `source` properties.
 
-- #### <a href="lib/modules/renderer.coffee#L222" target="_blank"><b>file_handlers</b></a>
+- #### <a href="lib/modules/renderer.coffee#L219" target="_blank"><b>file_handlers</b></a>
 
  You can access all the file_handlers here.
  Manipulate them at runtime.
@@ -516,7 +496,7 @@ nobone bone -h
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/modules/renderer.coffee#L228" target="_blank"><b>cache_pool</b></a>
+- #### <a href="lib/modules/renderer.coffee#L225" target="_blank"><b>cache_pool</b></a>
 
  The cache pool of the result of `file_handlers.compiler`
 
@@ -524,7 +504,7 @@ nobone bone -h
 
    Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L251" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L248" target="_blank"><b>static</b></a>
 
  Set a static directory.
  Static folder to automatically serve coffeescript and stylus.
@@ -545,7 +525,7 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L351" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L348" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -588,11 +568,11 @@ nobone bone -h
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L376" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L373" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L387" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L384" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**: `compile_error` { _Event_ }
 
@@ -604,7 +584,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L395" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L392" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**: `watch_file` { _Event_ }
 
@@ -620,7 +600,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L401" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L398" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**: `file_deleted` { _Event_ }
 
@@ -628,7 +608,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L407" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L404" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**: `file_modified` { _Event_ }
 
@@ -658,7 +638,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Jdb_ }
 
-- #### <a href="lib/modules/db.coffee#L29" target="_blank"><b>jdb.loaded</b></a>
+- #### <a href="lib/modules/db.coffee#L31" target="_blank"><b>jdb.loaded</b></a>
 
  A promise object that help you to detect when
  the db is totally loaded.
@@ -1267,7 +1247,7 @@ nobone bone -h
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L900" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L901" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`
@@ -1281,10 +1261,11 @@ nobone bone -h
  - **<u>param</u>**: `handler` { _Function_ }
 
    Event listener.
-   The handler has three params:
+   The handler has these params:
    - file path
    - current `fs.Stats`
    - previous `fs.Stats`
+   - if its a deletion
 
  - **<u>example</u>**:
 
@@ -1298,7 +1279,7 @@ nobone bone -h
 
    The real listener.
 
-- #### <a href="lib/kit.coffee#L926" target="_blank"><b>unwatch_file</b></a>
+- #### <a href="lib/kit.coffee#L927" target="_blank"><b>unwatch_file</b></a>
 
  Unwatch a specific path with specific handler.
 
@@ -1310,7 +1291,7 @@ nobone bone -h
 
    Event listener.
 
-- #### <a href="lib/kit.coffee#L943" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L944" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
