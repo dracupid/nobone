@@ -661,7 +661,7 @@ _.extend kit, {
 	 * The promise Q lib.
 	 * @type {Object}
 	###
-	q: Q
+	Q: Q
 
 	###*
 	 * Much much faster than the native require of node, but

@@ -1173,7 +1173,7 @@ nobone bone -h
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L664" target="_blank"><b>q</b></a>
+- #### <a href="lib/kit.coffee#L664" target="_blank"><b>Q</b></a>
 
  The promise Q lib.
 
