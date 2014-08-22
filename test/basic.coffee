@@ -143,6 +143,8 @@ describe 'Basic:', ->
 
 		setTimeout(->
 			get '/default.css', port
+			.catch (err) ->
+				tdone err.stack
 			.then (res) ->
 				assert.equal res, "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}\nh1 input {\n  color: #00f;\n}\n"
 				tdone()

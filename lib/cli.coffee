@@ -81,6 +81,8 @@ init = ->
 		else
 			opts.root_dir = cmder.args[0]
 
+	opts.port = cmder.port if cmder.port
+
 	kit.monitor_app {
 		args: [
 			__dirname + '/static_server.js'
