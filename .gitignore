@@ -2,3 +2,4 @@ node_modules
 dist
 *.db
 *.sublime-*
+examples/remote_dir
