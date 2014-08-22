@@ -1267,7 +1267,7 @@ nobone bone -h
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L890" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L900" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`
@@ -1281,12 +1281,24 @@ nobone bone -h
  - **<u>param</u>**: `handler` { _Function_ }
 
    Event listener.
+   The handler has three params:
+   - file path
+   - current `fs.Stats`
+   - previous `fs.Stats`
+
+ - **<u>example</u>**:
+
+   ```coffeescript
+   kit.watch_file 'a.js', (path, curr, prev) ->
+   	if curr.mtime != prev.mtime
+   		kit.log path
+   ```
 
  - **<u>return</u>**:  { _Function_ }
 
    The real listener.
 
-- #### <a href="lib/kit.coffee#L916" target="_blank"><b>unwatch_file</b></a>
+- #### <a href="lib/kit.coffee#L926" target="_blank"><b>unwatch_file</b></a>
 
  Unwatch a specific path with specific handler.
 
@@ -1298,7 +1310,7 @@ nobone bone -h
 
    Event listener.
 
-- #### <a href="lib/kit.coffee#L933" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L943" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.

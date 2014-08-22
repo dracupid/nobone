@@ -885,6 +885,16 @@ _.extend kit, {
 	 * variable.
 	 * @param  {String}   path    The file path
 	 * @param  {Function} handler Event listener.
+	 * The handler has three params:
+	 * - file path
+	 * - current `fs.Stats`
+	 * - previous `fs.Stats`
+	 * @example
+	 * ```coffeescript
+	 * kit.watch_file 'a.js', (path, curr, prev) ->
+	 * 	if curr.mtime != prev.mtime
+	 * 		kit.log path
+	 * ```
 	 * @return {Function} The real listener.
 	###
 	watch_file: (path, handler) ->
