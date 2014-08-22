@@ -328,7 +328,7 @@ nobone bone -h
  The event name is a combination of sse_connected and req.path,
  for example: "sse_connected/test"
 
- - **<u>event</u>**: `sse_connected` { _Event_ }
+ - **<u>event</u>**:  { _sse_connected_ }
 
  - **<u>param</u>**: `session` { _SSE_session_ }
 
@@ -338,7 +338,7 @@ nobone bone -h
 
  This event will be triggered when a sse connection closed.
 
- - **<u>event</u>**: `sse_close` { _Event_ }
+ - **<u>event</u>**:  { _sse_close_ }
 
  - **<u>param</u>**: `session` { _SSE_session_ }
 
@@ -574,7 +574,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L384" target="_blank"><b>e.compile_error</b></a>
 
- - **<u>event</u>**: `compile_error` { _Event_ }
+ - **<u>event</u>**:  { _compile_error_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -586,7 +586,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L392" target="_blank"><b>e.watch_file</b></a>
 
- - **<u>event</u>**: `watch_file` { _Event_ }
+ - **<u>event</u>**:  { _watch_file_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -602,7 +602,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L398" target="_blank"><b>e.file_deleted</b></a>
 
- - **<u>event</u>**: `file_deleted` { _Event_ }
+ - **<u>event</u>**:  { _file_deleted_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -610,7 +610,7 @@ nobone bone -h
 
 - #### <a href="lib/modules/renderer.coffee#L404" target="_blank"><b>e.file_modified</b></a>
 
- - **<u>event</u>**: `file_modified` { _Event_ }
+ - **<u>event</u>**:  { _file_modified_ }
 
  - **<u>param</u>**: `path` { _string_ }
 
@@ -1101,7 +1101,7 @@ nobone bone -h
    	tag_name_reg: RegExp
    	type_reg: RegExp
    	name_reg: RegExp
-   	name_tags: ['param', 'property', 'event']
+   	name_tags: ['param', 'property']
    	description_reg: RegExp
    }
    ```
@@ -1295,6 +1295,40 @@ nobone bone -h
    Such as `['\*.css', 'lib/\*\*.js']`.
 
  - **<u>param</u>**: `handler` { _Function_ }
+
+- #### <a href="lib/kit.coffee#L960" target="_blank"><b>watch_dir</b></a>
+
+ Watch directory and all the files in it.
+ It supports three types of change: create, modify, delete.
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+   Defaults:
+   {
+   	dir: '.'
+   	pattern: '**'
+   
+   	# Whether to watch POSIX hidden file.
+   	dot: false
+   
+   	# If the "path" ends with '/' it's a directory, else a file.
+   	handler: (type, path, curr, prev) ->
+   }
+
+ - **<u>example</u>**:
+
+   ```coffeescript
+   # Only current folder, and only watch js and css file.
+   kit.watch_dir {
+   	dir: 'lib'
+   	pattern: '*.+(js|css)'
+   	handler: (type, path) ->
+   		kit.log type
+   		kit.log path
+   }
+   ```
+
+ - **<u>return</u>**:  { _Promise_ }
 
 
 

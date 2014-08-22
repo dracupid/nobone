@@ -937,18 +937,31 @@ _.extend kit, {
 	 * {
 	 * 	dir: '.'
 	 * 	pattern: '**'
-	 * 	dot: true
+	 *
+	 * 	# Whether to watch POSIX hidden file.
+	 * 	dot: false
 	 *
 	 * 	# If the "path" ends with '/' it's a directory, else a file.
 	 * 	handler: (type, path, curr, prev) ->
 	 * }
+	 * @example
+	 * ```coffeescript
+	 * # Only current folder, and only watch js and css file.
+	 * kit.watch_dir {
+	 * 	dir: 'lib'
+	 * 	pattern: '*.+(js|css)'
+	 * 	handler: (type, path) ->
+	 * 		kit.log type
+	 * 		kit.log path
+	 * }
+	 * ```
 	 * @return {Promise}
 	###
 	watch_dir: (opts) ->
 		_.defaults opts, {
 			dir: '.'
 			pattern: '**'
-			dot: true
+			dot: false
 			handler: (type, path, curr, prev) ->
 		}
 
