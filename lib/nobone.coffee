@@ -82,26 +82,6 @@ _.extend nobone, {
 	kit
 
 	###*
-	 * Help you to get the default options of moduels.
-	 * @static
-	 * @param {String} name Module name, if not set, return all modules' defaults.
-	 * @return {Promise} A promise object which will produce the defaults.
-	###
-	module_defaults: (name) ->
-		kit.glob(__dirname + '/modules/*')
-		.then (paths) ->
-			list = []
-			paths.forEach (p) ->
-				ext = kit.path.extname p
-				mod = kit.path.basename p, ext
-				list[mod] = (require './modules/' + mod).defaults
-
-			if name
-				list[name]
-			else
-				list
-
-	###*
 	 * The NoBone client helper.
 	 * @static
 	 * @param {Object} opts The options of the client, defaults:

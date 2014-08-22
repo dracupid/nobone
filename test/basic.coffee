@@ -63,11 +63,6 @@ describe 'Basic:', ->
 				server.close()
 				tdone()
 
-	it 'module_defaults', (tdone) ->
-		nobone.module_defaults('renderer').done (d) ->
-			assert.equal d.file_handlers['.js'].ext_src, '.coffee'
-			tdone()
-
 	it 'render force html', (tdone) ->
 		nb.kit.glob 'test/fixtures/inde*.ejs'
 		.then ([path]) ->

@@ -17,11 +17,6 @@ nb = nobone {
 	service: {}
 }
 
-# Print all available modules with their default options.
-nobone.module_defaults().done (list) ->
-	nb.kit.log 'module_defaults'
-	nb.kit.log list
-
 # Service
 nb.service.get '/', (req, res) ->
 	# Renderer
