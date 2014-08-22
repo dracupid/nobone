@@ -928,7 +928,8 @@ _.extend kit, {
 
 	###*
 	 * Watch a file. If the file changes, the handler will be invoked.
-	 * You can change the polling interval by using `process.env.polling_watch`
+	 * You can change the polling interval by using `process.env.polling_watch`.
+	 * Use `process.env.watch_persistent` to make the watcher persistent.
 	 * For samba server, we have to choose `watchFile` than `watch`.
 	 * variable.
 	 * @param  {String}   path    The file path
@@ -940,6 +941,7 @@ _.extend kit, {
 	 * - if its a deletion
 	 * @example
 	 * ```coffeescript
+	 * process.env.watch_persistent = 'on'
 	 * kit.watch_file 'a.js', (path, curr, prev) ->
 	 * 	if curr.mtime != prev.mtime
 	 * 		kit.log path
@@ -958,7 +960,7 @@ _.extend kit, {
 		fs.watchFile(
 			path
 			{
-				persistent: false
+				persistent: process.env.watch_persistent == 'on'
 				interval: +process.env.polling_watch or 300
 			}
 			listener

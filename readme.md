@@ -1275,10 +1275,11 @@ nobone bone -h
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L951" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L953" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
- You can change the polling interval by using `process.env.polling_watch`
+ You can change the polling interval by using `process.env.polling_watch`.
+ Use `process.env.watch_persistent` to make the watcher persistent.
  For samba server, we have to choose `watchFile` than `watch`.
  variable.
 
@@ -1298,6 +1299,7 @@ nobone bone -h
  - **<u>example</u>**:
 
    ```coffeescript
+   process.env.watch_persistent = 'on'
    kit.watch_file 'a.js', (path, curr, prev) ->
    	if curr.mtime != prev.mtime
    		kit.log path
@@ -1312,7 +1314,7 @@ nobone bone -h
 
    The real listener.
 
-- #### <a href="lib/kit.coffee#L975" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L977" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1324,7 +1326,7 @@ nobone bone -h
 
  - **<u>param</u>**: `handler` { _Function_ }
 
-- #### <a href="lib/kit.coffee#L1009" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1011" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, delete.
