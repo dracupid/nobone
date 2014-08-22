@@ -508,10 +508,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		# async lock, make sure one file won't be watched twice.
 		watch.processing ?= []
 
-		watcher = (path, curr, prev) ->
+		watcher = (path, curr, prev, is_delete) ->
 			# If moved or deleted
-			if curr.mtime.getTime() == 0
-
+			if is_delete
 				# If its the source child, remove all parents.
 				if cache_pool[path]
 					for p in handler.watch_list

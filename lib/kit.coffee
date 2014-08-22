@@ -885,10 +885,11 @@ _.extend kit, {
 	 * variable.
 	 * @param  {String}   path    The file path
 	 * @param  {Function} handler Event listener.
-	 * The handler has three params:
+	 * The handler has these params:
 	 * - file path
 	 * - current `fs.Stats`
 	 * - previous `fs.Stats`
+	 * - if its a deletion
 	 * @example
 	 * ```coffeescript
 	 * kit.watch_file 'a.js', (path, curr, prev) ->
@@ -899,7 +900,7 @@ _.extend kit, {
 	###
 	watch_file: (path, handler) ->
 		listener = 	(curr, prev) ->
-			handler(path, curr, prev)
+			handler(path, curr, prev, curr.mtime.getTime() == 0)
 		info = {
 			path: kit.fs.realpathSync(path)
 			listener
