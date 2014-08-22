@@ -45,12 +45,21 @@ _.extend kit, {
 	 * A simple encrypt helper
 	 * @param  {Any} data
 	 * @param  {String | Buffer} password
-	 * @param  {String} algorithm Default is 'aes128'.
+	 * @param  {String} algorithm Default is 'aes128'. Optional.
+	 * @param  {Boolean} salt Default is false. When it's true,
+	 * the data param should be a string.
 	 * @return {Buffer}
 	###
-	encrypt: (data, password, algorithm = 'aes128') ->
+	encrypt: (data, password, algorithm = 'aes128', salt = false) ->
+		if _.isBoolean algorithm
+			salt = algorithm
+			algorithm = 'aes128'
+
 		crypto = kit.require 'crypto'
 		cipher = crypto.createCipher algorithm, password
+
+		if salt
+			data = data + '-' + Date.now()
 
 		if node_verion < 10
 			if Buffer.isBuffer data
@@ -69,23 +78,34 @@ _.extend kit, {
 	 * @param  {Any} data
 	 * @param  {String | Buffer} password
 	 * @param  {String} algorithm Default is 'aes128'.
+	 * @param  {Boolean} salt Default is false. When it's true,
+	 * the decrypted data should be a string.
 	 * @return {Buffer}
 	###
-	decrypt: (data, password, algorithm = 'aes128') ->
+	decrypt: (data, password, algorithm = 'aes128', salt = false) ->
+		if _.isBoolean algorithm
+			salt = algorithm
+			algorithm = 'aes128'
+
 		crypto = kit.require 'crypto'
 		decipher = crypto.createDecipher algorithm, password
 
 		if node_verion < 10
 			if Buffer.isBuffer data
 				data = data.toString 'binary'
-			new Buffer(
+			de = new Buffer(
 				decipher.update(data, 'binary') + decipher.final()
 				'binary'
 			)
 		else
 			if not Buffer.isBuffer data
 				data = new Buffer(data)
-			Buffer.concat [decipher.update(data), decipher.final()]
+			de = Buffer.concat [decipher.update(data), decipher.final()]
+
+		if salt
+			de.toString().replace /\-\d+$/, ''
+		else
+			de
 
 	###*
 	 * An throttle version of `Q.all`, it runs all the tasks under
