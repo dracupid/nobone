@@ -1296,7 +1296,7 @@ nobone bone -h
 
  - **<u>param</u>**: `handler` { _Function_ }
 
-- #### <a href="lib/kit.coffee#L960" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L961" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, delete.
@@ -1325,6 +1325,7 @@ nobone bone -h
    	handler: (type, path) ->
    		kit.log type
    		kit.log path
+   	watched_list: [] # If you use watch_dir recursively, you need a global watched_list
    }
    ```
 
