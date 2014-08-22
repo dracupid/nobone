@@ -930,6 +930,60 @@ _.extend kit, {
 				kit.watch_file path, handler
 			paths
 
+	###*
+	 * Watch directory and all the files in it.
+	 * It supports three types of change: create, modify, delete.
+	 * @param  {Object} opts Defaults:
+	 * {
+	 * 	dir: '.'
+	 * 	pattern: '**'
+	 * 	dot: true
+	 * 	handler: (type, path, curr, prev) ->
+	 * }
+	 * @return {Promise}
+	###
+	watch_dir: (opts) ->
+		_.defaults opts, {
+			dir: '.'
+			pattern: '**'
+			dot: true
+			handler: (type, path, curr, prev) ->
+		}
+
+		watch_list = []
+
+		file_watcher = (path, curr, prev, is_delete) ->
+			if is_delete
+				opts.handler 'delete', path, curr, prev
+				kit._.remove watch_list, (el) -> el == path
+			else
+				opts.handler 'modify', path, curr, prev
+
+		dir_watcher = (path, curr, prev, is_delete) ->
+			return if is_delete
+
+			kit.glob(kit.path.join(path, opts.pattern), {
+				mark: true, dot: opts.dot
+			}).then (paths) ->
+				for p in paths
+					continue if p[-1..] == '/'
+					if watch_list.indexOf(p) == -1
+						kit.watch_file p, file_watcher
+						watch_list.push p
+
+						opts.handler 'create', p, curr, prev
+
+		kit.glob(kit.path.join(opts.dir, opts.pattern), {
+			mark: true, dot: opts.dot
+		}).then (paths) ->
+			paths.push kit.path.join(opts.dir, kit.path.sep)
+			for path in paths
+				if path[-1..] == '/'
+					kit.watch_file path, dir_watcher
+				else
+					kit.watch_file path, file_watcher
+					watch_list.push path
+
 }
 
 # Fix node bugs
