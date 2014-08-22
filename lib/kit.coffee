@@ -938,6 +938,8 @@ _.extend kit, {
 	 * 	dir: '.'
 	 * 	pattern: '**'
 	 * 	dot: true
+	 *
+	 * 	# If the "path" ends with '/' it's a directory, else a file.
 	 * 	handler: (type, path, curr, prev) ->
 	 * }
 	 * @return {Promise}
