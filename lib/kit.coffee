@@ -989,8 +989,8 @@ _.extend kit, {
 							kit.watch_dir _.defaults { dir: p }, opts
 						else
 							kit.watch_file p, file_watcher
-							watch_list.push p
 
+						watch_list.push p
 						opts.handler 'create', p, curr, prev
 
 		kit.glob(kit.path.join(opts.dir, opts.pattern), {
