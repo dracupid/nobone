@@ -129,14 +129,14 @@ init_sse = (self) ->
 	 * This event will be triggered when a sse connection started.
 	 * The event name is a combination of sse_connected and req.path,
 	 * for example: "sse_connected/test"
-	 * @event {Event} sse_connected
+	 * @event {sse_connected}
 	 * @param {SSE_session} session The session object of current connection.
 	###
 	self.e.sse_connected = 'sse_connected'
 
 	###*
 	 * This event will be triggered when a sse connection closed.
-	 * @event {Event} sse_close
+	 * @event {sse_close}
 	 * @param {SSE_session} session The session object of current connection.
 	###
 	self.e.sse_close = 'sse_close'

@@ -498,7 +498,7 @@ _.extend kit, {
 	 * 	tag_name_reg: RegExp
 	 * 	type_reg: RegExp
 	 * 	name_reg: RegExp
-	 * 	name_tags: ['param', 'property', 'event']
+	 * 	name_tags: ['param', 'property']
 	 * 	description_reg: RegExp
 	 * }
 	 * ```
@@ -529,7 +529,7 @@ _.extend kit, {
 			tag_name_reg: /^([\w\.]+)\s*/
 			type_reg: /^\{(.+?)\}\s*/
 			name_reg: /^(\w+)\s*/
-			name_tags: ['param', 'property', 'event']
+			name_tags: ['param', 'property']
 			description_reg: /^([\s\S]*)/
 		}
 
