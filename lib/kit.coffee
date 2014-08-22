@@ -905,7 +905,7 @@ _.extend kit, {
 			is_deletion = curr.mtime.getTime() == 0
 			handler(path, curr, prev, is_deletion)
 			if is_deletion
-				kit.fs.unwatchFile listener
+				kit.fs.unwatchFile path, listener
 
 		fs.watchFile(
 			path
