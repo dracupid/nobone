@@ -508,18 +508,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		# async lock, make sure one file won't be watched twice.
 		watch.processing ?= []
 
-		watcher = (path, curr, prev, is_delete) ->
+		watcher = (path, curr, prev, is_deletion) ->
 			# If moved or deleted
-			if is_delete
-				# If its the source child, remove all parents.
-				if cache_pool[path]
-					for p in handler.watch_list
-						kit.unwatch_file p, watcher
-						emit self.e.file_deleted, path + ' -> '.cyan + handler.path
-					delete cache_pool[path]
-				else
-					kit.unwatch_file path, watcher
-					emit self.e.file_deleted, path + ' -> '.cyan + handler.path
+			if is_deletion
+				delete cache_pool[path]
+				emit self.e.file_deleted, path + ' -> '.cyan + handler.path
 
 			else if curr.mtime != prev.mtime
 				compile(handler).done ->

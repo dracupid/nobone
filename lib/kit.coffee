@@ -896,43 +896,26 @@ _.extend kit, {
 	 * 	if curr.mtime != prev.mtime
 	 * 		kit.log path
 	 * ```
+	 * @param {Boolean} auto_unwatch Auto unwatch the file while file deletion.
+	 * Default is true.
 	 * @return {Function} The real listener.
 	###
-	watch_file: (path, handler) ->
-		listener = 	(curr, prev) ->
-			handler(path, curr, prev, curr.mtime.getTime() == 0)
-		info = {
-			path: kit.fs.realpathSync(path)
-			listener
-			handler
-		}
+	watch_file: (path, handler, auto_unwatch = true) ->
+		listener = (curr, prev) ->
+			is_deletion = curr.mtime.getTime() == 0
+			handler(path, curr, prev, is_deletion)
+			if is_deletion
+				kit.fs.unwatch listener
+
 		fs.watchFile(
-			info.path
+			path
 			{
 				persistent: false
 				interval: +process.env.polling_watch or 300
 			}
 			listener
 		)
-		kit.watch_list_list.push info
 		listener
-
-	watch_list_list: []
-
-	###*
-	 * Unwatch a specific path with specific handler.
-	 * @param  {[type]} path    The file path.
-	 * @param  {[type]} handler Event listener.
-	###
-	unwatch_file: (path, handler) ->
-		path = kit.fs.realpathSync(path)
-		for el in kit.watch_list_list
-			if handler == undefined
-				kit.fs.unwatchFile path
-				continue
-
-			if el.path == path and el.handler == handler
-				kit.fs.unwatchFile path, el.listener
 
 	###*
 	 * Watch files, when file changes, the handler will be invoked.
