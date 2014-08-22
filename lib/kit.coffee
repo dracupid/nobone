@@ -890,17 +890,20 @@ _.extend kit, {
 	watch_file: (path, handler) ->
 		listener = 	(curr, prev) ->
 			handler(path, curr, prev)
+		info = {
+			path: kit.fs.realpathSync(path)
+			listener
+			handler
+		}
 		fs.watchFile(
-			path
+			info.path
 			{
 				persistent: false
 				interval: +process.env.polling_watch or 300
 			}
 			listener
 		)
-		kit.watch_list_list.push {
-			path, listener, handler
-		}
+		kit.watch_list_list.push info
 		listener
 
 	watch_list_list: []
@@ -911,7 +914,12 @@ _.extend kit, {
 	 * @param  {[type]} handler Event listener.
 	###
 	unwatch_file: (path, handler) ->
+		path = kit.fs.realpathSync(path)
 		for el in kit.watch_list_list
+			if handler == undefined
+				kit.fs.unwatchFile path
+				continue
+
 			if el.path == path and el.handler == handler
 				kit.fs.unwatchFile path, el.listener
 

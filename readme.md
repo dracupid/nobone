@@ -1286,7 +1286,7 @@ nobone bone -h
 
    The real listener.
 
-- #### <a href="lib/kit.coffee#L913" target="_blank"><b>unwatch_file</b></a>
+- #### <a href="lib/kit.coffee#L916" target="_blank"><b>unwatch_file</b></a>
 
  Unwatch a specific path with specific handler.
 
@@ -1298,7 +1298,7 @@ nobone bone -h
 
    Event listener.
 
-- #### <a href="lib/kit.coffee#L925" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L933" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
