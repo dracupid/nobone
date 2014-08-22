@@ -1,6 +1,8 @@
 - v0.5.5
 
   - Delete the `html-minifier` module.
+  - Add the `kit.encrypt` and `kit.decrypt`.
+  - Add `kit.watch_dir`.
 
 - v0.5.4
 
