@@ -953,6 +953,7 @@ _.extend kit, {
 	 * 	handler: (type, path) ->
 	 * 		kit.log type
 	 * 		kit.log path
+	 * 	watched_list: [] # If you use watch_dir recursively, you need a global watched_list
 	 * }
 	 * ```
 	 * @return {Promise}
@@ -963,46 +964,48 @@ _.extend kit, {
 			pattern: '**'
 			dot: false
 			handler: (type, path, curr, prev) ->
+			watched_list: []
 		}
-
-		watch_list = []
 
 		file_watcher = (path, curr, prev, is_delete) ->
 			if is_delete
 				opts.handler 'delete', path, curr, prev
-				kit._.remove watch_list, (el) -> el == path
+				kit._.remove opts.watched_list, (el) -> el == path
 			else
 				opts.handler 'modify', path, curr, prev
 
 		dir_watcher = (path, curr, prev, is_delete) ->
 			if is_delete
 				opts.handler 'delete', path, curr, prev
-				kit._.remove watch_list, (el) -> el == path
+				kit._.remove opts.watched_list, (el) -> el == path
 				return
 
 			kit.glob(kit.path.join(path, opts.pattern), {
 				mark: true, dot: opts.dot
 			}).then (paths) ->
 				for p in paths
-					if watch_list.indexOf(p) == -1
+					if opts.watched_list.indexOf(p) == -1
 						if p[-1..] == '/'
-							kit.watch_dir _.defaults { dir: p }, opts
+							kit.watch_dir _.defaults({
+								dir: p
+								watched_list: opts.watched_list
+							}, opts)
 						else
 							kit.watch_file p, file_watcher
+							opts.watched_list.push p
 
-						watch_list.push p
 						opts.handler 'create', p, curr, prev
 
 		kit.glob(kit.path.join(opts.dir, opts.pattern), {
 			mark: true, dot: opts.dot
 		}).then (paths) ->
-			paths.push kit.path.join(opts.dir, kit.path.sep)
-			watch_list = paths
 			for path in paths
 				if path[-1..] == '/'
 					kit.watch_file path, dir_watcher
 				else
 					kit.watch_file path, file_watcher
+				opts.watched_list.push path
+			opts.watched_list
 
 }
 
