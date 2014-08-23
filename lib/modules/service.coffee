@@ -42,17 +42,19 @@ service = (opts = {}) ->
 
 	self.e = {}
 
-	self._emit = (name, args...) ->
+	self._emit = (args...) ->
 		if opts.auto_log
-			switch name
+			switch args[0]
 				when self.e.sse_connected
 					kit.log [
-						name.cyan
-						args[0].req.path
-						args[0].req.headers.referer
+						args[0].cyan
+						args[1].req.path
+						args[1].req.headers.referer
 					].join ' | '
+				else
+					kit.log [args[0].cyan].concat(args[1..]).join(' | ')
 
-		self.emit.apply self, arguments
+		self.emit.apply self, args
 
 	_.extend self, {
 		server
