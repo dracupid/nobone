@@ -1004,9 +1004,10 @@ _.extend kit, {
 	 * Watch directory and all the files in it.
 	 * It supports three types of change: create, modify, delete.
 	 * @param  {Object} opts Defaults:
+	 * ```coffeescript
 	 * {
 	 * 	dir: '.'
-	 * 	pattern: '**'
+	 * 	pattern: '**' # minimatch
 	 *
 	 * 	# Whether to watch POSIX hidden file.
 	 * 	dot: false
@@ -1014,6 +1015,7 @@ _.extend kit, {
 	 * 	# If the "path" ends with '/' it's a directory, else a file.
 	 * 	handler: (type, path, curr, prev) ->
 	 * }
+	 * ```
 	 * @example
 	 * ```coffeescript
 	 * # Only current folder, and only watch js and css file.

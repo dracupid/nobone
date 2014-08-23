@@ -416,7 +416,7 @@ nobone bone -h
    		'.html': {
    			default: true
    			ext_src: ['.ejs', '.jade']
-   			watch_list: [path1, path2, ...] # Extra files to watch.
+   			watch_list: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
    			encoding: 'utf8' # optional, default is 'utf8'
    			compiler: (str, path, ext_src, data) -> ...
    		}
@@ -525,7 +525,7 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L353" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L354" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -538,7 +538,7 @@ nobone bone -h
  - **<u>example</u>**:
 
    ```coffeescript
-   # The 'a.ejs' file may not exsits, it will auto-compile
+   # The 'a.ejs' file may not exists, it will auto-compile
    # the 'a.ejs' or 'a.html' to html.
    renderer.render('a.html').done (html) -> kit.log(html)
    ```
@@ -568,11 +568,11 @@ nobone bone -h
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L378" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L381" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L391" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L394" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
@@ -584,7 +584,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L399" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L402" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
@@ -600,7 +600,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L405" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L408" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
@@ -608,7 +608,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L411" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L414" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 
@@ -1340,7 +1340,7 @@ nobone bone -h
 
    It contains the wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L1031" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1033" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, delete.
@@ -1348,9 +1348,10 @@ nobone bone -h
  - **<u>param</u>**: `opts` { _Object_ }
 
    Defaults:
+   ```coffeescript
    {
    	dir: '.'
-   	pattern: '**'
+   	pattern: '**' # minimatch
    
    	# Whether to watch POSIX hidden file.
    	dot: false
@@ -1358,6 +1359,7 @@ nobone bone -h
    	# If the "path" ends with '/' it's a directory, else a file.
    	handler: (type, path, curr, prev) ->
    }
+   ```
 
  - **<u>example</u>**:
 
