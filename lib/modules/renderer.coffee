@@ -319,7 +319,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.catch (err) ->
 					switch err.name
 						when self.e.compile_error
-							emit self.e.compile_error, path, err.stack
 							res.status(500).end self.e.compile_error
 						when 'file_not_exists'
 							next()
@@ -370,7 +369,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if is_cache
 				p = get_cache(handler)
 			else
-				p = compile handler, false
+				p = hcompile handler, false
 			p.then (cache) ->
 				get_content handler, cache
 		else
@@ -424,7 +423,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, arguments
 
-	compile = (handler, is_cache = true) ->
+	hcompile = (handler, is_cache = true) ->
 		compile_src = (path) ->
 			handler.path = path
 			kit.readFile path, handler.encoding
@@ -434,7 +433,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				handler.compiler source, path, handler.data
 			.then (content) ->
 				handler.content = content
+				delete handler.error
 			.catch (err) ->
+				emit self.e.compile_error, path, err.stack
 				err.name = self.e.compile_error
 				handler.error = err
 			.then ->
@@ -488,16 +489,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.paths.indexOf(k) > -1
 
 		if cache == undefined
-			compiled = compile(handler)
+			compiled = hcompile(handler)
 
 			if opts.enable_watcher
-				compiled.then -> watch handler
+				compiled.fin -> watch handler
 
 			compiled
-		else if cache.error
-			compile(handler)
 		else
-			Q cache
+			Q.fcall ->
+				if cache.error
+					throw cache.error
+				else
+					cache
 
 	gen_handler = (path) ->
 		# TODO: This part is somehow to complex.
@@ -555,7 +558,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				emit self.e.file_deleted, path + ' -> '.cyan + handler.path
 
 			else if curr.mtime != prev.mtime
-				compile(handler).done ->
+				hcompile(handler).fin ->
 					emit(
 						self.e.file_modified
 						path
