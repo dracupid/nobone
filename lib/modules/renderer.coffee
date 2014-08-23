@@ -107,6 +107,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								compiler = kit.require 'jade'
 							catch e
 								kit.err '"npm install jade" first.'.red
+								process.exit()
 					tpl_fn = compiler.compile str, { filename: path }
 
 					render = (data) ->
@@ -162,6 +163,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								less = kit.require('less')
 							catch e
 								kit.err '"npm install less" first.'.red
+								process.exit()
 
 							parser = new less.Parser(data)
 							Q.ninvoke(parser, 'parse', str)
@@ -173,6 +175,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								sass = kit.require 'node-sass'
 							catch e
 								kit.err '"npm install node-sass" first.'.red
+								process.exit()
 							sass.renderSync _.defaults data, {
 								data: str
 								includePaths: [kit.path.dirname path]
@@ -363,7 +366,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if handler
 			handler.data = data
 			if is_cache
-				get_cache(handler).then (cache) -> cache.content
+				get_cache(handler).then (cache) -> cache?.content
 			else
 				compile handler, false
 		else
@@ -373,8 +376,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Release the resources.
 	###
 	self.close = ->
-		for k, v of cache_pool
-			fs.unwatchFile(k)
+		for path, handler of cache_pool
+			for wpath, watcher of handler.watch_list
+				fs.unwatchFile(wpath, watcher)
+			delete cache_pool[path]
 
 	self.e = {}
 
@@ -484,13 +489,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler = _.cloneDeep(handler)
+			handler.ctime = Date.now()
 			handler.is_source_map = is_source_map
-			handler.watch_list ?= []
+			handler.watch_list ?= {}
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
 			handler.dirname = kit.path.dirname(path)
-			handler.ctime = Date.now()
 			handler.pathless = kit.path.join(
 				handler.dirname
 				kit.path.basename(path, ext_bin)
@@ -530,10 +535,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		Q.fcall ->
 			gen_watch_list(handler)
 		.then ->
-			return if handler.watch_list.length == 0
+			return if _.keys(handler.watch_list).length == 0
 
-			for path in handler.watch_list
-				kit.watch_file path, watcher
+			for path of handler.watch_list
+				handler.watch_list[path] = kit.watch_file path, watcher
 				emit self.e.watch_file, path, handler.req_path
 				_.remove watch.processing, (el) -> el == path
 		.done()
@@ -549,7 +554,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if curr_path
 			kit.readFile(curr_path, 'utf8')
 			.then (str) ->
-				handler.watch_list.push curr_path
+				handler.watch_list[curr_path] = null
 				matches = str.match reg
 				return if not matches
 				Q.all matches.map (m) ->
@@ -575,7 +580,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			_.remove paths, (el) -> el == handler.path
 		else
 			watch.processing.push handler.path
-			handler.watch_list.push handler.path
+			handler.watch_list[handler.path] = null
 
 		if handler.dependency_reg
 			get_dependencies handler
