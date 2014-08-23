@@ -497,7 +497,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			compiled = hcompile(handler)
 
 			if opts.enable_watcher
-				compiled.fin -> watch handler
+				compiled
+				.then -> watch handler
+				.catch (err) ->
+					if err.name == self.e.compile_error
+						watch handler
 
 			compiled
 		else
@@ -554,7 +558,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				emit self.e.file_deleted, path + ' -> '.cyan + handler.path
 
 			else if curr.mtime != prev.mtime
-				hcompile(handler).fin ->
+				hcompile(handler)
+				.catch(->)
+				.then ->
 					emit(
 						self.e.file_modified
 						path
