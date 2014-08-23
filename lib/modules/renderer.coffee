@@ -413,15 +413,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.e.file_modified = 'file_modified'
 
-	emit = ->
+	emit = (args...) ->
 		if opts.auto_log
-			name = arguments[0]
-			if name == 'compile_error'
-				kit.err arguments[1].yellow + '\n' + arguments[2].toString().red
+			if args[0] == 'compile_error'
+				kit.err args[1].yellow + '\n' + args[2].toString().red
 			else
-				kit.log "#{name}: ".cyan + (_.toArray arguments)[1..].join(' | ')
+				kit.log [args[0].cyan].concat(args[1..]).join(' | ')
 
-		self.emit.apply self, arguments
+		self.emit.apply self, args
 
 	hcompile = (handler, is_cache = true) ->
 		compile_src = (path) ->

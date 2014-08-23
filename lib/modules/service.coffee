@@ -42,9 +42,15 @@ service = (opts = {}) ->
 
 	self.e = {}
 
-	self._emit = ->
+	self._emit = (name, args...) ->
 		if opts.auto_log
-			kit.log arguments[0].cyan
+			switch name
+				when self.e.sse_connected
+					kit.log [
+						name.cyan
+						args[0].req.path
+						args[0].req.headers.referer
+					].join ' | '
 
 		self.emit.apply self, arguments
 
@@ -181,7 +187,7 @@ init_sse = (self) ->
 	self.use '/nobone-sse', (req, res) ->
 		session = self.sse.create req, res
 		self.sse.sessions.push session
-		self._emit self.e.sse_connected + req.path, session
+		self._emit self.e.sse_connected, session
 
 	###*
 	 * Broadcast a event to clients.
