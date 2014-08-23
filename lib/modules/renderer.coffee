@@ -615,6 +615,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			get_dependencies handler
 
 	remove_ext = (path) ->
-		path[0 ... _.lastIndexOf(path, '.')]
+		index = _.lastIndexOf(path, '.')
+		if index > -1
+			path[0 ... index]
+		else
+			path
 
 module.exports = renderer
