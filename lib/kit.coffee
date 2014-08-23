@@ -1050,12 +1050,16 @@ _.extend kit, {
 				kit._.remove opts.watched_list, (el) -> el == path
 				return
 
+			# Each time a direcotry change happens, it will check all
+			# it children files, if any child is not in the watched_list,
+			# a `create` event will be triggered.
 			kit.glob(kit.path.join(path, opts.pattern), {
 				mark: true, dot: opts.dot
 			}).then (paths) ->
 				for p in paths
 					if opts.watched_list.indexOf(p) == -1
 						if p[-1..] == '/'
+							# Recursively watch a newly created directory.
 							kit.watch_dir _.defaults({
 								dir: p
 								watched_list: opts.watched_list
