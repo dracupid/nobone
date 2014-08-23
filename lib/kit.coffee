@@ -968,7 +968,7 @@ _.extend kit, {
 	 * ```
 	 * @param {Boolean} auto_unwatch Auto unwatch the file while file deletion.
 	 * Default is true.
-	 * @return {Function} The real listener.
+	 * @return {Function} The wrapped watch listeners.
 	###
 	watch_file: (path, handler, auto_unwatch = true) ->
 		listener = (curr, prev) ->
@@ -993,12 +993,12 @@ _.extend kit, {
 	 * @param  {Array} patterns String array with minimatch syntax.
 	 * Such as `['\*.css', 'lib/\*\*.js']`.
 	 * @param  {Function} handler
+	 * @return {Promise} It contains the wrapped watch listeners.
 	###
 	watch_files: (patterns, handler) ->
 		kit.glob(patterns).then (paths) ->
-			paths.forEach (path) ->
+			paths.map (path) ->
 				kit.watch_file path, handler
-			paths
 
 	###*
 	 * Watch directory and all the files in it.
