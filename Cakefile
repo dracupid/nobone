@@ -41,15 +41,15 @@ task 'build', 'Compile coffee to js', build = ->
 	Q.all([
 		kit.readFile 'doc/faq.md', 'utf8'
 		kit.readFile 'doc/readme.ejs.md', 'utf8'
-		kit.readFile 'examples/usage.coffee', 'utf8'
+		kit.readFile 'examples/basic.coffee', 'utf8'
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
 		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
 	]).then (rets) ->
 		faq = rets[0]
-		usage = rets[2]
+		basic = rets[2]
 		{
 			tpl: rets[1]
-			usage
+			basic
 			faq
 			mods: [
 				'lib/nobone.coffee'

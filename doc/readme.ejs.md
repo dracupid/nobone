@@ -56,7 +56,7 @@ nobone -d
 For more examples, go through the [examples](examples) folder.
 
 ```coffee
-<%- usage %>
+<%- basic %>
 ```
 
 *****************************************************************************
