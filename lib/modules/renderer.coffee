@@ -31,7 +31,7 @@ fs = kit.require 'fs'
  * 		'.html': {
  * 			default: true
  * 			ext_src: ['.ejs', '.jade']
- * 			watch_list: [path1, path2, ...] # Extra files to watch.
+ * 			watch_list: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			compiler: (str, path, ext_src, data) -> ...
  * 		}
@@ -280,15 +280,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				handler.req_path = req_path
 				get_cache(handler)
 				.then (cache) ->
-					if cache == null
-						res.status 500
-						return res.send self.e.compile_error
-
 					res.type handler.type or handler.ext_bin
 
-					content = cache.content
+					content = get_content handler, cache
 
 					switch content.constructor.name
+						when 'Number'
+							body = content.toString()
 						when 'String', 'Buffer'
 							body = content
 						when 'Function'
@@ -305,7 +303,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 										source_map_comment = "\n/*# #{source_map_comment} */\n"
 									body = content + source_map_comment
 							else
-								body = 'The compiler should produce a string, buffer or function: '.red +
+								body = 'The compiler should produce a number, string, buffer or function: '.red +
 									path.cyan + '\n' + kit.inspect(content).yellow
 								err = new Error(body)
 								err.name = 'unknown_type'
@@ -319,10 +317,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 					res.send body
 				.catch (err) ->
-					if err.name == 'file_not_exists'
-						rnext()
-					else
-						throw err
+					switch err.name
+						when self.e.compile_error
+							emit self.e.compile_error, path, err.stack
+							res.status(500).end self.e.compile_error
+						when 'file_not_exists'
+							next()
+						else
+							throw err
 				.done()
 			else
 				rnext()
@@ -334,7 +336,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * the same with the compiled result file.
 	 * @example
 	 * ```coffeescript
-	 * # The 'a.ejs' file may not exsits, it will auto-compile
+	 * # The 'a.ejs' file may not exists, it will auto-compile
 	 * # the 'a.ejs' or 'a.html' to html.
 	 * renderer.render('a.html').done (html) -> kit.log(html)
 	 * ```
@@ -366,9 +368,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if handler
 			handler.data = data
 			if is_cache
-				get_cache(handler).then (cache) -> cache?.content
+				p = get_cache(handler)
 			else
-				compile handler, false
+				p = compile handler, false
+			p.then (cache) ->
+				get_content handler, cache
 		else
 			throw new Error('No matched content handler for:' + path)
 
@@ -421,36 +425,61 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		self.emit.apply self, arguments
 
 	compile = (handler, is_cache = true) ->
-		Q.all handler.paths.map(kit.fileExists)
-		.then (rets) ->
-			ext_index = rets.indexOf(true)
-			path = handler.paths[ext_index]
-			if path
-				handler.path = path
-				ext = handler.ext_src[ext_index]
-				encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
-				kit.readFile path, encoding
-				.then (bin) ->
-					handler.ext = ext
-					if handler.type and handler.type != ext
-						return handler.compiler bin, path, handler.data
-
-					if ext == handler.ext_bin
-						bin
-					else
-						handler.source = bin
-						handler.compiler bin, path, handler.data
-				.then (content) ->
-					return content if not is_cache
-					handler.content = content
+		compile_src = (path) ->
+			handler.path = path
+			kit.readFile path, handler.encoding
+			.then (source) ->
+				handler.source = source
+				handler.ext = kit.path.extname path
+				handler.compiler source, path, handler.data
+			.then (content) ->
+				handler.content = content
+			.catch (err) ->
+				err.name = self.e.compile_error
+				handler.error = err
+			.then ->
+				if is_cache
 					cache_pool[path] = handler
-				.catch (err) ->
-					emit self.e.compile_error, path, err.stack
-					cache_pool[path] = null
-			else
-				err = new Error('File not exists: ' + handler.pathless)
-				err.name = 'file_not_exists'
-				throw err
+				if handler.error
+					throw handler.error
+				handler
+
+		paths = _.clone handler.paths
+		check_src = ->
+			path = paths.shift()
+			return Q() if not path
+			kit.fileExists path
+			.then (exists) ->
+				if exists
+					compile_src path
+				else
+					check_src()
+
+		check_src().then (ret) ->
+			return ret if ret
+
+			path = handler.pathless + handler.ext_bin
+			kit.fileExists path
+			.then (exists) ->
+				if exists
+					handler.path = path
+					handler.ext = handler.ext_bin
+					kit.readFile path, handler.encoding
+					.then (source) ->
+						handler.source = source
+						handler
+				else
+					err = new Error('File not exists: ' + handler.pathless)
+					err.name = 'file_not_exists'
+					throw err
+
+	get_content = (handler, cache) ->
+		if cache.content == undefined
+			cache.source
+		else if handler.ext_bin == cache.ext
+			cache.source
+		else
+			cache.content
 
 	get_cache = (handler) ->
 		handler.compiler ?= (bin) -> bin
@@ -458,17 +487,21 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		cache = _.find cache_pool, (v, k) ->
 			handler.paths.indexOf(k) > -1
 
-		if cache != undefined
-			return Q(cache)
+		if cache == undefined
+			compiled = compile(handler)
 
-		compiled = compile(handler)
+			if opts.enable_watcher
+				compiled.then -> watch handler
 
-		if opts.enable_watcher
-			compiled.then -> watch handler
-
-		compiled
+			compiled
+		else if cache.error
+			compile(handler)
+		else
+			Q cache
 
 	gen_handler = (path) ->
+		# TODO: This part is somehow to complex.
+
 		ext_bin = kit.path.extname path
 
 		if ext_bin == '.map'
@@ -495,6 +528,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
+			handler.encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 			handler.dirname = kit.path.dirname(path)
 			handler.pathless = kit.path.join(
 				handler.dirname
@@ -502,9 +536,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			)
 			if _.isString handler.compiler
 				handler.compiler = self.file_handlers[handler.compiler].compiler
-
-			if handler.ext_src.indexOf(handler.ext_bin) == -1
-				handler.ext_src.push handler.ext_bin
 
 			handler.paths = handler.ext_src.map (el) ->
 				handler.pathless + el
