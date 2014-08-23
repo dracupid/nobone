@@ -81,6 +81,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 * The compiler can handle any type of file.
 				 * @this {File_handler} It has a extra property `opts` which is the
 				 * options of the current renderer.
+				 * If you need source map support, the `source_map`property
+				 * must be set during the compile process.
 				 * @param  {String} str Source content.
 				 * @param  {String} path For debug info.
 				 * @param  {Any} data The data sent from the `render` function.
@@ -91,9 +93,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 * 	inject_client: process.env.NODE_ENV == 'development'
 				 * }
 				 * ```
-				 * @return {Any} Promise or any thing that contains the compiled content.
-				 * If you need source map support, the content must be an object
-				 * with `source_map` and `source` properties.
+				 * @return {Promise} Promise that contains the compiled content.
 				###
 				compiler: (str, path, data) ->
 					self = @
@@ -272,7 +272,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					next err
 
-			handler = get_handler path
+			handler = gen_handler path
 			if handler
 				handler.req_path = req_path
 				get_cache(handler)
@@ -283,13 +283,15 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 					res.type handler.type or handler.ext_bin
 
-					switch cache.constructor.name
+					content = cache.content
+
+					switch content.constructor.name
 						when 'String', 'Buffer'
-							body = cache
+							body = content
 						when 'Function'
-							body = cache()
+							body = content()
 						else
-							if cache.source_map and cache.source
+							if cache.source_map
 								if handler.is_source_map
 									body = cache.source_map
 								else
@@ -298,10 +300,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 										source_map_comment = "\n//# #{source_map_comment}\n"
 									else
 										source_map_comment = "\n/*# #{source_map_comment} */\n"
-									body = cache.source + source_map_comment
+									body = content + source_map_comment
 							else
 								body = 'The compiler should produce a string, buffer or function: '.red +
-									path.cyan + '\n' + kit.inspect(cache).yellow
+									path.cyan + '\n' + kit.inspect(content).yellow
 								err = new Error(body)
 								err.name = 'unknown_type'
 								throw err
@@ -356,12 +358,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		is_cache ?= true
 
-		handler = get_handler path
+		handler = gen_handler path
 
 		if handler
 			handler.data = data
 			if is_cache
-				get_cache(handler)
+				get_cache(handler).then (cache) -> cache.content
 			else
 				compile handler, false
 		else
@@ -435,7 +437,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						handler.compiler bin, path, handler.data
 				.then (content) ->
 					return content if not is_cache
-					cache_pool[path] = content
+					handler.content = content
+					cache_pool[path] = handler
 				.catch (err) ->
 					emit self.e.compile_error, path, err.stack
 					cache_pool[path] = null
@@ -460,7 +463,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		compiled
 
-	get_handler = (path) ->
+	gen_handler = (path) ->
 		ext_bin = kit.path.extname path
 
 		if ext_bin == '.map'
@@ -487,6 +490,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
 			handler.dirname = kit.path.dirname(path)
+			handler.ctime = Date.now()
 			handler.pathless = kit.path.join(
 				handler.dirname
 				kit.path.basename(path, ext_bin)

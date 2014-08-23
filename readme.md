@@ -456,6 +456,8 @@ nobone bone -h
 
    It has a extra property `opts` which is the
    options of the current renderer.
+   If you need source map support, the `source_map`property
+   must be set during the compile process.
 
  - **<u>param</u>**: `str` { _String_ }
 
@@ -476,11 +478,9 @@ nobone bone -h
    }
    ```
 
- - **<u>return</u>**:  { _Any_ }
+ - **<u>return</u>**:  { _Promise_ }
 
-   Promise or any thing that contains the compiled content.
-   If you need source map support, the content must be an object
-   with `source_map` and `source` properties.
+   Promise that contains the compiled content.
 
 - #### <a href="lib/modules/renderer.coffee#L219" target="_blank"><b>file_handlers</b></a>
 
@@ -525,7 +525,7 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L348" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L350" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -568,11 +568,11 @@ nobone bone -h
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L373" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L375" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L384" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L386" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
@@ -584,7 +584,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L392" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L394" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
@@ -600,7 +600,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L398" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L400" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
@@ -608,7 +608,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L404" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L406" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 
@@ -1322,9 +1322,9 @@ nobone bone -h
 
  - **<u>return</u>**:  { _Function_ }
 
-   The real listener.
+   The wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L997" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L998" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1335,6 +1335,10 @@ nobone bone -h
    Such as `['\*.css', 'lib/\*\*.js']`.
 
  - **<u>param</u>**: `handler` { _Function_ }
+
+ - **<u>return</u>**:  { _Promise_ }
+
+   It contains the wrapped watch listeners.
 
 - #### <a href="lib/kit.coffee#L1031" target="_blank"><b>watch_dir</b></a>
 
