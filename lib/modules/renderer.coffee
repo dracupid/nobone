@@ -426,10 +426,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	hcompile = (handler, is_cache = true) ->
 		compile_src = (path) ->
 			handler.path = path
+			handler.ext = kit.path.extname path
+
 			kit.readFile path, handler.encoding
 			.then (source) ->
 				handler.source = source
-				handler.ext = kit.path.extname path
 				handler.compiler source, path, handler.data
 			.then (content) ->
 				handler.content = content
@@ -445,7 +446,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					throw handler.error
 				handler
 
-		paths = _.clone handler.paths
+		paths = handler.ext_src.map (el) -> handler.no_ext_path + el
 		check_src = ->
 			path = paths.shift()
 			return Q() if not path
@@ -459,7 +460,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		check_src().then (ret) ->
 			return ret if ret
 
-			path = handler.pathless + handler.ext_bin
+			path = handler.no_ext_path + handler.ext_bin
 			kit.fileExists path
 			.then (exists) ->
 				if exists
@@ -468,9 +469,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					kit.readFile path, handler.encoding
 					.then (source) ->
 						handler.source = source
+						cache_pool[path] = handler
 						handler
 				else
-					err = new Error('File not exists: ' + handler.pathless)
+					err = new Error('File not exists: ' + handler.no_ext_path)
 					err.name = 'file_not_exists'
 					throw err
 
@@ -486,7 +488,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		handler.compiler ?= (bin) -> bin
 
 		cache = _.find cache_pool, (v, k) ->
-			handler.paths.indexOf(k) > -1
+			for ext in handler.ext_src.concat(handler.ext_bin)
+				if handler.no_ext_path + ext == k
+					return true
+			return false
 
 		if cache == undefined
 			compiled = hcompile(handler)
@@ -503,15 +508,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					cache
 
 	gen_handler = (path) ->
-		# TODO: This part is somehow to complex.
+		# TODO: This part is somehow too complex.
 
 		ext_bin = kit.path.extname path
 
 		if ext_bin == '.map'
-			path = kit.path.join(
-				kit.path.dirname(path)
-				kit.path.basename(path, ext_bin)
-			)
+			path = remove_ext path
 			ext_bin = kit.path.extname path
 			is_source_map = true
 
@@ -533,15 +535,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.ext_bin = ext_bin
 			handler.encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 			handler.dirname = kit.path.dirname(path)
-			handler.pathless = kit.path.join(
-				handler.dirname
-				kit.path.basename(path, ext_bin)
-			)
+			handler.no_ext_path = remove_ext path
 			if _.isString handler.compiler
 				handler.compiler = self.file_handlers[handler.compiler].compiler
-
-			handler.paths = handler.ext_src.map (el) ->
-				handler.pathless + el
 
 			handler.opts = self.opts
 
@@ -574,15 +570,15 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			for path of handler.watch_list
 				handler.watch_list[path] = kit.watch_file path, watcher
 				emit self.e.watch_file, path, handler.req_path
-				_.remove watch.processing, (el) -> el == path
+
+			# Unlock the src file.
+			_.remove watch.processing, (el) -> el == handler.path
 		.done()
 
 	force_ext = (path, ext) ->
-		kit.path.join(
-			kit.path.dirname path
-			kit.path.basename path, ext
-		) + ext
+		remove_ext(path) + ext
 
+	# Parse the dependencies.
 	get_dependencies = (handler, curr_path) ->
 		reg = new RegExp(handler.dependency_reg.source, 'g')
 		if curr_path
@@ -605,18 +601,20 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
 				get_dependencies handler, dep_path
 
-	# Parse the dependencies.
 	gen_watch_list = (handler) ->
-		return if not handler.path
-		handler.ext = kit.path.extname handler.path
-
 		if watch.processing.indexOf(handler.path) > -1
-			_.remove paths, (el) -> el == handler.path
-		else
-			watch.processing.push handler.path
-			handler.watch_list[handler.path] = null
+			return
+
+		# lock current src file.
+		watch.processing.push handler.path
+
+		# Add the src file to watch list.
+		handler.watch_list[handler.path] = null
 
 		if handler.dependency_reg
 			get_dependencies handler
+
+	remove_ext = (path) ->
+		path[0 ... _.lastIndexOf(path, '.')]
 
 module.exports = renderer
