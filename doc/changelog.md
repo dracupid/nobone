@@ -3,6 +3,7 @@
   - Delete the `html-minifier` module.
   - Add the `kit.encrypt` and `kit.decrypt`.
   - Add `kit.watch_dir`.
+  - Better renderer memory management.
 
 - v0.5.4
 
