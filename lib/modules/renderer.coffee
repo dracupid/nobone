@@ -321,7 +321,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						when self.e.compile_error
 							res.status(500).end self.e.compile_error
 						when 'file_not_exists'
-							next()
+							rnext()
 						else
 							throw err
 				.done()
