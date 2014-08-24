@@ -418,7 +418,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if args[0] == 'compile_error'
 				kit.err args[1].yellow + '\n' + args[2].toString().red
 			else
-				kit.log [args[0].cyan].concat(args[1..]).join(' | ')
+				kit.log [args[0].cyan].concat(args[1..]).join(' | '.grey)
 
 		self.emit.apply self, args
 

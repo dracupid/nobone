@@ -50,9 +50,9 @@ service = (opts = {}) ->
 						args[0].cyan
 						args[1].req.path
 						args[1].req.headers.referer
-					].join ' | '
+					].join(' | '.grey)
 				else
-					kit.log [args[0].cyan].concat(args[1..]).join(' | ')
+					kit.log [args[0].cyan].concat(args[1..]).join(' | '.grey)
 
 		self.emit.apply self, args
 
