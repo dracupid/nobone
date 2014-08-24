@@ -15,7 +15,9 @@ process.env.watch_persistent = 'on'
 kit.watch_dir {
 	dir: local_dir
 	handler: (type, path, old_path) ->
-		kit.log arguments
+		kit.log type.cyan + ': ' + path +
+			(if old_path then ' <- '.cyan + old_path else '')
+
 		remote_path = encodeURIComponent(
 			kit.path.join remote_dir, path.replace(local_dir, '').replace('/', '')
 		)
@@ -34,7 +36,10 @@ kit.watch_dir {
 					.then (data) ->
 						rdata.req_data = data
 			when 'move'
-				rdata.req_data = kit.path.join remote_dir, old_path
+				rdata.req_data = kit.path.join(
+					remote_dir
+					old_path.replace(local_dir, '').replace('/', '')
+				)
 
 		p = p.then ->
 			kit.request rdata

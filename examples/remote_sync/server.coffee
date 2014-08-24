@@ -28,6 +28,7 @@ service.post '/:type/:path', (req, res) ->
 			when 'modify'
 				p = kit.outputFile path, data
 			when 'move'
+				kit.log data.toString()
 				p = kit.move data.toString(), path
 			when 'delete'
 				p = kit.remove path
@@ -38,6 +39,7 @@ service.post '/:type/:path', (req, res) ->
 		p.then ->
 			res.send 'ok'
 		.catch (err) ->
-			res.status(500).end err
+			kit.err err
+			res.status(500).end err.stack
 
 service.listen 8345
