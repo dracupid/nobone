@@ -1080,7 +1080,7 @@ _.extend kit, {
 						else
 							false
 					)
-						opts.handler 'create', p, paths.stat_cache[p]
+						opts.handler 'create', p
 
 				for wp in _.keys(opts.watched_list)
 					if paths.indexOf(wp) == -1 and
