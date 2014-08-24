@@ -1040,13 +1040,24 @@ _.extend kit, {
 			stats_a.ctime.getTime() == stats_b.ctime.getTime() and
 			stats_a.size == stats_b.size
 
+		recursive_watch = (path) ->
+			if path[-1..] == '/'
+				# Recursively watch a newly created directory.
+				kit.watch_dir _.defaults({
+					dir: path
+					watched_list: opts.watched_list
+					deleted_list: opts.deleted_list
+				}, opts)
+			else
+				opts.watched_list[path] = kit.watch_file path, file_watcher
+
 		file_watcher = (path, curr, prev, is_delete) ->
 			if is_delete
 				opts.deleted_list[path] = prev
 			else
 				opts.handler 'modify', path
 
-		dir_watcher = (path, curr, prev, is_delete) ->
+		main_watch = (path, curr, prev, is_delete) ->
 			if is_delete
 				opts.deleted_list[path] = prev
 				return
@@ -1061,32 +1072,35 @@ _.extend kit, {
 					if opts.watched_list[p] != undefined
 						continue
 
-					if p[-1..] == '/'
-						# Recursively watch a newly created directory.
-						kit.watch_dir _.defaults({
-							dir: p
-							watched_list: opts.watched_list
-							deleted_list: opts.deleted_list
-						}, opts)
-					else
-						opts.watched_list[p] = kit.watch_file p, file_watcher
-
 					# Check if the new file is renamed from another file.
 					if not _.any(opts.deleted_list, (stat, dpath) ->
+						if stat == 'parent_moved'
+							delete opts.deleted_list[dpath]
+							return true
+
 						if is_same_file(stat, paths.stat_cache[p])
-							delete opts.watched_list[dpath]
+							# All children will be deleted, so that
+							# sub-move event won't trigger.
+							for k of opts.deleted_list
+								if k.indexOf(dpath) == 0
+									opts.deleted_list[k] = 'parent_moved'
+									delete opts.watched_list[k]
+							delete opts.deleted_list[dpath]
+							recursive_watch p
 							opts.handler 'move', p, dpath
 							true
 						else
 							false
 					)
+						recursive_watch p
 						opts.handler 'create', p
 
-				for wp in _.keys(opts.watched_list)
-					if paths.indexOf(wp) == -1 and
-					wp.indexOf(path) == 0
-						delete opts.watched_list[wp]
-						opts.handler 'delete', wp
+				_.each opts.watched_list, (v, wpath) ->
+					if paths.indexOf(wpath) == -1 and
+					wpath.indexOf(path) == 0
+						delete opts.deleted_list[wpath]
+						delete opts.watched_list[wpath]
+						opts.handler 'delete', wpath
 
 			.catch (err) ->
 				kit.err err
@@ -1097,7 +1111,7 @@ _.extend kit, {
 			# The reverse will keep the children event happen at first.
 			for path in paths.reverse()
 				if path[-1..] == '/'
-					w = kit.watch_file path, dir_watcher
+					w = kit.watch_file path, main_watch
 				else
 					w = kit.watch_file path, file_watcher
 				opts.watched_list[path] = w
