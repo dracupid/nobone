@@ -44,3 +44,5 @@ kit.watch_dir {
 }
 .then (list) ->
 	kit.log 'Watched: '.cyan + kit._.keys(list).length
+.catch (err) ->
+	kit.err err
