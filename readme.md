@@ -915,12 +915,12 @@ nobone bone -h
 
    Contains the path list.
 
-- #### <a href="lib/kit.coffee#L287" target="_blank"><b>jhash</b></a>
+- #### <a href="lib/kit.coffee#L298" target="_blank"><b>jhash</b></a>
 
  See my [jhash][jhash] project.
  [jhash]: https://github.com/ysmood/jhash
 
-- #### <a href="lib/kit.coffee#L313" target="_blank"><b>lang</b></a>
+- #### <a href="lib/kit.coffee#L324" target="_blank"><b>lang</b></a>
 
  It will find the right `key/value` pair in your defined `kit.lang_set`.
  If it cannot file the one, it will output the key directly.
@@ -957,7 +957,7 @@ nobone bone -h
    'Good weather.'.l('jp') # 'Good weather.'
    ```
 
-- #### <a href="lib/kit.coffee#L328" target="_blank"><b>lang_set</b></a>
+- #### <a href="lib/kit.coffee#L339" target="_blank"><b>lang_set</b></a>
 
  Language collections.
 
@@ -971,7 +971,7 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L335" target="_blank"><b>lang_current</b></a>
+- #### <a href="lib/kit.coffee#L346" target="_blank"><b>lang_current</b></a>
 
  Current default language.
 
@@ -981,7 +981,7 @@ nobone bone -h
 
    'en'
 
-- #### <a href="lib/kit.coffee#L349" target="_blank"><b>lang_load</b></a>
+- #### <a href="lib/kit.coffee#L360" target="_blank"><b>lang_load</b></a>
 
  Load language set directory and save them into
  the `kit.lang_set`.
@@ -999,7 +999,7 @@ nobone bone -h
    kit.log 'test'.l # This may output '测试'.
    ```
 
-- #### <a href="lib/kit.coffee#L371" target="_blank"><b>inspect</b></a>
+- #### <a href="lib/kit.coffee#L382" target="_blank"><b>inspect</b></a>
 
  For debugging use. Dump a colorful object.
 
@@ -1014,7 +1014,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L393" target="_blank"><b>log</b></a>
+- #### <a href="lib/kit.coffee#L404" target="_blank"><b>log</b></a>
 
  A better log for debugging, it uses the `kit.inspect` to log.
  
@@ -1036,7 +1036,7 @@ nobone bone -h
 
    Default is same with `kit.inspect`
 
-- #### <a href="lib/kit.coffee#L451" target="_blank"><b>monitor_app</b></a>
+- #### <a href="lib/kit.coffee#L462" target="_blank"><b>monitor_app</b></a>
 
  Monitor an application and automatically restart it when file changed.
  When the monitored app exit with error, the monitor itself will also exit.
@@ -1058,7 +1058,7 @@ nobone bone -h
 
    The child process.
 
-- #### <a href="lib/kit.coffee#L495" target="_blank"><b>open</b></a>
+- #### <a href="lib/kit.coffee#L506" target="_blank"><b>open</b></a>
 
  Open a thing that your system can recognize.
  Now only support Windows and OSX.
@@ -1082,7 +1082,7 @@ nobone bone -h
 
    When the child process exits.
 
-- #### <a href="lib/kit.coffee#L528" target="_blank"><b>pad</b></a>
+- #### <a href="lib/kit.coffee#L539" target="_blank"><b>pad</b></a>
 
  String padding helper.
 
@@ -1102,7 +1102,7 @@ nobone bone -h
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L573" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L584" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1156,11 +1156,11 @@ nobone bone -h
    }
    ```
 
-- #### <a href="lib/kit.coffee#L638" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L649" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L646" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L657" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1173,13 +1173,13 @@ nobone bone -h
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L664" target="_blank"><b>Q</b></a>
+- #### <a href="lib/kit.coffee#L675" target="_blank"><b>Q</b></a>
 
  The promise Q lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L673" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L684" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1196,7 +1196,7 @@ nobone bone -h
 
    The module that you require.
 
-- #### <a href="lib/kit.coffee#L728" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L739" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1248,7 +1248,7 @@ nobone bone -h
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L885" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L896" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1271,11 +1271,11 @@ nobone bone -h
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L931" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L942" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L957" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L968" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1314,7 +1314,7 @@ nobone bone -h
 
    The wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L982" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L993" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1330,10 +1330,10 @@ nobone bone -h
 
    It contains the wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L1017" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1028" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
- It supports three types of change: create, modify, delete.
+ It supports three types of change: create, modify, move, delete.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
@@ -1347,7 +1347,7 @@ nobone bone -h
    	dot: false
    
    	# If the "path" ends with '/' it's a directory, else a file.
-   	handler: (type, path, curr, prev) ->
+   	handler: (type, path, old_path) ->
    }
    ```
 
@@ -1361,7 +1361,7 @@ nobone bone -h
    	handler: (type, path) ->
    		kit.log type
    		kit.log path
-   	watched_list: [] # If you use watch_dir recursively, you need a global watched_list
+   	watched_list: {} # If you use watch_dir recursively, you need a global watched_list
    }
    ```
 
