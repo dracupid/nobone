@@ -196,6 +196,3 @@ describe 'Kit:', ->
 	it 'crypto', ->
 		en = nb.kit.encrypt '123', 'test'
 		assert.equal nb.kit.decrypt(en, 'test').toString(), '123'
-
-		en = nb.kit.encrypt '123', 'test', true
-		assert.equal nb.kit.decrypt(en, 'test', true).toString(), '123'
