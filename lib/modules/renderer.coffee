@@ -182,7 +182,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							}
 			}
 			'.md': {
-				type: 'html' # Force type, optional.
+				type: '.html' # Force type, optional.
 				ext_src: ['.md','.markdown']
 				compiler: (str, path, data = {}) ->
 					marked = kit.require 'marked'
@@ -429,7 +429,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 			kit.readFile path, handler.encoding
 			.then (source) ->
-				handler.source = source
+				if handler.ext_src.indexOf(handler.ext) < 0
+					handler.source = source
 				handler.compiler source, path, handler.data
 			.then (content) ->
 				handler.content = content
@@ -478,6 +479,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	get_content = (handler, cache) ->
 		if cache.content == undefined
 			cache.source
+		else if cache.source == undefined
+			cache.content
 		else if handler.ext_bin == cache.ext
 			cache.source
 		else
