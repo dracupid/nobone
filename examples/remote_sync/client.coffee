@@ -3,7 +3,6 @@ nobone = require 'nobone'
 local_dir = 'examples/fixtures'
 remote_dir = 'examples/remote_dir'
 host = 'http://127.0.0.1:8345'
-token = '123'
 
 { kit } = nobone()
 
@@ -16,9 +15,8 @@ kit.watch_dir {
 		remote_path = encodeURIComponent(
 			kit.path.join remote_dir, path.replace(local_dir, '').replace('/', '')
 		)
-		req_token = kit.encrypt(token, token, true).toString('hex')
 		rdata = {
-			url: host + "/#{type}/#{remote_path}?token=#{req_token}"
+			url: host + "/#{type}/#{remote_path}"
 			method: 'POST'
 		}
 

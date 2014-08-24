@@ -1,31 +1,12 @@
 nobone = require 'nobone'
 
-token = '123'
-
 { kit, service } = nobone()
 
 service.post '/:type/:path', (req, res) ->
-	# Check token
-	try
-		req_token = kit.decrypt(
-			new Buffer(req.query.token, 'hex')
-			token
-			true
-		)
-		if req_token != token
-			res.status(403).end 'auth_err'
-			return
-	catch err
-		kit.err err
-		res.status(403).end 'auth_err'
-		return
-
 	type = req.params.type
 	path = req.params.path
 
 	kit.log type.cyan + ': ' + path
-
-	p = kit.Q()
 
 	data = new Buffer(0)
 	req.on 'data', (chunk) ->
@@ -35,13 +16,18 @@ service.post '/:type/:path', (req, res) ->
 		switch req.params.type
 			when 'create'
 				if path[-1..] == '/'
-					p = p.then kit.mkdirs(path)
+					p = kit.mkdirs(path)
 				else
-					p = p.then kit.outputFile(path, data)
+					p = kit.outputFile path, data
 			when 'modify'
-					p = p.then kit.outputFile(path, data)
+				p = kit.outputFile path, data
+			when 'move'
+				p = kit.move path, data.toString()
 			when 'delete'
-					p = p.then kit.remove(path)
+				p = kit.remove path
+			else
+				res.status(403).end 'unknown_type'
+				return
 
 		p.then ->
 			res.send 'ok'
