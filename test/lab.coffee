@@ -11,4 +11,4 @@ srv.get '/', (req, res) ->
 srv.use rr.static('test/fixtures')
 
 srv.listen 8122, ->
-	kit.open 'http://127.0.0.1:8122'
+	kit.log 'http://127.0.0.1:8122'
