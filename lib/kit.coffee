@@ -729,7 +729,11 @@ _.extend kit, {
 		if _.isString opts
 			opts = { url: opts }
 
-		url = kit.url.parse opts.url if _.isString(opts.url)
+		if _.isObject opts.url
+			opts.url.protocol ?= 'http:'
+			opts.url = kit.url.format opts.url
+
+		url = kit.url.parse opts.url
 		url.protocol ?= 'http:'
 
 		request = null
