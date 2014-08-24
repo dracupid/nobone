@@ -271,14 +271,25 @@ _.extend kit, {
 			patterns = [patterns]
 
 		all_paths = []
+		stat_cache = {}
 		Q.all patterns.map (p) ->
 			kit._glob p, opts
 			.then (paths) ->
+				_.extend stat_cache, paths.glob.statCache
 				all_paths = _.union all_paths, paths
 		.then ->
+			all_paths.stat_cache = stat_cache
 			all_paths
 
-	_glob: Q.denodeify glob
+	_glob: (pattern, opts) ->
+		defer = Q.defer()
+		g = glob pattern, opts, (err, paths) ->
+			paths.glob = g
+			if err
+				defer.reject
+			else
+				defer.resolve paths
+		defer.promise
 
 	###*
 	 * See my [jhash][jhash] project.
@@ -986,7 +997,7 @@ _.extend kit, {
 
 	###*
 	 * Watch directory and all the files in it.
-	 * It supports three types of change: create, modify, delete.
+	 * It supports three types of change: create, modify, move, delete.
 	 * @param  {Object} opts Defaults:
 	 * ```coffeescript
 	 * {
@@ -997,7 +1008,7 @@ _.extend kit, {
 	 * 	dot: false
 	 *
 	 * 	# If the "path" ends with '/' it's a directory, else a file.
-	 * 	handler: (type, path, curr, prev) ->
+	 * 	handler: (type, path, old_path) ->
 	 * }
 	 * ```
 	 * @example
@@ -1009,7 +1020,7 @@ _.extend kit, {
 	 * 	handler: (type, path) ->
 	 * 		kit.log type
 	 * 		kit.log path
-	 * 	watched_list: [] # If you use watch_dir recursively, you need a global watched_list
+	 * 	watched_list: {} # If you use watch_dir recursively, you need a global watched_list
 	 * }
 	 * ```
 	 * @return {Promise}
@@ -1019,21 +1030,25 @@ _.extend kit, {
 			dir: '.'
 			pattern: '**'
 			dot: false
-			handler: (type, path, curr, prev) ->
-			watched_list: []
+			handler: (type, path, old_path) ->
+			watched_list: {}
+			deleted_list: {}
 		}
+
+		is_same_file = (stats_a, stats_b) ->
+			stats_a.mtime.getTime() == stats_b.mtime.getTime() and
+			stats_a.ctime.getTime() == stats_b.ctime.getTime() and
+			stats_a.size == stats_b.size
 
 		file_watcher = (path, curr, prev, is_delete) ->
 			if is_delete
-				opts.handler 'delete', path, curr, prev
-				kit._.remove opts.watched_list, (el) -> el == path
+				opts.deleted_list[path] = prev
 			else
-				opts.handler 'modify', path, curr, prev
+				opts.handler 'modify', path
 
 		dir_watcher = (path, curr, prev, is_delete) ->
 			if is_delete
-				opts.handler 'delete', path, curr, prev
-				kit._.remove opts.watched_list, (el) -> el == path
+				opts.deleted_list[path] = prev
 				return
 
 			# Each time a direcotry change happens, it will check all
@@ -1043,28 +1058,49 @@ _.extend kit, {
 				mark: true, dot: opts.dot
 			}).then (paths) ->
 				for p in paths
-					if opts.watched_list.indexOf(p) == -1
-						if p[-1..] == '/'
-							# Recursively watch a newly created directory.
-							kit.watch_dir _.defaults({
-								dir: p
-								watched_list: opts.watched_list
-							}, opts)
-						else
-							kit.watch_file p, file_watcher
-							opts.watched_list.push p
+					if opts.watched_list[p] != undefined
+						continue
 
-						opts.handler 'create', p, curr, prev
+					if p[-1..] == '/'
+						# Recursively watch a newly created directory.
+						kit.watch_dir _.defaults({
+							dir: p
+							watched_list: opts.watched_list
+							deleted_list: opts.deleted_list
+						}, opts)
+					else
+						opts.watched_list[p] = kit.watch_file p, file_watcher
+
+					# Check if the new file is renamed from another file.
+					if not _.any(opts.deleted_list, (stat, dpath) ->
+						if is_same_file(stat, paths.stat_cache[p])
+							delete opts.watched_list[dpath]
+							opts.handler 'move', p, dpath
+							true
+						else
+							false
+					)
+						opts.handler 'create', p, paths.stat_cache[p]
+
+				for wp in _.keys(opts.watched_list)
+					if paths.indexOf(wp) == -1 and
+					wp.indexOf(path) == 0
+						delete opts.watched_list[wp]
+						opts.handler 'delete', wp
+
+			.catch (err) ->
+				kit.err err
 
 		kit.glob(kit.path.join(opts.dir, opts.pattern), {
 			mark: true, dot: opts.dot
 		}).then (paths) ->
-			opts.watched_list = paths.reverse()
-			for path in paths
+			# The reverse will keep the children event happen at first.
+			for path in paths.reverse()
 				if path[-1..] == '/'
-					kit.watch_file path, dir_watcher
+					w = kit.watch_file path, dir_watcher
 				else
-					kit.watch_file path, file_watcher
+					w = kit.watch_file path, file_watcher
+				opts.watched_list[path] = w
 			opts.watched_list
 
 }
