@@ -1,9 +1,13 @@
-nobone = require 'nobone'
+# Watch and sync a local folder with a remote one.
+# All the local operations will be repeated on the remote.
+#
+# This this the local watcher.
 
 local_dir = 'examples/fixtures'
 remote_dir = 'examples/remote_dir'
 host = 'http://127.0.0.1:8345'
 
+nobone = require 'nobone'
 { kit } = nobone()
 
 process.env.watch_persistent = 'on'

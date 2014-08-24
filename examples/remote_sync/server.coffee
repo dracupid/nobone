@@ -1,3 +1,9 @@
+# Watch and sync a local folder with a remote one.
+# All the local operations will be repeated on the remote.
+#
+# This this the remote server.
+
+
 nobone = require 'nobone'
 
 { kit, service } = nobone()
