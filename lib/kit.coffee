@@ -1059,12 +1059,12 @@ _.extend kit, {
 		kit.glob(kit.path.join(opts.dir, opts.pattern), {
 			mark: true, dot: opts.dot
 		}).then (paths) ->
+			opts.watched_list = paths.reverse()
 			for path in paths
 				if path[-1..] == '/'
 					kit.watch_file path, dir_watcher
 				else
 					kit.watch_file path, file_watcher
-				opts.watched_list.push path
 			opts.watched_list
 
 }
