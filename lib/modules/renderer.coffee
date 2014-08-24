@@ -280,9 +280,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				handler.req_path = req_path
 				get_cache(handler)
 				.then (cache) ->
+					get_content handler.ext_bin, cache
+				.then (content) ->
 					res.type handler.type or handler.ext_bin
-
-					content = get_content handler, cache
 
 					switch content.constructor.name
 						when 'Number'
@@ -351,7 +351,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * default is true. Optional.
 	 * @return {Promise} Contains the compiled content.
 	###
-	self.render = (path, ext, data, is_cache) ->
+	self.render = (path, ext, data, is_cache = true) ->
 		if _.isString ext
 			path = path[...-kit.path.extname(path).length] + ext
 		else if _.isBoolean ext
@@ -369,9 +369,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if is_cache
 				p = get_cache(handler)
 			else
-				p = hcompile handler, false
+				p = hget_src handler
 			p.then (cache) ->
-				get_content handler, cache
+				get_content handler.ext_bin, cache
 		else
 			throw new Error('No matched content handler for:' + path)
 
@@ -422,28 +422,15 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, args
 
-	hcompile = (handler, is_cache = true) ->
-		compile_src = (path) ->
+	hget_src = (handler) ->
+		get_src = (path) ->
 			handler.path = path
 			handler.ext = kit.path.extname path
 
 			kit.readFile path, handler.encoding
 			.then (source) ->
-				if handler.ext_src.indexOf(handler.ext) < 0
-					handler.source = source
-				handler.compiler source, path, handler.data
-			.then (content) ->
-				handler.content = content
-				delete handler.error
-			.catch (err) ->
-				emit self.e.compile_error, path, err.stack
-				err.name = self.e.compile_error
-				handler.error = err
-			.then ->
-				if is_cache
-					cache_pool[path] = handler
-				if handler.error
-					throw handler.error
+				handler.source = source
+				delete handler.content
 				handler
 
 		paths = handler.ext_src.map (el) -> handler.no_ext_path + el
@@ -453,7 +440,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			kit.fileExists path
 			.then (exists) ->
 				if exists
-					compile_src path
+					get_src path
 				else
 					check_src()
 
@@ -476,15 +463,27 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					err.name = 'file_not_exists'
 					throw err
 
-	get_content = (handler, cache) ->
-		if cache.content == undefined
-			cache.source
-		else if cache.source == undefined
-			cache.content
-		else if handler.ext_bin == cache.ext
-			cache.source
+	get_content = (ext_bin, cache) ->
+		cache.last_ext_bin = ext_bin
+		if ext_bin == cache.ext and not cache.force_compile
+			Q cache.source
+		else if cache.content
+			Q cache.content
 		else
-			cache.content
+			Q.fcall ->
+				cache.compiler cache.source, cache.path, cache.data
+			.then (content) ->
+				cache.content = content
+				delete cache.error
+			.catch (err) ->
+				emit self.e.compile_error, cache.path, err.stack
+				err.name = self.e.compile_error
+				cache.error = err
+			.then ->
+				if cache.error
+					throw cache.error
+				else
+					cache.content
 
 	get_cache = (handler) ->
 		handler.compiler ?= (bin) -> bin
@@ -496,16 +495,17 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			return false
 
 		if cache == undefined
-			compiled = hcompile(handler)
+			p = hget_src(handler)
+
+			p.then (cache) -> cache_pool[cache.path] = cache
 
 			if opts.enable_watcher
-				compiled
-				.then -> watch handler
+				p.then -> watch handler
 				.catch (err) ->
 					if err.name == self.e.compile_error
 						watch handler
 
-			compiled
+			p
 		else
 			Q.fcall ->
 				if cache.error
@@ -527,6 +527,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler = _.find self.file_handlers, (el) -> el.default
 		else if self.file_handlers[ext_bin]
 			handler = self.file_handlers[ext_bin]
+			if self.file_handlers[ext_bin].ext_src.indexOf(ext_bin) > -1
+				handler.force_compile = true
 		else
 			handler = _.find self.file_handlers, (el) ->
 				el.ext_src and el.ext_src.indexOf(ext_bin) > -1
@@ -560,7 +562,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				emit self.e.file_deleted, path + ' -> '.cyan + handler.path
 
 			else if curr.mtime != prev.mtime
-				hcompile(handler)
+				hget_src(handler)
+				.then ->
+					get_content handler.ext_bin.last_ext_bin, handler
 				.catch(->)
 				.then ->
 					emit(
