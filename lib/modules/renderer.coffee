@@ -527,7 +527,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler = _.find self.file_handlers, (el) -> el.default
 		else if self.file_handlers[ext_bin]
 			handler = self.file_handlers[ext_bin]
-			if self.file_handlers[ext_bin].ext_src.indexOf(ext_bin) > -1
+			if self.file_handlers[ext_bin].ext_src and
+			self.file_handlers[ext_bin].ext_src.indexOf(ext_bin) > -1
 				handler.force_compile = true
 		else
 			handler = _.find self.file_handlers, (el) ->
