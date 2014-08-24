@@ -22,7 +22,7 @@ service.post '/:type/:path', (req, res) ->
 			when 'modify'
 				p = kit.outputFile path, data
 			when 'move'
-				p = kit.move path, data.toString()
+				p = kit.move data.toString(), path
 			when 'delete'
 				p = kit.remove path
 			else
