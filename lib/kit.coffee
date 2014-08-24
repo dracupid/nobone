@@ -729,7 +729,7 @@ _.extend kit, {
 		if _.isString opts
 			opts = { url: opts }
 
-		url = kit.url.parse opts.url
+		url = kit.url.parse opts.url if _.isString(opts.url)
 		url.protocol ?= 'http:'
 
 		request = null
@@ -745,8 +745,8 @@ _.extend kit, {
 
 		_.defaults opts, {
 			body: true
-			res_encoding: 'auto' # set null to use buffer
-			req_data: null # string or buffer.
+			res_encoding: 'auto'
+			req_data: null
 			auto_end_req: true
 		}
 
