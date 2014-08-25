@@ -28,8 +28,7 @@ service.post '/:type/:path', (req, res) ->
 			when 'modify'
 				p = kit.outputFile path, data
 			when 'move'
-				kit.log data.toString()
-				p = kit.move data.toString(), path
+				p = kit.move data.toString(), path.replace(/\/+$/, '')
 			when 'delete'
 				p = kit.remove path
 			else
