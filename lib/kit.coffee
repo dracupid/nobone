@@ -1045,8 +1045,6 @@ _.extend kit, {
 				# Recursively watch a newly created directory.
 				kit.watch_dir _.defaults({
 					dir: path
-					watched_list: opts.watched_list
-					deleted_list: opts.deleted_list
 				}, opts)
 			else
 				opts.watched_list[path] = kit.watch_file path, file_watcher
