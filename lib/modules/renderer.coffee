@@ -331,8 +331,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * Render a file. It will auto-detect the file extension and
 	 * choose the right compiler to handle the content.
-	 * @param  {String} path The file path. The path extension should be
-	 * the same with the compiled result file.
+	 * @param  {String | Object} path The file path. The path extension should be
+	 * the same with the compiled result file. If it's an object, it can contain
+	 * any number of following params.
 	 * @example
 	 * ```coffeescript
 	 * # The 'a.ejs' file may not exists, it will auto-compile
@@ -352,6 +353,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @return {Promise} Contains the compiled content.
 	###
 	self.render = (path, ext, data, is_cache = true) ->
+		if _.isObject path
+			{ path, ext, data, is_cache, req_path } = path
+
 		if _.isString ext
 			path = path[...-kit.path.extname(path).length] + ext
 		else if _.isBoolean ext
@@ -366,6 +370,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler.data = data
+			handler.req_path = req_path if _.isString req_path
 			if is_cache
 				p = get_cache(handler)
 			else
