@@ -369,7 +369,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			if is_cache
 				p = get_cache(handler)
 			else
-				p = hget_src handler
+				p = get_src handler
 			p.then (cache) ->
 				get_content handler.ext_bin, cache
 		else
@@ -422,7 +422,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, args
 
-	hget_src = (handler) ->
+	get_src = (handler) ->
 		get_src = (path) ->
 			handler.path = path
 			handler.ext = kit.path.extname path
@@ -495,7 +495,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			return false
 
 		if cache == undefined
-			p = hget_src(handler)
+			p = get_src(handler)
 
 			p.then (cache) -> cache_pool[cache.path] = cache
 
@@ -504,7 +504,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.catch (err) ->
 					if err.name == self.e.compile_error
 						watch handler
-
 			p
 		else
 			Q.fcall ->
@@ -563,7 +562,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				emit self.e.file_deleted, path + ' -> '.cyan + handler.path
 
 			else if curr.mtime != prev.mtime
-				hget_src(handler)
+				get_src(handler)
 				.then ->
 					get_content handler.ext_bin.last_ext_bin, handler
 				.catch(->)
