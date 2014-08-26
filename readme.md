@@ -525,15 +525,16 @@ nobone bone -h
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L354" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L357" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
 
- - **<u>param</u>**: `path` { _String_ }
+ - **<u>param</u>**: `path` { _String | Object_ }
 
    The file path. The path extension should be
-   the same with the compiled result file.
+   the same with the compiled result file. If it's an object, it can contain
+   any number of following params.
 
  - **<u>example</u>**:
 
@@ -564,15 +565,20 @@ nobone bone -h
    Whether to cache the result,
    default is true. Optional.
 
+ - **<u>param</u>**: `req_path` { _String_ }
+
+   The http request path. Support it will make auto-reload
+   more efficient.
+
  - **<u>return</u>**:  { _Promise_ }
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L381" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L388" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L394" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L401" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
@@ -584,7 +590,7 @@ nobone bone -h
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L402" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L409" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
@@ -600,7 +606,7 @@ nobone bone -h
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L408" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L415" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
@@ -608,7 +614,7 @@ nobone bone -h
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L414" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L421" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 

@@ -1,3 +1,8 @@
+- v0.5.6
+
+  - Fix a auto reload bug.
+  - Optimize the renderer api.
+
 - v0.5.5
 
   - Delete the `html-minifier` module.
