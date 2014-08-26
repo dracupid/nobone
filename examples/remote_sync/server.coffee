@@ -8,9 +8,15 @@ nobone = require 'nobone'
 
 { kit, service } = nobone()
 
+local_path = (path) ->
+	if process.platform == 'win32'
+		path.replace /\//g, '\\'
+	else
+		path.replace /\\/g, '\/'
+
 service.post '/:type/:path', (req, res) ->
 	type = req.params.type
-	path = req.params.path
+	path = local_path req.params.path
 
 	kit.log type.cyan + ': ' + path
 
@@ -28,7 +34,7 @@ service.post '/:type/:path', (req, res) ->
 			when 'modify'
 				p = kit.outputFile path, data
 			when 'move'
-				p = kit.move data.toString(), path.replace(/\/+$/, '')
+				p = kit.move local_path(data.toString()), path.replace(/\/+$/, '')
 			when 'delete'
 				p = kit.remove path
 			else
