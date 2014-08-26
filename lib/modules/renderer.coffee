@@ -350,9 +350,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {Object} data Extra data you want to send to the compiler. Optional.
 	 * @param  {Boolean} is_cache Whether to cache the result,
 	 * default is true. Optional.
+	 * @param {String} req_path The http request path. Support it will make auto-reload
+	 * more efficient. 
 	 * @return {Promise} Contains the compiled content.
 	###
-	self.render = (path, ext, data, is_cache = true) ->
+	self.render = (path, ext, data, is_cache = true, req_path) ->
 		if _.isObject path
 			{ path, ext, data, is_cache, req_path } = path
 
@@ -370,7 +372,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler.data = data
-			handler.req_path = req_path if _.isString req_path
+			handler.req_path = req_path
 			if is_cache
 				p = get_cache(handler)
 			else
