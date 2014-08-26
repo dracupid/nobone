@@ -58,6 +58,10 @@ class Nobone then constructor: (opts) ->
 				elems = document.querySelectorAll(qs)
 				[].slice.apply(elems).forEach(handler)
 
+			if not msg.req_path
+				location.reload()
+				return
+
 			switch msg.ext_bin
 				when '.js'
 					each 'script', (el) ->
