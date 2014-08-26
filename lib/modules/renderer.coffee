@@ -423,7 +423,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		self.emit.apply self, args
 
 	get_src = (handler) ->
-		get_src = (path) ->
+		readfile = (path) ->
 			handler.path = path
 			handler.ext = kit.path.extname path
 
@@ -440,7 +440,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			kit.fileExists path
 			.then (exists) ->
 				if exists
-					get_src path
+					readfile path
 				else
 					check_src()
 
