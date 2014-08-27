@@ -191,7 +191,7 @@ have to waist time to install nobone dependencies. The `package.json` file can o
 
 ```javascript
 {
-  "name": "nobone-sampe",
+  "name": "nobone-sample",
   "version": "0.0.1",
   "description": "A sample nobone plugin.",
   "main": "main.coffee"
@@ -213,7 +213,7 @@ kit.log 'sample plugin'
 
 Suppose we have published the `nobone-sampe` plugin with npm.
 
-Other people can use the plugin after install it with whether `npm install nobone-sample` nor `npm install -g nobone-sample`.
+Other people can use the plugin after installing it with whether `npm install nobone-sample` nor `npm install -g nobone-sample`.
 
 To run the plugin simply use `nobone sample`.
 
@@ -1390,7 +1390,7 @@ You can use `nobone ls` to list all installed plugins.
    ```coffeescript
    {
    	dir: '.'
-   	pattern: '**' # minimatch
+   	pattern: '**' # minimatch, string or array
    
    	# Whether to watch POSIX hidden file.
    	dot: false

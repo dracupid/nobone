@@ -1002,7 +1002,7 @@ _.extend kit, {
 	 * ```coffeescript
 	 * {
 	 * 	dir: '.'
-	 * 	pattern: '**' # minimatch
+	 * 	pattern: '**' # minimatch, string or array
 	 *
 	 * 	# Whether to watch POSIX hidden file.
 	 * 	dot: false
@@ -1035,6 +1035,9 @@ _.extend kit, {
 			deleted_list: {}
 		}
 
+		if _.isString opts.pattern
+			opts.pattern = [opts.pattern]
+
 		is_same_file = (stats_a, stats_b) ->
 			stats_a.mtime.getTime() == stats_b.mtime.getTime() and
 			stats_a.ctime.getTime() == stats_b.ctime.getTime() and
@@ -1063,7 +1066,7 @@ _.extend kit, {
 			# Each time a direcotry change happens, it will check all
 			# it children files, if any child is not in the watched_list,
 			# a `create` event will be triggered.
-			kit.glob(kit.path.join(path, opts.pattern), {
+			kit.glob(opts.pattern.map((el) -> kit.path.join(path, el)), {
 				mark: true, dot: opts.dot
 			}).then (paths) ->
 				for p in paths
@@ -1103,7 +1106,7 @@ _.extend kit, {
 			.catch (err) ->
 				kit.err err
 
-		kit.glob(kit.path.join(opts.dir, opts.pattern), {
+		kit.glob(opts.pattern.map((el) -> kit.path.join(opts.dir, el)), {
 			mark: true, dot: opts.dot
 		}).then (paths) ->
 			# The reverse will keep the children event happen at first.
