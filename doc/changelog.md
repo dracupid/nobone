@@ -1,3 +1,7 @@
+- v0.5.7
+
+  - Now nobone supports plugin.
+
 - v0.5.6
 
   - Fix a auto reload bug.

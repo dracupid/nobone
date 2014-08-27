@@ -17,9 +17,11 @@ happily. So other than js, the idea should be ported to any other language easil
 ## Features
 
 * Code you program, not configure.
-* Build for performance.
-* Not only a good dev-tool, but also works great on production.
-* Cross platform of course.
+* Built for performance.
+* Not only a good dev-tool, but also good at production.
+* Supports programmable plugins.
+* Cross platform.
+* Pure js, supports coffee by default.
 
 *****************************************************************************
 
@@ -55,7 +57,7 @@ nobone -d
 
 For more examples, go through the [examples](examples) folder.
 
-```coffee
+```coffeescript
 <%- basic %>
 ```
 
@@ -84,6 +86,47 @@ nobone app.js
 nobone bone -h
 
 ```
+
+*****************************************************************************
+
+## Plugin
+
+Here I give a simple instruction. For Real example see [nobone-sync](https://github.com/ysmood/nobone-sync).
+
+### Package config
+
+NoBone support a simple way to implement npm plugin. And your npm package don't
+have to waist time to install nobone dependencies. The `package.json` file can only have these properties:
+
+```javascript
+{
+  "name": "nobone-sampe",
+  "version": "0.0.1",
+  "description": "A sample nobone plugin.",
+  "main": "main.coffee"
+}
+```
+
+The `name` of the plugin should prefixed with `nobone-`.
+
+### Main Entrance File
+
+The `main.coffee` file may looks like:
+
+```coffeescript
+{ kit } = require 'nobone'
+kit.log 'sample plugin'
+```
+
+### Use A Plugin
+
+Suppose we have published the `nobone-sampe` plugin with npm.
+
+Other people can use the plugin after install it with whether `npm install nobone-sample` nor `npm install -g nobone-sample`.
+
+To run the plugin simply use `nobone sample`.
+
+You can use `nobone ls` to list all installed plugins.
 
 *****************************************************************************
 
