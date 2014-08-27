@@ -1,9 +1,14 @@
 process.env.NODE_ENV = 'development'
 
-_ = require 'lodash'
 cmder = require 'commander'
 nobone = require './nobone'
 kit = nobone.kit
+
+# These are nobone's dependencies.
+lib_path = kit.path.normalize "#{__dirname}/../node_modules"
+
+# These are npm global installed libs.
+node_lib_path = kit.path.normalize "#{__dirname}/../../"
 
 is_action = false
 
@@ -40,10 +45,36 @@ cmder
 
 cmder.parse process.argv
 
-run_an_app = ->
-	lib_path = kit.path.normalize "#{__dirname}/../node_modules"
-	node_lib_path = kit.path.normalize "#{__dirname}/../../"
+init = ->
+	if cmder.ver
+		console.log require('../package').version
+		return
 
+	if cmder.doc
+		server = require './doc_server'
+		opts.port = if cmder.port then cmder.port else 0
+		server opts
+		return
+
+	if cmder.args[0]
+		plugin_path = 'nobone-' + cmder.args[0]
+		if kit.fs.existsSync cmder.args[0]
+			if kit.fs.statSync(cmder.args[0]).isFile()
+				return run_an_app()
+			else
+				opts.root_dir = cmder.args[0]
+		else if kit.fs.existsSync(kit.path.join(node_lib_path, plugin_path)) or
+		kit.fs.existsSync(kit.path.join(lib_path, plugin_path))
+			run_an_app plugin_path
+			return
+		else
+			kit.err 'Nothing executable: '.red + cmder.args[0]
+			return
+
+	run_a_dir()
+
+run_an_app = (plugin) ->
+	# Add the above dirs to PATH env.
 	if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
 		path_arr = [lib_path, node_lib_path]
 		if process.env.NODE_PATH
@@ -58,7 +89,12 @@ run_an_app = ->
 			args
 			watch_list
 		}
-		return true
+	else
+		require 'coffee-script/register'
+		if plugin
+			require plugin
+		else
+			require kit.fs.realpathSync(cmder.args[0])
 
 run_a_dir = ->
 	opts.port = cmder.port if cmder.port
@@ -72,35 +108,6 @@ run_a_dir = ->
 		]
 		watch_list: opts.watch
 	}
-
-init = ->
-	if cmder.ver
-		console.log require('../package').version
-		return
-
-	if cmder.doc
-		server = require './doc_server'
-		opts.port = if cmder.port then cmder.port else 0
-		server opts
-		return
-
-	if cmder.args[0]
-		try
-			stats = kit.fs.statSync(cmder.args[0])
-		catch e
-			kit.err 'Path not exists: ' + cmder.args[0]
-			return
-
-		if stats.isFile()
-			return if run_an_app()
-
-			require 'coffee-script/register'
-			require kit.fs.realpathSync(cmder.args[0])
-			return
-		else
-			opts.root_dir = cmder.args[0]
-
-	run_a_dir()
 
 
 if not is_action
