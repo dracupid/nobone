@@ -24,6 +24,10 @@ cmder
 		    Default root_dir is current folder.
 		    For the js or coffee entrance file, you could require any npm lib in nobone's dependencies,
 		    You can use "var _ = require('lodash')" without "npm install lodash" before.
+
+		    Any package, whether npm installed locally or globally, that is prefixed with 'nobone-'
+		    will be treat as a nobone plugin. You can use 'nobone <plugin_name> [args]' to run a plugin.
+		    Note that the 'plugin_name' should be without the 'nobone-' prefix.
 	"""
 	.option '-p, --port <port>', "Server port. Default is #{opts.port}.", (d) -> +d
 	.option '--host <host>', "Host to listen to. Default is #{opts.host} only."
