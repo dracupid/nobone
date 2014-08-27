@@ -2,6 +2,8 @@ process.env.NODE_ENV = 'development'
 
 _ = require 'lodash'
 cmder = require 'commander'
+nobone = require './nobone'
+kit = nobone.kit
 
 is_action = false
 
@@ -38,49 +40,27 @@ cmder
 
 cmder.parse process.argv
 
-init = ->
-	if cmder.ver
-		console.log require('../package').version
-		return
+run_an_app = ->
+	lib_path = kit.path.normalize "#{__dirname}/../node_modules"
+	node_lib_path = kit.path.normalize "#{__dirname}/../../"
 
-	if cmder.doc
-		server = require './doc_server'
-		opts.port = if cmder.port then cmder.port else 0
-		server opts
-		return
+	if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
+		path_arr = [lib_path, node_lib_path]
+		if process.env.NODE_PATH
+			path_arr.push process.env.NODE_PATH
+		process.env.NODE_PATH = path_arr.join kit.path.delimiter
 
-	nobone = require './nobone'
-	kit = nobone.kit
+		args = process.argv[1..]
+		watch_list = args[-1..]
+		if cmder.watch
+			watch_list = watch_list.concat cmder.watch
+		kit.monitor_app {
+			args
+			watch_list
+		}
+		return true
 
-	if cmder.args[0]
-		stats = kit.fs.statSync(cmder.args[0])
-
-		if stats.isFile()
-			lib_path = kit.path.normalize "#{__dirname}/../node_modules"
-			node_lib_path = kit.path.normalize "#{__dirname}/../../"
-
-			if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
-				path_arr = [lib_path, node_lib_path]
-				if process.env.NODE_PATH
-					path_arr.push process.env.NODE_PATH
-				process.env.NODE_PATH = path_arr.join kit.path.delimiter
-
-				args = process.argv[1..]
-				watch_list = args[-1..]
-				if cmder.watch
-					watch_list = watch_list.concat cmder.watch
-				kit.monitor_app {
-					args
-					watch_list
-				}
-				return
-
-			require 'coffee-script/register'
-			require kit.fs.realpathSync(cmder.args[0])
-			return
-		else
-			opts.root_dir = cmder.args[0]
-
+run_a_dir = ->
 	opts.port = cmder.port if cmder.port
 
 	kit.monitor_app {
@@ -92,6 +72,35 @@ init = ->
 		]
 		watch_list: opts.watch
 	}
+
+init = ->
+	if cmder.ver
+		console.log require('../package').version
+		return
+
+	if cmder.doc
+		server = require './doc_server'
+		opts.port = if cmder.port then cmder.port else 0
+		server opts
+		return
+
+	if cmder.args[0]
+		try
+			stats = kit.fs.statSync(cmder.args[0])
+		catch e
+			kit.err 'Path not exists: ' + cmder.args[0]
+			return
+
+		if stats.isFile()
+			return if run_an_app()
+
+			require 'coffee-script/register'
+			require kit.fs.realpathSync(cmder.args[0])
+			return
+		else
+			opts.root_dir = cmder.args[0]
+
+	run_a_dir()
 
 
 if not is_action
