@@ -62,7 +62,8 @@ cmder
 			list = paths.reduce (s, el) ->
 				conf = require el + '/package'
 				name = kit.path.basename(el).replace('nobone-', '').cyan
-				s += "- #{name}  " + conf.description + '\n\n'
+				ver = ('@' + conf.version).grey
+				s += "- #{name}#{ver}  " + conf.description + '\n\n'
 			, ''
 			console.log """
 			Available Plugins:
