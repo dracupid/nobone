@@ -43,19 +43,32 @@ cmder
 		bone = require './bone'
 		bone dest_dir
 
+cmder
+	.command 'ls'
+	.description 'List all available nobone plugins.'
+	.action ->
+		is_action = true
+		paths = []
+		kit.glob kit.path.join(node_lib_path, 'nobone-*')
+		.then (ps) ->
+			paths = paths.concat ps
+			kit.glob kit.path.join(lib_path, 'nobone-*')
+		.done (ps) ->
+			paths = paths.concat ps
+			list = paths.reduce (s, el) ->
+				conf = require el + '/package'
+				name = kit.path.basename(el).replace('nobone-', '').cyan
+				s += "- #{name}  " + conf.description + '\n\n'
+			, ''
+			console.log """
+			Available Plugins:
+
+			#{list}
+			"""
+
 cmder.parse process.argv
 
 init = ->
-	if cmder.ver
-		console.log require('../package').version
-		return
-
-	if cmder.doc
-		server = require './doc_server'
-		opts.port = if cmder.port then cmder.port else 0
-		server opts
-		return
-
 	if cmder.args[0]
 		plugin_path = 'nobone-' + cmder.args[0]
 		if kit.fs.existsSync cmder.args[0]
@@ -70,6 +83,16 @@ init = ->
 		else
 			kit.err 'Nothing executable: '.red + cmder.args[0]
 			return
+
+	if cmder.ver
+		console.log require('../package').version
+		return
+
+	if cmder.doc
+		server = require './doc_server'
+		opts.port = if cmder.port then cmder.port else 8963
+		server opts
+		return
 
 	run_a_dir()
 
