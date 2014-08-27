@@ -100,7 +100,7 @@ have to waist time to install nobone dependencies. The `package.json` file can o
 
 ```javascript
 {
-  "name": "nobone-sampe",
+  "name": "nobone-sample",
   "version": "0.0.1",
   "description": "A sample nobone plugin.",
   "main": "main.coffee"
