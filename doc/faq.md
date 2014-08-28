@@ -18,11 +18,11 @@
 
 0. Why doesn't the auto-reaload work?
 
-  Check if the `process.env.NODE_ENV` is set to `development`.
+  > Check if the `process.env.NODE_ENV` is set to `development`.
 
 0. When serving `jade` or `less`, it doesn't work.
 
-  These are optinal packages, you have to install them globally first.
-  For example, if you want nobone to support `jade`: `npm install -g jade`.
+  > These are optinal packages, you have to install them globally first.
+  > For example, if you want nobone to support `jade`: `npm install -g jade`.
 
 
