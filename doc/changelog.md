@@ -1,3 +1,7 @@
+- v0.5.9
+
+  - Fix a fatal bug of caching static file.
+
 - v0.5.8
 
   - Now nobone supports plugin.
