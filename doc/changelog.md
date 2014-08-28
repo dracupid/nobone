@@ -1,3 +1,7 @@
+- v0.6.0
+
+  - Fix a auto-reload bug.
+
 - v0.5.9
 
   - Fix a fatal bug of caching static file.
