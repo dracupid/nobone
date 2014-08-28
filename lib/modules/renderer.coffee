@@ -311,7 +311,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
-					self.opts.inject_client_reg.test body and
+					self.opts.inject_client_reg.test(body) and
 					body.indexOf(nobone.client()) == -1
 						body += nobone.client()
 
