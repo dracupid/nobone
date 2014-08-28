@@ -571,7 +571,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			else if curr.mtime != prev.mtime
 				get_src(handler)
 				.then ->
-					get_content handler.ext_bin.last_ext_bin, handler
+					get_content handler.last_ext_bin, handler
 				.catch(->)
 				.then ->
 					emit(
