@@ -110,7 +110,8 @@ run_an_app = (plugin) ->
 		process.env.NODE_PATH = path_arr.join kit.path.delimiter
 
 		args = process.argv[1..]
-		watch_list = [args[1]]
+		watch_list = args[1..].filter (el) -> kit.fs.existsSync el
+		kit.log watch_list
 		if cmder.watch
 			watch_list = watch_list.concat cmder.watch
 		kit.monitor_app {
