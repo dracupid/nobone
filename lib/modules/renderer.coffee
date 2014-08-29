@@ -177,8 +177,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								kit.err '"npm install node-sass" first.'.red
 								process.exit()
 							sass.renderSync _.defaults data, {
+								outputStyle: if data.compress then 'compressed' else 'nested'
+								file: path
 								data: str
-								includePaths: [kit.path.dirname path]
+								includePaths: [kit.path.dirname(path)]
 							}
 			}
 			'.md': {
