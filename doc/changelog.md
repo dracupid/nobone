@@ -1,3 +1,7 @@
+- v0.6.1
+
+  - Optimize the auto-reload of entrance file or plugin.
+
 - v0.6.0
 
   - Fix a auto-reload bug.
