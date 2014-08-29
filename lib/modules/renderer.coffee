@@ -351,7 +351,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {Boolean} is_cache Whether to cache the result,
 	 * default is true. Optional.
 	 * @param {String} req_path The http request path. Support it will make auto-reload
-	 * more efficient. 
+	 * more efficient.
 	 * @return {Promise} Contains the compiled content.
 	###
 	self.render = (path, ext, data, is_cache = true, req_path) ->
@@ -483,6 +483,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				cache.content = content
 				delete cache.error
 			.catch (err) ->
+				if _.isString err
+					err = new Error(err)
 				emit self.e.compile_error, cache.path, err.stack
 				err.name = self.e.compile_error
 				cache.error = err
