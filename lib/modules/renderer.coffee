@@ -634,10 +634,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if not _.isFunction(handler.watched_list[handler.path])
 			handler.watched_list[handler.path] = null
 
+		handler.new_watch_list = {}
+		_.extend handler.new_watch_list, handler.extra_watch
+		handler.new_watch_list[handler.path] = handler.watched_list[handler.path]
+
 		if handler.dependency_reg
-			handler.new_watch_list = {}
-			handler.new_watch_list[handler.path] = handler.watched_list[handler.path]
-			_.extend handler.new_watch_list, handler.extra_watch
 			get_dependencies handler
 
 	remove_ext = (path) ->
