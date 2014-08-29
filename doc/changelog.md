@@ -1,3 +1,8 @@
+- v0.6.2
+
+  - Fix a dependency watch bug.
+  - Fix a sass compiler bug.
+
 - v0.6.1
 
   - Optimize the auto-reload of entrance file or plugin.
