@@ -31,7 +31,7 @@ fs = kit.require 'fs'
  * 		'.html': {
  * 			default: true
  * 			ext_src: ['.ejs', '.jade']
- * 			watch_list: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
+ * 			extra_watch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			compiler: (str, path, ext_src, data) -> ...
  * 		}
@@ -389,7 +389,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.close = ->
 		for path, handler of cache_pool
-			for wpath, watcher of handler.watch_list
+			for wpath, watcher of handler.watched_list
 				fs.unwatchFile(wpath, watcher)
 			delete cache_pool[path]
 
@@ -491,6 +491,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				err.name = self.e.compile_error
 				cache.error = err
 			.then ->
+				if opts.enable_watcher
+					watch cache
+			.then ->
 				if cache.error
 					throw cache.error
 				else
@@ -507,14 +510,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if cache == undefined
 			p = get_src(handler)
-
 			p.then (cache) -> cache_pool[cache.path] = cache
-
-			if opts.enable_watcher
-				p.then -> watch handler
-				.catch (err) ->
-					if err.name == self.e.compile_error
-						watch handler
 			p
 		else
 			Q.fcall ->
@@ -548,7 +544,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler = _.cloneDeep(handler)
 			handler.ctime = Date.now()
 			handler.is_source_map = is_source_map
-			handler.watch_list ?= {}
+			handler.watched_list = {}
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
@@ -588,11 +584,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		Q.fcall ->
 			gen_watch_list(handler)
 		.then ->
-			return if _.keys(handler.watch_list).length == 0
+			return if _.keys(handler.new_watch_list).length == 0
 
-			for path of handler.watch_list
-				handler.watch_list[path] = kit.watch_file path, watcher
+			for path of handler.new_watch_list
+				continue if _.isFunction(handler.watched_list[path])
+				handler.watched_list[path] = kit.watch_file path, watcher
 				emit self.e.watch_file, path, handler.req_path
+
+			delete handler.new_watch_list
 
 			# Unlock the src file.
 			_.remove watch.processing, (el) -> el == handler.path
@@ -607,7 +606,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if curr_path
 			kit.readFile(curr_path, 'utf8')
 			.then (str) ->
-				handler.watch_list[curr_path] = null
+				handler.new_watch_list[curr_path] = null
 				matches = str.match reg
 				return if not matches
 				Q.all matches.map (m) ->
@@ -632,9 +631,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		watch.processing.push handler.path
 
 		# Add the src file to watch list.
-		handler.watch_list[handler.path] = null
+		if not _.isFunction(handler.watched_list[handler.path])
+			handler.watched_list[handler.path] = null
 
 		if handler.dependency_reg
+			handler.new_watch_list = {}
+			handler.new_watch_list[handler.path] = handler.watched_list[handler.path]
+			_.extend handler.new_watch_list, handler.extra_watch
 			get_dependencies handler
 
 	remove_ext = (path) ->
