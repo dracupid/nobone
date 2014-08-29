@@ -153,12 +153,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					}
 					switch @ext
 						when '.styl'
-							@dependency_reg = /^\s*(?:@import|@require)\s+['"]?([^'"]+)['"]?/
+							@dependency_reg = /@(?:import|require)\s+['"]?(\w+)['"]?/
 							stylus = kit.require 'stylus'
 							Q.ninvoke stylus, 'render', str, data
 
 						when '.less'
-							@dependency_reg = /^\s*@import\s+['"]([^'"]+)['"]/
+							@dependency_reg = /@import\s+['"]?(\w+)['"]?/
 							try
 								less = kit.require('less')
 							catch e
@@ -170,7 +170,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							.then (tree) -> tree.toCSS data
 
 						when '.sass', '.scss'
-							@dependency_reg = /^\s*@import\s+['"]?([^'"]+)['"]?/
+							@dependency_reg = /@import\s+['"]?(\w+)['"]?/
 							try
 								sass = kit.require 'node-sass'
 							catch e
