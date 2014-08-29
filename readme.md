@@ -459,7 +459,7 @@ You can use `nobone ls` to list all installed plugins.
    		'.html': {
    			default: true
    			ext_src: ['.ejs', '.jade']
-   			watch_list: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
+   			extra_watch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
    			encoding: 'utf8' # optional, default is 'utf8'
    			compiler: (str, path, ext_src, data) -> ...
    		}
@@ -525,7 +525,7 @@ You can use `nobone ls` to list all installed plugins.
 
    Promise that contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L222" target="_blank"><b>file_handlers</b></a>
+- #### <a href="lib/modules/renderer.coffee#L224" target="_blank"><b>file_handlers</b></a>
 
  You can access all the file_handlers here.
  Manipulate them at runtime.
@@ -539,7 +539,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/modules/renderer.coffee#L228" target="_blank"><b>cache_pool</b></a>
+- #### <a href="lib/modules/renderer.coffee#L230" target="_blank"><b>cache_pool</b></a>
 
  The cache pool of the result of `file_handlers.compiler`
 
@@ -547,7 +547,7 @@ You can use `nobone ls` to list all installed plugins.
 
    Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L251" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L253" target="_blank"><b>static</b></a>
 
  Set a static directory.
  Static folder to automatically serve coffeescript and stylus.
@@ -568,7 +568,7 @@ You can use `nobone ls` to list all installed plugins.
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L357" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L359" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -617,11 +617,11 @@ You can use `nobone ls` to list all installed plugins.
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L388" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L390" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L401" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L403" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
@@ -633,7 +633,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L409" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L411" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
@@ -649,7 +649,7 @@ You can use `nobone ls` to list all installed plugins.
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L415" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L417" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
@@ -657,7 +657,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L421" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L423" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 
