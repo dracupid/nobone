@@ -1,4 +1,4 @@
-- v0.6.2
+- v0.6.3
 
   - Fix a dependency watch bug.
   - Fix a sass compiler bug.
