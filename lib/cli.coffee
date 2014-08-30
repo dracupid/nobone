@@ -111,7 +111,6 @@ run_an_app = (plugin) ->
 
 		args = process.argv[1..]
 		watch_list = args[1..].filter (el) -> kit.fs.existsSync el
-		kit.log watch_list
 		if cmder.watch
 			watch_list = watch_list.concat cmder.watch
 		kit.monitor_app {
