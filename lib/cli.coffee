@@ -59,16 +59,14 @@ cmder
 			kit.glob kit.path.join(lib_path, 'nobone-*')
 		.done (ps) ->
 			paths = paths.concat ps
-			list = paths.reduce (s, el) ->
+			list = paths.map (el) ->
 				conf = require el + '/package'
 				name = kit.path.basename(el).replace('nobone-', '').cyan
 				ver = ('@' + conf.version).grey
-				s += "- #{name}#{ver}  " + conf.description + '\n\n'
-			, ''
+				"#{name}#{ver} " + conf.description
 			console.log """
-			Available Plugins:
-
-			#{list}
+			#{'Available Plugins:'.grey}
+			#{list.join('\n')}
 			"""
 
 cmder.parse process.argv
