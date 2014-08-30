@@ -1,5 +1,5 @@
 ###*
- * A abstract renderer for any content, such as source code or image files.
+ * An abstract renderer for any content, such as source code or image files.
  * It automatically uses high performance memory cache.
  * This renderer helps nobone to build a **passive compilation architecture**.
  * You can run the benchmark to see the what differences it makes.
