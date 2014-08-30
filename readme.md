@@ -49,7 +49,7 @@ nobone -d
 
 ## FAQ
 
-0. How to view the documentation with TOC(table of contents) or offline?
+0. How to view the documentation with TOC (table of contents) or offline?
 
   > If you have installed nobone globally,
   > just execute `nobone -d`. If you are on Windows or Mac,
@@ -60,11 +60,11 @@ nobone -d
 
 0. The documentation looks weird on Github.
 
-  > Yes, please see the FAQ above and use offline documentation.
+  > Yes, please see the FAQ 1 and use offline documentation.
 
 0. Why I can't execute the entrance file with nobone cli tool?
 
-  > Don't execute `nobone` with a directory path when you want to start with
+  > Don't execute `nobone` with a directory path when you want to start it with
   > an entrance file.
 
 0. Why doesn't the auto-reaload work?
@@ -73,7 +73,7 @@ nobone -d
 
 0. When serving `jade` or `less`, it doesn't work.
 
-  > These are optinal packages, you have to install them globally first.
+  > These are optinal packages, you have to install them first.
   > For example, if you want nobone to support `jade`: `npm install -g jade`.
 
 
@@ -430,7 +430,7 @@ You can use `nobone ls` to list all installed plugins.
 
 - #### <a href="lib/modules/renderer.coffee#L9" target="_blank"><b>Overview</b></a>
 
- A abstract renderer for any content, such as source code or image files.
+ An abstract renderer for any content, such as source code or image files.
  It automatically uses high performance memory cache.
  This renderer helps nobone to build a **passive compilation architecture**.
  You can run the benchmark to see the what differences it makes.
