@@ -99,7 +99,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					self = @
 					switch @ext
 						when '.ejs'
-							@dependency_reg = /^<%[\n\r\s]*include\s+([^\r\n]+)%>/
+							@dependency_reg = /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
 							compiler = kit.require 'ejs'
 						when '.jade'
 							@dependency_reg = /^\s*(?:include|extends)\s+([^\r\n]+)/
@@ -602,10 +602,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	# Parse the dependencies.
 	get_dependencies = (handler, curr_path) ->
+		###
+			Trim cases:
+				"name"\s\s
+				"name'"
+				"name\""
+		###
 		trim = (path) ->
-			path
-			.replace /^['"]+/, ''
-			.replace /['"]+$/, ''
+			path.trim()
+			.replace /^['"]/, ''
+			.replace /['"]$/, ''
 
 		reg = new RegExp(handler.dependency_reg.source, 'g')
 		if curr_path
