@@ -99,10 +99,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					self = @
 					switch @ext
 						when '.ejs'
-							@dependency_reg = /^<%[\n\r\s]*include\s+['"]?([^'"]+)['"]?[\n\r\s]%>/
+							@dependency_reg = /^<%[\n\r\s]*include\s+([^\r\n]+)%>/
 							compiler = kit.require 'ejs'
 						when '.jade'
-							@dependency_reg = /^\s*(?:include|extends)\s+(.+)/
+							@dependency_reg = /^\s*(?:include|extends)\s+([^\r\n]+)/
 							try
 								compiler = kit.require 'jade'
 							catch e
@@ -153,12 +153,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					}
 					switch @ext
 						when '.styl'
-							@dependency_reg = /@(?:import|require)\s+['"]?(\w+)['"]?/
+							@dependency_reg = /@(?:import|require)\s+([^\r\n]+)/
 							stylus = kit.require 'stylus'
 							Q.ninvoke stylus, 'render', str, data
 
 						when '.less'
-							@dependency_reg = /@import\s+['"]?(\w+)['"]?/
+							@dependency_reg = /@import\s+([^\r\n]+)/
 							try
 								less = kit.require('less')
 							catch e
@@ -170,7 +170,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							.then (tree) -> tree.toCSS data
 
 						when '.sass', '.scss'
-							@dependency_reg = /@import\s+['"]?(\w+)['"]?/
+							@dependency_reg = /@import\s+([^\r\n]+)/
 							try
 								sass = kit.require 'node-sass'
 							catch e
@@ -602,6 +602,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	# Parse the dependencies.
 	get_dependencies = (handler, curr_path) ->
+		trim = (path) ->
+			path
+			.replace /^['"]+/, ''
+			.replace /['"]+$/, ''
+
 		reg = new RegExp(handler.dependency_reg.source, 'g')
 		if curr_path
 			kit.readFile(curr_path, 'utf8')
@@ -610,7 +615,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				matches = str.match reg
 				return if not matches
 				Q.all matches.map (m) ->
-					path = m.match(handler.dependency_reg)[1]
+					path = trim m.match(handler.dependency_reg)[1]
 					dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
 					get_dependencies handler, dep_path
 			.catch -> return
@@ -619,7 +624,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			matches = handler.source.match reg
 			return Q() if not matches
 			Q.all matches.map (m) ->
-				path = m.match(handler.dependency_reg)[1]
+				path = trim m.match(handler.dependency_reg)[1]
 				dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
 				get_dependencies handler, dep_path
 
