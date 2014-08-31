@@ -1,3 +1,7 @@
+- v0.6.4
+
+  - Optimize dependency regex.
+
 - v0.6.3
 
   - Fix a dependency watch bug.
