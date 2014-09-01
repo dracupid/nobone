@@ -615,15 +615,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		reg = new RegExp(handler.dependency_reg.source, 'g')
 		if curr_path
-			kit.readFile(curr_path, 'utf8')
-			.then (str) ->
-				handler.new_watch_list[curr_path] = null
-				matches = str.match reg
-				return if not matches
-				Q.all matches.map (m) ->
-					path = trim m.match(handler.dependency_reg)[1]
-					dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
-					get_dependencies handler, dep_path
+			kit.glob curr_path
+			.then (paths) ->
+				Q.all paths.map (path) ->
+					kit.readFile(path, 'utf8')
+					.then (str) ->
+						handler.new_watch_list[path] = null
+						matches = str.match reg
+						return if not matches
+						Q.all matches.map (m) ->
+							path = trim m.match(handler.dependency_reg)[1]
+							dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
+							get_dependencies handler, dep_path
 			.catch -> return
 		else
 			return Q() if not handler.source
