@@ -1,3 +1,7 @@
+- v0.6.5
+
+  - Fix a renderer extension name bug.
+
 - v0.6.4
 
   - Optimize dependency regex.
