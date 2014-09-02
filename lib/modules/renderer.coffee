@@ -656,12 +656,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		remove_ext(path) + ext
 
 	remove_ext = (path) ->
-		index = _.lastIndexOf(path, '.')
-
-		# if index is zero, the case is like './a.jpg'
-		if index > 0
-			path[0 ... index]
-		else
-			path
+		path.replace /.\w+$/, ''
 
 module.exports = renderer

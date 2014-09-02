@@ -77,7 +77,7 @@ describe 'Basic:', ->
 			nb.renderer.render(path)
 		.done (func) ->
 			str = func.toString().replace /\r\n/g, '\n'
-			assert.equal str.indexOf('include-content'), 75
+			assert.equal str.indexOf('include-content'), 77
 			tdone()
 
 	it 'render js directly', (tdone) ->
