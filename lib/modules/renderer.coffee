@@ -597,9 +597,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			_.remove watch.processing, (el) -> el == handler.path
 		.done()
 
-	force_ext = (path, ext) ->
-		remove_ext(path) + ext
-
 	# Parse the dependencies.
 	get_dependencies = (handler, curr_path) ->
 		###
@@ -655,9 +652,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if handler.dependency_reg
 			get_dependencies handler
 
+	force_ext = (path, ext) ->
+		remove_ext(path) + ext
+
 	remove_ext = (path) ->
 		index = _.lastIndexOf(path, '.')
-		if index > -1
+
+		# if index is zero, the case is like './a.jpg'
+		if index > 0
 			path[0 ... index]
 		else
 			path
