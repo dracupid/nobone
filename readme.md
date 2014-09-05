@@ -1349,7 +1349,7 @@ You can use `nobone ls` to list all installed plugins.
 
    ```coffeescript
    process.env.watch_persistent = 'on'
-   kit.watch_file 'a.js', (path, curr, prev) ->
+   kit.watch_file 'a.js', (path, curr, prev, is_deletion) ->
    	if curr.mtime != prev.mtime
    		kit.log path
    ```
