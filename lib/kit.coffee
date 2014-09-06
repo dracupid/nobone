@@ -42,52 +42,6 @@ _.extend kit, {
 	require_cache: {}
 
 	###*
-	 * A simple encrypt helper
-	 * @param  {Any} data
-	 * @param  {String | Buffer} password
-	 * @param  {String} algorithm Default is 'aes128'.
-	 * @return {Buffer}
-	###
-	encrypt: (data, password, algorithm = 'aes128') ->
-		crypto = kit.require 'crypto'
-		cipher = crypto.createCipher algorithm, password
-
-		if node_verion < 10
-			if Buffer.isBuffer data
-				data = data.toString 'binary'
-			new Buffer(
-				cipher.update(data, 'binary') + cipher.final()
-				'binary'
-			)
-		else
-			if not Buffer.isBuffer data
-				data = new Buffer(data)
-			Buffer.concat [cipher.update(data), cipher.final()]
-
-	###*
-	 * A simple decrypt helper
-	 * @param  {Any} data
-	 * @param  {String | Buffer} password
-	 * @param  {String} algorithm Default is 'aes128'.
-	 * @return {Buffer}
-	###
-	decrypt: (data, password, algorithm = 'aes128') ->
-		crypto = kit.require 'crypto'
-		decipher = crypto.createDecipher algorithm, password
-
-		if node_verion < 10
-			if Buffer.isBuffer data
-				data = data.toString 'binary'
-			new Buffer(
-				decipher.update(data, 'binary') + decipher.final()
-				'binary'
-			)
-		else
-			if not Buffer.isBuffer data
-				data = new Buffer(data)
-			Buffer.concat [decipher.update(data), decipher.final()]
-
-	###*
 	 * An throttle version of `Q.all`, it runs all the tasks under
 	 * a concurrent limitation.
 	 * @param  {Int} limit The max task to run at the same time. It's optional.
@@ -190,6 +144,52 @@ _.extend kit, {
 		p.unref()
 		kit.log "Run as background daemon, PID: #{p.pid}".yellow
 		p
+
+	###*
+	 * A simple decrypt helper
+	 * @param  {Any} data
+	 * @param  {String | Buffer} password
+	 * @param  {String} algorithm Default is 'aes128'.
+	 * @return {Buffer}
+	###
+	decrypt: (data, password, algorithm = 'aes128') ->
+		crypto = kit.require 'crypto'
+		decipher = crypto.createDecipher algorithm, password
+
+		if node_verion < 10
+			if Buffer.isBuffer data
+				data = data.toString 'binary'
+			new Buffer(
+				decipher.update(data, 'binary') + decipher.final()
+				'binary'
+			)
+		else
+			if not Buffer.isBuffer data
+				data = new Buffer(data)
+			Buffer.concat [decipher.update(data), decipher.final()]
+
+	###*
+	 * A simple encrypt helper
+	 * @param  {Any} data
+	 * @param  {String | Buffer} password
+	 * @param  {String} algorithm Default is 'aes128'.
+	 * @return {Buffer}
+	###
+	encrypt: (data, password, algorithm = 'aes128') ->
+		crypto = kit.require 'crypto'
+		cipher = crypto.createCipher algorithm, password
+
+		if node_verion < 10
+			if Buffer.isBuffer data
+				data = data.toString 'binary'
+			new Buffer(
+				cipher.update(data, 'binary') + cipher.final()
+				'binary'
+			)
+		else
+			if not Buffer.isBuffer data
+				data = new Buffer(data)
+			Buffer.concat [cipher.update(data), cipher.final()]
 
 	###*
 	 * A shortcut to set process option with specific mode,
