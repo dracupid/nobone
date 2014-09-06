@@ -103,6 +103,7 @@ _.extend kit, {
 		from = 0
 		resutls = []
 		iter_index = 0
+		running = 0
 		is_iter_done = false
 		defer = Q.defer()
 
@@ -125,34 +126,38 @@ _.extend kit, {
 		else
 			throw new Error('unknown list type: ' + typeof list)
 
-		round = ->
-			curr = []
-			for i in [0 ... limit]
-				p = iter(iter_index++)
-				if is_iter_done or p == undefined
-					is_iter_done = true
-					break
-				if Q.isPromise p
-					p.then (ret) -> defer.notify ret
-				else
-					defer.notify p
-				curr.push p
+		add_task = ->
+			p = iter(iter_index++)
+			if is_iter_done or p == undefined
+				is_iter_done = true
+				all_done() if running == 0
+				return false
 
-			if curr.length > 0
-				Q.all curr
-				.catch (err) ->
-					defer.reject err
-				.then (rets) ->
-					if save_resutls
-						resutls = resutls.concat rets
-					round()
+			running++
+			if Q.isPromise p
+				p.then (ret) -> defer.notify ret
 			else
-				if save_resutls
-					defer.resolve resutls
-				else
-					defer.resolve()
+				defer.notify p
 
-		round()
+			p.then (ret) ->
+				running--
+				if save_resutls
+					resutls.push ret
+				add_task()
+			.catch (err) ->
+				running--
+				defer.reject err
+
+			return true
+
+		all_done = ->
+			if save_resutls
+				defer.resolve resutls
+			else
+				defer.resolve()
+
+		for i in [0 ... limit]
+			break if not add_task()
 
 		defer.promise
 
