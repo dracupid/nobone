@@ -1,3 +1,7 @@
+- v0.6.6
+
+  - Optimize the performance of `kit.async`.
+
 - v0.6.5
 
   - Fix a renderer extension name bug.
