@@ -81,22 +81,23 @@ _.extend kit, {
 			throw new Error('unknown list type: ' + typeof list)
 
 		add_task = ->
-			p = iter(iter_index++)
-			if is_iter_done or p == undefined
+			task = iter(iter_index++)
+			if is_iter_done or task == undefined
 				is_iter_done = true
 				all_done() if running == 0
 				return false
 
-			running++
-			if Q.isPromise p
-				p.then (ret) -> defer.notify ret
+			if Q.isPromise(task)
+				p = task
 			else
-				defer.notify p
+				p = Q task
 
+			running++
 			p.then (ret) ->
 				running--
 				if save_resutls
 					resutls.push ret
+				defer.notify ret
 				add_task()
 			.catch (err) ->
 				running--
