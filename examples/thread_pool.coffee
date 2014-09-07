@@ -1,6 +1,9 @@
 ###*
- * This is a example of how to use 'kit.async' to deal with producer-consumer problem.
+ * This is a example of how to use `kit.async` to deal with producer-consumer problem.
  * With promise, there's no callback in this example.
+ *
+ * Of cause, most time `kit.async` is used with a fixed array, this is a complex
+ * usage of it.
 ###
 
 nobone = require 'nobone'
@@ -44,7 +47,8 @@ consumer = ->
 		page = store.pop()
 		kit.log "- consume: #{page.length}".green
 
-		# Return a no-false value to keep the thread_pool running.
+		# Return a non-undefined value to keep the thread_pool running.
+		# If you want to exit this thread pool, return `undefined` will do.
 		true
 	else
 		# Nothing to work, sleep.
