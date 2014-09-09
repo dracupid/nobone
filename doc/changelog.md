@@ -1,6 +1,7 @@
-- v0.6.6
+- v0.6.7
 
   - Optimize the performance of `kit.async`.
+  - Optimize documentation.
 
 - v0.6.5
 
