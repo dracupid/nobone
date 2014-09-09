@@ -4,10 +4,11 @@ nobone = require './nobone'
 { kit, service, renderer } = nobone()
 Q = require 'q'
 marked = require 'marked'
+
+nobone_dir = kit.path.normalize __dirname + '/../'
 marked_html = kit.path.normalize __dirname + '/../assets/markdown/index.html'
 source_html = kit.path.normalize __dirname + '/../assets/markdown/source.html'
 nobone_readme = kit.path.normalize __dirname + '/../readme.md'
-assets_dir = kit.path.normalize __dirname + '/../assets'
 nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
 
 doc_cache = null
@@ -45,7 +46,10 @@ service.get '/*.coffee', (req, res) ->
 			body: source
 		})
 
-service.use '/assets', renderer.static(assets_dir)
+service.use renderer.static({
+	root_dir: nobone_dir
+	index: true
+})
 service.get '/favicon.ico', (req, res) ->
 	res.sendfile nobone_favicon
 

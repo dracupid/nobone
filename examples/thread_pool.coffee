@@ -1,6 +1,5 @@
 ###*
  * This is a example of how to use `kit.async` to deal with producer-consumer problem.
- * With promise, there's no callback in this example.
  *
  * Of cause, most time `kit.async` is used with a fixed array, this is a complex
  * usage of it.
