@@ -1107,7 +1107,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The child process.
 
-- #### <a href="lib/kit.coffee#L512" target="_blank"><b>open</b></a>
+- #### <a href="lib/kit.coffee#L513" target="_blank"><b>open</b></a>
 
  Open a thing that your system can recognize.
  Now only support Windows and OSX.
@@ -1131,7 +1131,7 @@ You can use `nobone ls` to list all installed plugins.
 
    When the child process exits.
 
-- #### <a href="lib/kit.coffee#L545" target="_blank"><b>pad</b></a>
+- #### <a href="lib/kit.coffee#L546" target="_blank"><b>pad</b></a>
 
  String padding helper.
 
@@ -1151,7 +1151,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L590" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L591" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1205,11 +1205,11 @@ You can use `nobone ls` to list all installed plugins.
    }
    ```
 
-- #### <a href="lib/kit.coffee#L655" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L656" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L663" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L664" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1222,13 +1222,13 @@ You can use `nobone ls` to list all installed plugins.
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L681" target="_blank"><b>Q</b></a>
+- #### <a href="lib/kit.coffee#L682" target="_blank"><b>Q</b></a>
 
  The promise Q lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L690" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L691" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1245,7 +1245,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The module that you require.
 
-- #### <a href="lib/kit.coffee#L745" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L746" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1297,7 +1297,7 @@ You can use `nobone ls` to list all installed plugins.
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L902" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L903" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1320,11 +1320,11 @@ You can use `nobone ls` to list all installed plugins.
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L948" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L949" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L974" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L975" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1363,7 +1363,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L999" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1000" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1379,7 +1379,7 @@ You can use `nobone ls` to list all installed plugins.
 
    It contains the wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L1034" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1035" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.

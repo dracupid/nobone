@@ -1,4 +1,4 @@
-- v0.6.8
+- v0.6.9
 
   - Fix a linux process exit bug.
 
