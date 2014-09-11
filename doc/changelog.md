@@ -1,3 +1,7 @@
+- v0.6.8
+
+  - Fix a linux process exit bug.
+
 - v0.6.7
 
   - Optimize the performance of `kit.async`.
