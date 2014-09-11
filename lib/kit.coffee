@@ -485,6 +485,7 @@ _.extend kit, {
 
 		process.on 'SIGINT', ->
 			ps.kill 'SIGINT'
+			process.exit()
 
 		kit.watch_files opts.watch_list, (path, curr, prev) ->
 			if curr.mtime != prev.mtime
