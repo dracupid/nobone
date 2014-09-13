@@ -1,3 +1,7 @@
+- v0.7.0
+
+  - Update coffee-script version.
+
 - v0.6.9
 
   - Fix a linux process exit bug.
