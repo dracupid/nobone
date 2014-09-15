@@ -1,4 +1,3 @@
-require 'coffee-script/register'
 _ = require 'lodash'
 try
 	kit = require './lib/kit'

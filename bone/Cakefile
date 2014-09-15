@@ -1,4 +1,3 @@
-require 'coffee-script/register'
 Q = require 'q'
 nobone = require 'nobone'
 { kit } = nobone
