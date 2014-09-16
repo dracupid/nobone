@@ -704,7 +704,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>extends</u>**:  { _http-proxy.ProxyServer_ }
 
-- #### <a href="lib/modules/proxy.coffee#L18" target="_blank"><b>proxy</b></a>
+- #### <a href="lib/modules/proxy.coffee#L19" target="_blank"><b>proxy</b></a>
 
  Create a Proxy instance.
 
@@ -717,7 +717,7 @@ You can use `nobone ls` to list all installed plugins.
    For more, see [node-http-proxy][node-http-proxy]
    [node-http-proxy]: https://github.com/nodejitsu/node-http-proxy
 
-- #### <a href="lib/modules/proxy.coffee#L37" target="_blank"><b>url</b></a>
+- #### <a href="lib/modules/proxy.coffee#L42" target="_blank"><b>url</b></a>
 
  Use it to proxy one url to another.
 
@@ -735,6 +735,8 @@ You can use `nobone ls` to list all installed plugins.
    ```coffeescript
    {
    	bps: null # Limit the bandwidth byte per second.
+   	global_bps: false # if the bps is the global bps.
+   	agent: custom_http_agent
    }
    ```
 
@@ -744,7 +746,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/proxy.coffee#L98" target="_blank"><b>connect</b></a>
+- #### <a href="lib/modules/proxy.coffee#L111" target="_blank"><b>connect</b></a>
 
  Http CONNECT method tunneling proxy helper.
  Most times used with https proxing.
@@ -777,7 +779,7 @@ You can use `nobone ls` to list all installed plugins.
    service.server.on 'connect', proxy.connect
    ```
 
-- #### <a href="lib/modules/proxy.coffee#L137" target="_blank"><b>pac</b></a>
+- #### <a href="lib/modules/proxy.coffee#L150" target="_blank"><b>pac</b></a>
 
  A pac helper.
 
