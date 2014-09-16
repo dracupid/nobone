@@ -750,6 +750,9 @@ _.extend kit, {
 		if _.isObject opts.url
 			opts.url.protocol ?= 'http:'
 			opts.url = kit.url.format opts.url
+		else
+			if opts.url.indexOf('http') != 0
+				opts.url = 'http://' + opts.url
 
 		url = kit.url.parse opts.url
 		url.protocol ?= 'http:'

@@ -1300,7 +1300,7 @@ You can use `nobone ls` to list all installed plugins.
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L910" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L913" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1323,11 +1323,11 @@ You can use `nobone ls` to list all installed plugins.
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L956" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L959" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L982" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L985" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1366,7 +1366,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L1007" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1010" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1382,7 +1382,7 @@ You can use `nobone ls` to list all installed plugins.
 
    It contains the wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L1042" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1045" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.
