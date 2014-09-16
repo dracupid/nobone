@@ -18,7 +18,7 @@ kit = require '../kit'
 proxy = (opts = {}) ->
 	_.defaults opts, {}
 
-	self = require('http-proxy').createProxyServer opts
+	self = {}
 
 	###*
 	 * Use it to proxy one url to another.
@@ -27,8 +27,12 @@ proxy = (opts = {}) ->
 	 * @param {String} url The target url force to.
 	 * @param {Object} opts Other options.
 	 * @param {Function} err Custom error handler.
+	 * @return {Promise}
 	###
 	self.url = (req, res, url, opts = {}, err) ->
+		_.defaults opts, {
+			bps: null
+		}
 		if not url
 			url = req.url
 
@@ -38,12 +42,22 @@ proxy = (opts = {}) ->
 		error = err or (e) ->
 			kit.log e.toString() + ' -> ' + req.url.red
 
-		req.url = url
-		self.web(req, res, _.defaults(opts, {
-			target: kit.url.parse url
-		}) , (e) ->
-			error e
-		)
+		if opts.bps != null
+			throttle = new kit.require('throttle')(opts.bps)
+			res = throttle.pipe res
+
+		p = kit.request {
+			url
+			headers: req.headers
+			req_pipe: req
+			res_pipe: res
+			auto_unzip: false
+		}
+
+		p.req.on 'response', (proxy_res) ->
+			res.writeHead proxy_res.statusCode, proxy_res.headers
+
+		p.catch error
 
 	###*
 	 * Http CONNECT method tunneling proxy helper.
