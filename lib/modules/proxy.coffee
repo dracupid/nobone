@@ -8,6 +8,7 @@ Overview = 'proxy'
 
 _ = require 'lodash'
 kit = require '../kit'
+http = require 'http'
 
 ###*
  * Create a Proxy instance.
@@ -20,6 +21,8 @@ proxy = (opts = {}) ->
 
 	self = {}
 
+	self.agent = new http.Agent
+
 	###*
 	 * Use it to proxy one url to another.
 	 * @param {http.IncomingMessage} req
@@ -29,19 +32,23 @@ proxy = (opts = {}) ->
 	 * ```coffeescript
 	 * {
 	 * 	bps: null # Limit the bandwidth byte per second.
+	 * 	global_bps: false # if the bps is the global bps.
+	 * 	agent: custom_http_agent
 	 * }
 	 * ```
 	 * @param {Function} err Custom error handler.
 	 * @return {Promise}
 	###
 	self.url = (req, res, url, opts = {}, err) ->
-		_.defaults opts, {
-			bps: null
-		}
-
 		if _.isObject url
 			opts = url
 			url = undefined
+
+		_.defaults opts, {
+			bps: null
+			global_bps: false
+			agent: self.agent
+		}
 
 		if not url
 			url = req.url
@@ -59,7 +66,12 @@ proxy = (opts = {}) ->
 		stream = if opts.bps == null
 			res
 		else
-			throttle = new kit.require('throttle')(opts.bps)
+			if opts.global_bps
+				sock_num = _.keys(opts.agent.sockets).length
+				bps = opts.bps / (sock_num + 1)
+			else
+				bps = opts.bps
+			throttle = new kit.require('throttle')(bps)
 			throttle.pipe res
 			throttle
 
@@ -70,6 +82,7 @@ proxy = (opts = {}) ->
 			req_pipe: req
 			res_pipe: stream
 			auto_unzip: false
+			agent: opts.agent
 		}
 
 		p.req.on 'response', (proxy_res) ->
