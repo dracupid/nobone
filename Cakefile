@@ -6,10 +6,17 @@ catch e
 
 Q = require 'q'
 
-task 'dev', 'Dev Server', ->
+option '-d', '--debug', 'Node debug mode'
+task 'dev', 'Dev Server', (opts) ->
+	app_path = 'test/lab.coffee'
+	if opts.debug
+		args = ['--nodejs', '--debug-brk=8283', app_path]
+	else
+		args = [app_path]
+
 	kit.monitor_app {
 		bin: 'coffee'
-		args: ['test/lab.coffee']
+		args
 		watch_list: ['test/lab.coffee', 'lib/**/*.coffee']
 	}
 
