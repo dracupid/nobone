@@ -31,6 +31,7 @@ cmder
 	"""
 	.option '-p, --port <port>', "Server port. Default is #{opts.port}.", (d) -> +d
 	.option '--host <host>', "Host to listen to. Default is #{opts.host} only."
+	.option '-i, --interactive', "Start as interactive mode."
 	.option '-w, --watch <list>', "Watch list to auto-restart server. String or JSON array.", (list) ->
 		try
 			return JSON.parse list
@@ -86,6 +87,19 @@ init = ->
 		else
 			kit.err 'Nothing executable: '.red + cmder.args[0]
 			return
+
+	if cmder.interactive
+		nb = nobone()
+		kit._.extend global, nb
+		kit._.extend global, {
+			nobone
+			_: kit._
+			Q: kit.Q
+		}
+
+		cmd = require 'coffee-script/lib/coffee-script/command'
+		cmd.run()
+		return
 
 	if cmder.ver
 		console.log require('../package').version
