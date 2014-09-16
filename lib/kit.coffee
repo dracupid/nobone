@@ -7,6 +7,8 @@ glob = require 'glob'
 
 node_verion = +process.versions.node.match(/\d+\.(\d+)\.\d+/)[1]
 
+Q.longStackSupport = process.env.NODE_ENV == 'development'
+
 ###*
  * The `kit` lib of NoBone will load by default and is not optional.
  * All the async functions in `kit` return promise object.
