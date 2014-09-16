@@ -24,8 +24,13 @@ proxy = (opts = {}) ->
 	 * Use it to proxy one url to another.
 	 * @param {http.IncomingMessage} req
 	 * @param {http.ServerResponse} res
-	 * @param {String} url The target url force to.
-	 * @param {Object} opts Other options.
+	 * @param {String} url The target url force to. Optional
+	 * @param {Object} opts Other options. Default:
+	 * ```coffeescript
+	 * {
+	 * 	bps: null # Limit the bandwidth byte per second.
+	 * }
+	 * ```
 	 * @param {Function} err Custom error handler.
 	 * @return {Promise}
 	###
@@ -33,6 +38,11 @@ proxy = (opts = {}) ->
 		_.defaults opts, {
 			bps: null
 		}
+
+		if _.isObject url
+			opts = url
+			url = undefined
+
 		if not url
 			url = req.url
 
@@ -42,15 +52,23 @@ proxy = (opts = {}) ->
 		error = err or (e) ->
 			kit.log e.toString() + ' -> ' + req.url.red
 
-		if opts.bps != null
+		headers = _(req.rawHeaders)
+		.groupBy (el, i) -> i - i % 2
+		.toArray().object().value()
+
+		stream = if opts.bps == null
+			res
+		else
 			throttle = new kit.require('throttle')(opts.bps)
-			res = throttle.pipe res
+			throttle.pipe res
+			throttle
 
 		p = kit.request {
+			method: req.method
 			url
-			headers: req.headers
+			headers
 			req_pipe: req
-			res_pipe: res
+			res_pipe: stream
 			auto_unzip: false
 		}
 

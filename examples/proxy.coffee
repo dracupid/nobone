@@ -24,11 +24,9 @@ service.use (req, res) ->
 			.done (body) ->
 				res.send body.replace(/百度一下/g, 'ys')
 
-		# Delay all other connections for 1 second.
+		# Limit other connections' max bandwidth to 30KB/s.
 		else
-			setTimeout ->
-				proxy.url req, res
-			, 1000
+			proxy.url req, res, { bps: 30 * 1024 }
 
 
 # Delay https requests.
