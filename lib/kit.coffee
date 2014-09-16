@@ -770,6 +770,7 @@ _.extend kit, {
 			res_encoding: 'auto'
 			req_data: null
 			auto_end_req: true
+			auto_unzip: true
 		}
 
 		opts.headers ?= {}
@@ -806,16 +807,19 @@ _.extend kit, {
 					defer.reject err
 					opts.res_pipe.end()
 
-				switch res.headers['content-encoding']
-					when 'gzip'
-						unzip = kit.require('zlib').createGunzip()
-					when 'deflate'
-						unzip = kit.require('zlib').createInflat()
+				if opts.auto_unzip
+					switch res.headers['content-encoding']
+						when 'gzip'
+							unzip = kit.require('zlib').createGunzip()
+						when 'deflate'
+							unzip = kit.require('zlib').createInflat()
+						else
+							unzip = null
+					if unzip
+						unzip.on 'error', res_pipe_error
+						res.pipe(unzip).pipe(opts.res_pipe)
 					else
-						unzip = null
-				if unzip
-					unzip.on 'error', res_pipe_error
-					res.pipe(unzip).pipe(opts.res_pipe)
+						res.pipe opts.res_pipe
 				else
 					res.pipe opts.res_pipe
 
@@ -858,15 +862,18 @@ _.extend kit, {
 							catch err
 								defer.reject err
 
-						switch res.headers['content-encoding']
-							when 'gzip'
-								unzip = kit.require('zlib').gunzip
-							when 'deflate'
-								unzip = kit.require('zlib').inflate
+						if opts.auto_unzip
+							switch res.headers['content-encoding']
+								when 'gzip'
+									unzip = kit.require('zlib').gunzip
+								when 'deflate'
+									unzip = kit.require('zlib').inflate
+								else
+									unzip = null
+							if unzip
+								unzip buf, (err, buf) ->
+									resolve decode(buf)
 							else
-								unzip = null
-						if unzip
-							unzip buf, (err, buf) ->
 								resolve decode(buf)
 						else
 							resolve decode(buf)
