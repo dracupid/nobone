@@ -795,12 +795,6 @@ You can use `nobone ls` to list all installed plugins.
 
    Express Middleware.
 
-- #### <a href="lib/modules/proxy.coffee#L142" target="_blank"><b>tunnel</b></a>
-
- HTTP/HTTPS Agents for tunneling proxies.
- See the project [node-tunnel][node-tunnel]
- [node-tunnel]: https://github.com/koichik/node-tunnel
-
 ### kit
 
 - #### <a href="lib/kit.coffee#L16" target="_blank"><b>kit</b></a>

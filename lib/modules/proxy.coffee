@@ -134,13 +134,6 @@ proxy = (opts = {}) ->
 			res.set 'Content-Type', 'application/x-ns-proxy-autoconfig'
 			res.send pac_str
 
-	###*
-	 * HTTP/HTTPS Agents for tunneling proxies.
-	 * See the project [node-tunnel][node-tunnel]
-	 * [node-tunnel]: https://github.com/koichik/node-tunnel
-	###
-	self.tunnel = require 'tunnel'
-
 	return self
 
 module.exports = proxy
