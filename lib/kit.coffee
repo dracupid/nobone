@@ -1008,7 +1008,12 @@ _.extend kit, {
 	 * Watch files, when file changes, the handler will be invoked.
 	 * It takes the advantage of `kit.watch_file`.
 	 * @param  {Array} patterns String array with minimatch syntax.
-	 * Such as `['\*.css', 'lib/\*\*.js']`.
+	 * Such as `['*\/**.css', 'lib\/**\/*.js']`.
+	 * @example
+	 * ```coffeescript
+	 * kit.watch_files '*.js', (path, curr, prev, is_deletion) ->
+	 * 	kit.log path
+	 * ```
 	 * @param  {Function} handler
 	 * @return {Promise} It contains the wrapped watch listeners.
 	###

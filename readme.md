@@ -454,7 +454,7 @@ You can use `nobone ls` to list all installed plugins.
    
    	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
    	# into the page.
-   	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
+   	inject_client_reg: /<html[^<>]*>[\s\S]*</html>/i
    	file_handlers: {
    		'.html': {
    			default: true
@@ -1208,11 +1208,11 @@ You can use `nobone ls` to list all installed plugins.
    }
    ```
 
-- #### <a href="lib/kit.coffee#L658" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L661" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L666" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L669" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1225,13 +1225,13 @@ You can use `nobone ls` to list all installed plugins.
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L684" target="_blank"><b>Q</b></a>
+- #### <a href="lib/kit.coffee#L687" target="_blank"><b>Q</b></a>
 
  The promise Q lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L693" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L696" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1248,7 +1248,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The module that you require.
 
-- #### <a href="lib/kit.coffee#L748" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L751" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1300,7 +1300,7 @@ You can use `nobone ls` to list all installed plugins.
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L915" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L918" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1323,11 +1323,11 @@ You can use `nobone ls` to list all installed plugins.
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L961" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L964" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L987" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L990" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1366,7 +1366,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L1012" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1020" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1374,7 +1374,14 @@ You can use `nobone ls` to list all installed plugins.
  - **<u>param</u>**: `patterns` { _Array_ }
 
    String array with minimatch syntax.
-   Such as `['\*.css', 'lib/\*\*.js']`.
+   Such as `['*/**.css', 'lib/**/*.js']`.
+
+ - **<u>example</u>**:
+
+   ```coffeescript
+   kit.watch_files '*.js', (path, curr, prev, is_deletion) ->
+   	kit.log path
+   ```
 
  - **<u>param</u>**: `handler` { _Function_ }
 
@@ -1382,7 +1389,7 @@ You can use `nobone ls` to list all installed plugins.
 
    It contains the wrapped watch listeners.
 
-- #### <a href="lib/kit.coffee#L1047" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1055" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.
