@@ -29,7 +29,7 @@ service.use (req, res) ->
 			proxy.url req, res, { bps: 30 * 1024 }
 
 
-# Delay https requests.
+# Delay https or websocket requests.
 service.server.on 'connect', (req, sock, head) ->
 	kit.log req.url
 	setTimeout ->
