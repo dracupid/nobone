@@ -602,6 +602,9 @@ _.extend kit, {
 		}
 
 		parse_info = (block) ->
+			# Unescape '\/'
+			block = block.replace /\\\//g, '/'
+
 			# Clean the prefix '*'
 			arr = block.split(opts.split_reg).map (el) ->
 				el.replace(/^[ \t]+\*[ \t]?/mg, '').trim()
