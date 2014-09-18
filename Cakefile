@@ -9,10 +9,12 @@ catch e
 Q = require 'q'
 
 option '-d', '--debug', 'Node debug mode'
+option '-p', '--port [port]', 'Node debug mode'
 task 'dev', 'Dev Server', (opts) ->
 	app_path = 'test/lab.coffee'
 	if opts.debug
-		args = ['--nodejs', '--debug-brk=8283', app_path]
+		port = opts.port or 8283
+		args = ['--nodejs', '--debug-brk=' + port, app_path]
 	else
 		args = [app_path]
 
@@ -36,7 +38,7 @@ task 'test', 'Basic test', (options) ->
 			if code != 0
 				process.exit code
 
-task 'build', 'Compile coffee to js', build = ->
+task 'build', 'Compile coffee and Docs', build = ->
 	kit.log "Compile coffee..."
 
 	kit.spawn 'coffee', [
