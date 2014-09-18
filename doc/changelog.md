@@ -1,3 +1,7 @@
+- v0.7.2
+
+  - Fix a cache default option bug.
+
 - v0.7.1
 
   - Fix a file extension bug.
