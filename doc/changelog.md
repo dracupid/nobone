@@ -2,6 +2,7 @@
 
   - Fix a file extension bug.
   - Optimize `kit.err`.
+  - Update stylus to `0.48.1`.
 
 - v0.7.0
 
