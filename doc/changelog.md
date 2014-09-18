@@ -1,10 +1,7 @@
-- v0.7.1
+- v0.7.0
 
   - `proxy` now support bandwidth limitation.
   - CLI add interactive mode.
-
-- v0.7.0
-
   - Update coffee-script version.
 
 - v0.6.9
