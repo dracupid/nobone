@@ -9,6 +9,7 @@ catch e
 
 option '-d', '--debug', 'Node debug mode'
 option '-p', '--port [port]', 'Node debug mode'
+
 task 'dev', 'Dev Server', (opts) ->
 	app_path = 'test/lab.coffee'
 	if opts.debug
@@ -24,18 +25,20 @@ task 'dev', 'Dev Server', (opts) ->
 	}
 
 task 'test', 'Basic test', (options) ->
-	[
-		# 'test/single.coffee'
-		'test/basic.coffee'
-	].forEach (file) ->
-		kit.spawn('mocha', [
-			'-t', '5000'
-			'-r', 'coffee-script/register'
-			'-R', 'spec'
-			file
-		]).process.on 'exit', (code) ->
-			if code != 0
-				process.exit code
+	build().then ->
+		[
+			# 'test/single.coffee'
+			'test/basic.coffee'
+		].forEach (file) ->
+			kit.spawn('mocha', [
+				'-t', '5000'
+				'-r', 'coffee-script/register'
+				'-R', 'spec'
+				file
+			]).process.on 'exit', (code) ->
+				if code != 0
+					process.exit code
+	.done()
 
 task 'build', 'Compile coffee and Docs', build = ->
 	kit.log "Compile coffee..."
@@ -117,8 +120,7 @@ task 'build', 'Compile coffee and Docs', build = ->
 		out = ejs.render data.tpl, data
 
 		kit.outputFile 'readme.md', out
-
-	.done()
+	.then()
 
 task 'clean', 'Clean js', ->
 	kit.log ">> Clean js..."
@@ -203,5 +205,6 @@ task 'hotfix', 'Hotfix third dependencies\' bugs', ->
 				'var isStats = entity.isFile && entity.isDirectory && entity.blksize'
 			)
 			kit.outputFile path, str
+		.done()
 
 	fix_issue7()

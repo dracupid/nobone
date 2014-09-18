@@ -7,10 +7,9 @@
     "nobone": "bin/nobone.js"
   },
   "scripts": {
-    "test": "cake build test clean",
+    "test": "cake test",
     "install": "cake hotfix",
-    "prepublish": "cake build",
-    "publish": "cake clean"
+    "prepublish": "cake build"
   },
   "keywords": [
     "web",
