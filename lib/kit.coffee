@@ -119,6 +119,40 @@ _.extend kit, {
 		defer.promise
 
 	###*
+	 * Creates a function that is the composition of the provided functions.
+	 * Besides it can also accept async function that returns promise.
+	 * It's more powerful than `_.compose`.
+	 * @param  {Function|Array} fns... Functions that return promise or any value.
+	 * @return {Function} A composed function that will return a promise.
+	 * @example
+	 * ```coffeescript
+	 * # It helps to decouple sequential pipeline code logic.
+	 *
+	 * create_url = (name) ->
+	 * 	return "http://test.com/" + name
+	 *
+	 * curl = (url) ->
+	 * 	kit.request(url).then ->
+	 * 		kit.log 'get'
+	 *
+	 * save = (str) ->
+	 * 	kit.outputFile('a.txt', str).then ->
+	 * 		kit.log 'saved'
+	 *
+	 * download = kit.compose create_url, curl, save
+	 * # same as "download = kit.compose [create_url, curl, save]"
+	 *
+	 * download()
+	 * ```
+	###
+	compose: (fns...) -> (val) ->
+		fns = fns[0] if _.isArray fns[0]
+
+		fns.reduce (pre_fn, fn) ->
+			pre_fn.then fn
+		, Q(val)
+
+	###*
 	 * Daemonize a program.
 	 * @param  {Object} opts Defaults:
 	 * {

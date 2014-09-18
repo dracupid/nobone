@@ -128,11 +128,6 @@ task 'update', "Update all dependencies", ->
 	npm = require 'npm'
 	pack = require './package.json'
 
-	compose = (fns...) -> (val) ->
-		fns.reduce (pre_fn, fn) ->
-			pre_fn.then fn
-		, Q(val)
-
 	load = ->
 		Q.nfcall npm.load, {
 			loaded: false
@@ -154,7 +149,7 @@ task 'update', "Update all dependencies", ->
 		[name, ver] = _.pairs(info)[0]
 		pack.dependencies[name] = ver
 
-	set_dep_via_ver = compose get_ver, set_dep
+	set_dep_via_ver = kit.compose get_ver, set_dep
 
 	set_deps = (names) ->
 		Q.all names.map set_dep_via_ver
@@ -163,7 +158,7 @@ task 'update', "Update all dependencies", ->
 		str = JSON.stringify(pack, null, 2) + '\n'
 		kit.outputFile 'package.json', str
 
-	start = compose load, get_deps, set_deps, save_change
+	start = kit.compose load, get_deps, set_deps, save_change
 
 	start().done ->
 		kit.log 'Update done.'.green
