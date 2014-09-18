@@ -49,7 +49,6 @@
     "jade": "*",
     "less": "*",
     "mocha": "*",
-    "node-sass": "*",
     "npm": "*"
   }
 }
