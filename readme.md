@@ -337,6 +337,8 @@ You can use `nobone ls` to list all installed plugins.
  NoBone use it to implement the live-reload of web assets.
  [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 
+ - **<u>type</u>**:  { _SSE_ }
+
  - **<u>property</u>**: `sessions` { _Array_ }
 
    The sessions of connected clients.
@@ -362,8 +364,6 @@ You can use `nobone ls` to list all installed plugins.
    	msg = JSON.parse(e.data)
    	console.log(msg)
    ```
-
- - **<u>type</u>**:  { _SSE_ }
 
 - #### <a href="lib/modules/service.coffee#L143" target="_blank"><b>e.sse_connected</b></a>
 
@@ -530,14 +530,14 @@ You can use `nobone ls` to list all installed plugins.
  You can access all the file_handlers here.
  Manipulate them at runtime.
 
+ - **<u>type</u>**:  { _Object_ }
+
  - **<u>example</u>**:
 
    ```coffeescript
    # We return js directly.
    renderer.file_handlers['.js'].compiler = (str) -> str
    ```
-
- - **<u>type</u>**:  { _Object_ }
 
 - #### <a href="lib/modules/renderer.coffee#L230" target="_blank"><b>cache_pool</b></a>
 
@@ -568,7 +568,7 @@ You can use `nobone ls` to list all installed plugins.
 
    Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L359" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L357" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -579,25 +579,9 @@ You can use `nobone ls` to list all installed plugins.
    the same with the compiled result file. If it's an object, it can contain
    any number of following params.
 
- - **<u>example</u>**:
-
-   ```coffeescript
-   # The 'a.ejs' file may not exists, it will auto-compile
-   # the 'a.ejs' or 'a.html' to html.
-   renderer.render('a.html').done (html) -> kit.log(html)
-   ```
-
  - **<u>param</u>**: `ext` { _String_ }
 
    Force the extension. Optional.
-
- - **<u>example</u>**:
-
-   ```coffeescript
-   # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
-   renderer.render('a.ejs', '.html').done (html) -> html == '10'
-   renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
-   ```
 
  - **<u>param</u>**: `data` { _Object_ }
 
@@ -617,11 +601,23 @@ You can use `nobone ls` to list all installed plugins.
 
    Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L390" target="_blank"><b>close</b></a>
+ - **<u>example</u>**:
+
+   ```coffeescript
+   # The 'a.ejs' file may not exists, it will auto-compile
+   # the 'a.ejs' or 'a.html' to html.
+   renderer.render('a.html').done (html) -> kit.log(html)
+   
+   # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
+   renderer.render('a.ejs', '.html').done (html) -> html == '10'
+   renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
+   ```
+
+- #### <a href="lib/modules/renderer.coffee#L388" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L403" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L401" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
@@ -633,7 +629,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L411" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L409" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
@@ -649,7 +645,7 @@ You can use `nobone ls` to list all installed plugins.
 
    Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L417" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L415" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
@@ -657,7 +653,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L423" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L421" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 
@@ -864,9 +860,9 @@ You can use `nobone ls` to list all installed plugins.
  Besides it can also accept async function that returns promise.
  It's more powerful than `_.compose`.
 
- - **<u>param</u>**: `fns` { _Function|Array_ }
+ - **<u>param</u>**: `fns` { _Function | Array_ }
 
-   ... Functions that return promise or any value.
+   Functions that return promise or any value.
 
  - **<u>return</u>**:  { _Function_ }
 
@@ -1159,6 +1155,10 @@ You can use `nobone ls` to list all installed plugins.
 
    The options of the node native `child_process.exec`.
 
+ - **<u>return</u>**:  { _Promise_ }
+
+   When the child process exits.
+
  - **<u>example</u>**:
 
    ```coffeescript
@@ -1166,19 +1166,9 @@ You can use `nobone ls` to list all installed plugins.
    kit.open 'http://ysmood.org'
    ```
 
- - **<u>return</u>**:  { _Promise_ }
-
-   When the child process exits.
-
 - #### <a href="lib/kit.coffee#L582" target="_blank"><b>pad</b></a>
 
  String padding helper.
-
- - **<u>example</u>**:
-
-   ```coffeescript
-   kit.pad '1', 3 # '001'
-   ```
 
  - **<u>param</u>**: `str` { _Sting | Number_ }
 
@@ -1189,6 +1179,12 @@ You can use `nobone ls` to list all installed plugins.
    Padding char. Default is '0'.
 
  - **<u>return</u>**:  { _String_ }
+
+ - **<u>example</u>**:
+
+   ```coffeescript
+   kit.pad '1', 3 # '001'
+   ```
 
 - #### <a href="lib/kit.coffee#L627" target="_blank"><b>parse_comment</b></a>
 
@@ -1384,15 +1380,6 @@ You can use `nobone ls` to list all installed plugins.
    - previous `fs.Stats`
    - if its a deletion
 
- - **<u>example</u>**:
-
-   ```coffeescript
-   process.env.watch_persistent = 'on'
-   kit.watch_file 'a.js', (path, curr, prev, is_deletion) ->
-   	if curr.mtime != prev.mtime
-   		kit.log path
-   ```
-
  - **<u>param</u>**: `auto_unwatch` { _Boolean_ }
 
    Auto unwatch the file while file deletion.
@@ -1401,6 +1388,15 @@ You can use `nobone ls` to list all installed plugins.
  - **<u>return</u>**:  { _Function_ }
 
    The wrapped watch listeners.
+
+ - **<u>example</u>**:
+
+   ```coffeescript
+   process.env.watch_persistent = 'on'
+   kit.watch_file 'a.js', (path, curr, prev, is_deletion) ->
+   	if curr.mtime != prev.mtime
+   		kit.log path
+   ```
 
 - #### <a href="lib/kit.coffee#L1054" target="_blank"><b>watch_files</b></a>
 
@@ -1412,18 +1408,18 @@ You can use `nobone ls` to list all installed plugins.
    String array with minimatch syntax.
    Such as `['*/**.css', 'lib/**/*.js']`.
 
+ - **<u>param</u>**: `handler` { _Function_ }
+
+ - **<u>return</u>**:  { _Promise_ }
+
+   It contains the wrapped watch listeners.
+
  - **<u>example</u>**:
 
    ```coffeescript
    kit.watch_files '*.js', (path, curr, prev, is_deletion) ->
    	kit.log path
    ```
-
- - **<u>param</u>**: `handler` { _Function_ }
-
- - **<u>return</u>**:  { _Promise_ }
-
-   It contains the wrapped watch listeners.
 
 - #### <a href="lib/kit.coffee#L1089" target="_blank"><b>watch_dir</b></a>
 
@@ -1446,6 +1442,8 @@ You can use `nobone ls` to list all installed plugins.
    }
    ```
 
+ - **<u>return</u>**:  { _Promise_ }
+
  - **<u>example</u>**:
 
    ```coffeescript
@@ -1459,8 +1457,6 @@ You can use `nobone ls` to list all installed plugins.
    	watched_list: {} # If you use watch_dir recursively, you need a global watched_list
    }
    ```
-
- - **<u>return</u>**:  { _Promise_ }
 
 
 

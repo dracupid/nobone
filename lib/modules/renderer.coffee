@@ -214,12 +214,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * You can access all the file_handlers here.
 	 * Manipulate them at runtime.
+	 * @type {Object}
 	 * @example
 	 * ```coffeescript
 	 * # We return js directly.
 	 * renderer.file_handlers['.js'].compiler = (str) -> str
 	 * ```
-	 * @type {Object}
 	###
 	self.file_handlers = opts.file_handlers
 
@@ -336,25 +336,23 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {String | Object} path The file path. The path extension should be
 	 * the same with the compiled result file. If it's an object, it can contain
 	 * any number of following params.
-	 * @example
-	 * ```coffeescript
-	 * # The 'a.ejs' file may not exists, it will auto-compile
-	 * # the 'a.ejs' or 'a.html' to html.
-	 * renderer.render('a.html').done (html) -> kit.log(html)
-	 * ```
 	 * @param  {String} ext Force the extension. Optional.
-	 * @example
-	 * ```coffeescript
-	 * # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
-	 * renderer.render('a.ejs', '.html').done (html) -> html == '10'
-	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
-	 * ```
 	 * @param  {Object} data Extra data you want to send to the compiler. Optional.
 	 * @param  {Boolean} is_cache Whether to cache the result,
 	 * default is true. Optional.
 	 * @param {String} req_path The http request path. Support it will make auto-reload
 	 * more efficient.
 	 * @return {Promise} Contains the compiled content.
+	 * @example
+	 * ```coffeescript
+	 * # The 'a.ejs' file may not exists, it will auto-compile
+	 * # the 'a.ejs' or 'a.html' to html.
+	 * renderer.render('a.html').done (html) -> kit.log(html)
+	 *
+	 * # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
+	 * renderer.render('a.ejs', '.html').done (html) -> html == '10'
+	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
+	 * ```
 	###
 	self.render = (path, ext, data, is_cache = true, req_path) ->
 		if _.isObject path

@@ -122,7 +122,7 @@ _.extend kit, {
 	 * Creates a function that is the composition of the provided functions.
 	 * Besides it can also accept async function that returns promise.
 	 * It's more powerful than `_.compose`.
-	 * @param  {Function|Array} fns... Functions that return promise or any value.
+	 * @param  {Function | Array} fns Functions that return promise or any value.
 	 * @return {Function} A composed function that will return a promise.
 	 * @example
 	 * ```coffeescript
@@ -539,12 +539,12 @@ _.extend kit, {
 	 * Now only support Windows and OSX.
 	 * @param  {String} cmd  The thing you want to open.
 	 * @param  {Object} opts The options of the node native `child_process.exec`.
+	 * @return {Promise} When the child process exits.
 	 * @example
 	 * ```coffeescript
 	 * # Open a webpage with the default browser.
 	 * kit.open 'http://ysmood.org'
 	 * ```
-	 * @return {Promise} When the child process exits.
 	###
 	open: (cmd, opts = {}) ->
 		{ exec } = kit.require 'child_process'
@@ -570,14 +570,14 @@ _.extend kit, {
 
 	###*
 	 * String padding helper.
-	 * @example
-	 * ```coffeescript
-	 * kit.pad '1', 3 # '001'
-	 * ```
 	 * @param  {Sting | Number} str
 	 * @param  {Number} width
 	 * @param  {String} char Padding char. Default is '0'.
 	 * @return {String}
+	 * @example
+	 * ```coffeescript
+	 * kit.pad '1', 3 # '001'
+	 * ```
 	###
 	pad: (str, width, char = '0') ->
 		str = str + ''
@@ -1010,6 +1010,9 @@ _.extend kit, {
 	 * - current `fs.Stats`
 	 * - previous `fs.Stats`
 	 * - if its a deletion
+	 * @param {Boolean} auto_unwatch Auto unwatch the file while file deletion.
+	 * Default is true.
+	 * @return {Function} The wrapped watch listeners.
 	 * @example
 	 * ```coffeescript
 	 * process.env.watch_persistent = 'on'
@@ -1017,9 +1020,6 @@ _.extend kit, {
 	 * 	if curr.mtime != prev.mtime
 	 * 		kit.log path
 	 * ```
-	 * @param {Boolean} auto_unwatch Auto unwatch the file while file deletion.
-	 * Default is true.
-	 * @return {Function} The wrapped watch listeners.
 	###
 	watch_file: (path, handler, auto_unwatch = true) ->
 		listener = (curr, prev) ->
@@ -1043,13 +1043,13 @@ _.extend kit, {
 	 * It takes the advantage of `kit.watch_file`.
 	 * @param  {Array} patterns String array with minimatch syntax.
 	 * Such as `['*\/**.css', 'lib\/**\/*.js']`.
+	 * @param  {Function} handler
+	 * @return {Promise} It contains the wrapped watch listeners.
 	 * @example
 	 * ```coffeescript
 	 * kit.watch_files '*.js', (path, curr, prev, is_deletion) ->
 	 * 	kit.log path
 	 * ```
-	 * @param  {Function} handler
-	 * @return {Promise} It contains the wrapped watch listeners.
 	###
 	watch_files: (patterns, handler) ->
 		kit.glob(patterns).then (paths) ->
@@ -1072,6 +1072,7 @@ _.extend kit, {
 	 * 	handler: (type, path, old_path) ->
 	 * }
 	 * ```
+	 * @return {Promise}
 	 * @example
 	 * ```coffeescript
 	 * # Only current folder, and only watch js and css file.
@@ -1084,7 +1085,6 @@ _.extend kit, {
 	 * 	watched_list: {} # If you use watch_dir recursively, you need a global watched_list
 	 * }
 	 * ```
-	 * @return {Promise}
 	###
 	watch_dir: (opts) ->
 		_.defaults opts, {
