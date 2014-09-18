@@ -1,3 +1,8 @@
+- v0.7.1
+
+  - Fix a file extension bug.
+  - Optimize `kit.err`.
+
 - v0.7.0
 
   - `proxy` now support bandwidth limitation.
