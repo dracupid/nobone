@@ -378,7 +378,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			else
 				p = get_src handler
 			p.then (cache) ->
-				get_content handler.ext_bin, cache
+				get_content handler.ext_bin, cache, is_cache
 		else
 			throw new Error('No matched content handler for:' + path)
 
@@ -470,7 +470,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					err.name = 'file_not_exists'
 					throw err
 
-	get_content = (ext_bin, cache) ->
+	get_content = (ext_bin, cache, is_cache = true) ->
 		cache.last_ext_bin = ext_bin
 		if ext_bin == cache.ext and not cache.force_compile
 			Q cache.source
@@ -489,7 +489,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				err.name = self.e.compile_error
 				cache.error = err
 			.then ->
-				if opts.enable_watcher
+				if opts.enable_watcher and is_cache
 					watch cache
 			.then ->
 				if cache.error
