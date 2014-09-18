@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'development'
+
 _ = require 'lodash'
 try
 	kit = require './lib/kit'
@@ -121,6 +123,50 @@ task 'clean', 'Clean js', ->
 	kit.log ">> Clean js..."
 
 	kit.remove('dist').done()
+
+task 'update', "Update all dependencies", ->
+	npm = require 'npm'
+	pack = require './package.json'
+
+	compose = (fns...) -> (val) ->
+		fns.reduce (pre_fn, fn) ->
+			pre_fn.then fn
+		, Q(val)
+
+	load = ->
+		Q.nfcall npm.load, {
+			loaded: false
+			loglevel: 'silent'
+		}
+
+	get_deps = ->
+		_.keys pack.dependencies
+
+	get_ver = (name) ->
+		Q.nfcall npm.commands.v, [name, 'dist-tags.latest'], true
+		.then (data) ->
+			kit.log 'Update: '.cyan + name
+			info = {}
+			info[name] = _(data).keys().first()
+			info
+
+	set_dep = (info) ->
+		[name, ver] = _.pairs(info)[0]
+		pack.dependencies[name] = ver
+
+	set_dep_via_ver = compose get_ver, set_dep
+
+	set_deps = (names) ->
+		Q.all names.map set_dep_via_ver
+
+	save_change = ->
+		str = JSON.stringify(pack, null, 2) + '\n'
+		kit.outputFile 'package.json', str
+
+	start = compose load, get_deps, set_deps, save_change
+
+	start().done ->
+		kit.log 'Update done.'.green
 
 # Just for fun.
 task 'code', 'Code Statistics of this project', ->
