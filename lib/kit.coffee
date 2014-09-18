@@ -450,7 +450,7 @@ _.extend kit, {
 			log (new Error).stack.replace('Error:', '\nStack trace:').grey
 
 		if action == 'error'
-			console.log "\u0007\n"
+			process.stdout.write "\u0007"
 
 	###*
 	 * Monitor an application and automatically restart it when file changed.
