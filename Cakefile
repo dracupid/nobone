@@ -1,12 +1,11 @@
 process.env.NODE_ENV = 'development'
 
-_ = require 'lodash'
 try
 	kit = require './lib/kit'
 catch e
 	kit = require './dist/kit'
 
-Q = require 'q'
+{ Q, _ } = kit
 
 option '-d', '--debug', 'Node debug mode'
 option '-p', '--port [port]', 'Node debug mode'
@@ -191,3 +190,18 @@ task 'code', 'Code Statistics of this project', ->
 	.done ->
 		kit.log 'Total Lines: '.cyan + line_count
 		kit.log ' Total Size: '.cyan + (size_count / 1024).toFixed(2) + ' kb'
+
+task 'hotfix', 'Hotfix third dependencies\' bugs', ->
+	# ys: Node break again and again.
+
+	fix_issue7 = ->
+		path = 'node_modules/express/node_modules/etag/index.js'
+		kit.readFile path, 'utf8'
+		.then (str) ->
+			str = str.replace(
+				'var isStats = entity instanceof Stats'
+				'var isStats = entity.isFile && entity.isDirectory && entity.blksize'
+			)
+			kit.outputFile path, str
+
+	fix_issue7()
