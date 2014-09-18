@@ -656,6 +656,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		remove_ext(path) + ext
 
 	remove_ext = (path) ->
-		path.replace /.\w+$/, ''
+		path.replace /\.\w+$/, ''
 
 module.exports = renderer
