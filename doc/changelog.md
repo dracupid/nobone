@@ -1,6 +1,7 @@
 - v0.7.3
 
   - Update jdb to v0.3.1.
+  - Update express to v4.9.3.
 
 - v0.7.2
 
