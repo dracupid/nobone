@@ -1,3 +1,7 @@
+- v0.7.3
+
+  - Update jdb to v0.3.1.
+
 - v0.7.2
 
   - Fix a cache default option bug.
