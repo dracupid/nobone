@@ -225,15 +225,16 @@ You can use `nobone ls` to list all installed plugins.
 
 ### nobone
 
-- #### <a href="lib/nobone.coffee#L8" target="_blank"><b>Overview</b></a>
+- #### <a href="lib/nobone.coffee#L9" target="_blank"><b>Overview</b></a>
 
  NoBone has several modules and a helper lib.
  **All the modules are optional**.
+ Only the `kit` lib is load by default and is not optional.
  
  Most of the async functions are inplemented with [Q][Q].
  [Q]: https://github.com/kriskowal/q
 
-- #### <a href="lib/nobone.coffee#L32" target="_blank"><b>nobone</b></a>
+- #### <a href="lib/nobone.coffee#L33" target="_blank"><b>nobone</b></a>
 
  Main constructor.
 
@@ -260,13 +261,13 @@ You can use `nobone ls` to list all installed plugins.
 
    A nobone instance.
 
-- #### <a href="lib/nobone.coffee#L67" target="_blank"><b>close</b></a>
+- #### <a href="lib/nobone.coffee#L68" target="_blank"><b>close</b></a>
 
  Release the resources.
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/nobone.coffee#L99" target="_blank"><b>client</b></a>
+- #### <a href="lib/nobone.coffee#L100" target="_blank"><b>client</b></a>
 
  The NoBone client helper.
 
@@ -802,15 +803,14 @@ You can use `nobone ls` to list all installed plugins.
 
 ### kit
 
-- #### <a href="lib/kit.coffee#L18" target="_blank"><b>kit</b></a>
+- #### <a href="lib/kit.coffee#L17" target="_blank"><b>kit</b></a>
 
- The `kit` lib of NoBone will load by default and is not optional.
  All the async functions in `kit` return promise object.
  Most time I use it to handle files and system staffs.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L31" target="_blank"><b>kit_extends_fs_q</b></a>
+- #### <a href="lib/kit.coffee#L30" target="_blank"><b>kit_extends_fs_q</b></a>
 
  kit extends all the Q functions of [fs-more][fs-more].
  [fs-more]: https://github.com/ysmood/fs-more
@@ -824,13 +824,13 @@ You can use `nobone ls` to list all installed plugins.
    kit.outputFile('a.txt', 'test').done()
    ```
 
-- #### <a href="lib/kit.coffee#L42" target="_blank"><b>_</b></a>
+- #### <a href="lib/kit.coffee#L41" target="_blank"><b>_</b></a>
 
  The lodash lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L58" target="_blank"><b>async</b></a>
+- #### <a href="lib/kit.coffee#L57" target="_blank"><b>async</b></a>
 
  An throttle version of `Q.all`, it runs all the tasks under
  a concurrent limitation.
@@ -863,6 +863,7 @@ You can use `nobone ls` to list all installed plugins.
  - **<u>param</u>**: `fns` { _Function | Array_ }
 
    Functions that return promise or any value.
+   And the array can also contains promises.
 
  - **<u>return</u>**:  { _Function_ }
 
@@ -890,7 +891,7 @@ You can use `nobone ls` to list all installed plugins.
    download()
    ```
 
-- #### <a href="lib/kit.coffee#L166" target="_blank"><b>daemonize</b></a>
+- #### <a href="lib/kit.coffee#L169" target="_blank"><b>daemonize</b></a>
 
  Daemonize a program.
 
@@ -908,7 +909,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The daemonized process.
 
-- #### <a href="lib/kit.coffee#L192" target="_blank"><b>decrypt</b></a>
+- #### <a href="lib/kit.coffee#L195" target="_blank"><b>decrypt</b></a>
 
  A simple decrypt helper
 
@@ -922,7 +923,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>return</u>**:  { _Buffer_ }
 
-- #### <a href="lib/kit.coffee#L215" target="_blank"><b>encrypt</b></a>
+- #### <a href="lib/kit.coffee#L218" target="_blank"><b>encrypt</b></a>
 
  A simple encrypt helper
 
@@ -936,7 +937,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>return</u>**:  { _Buffer_ }
 
-- #### <a href="lib/kit.coffee#L237" target="_blank"><b>env_mode</b></a>
+- #### <a href="lib/kit.coffee#L240" target="_blank"><b>env_mode</b></a>
 
  A shortcut to set process option with specific mode,
  and keep the current env variables.
@@ -949,7 +950,7 @@ You can use `nobone ls` to list all installed plugins.
 
    `process.env` object.
 
-- #### <a href="lib/kit.coffee#L250" target="_blank"><b>err</b></a>
+- #### <a href="lib/kit.coffee#L253" target="_blank"><b>err</b></a>
 
  A log error shortcut for `kit.log(msg, 'error', opts)`
 
@@ -957,12 +958,12 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-- #### <a href="lib/kit.coffee#L257" target="_blank"><b>fs</b></a>
+- #### <a href="lib/kit.coffee#L260" target="_blank"><b>fs</b></a>
 
  See my project [fs-more][fs-more].
  [fs-more]: https://github.com/ysmood/fs-more
 
-- #### <a href="lib/kit.coffee#L275" target="_blank"><b>generate_bone</b></a>
+- #### <a href="lib/kit.coffee#L278" target="_blank"><b>generate_bone</b></a>
 
  A scaffolding helper to generate template project.
  The `lib/cli.coffee` used it as an example.
@@ -983,7 +984,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/kit.coffee#L311" target="_blank"><b>glob</b></a>
+- #### <a href="lib/kit.coffee#L313" target="_blank"><b>glob</b></a>
 
  See the https://github.com/isaacs/node-glob
 
@@ -999,12 +1000,12 @@ You can use `nobone ls` to list all installed plugins.
 
    Contains the path list.
 
-- #### <a href="lib/kit.coffee#L340" target="_blank"><b>jhash</b></a>
+- #### <a href="lib/kit.coffee#L342" target="_blank"><b>jhash</b></a>
 
  See my [jhash][jhash] project.
  [jhash]: https://github.com/ysmood/jhash
 
-- #### <a href="lib/kit.coffee#L366" target="_blank"><b>lang</b></a>
+- #### <a href="lib/kit.coffee#L368" target="_blank"><b>lang</b></a>
 
  It will find the right `key/value` pair in your defined `kit.lang_set`.
  If it cannot file the one, it will output the key directly.
@@ -1041,7 +1042,7 @@ You can use `nobone ls` to list all installed plugins.
    'Good weather.'.l('jp') # 'Good weather.'
    ```
 
-- #### <a href="lib/kit.coffee#L381" target="_blank"><b>lang_set</b></a>
+- #### <a href="lib/kit.coffee#L383" target="_blank"><b>lang_set</b></a>
 
  Language collections.
 
@@ -1055,7 +1056,7 @@ You can use `nobone ls` to list all installed plugins.
    }
    ```
 
-- #### <a href="lib/kit.coffee#L388" target="_blank"><b>lang_current</b></a>
+- #### <a href="lib/kit.coffee#L390" target="_blank"><b>lang_current</b></a>
 
  Current default language.
 
@@ -1065,7 +1066,7 @@ You can use `nobone ls` to list all installed plugins.
 
    'en'
 
-- #### <a href="lib/kit.coffee#L402" target="_blank"><b>lang_load</b></a>
+- #### <a href="lib/kit.coffee#L404" target="_blank"><b>lang_load</b></a>
 
  Load language set directory and save them into
  the `kit.lang_set`.
@@ -1083,7 +1084,7 @@ You can use `nobone ls` to list all installed plugins.
    kit.log 'test'.l # This may output '测试'.
    ```
 
-- #### <a href="lib/kit.coffee#L424" target="_blank"><b>inspect</b></a>
+- #### <a href="lib/kit.coffee#L426" target="_blank"><b>inspect</b></a>
 
  For debugging use. Dump a colorful object.
 
@@ -1098,7 +1099,7 @@ You can use `nobone ls` to list all installed plugins.
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L446" target="_blank"><b>log</b></a>
+- #### <a href="lib/kit.coffee#L448" target="_blank"><b>log</b></a>
 
  A better log for debugging, it uses the `kit.inspect` to log.
  
@@ -1120,7 +1121,7 @@ You can use `nobone ls` to list all installed plugins.
 
    Default is same with `kit.inspect`
 
-- #### <a href="lib/kit.coffee#L504" target="_blank"><b>monitor_app</b></a>
+- #### <a href="lib/kit.coffee#L506" target="_blank"><b>monitor_app</b></a>
 
  Monitor an application and automatically restart it when file changed.
  When the monitored app exit with error, the monitor itself will also exit.
@@ -1142,7 +1143,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The child process.
 
-- #### <a href="lib/kit.coffee#L549" target="_blank"><b>open</b></a>
+- #### <a href="lib/kit.coffee#L551" target="_blank"><b>open</b></a>
 
  Open a thing that your system can recognize.
  Now only support Windows and OSX.
@@ -1166,7 +1167,7 @@ You can use `nobone ls` to list all installed plugins.
    kit.open 'http://ysmood.org'
    ```
 
-- #### <a href="lib/kit.coffee#L582" target="_blank"><b>pad</b></a>
+- #### <a href="lib/kit.coffee#L584" target="_blank"><b>pad</b></a>
 
  String padding helper.
 
@@ -1186,7 +1187,7 @@ You can use `nobone ls` to list all installed plugins.
    kit.pad '1', 3 # '001'
    ```
 
-- #### <a href="lib/kit.coffee#L627" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L629" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1240,11 +1241,11 @@ You can use `nobone ls` to list all installed plugins.
    }
    ```
 
-- #### <a href="lib/kit.coffee#L695" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L697" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L703" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L705" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1257,13 +1258,13 @@ You can use `nobone ls` to list all installed plugins.
 
    Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L721" target="_blank"><b>Q</b></a>
+- #### <a href="lib/kit.coffee#L723" target="_blank"><b>Q</b></a>
 
  The promise Q lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L730" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L732" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1280,7 +1281,7 @@ You can use `nobone ls` to list all installed plugins.
 
    The module that you require.
 
-- #### <a href="lib/kit.coffee#L785" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L787" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1332,7 +1333,7 @@ You can use `nobone ls` to list all installed plugins.
    	kit.log res.headers
    ```
 
-- #### <a href="lib/kit.coffee#L952" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L954" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1355,11 +1356,11 @@ You can use `nobone ls` to list all installed plugins.
    The `promise.process` is the child process object.
    When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L998" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L1000" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L1024" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L1026" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1398,7 +1399,7 @@ You can use `nobone ls` to list all installed plugins.
    		kit.log path
    ```
 
-- #### <a href="lib/kit.coffee#L1054" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1056" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1421,7 +1422,7 @@ You can use `nobone ls` to list all installed plugins.
    	kit.log path
    ```
 
-- #### <a href="lib/kit.coffee#L1089" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1091" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.
