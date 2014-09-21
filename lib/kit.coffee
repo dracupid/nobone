@@ -10,7 +10,6 @@ node_verion = +process.versions.node.match(/\d+\.(\d+)\.\d+/)[1]
 Q.longStackSupport = process.env.NODE_ENV == 'development'
 
 ###*
- * The `kit` lib of NoBone will load by default and is not optional.
  * All the async functions in `kit` return promise object.
  * Most time I use it to handle files and system staffs.
  * @type {Object}
@@ -123,6 +122,7 @@ _.extend kit, {
 	 * Besides it can also accept async function that returns promise.
 	 * It's more powerful than `_.compose`.
 	 * @param  {Function | Array} fns Functions that return promise or any value.
+	 * And the array can also contains promises.
 	 * @return {Function} A composed function that will return a promise.
 	 * @example
 	 * ```coffeescript
@@ -149,7 +149,10 @@ _.extend kit, {
 		fns = fns[0] if _.isArray fns[0]
 
 		fns.reduce (pre_fn, fn) ->
-			pre_fn.then fn
+			if Q.isPromise fn
+				pre_fn.then -> fn
+			else
+				pre_fn.then fn
 		, Q(val)
 
 	###*
@@ -282,9 +285,8 @@ _.extend kit, {
 			dest_dir: null
 			data: {}
 			compile: (str, data, path) ->
-				ejs = kit.require 'ejs'
 				data.filename = path
-				ejs.render str, data
+				_.template str, data
 		}
 
 		kit.glob(opts.patterns, { cwd: opts.src_dir })
