@@ -104,6 +104,9 @@ task 'build', 'Compile coffee and Docs', build = ->
 					method_str += indent method.description, 1
 					method_str += '\n\n'
 
+				if _.any(method.tags, { tag_name: 'private' })
+					continue
+
 				for tag in method.tags
 					tname = if tag.name then "`#{tag.name}`" else ''
 					ttype = if tag.type then "{ _#{tag.type}_ }" else ''
