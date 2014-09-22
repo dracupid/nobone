@@ -8,7 +8,7 @@ A server library tries to understand what developers really need.
 The philosophy behind NoBone is providing possibilities rather than
 telling developers what they should do. All the default behaviors are
 just examples of how to use NoBone. All the APIs should dance together
-happily. So other than js, the idea should be ported to any other language easily.
+happily. So other than javascript, the idea should be ported to any other language easily.
 
 [![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
 
@@ -1542,8 +1542,8 @@ Memory cache is faster than direct file streaming even on SSD machine.
 
 Type   | Performance
 ------ | ---------------
-memory | 1,167 ops/sec ±4.11% (68 runs sampled)
-stream |   759 ops/sec ±2.77% (79 runs sampled)
+memory | 1,225 ops/sec ±3.42% (74 runs sampled)
+stream | 933 ops/sec ±3.23% (71 runs sampled)
 
 <h3>crc32 vs jhash</h3>
 As we can see, jhash is about 1.5x faster than crc32.
