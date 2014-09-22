@@ -1,8 +1,9 @@
-- v0.7.4
+- v0.7.5
 
   - Add `kit.exec` helper.
   - Add renderer cache limitation.
   - Update `stylus` to `v0.49.0`.
+  - Fix a watch bug of renderer.
 
 - v0.7.3
 
