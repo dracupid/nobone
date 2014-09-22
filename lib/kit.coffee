@@ -303,16 +303,8 @@ _.extend kit, {
 
 		p.catch (err) -> defer.reject err
 
-		drain = 0
-		resolve = ->
-			if drain == 2
-				defer.resolve { stdout, stderr }
-			drain++
-		p.process.stderr.on 'end', resolve
-		p.process.stdout.on 'end', resolve
-		p.done resolve
-
-		defer.promise
+		p.then (msg) ->
+			_.extend msg, { stdout, stderr }
 
 	###*
 	 * See my project [fs-more][fs-more].
