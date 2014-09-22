@@ -73,6 +73,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		enable_watcher: process.env.NODE_ENV == 'development'
 		auto_log: process.env.NODE_ENV == 'development'
 		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
+		cache_limit: 1024
 		file_handlers: {
 			'.html': {
 				default: true    # Whether it is a default handler, optional.
@@ -403,8 +404,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.release_cache = (path) ->
 		handler = cache_pool[path]
-		for wpath, watcher of handler.watched_list
-			fs.unwatchFile(wpath, watcher)
+		handler.deleted = true
+		if handler.watched_list
+			for wpath, watcher of handler.watched_list
+				fs.unwatchFile(wpath, watcher)
 		delete cache_pool[path]
 
 	self.e = {}
@@ -445,6 +448,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, args
 
+	###*
+	 * Set the handler's source property.
+	 * @private
+	 * @param  {file_handler} handler
+	 * @return {Promise} Contains handler
+	###
 	get_src = (handler) ->
 		readfile = (path) ->
 			handler.path = path
@@ -479,13 +488,20 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					kit.readFile path, handler.encoding
 					.then (source) ->
 						handler.source = source
-						cache_pool[path] = handler
 						handler
 				else
 					err = new Error('File not exists: ' + handler.no_ext_path)
 					err.name = 'file_not_exists'
 					throw err
 
+	###*
+	 * Get the compiled code
+	 * @private
+	 * @param  {String}  ext_bin
+	 * @param  {File_handler}  cache
+	 * @param  {Boolean} is_cache
+	 * @return {Promise} Contains the compiled content.
+	###
 	get_content = (ext_bin, cache, is_cache = true) ->
 		cache.last_ext_bin = ext_bin
 		if ext_bin == cache.ext and not cache.force_compile
@@ -505,7 +521,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				err.name = self.e.compile_error
 				cache.error = err
 			.then ->
-				if opts.enable_watcher and is_cache
+				if opts.enable_watcher and is_cache and not cache.deleted
 					watch cache
 			.then ->
 				if cache.error
@@ -513,6 +529,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					cache.content
 
+	###*
+	 * Set handler cache.
+	 * @param  {File_handler} handler
+	 * @return {Promise}
+	###
 	get_cache = (handler) ->
 		handler.compiler ?= (bin) -> bin
 
@@ -523,9 +544,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			return false
 
 		if cache == undefined
-			p = get_src(handler)
-			p.then (cache) -> cache_pool[cache.path] = cache
-			p
+			get_src(handler).then (cache) ->
+				cache_pool[cache.path] = cache
+				if _.keys(cache_pool).length > opts.cache_limit
+					min_handler = _(cache_pool).values().min('ctime').value()
+					if min_handler
+						self.release_cache min_handler.path
+				cache
 		else
 			Q.fcall ->
 				if cache.error
@@ -533,6 +558,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					cache
 
+	###*
+	 * Generate a file handler.
+	 * @param  {String} path
+	 * @return {File_handler}
+	###
 	gen_handler = (path) ->
 		# TODO: This part is somehow too complex.
 
