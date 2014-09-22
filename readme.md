@@ -60,7 +60,7 @@ nobone -d
 
 0. The documentation looks weird on Github.
 
-  > Yes, please see the FAQ 1 and use offline documentation.
+  > Due to the bug of Github markdown parser, please see the FAQ 1 and use offline documentation.
 
 0. Why I can't execute the entrance file with nobone cli tool?
 
@@ -182,12 +182,11 @@ nobone bone -h
 
 ## Plugin
 
-Here I give a simple instruction. For Real example see [nobone-sync](https://github.com/ysmood/nobone-sync).
+Here I give a simple instruction. For a real example, see [nobone-sync](https://github.com/ysmood/nobone-sync).
 
 ### Package config
 
-NoBone support a simple way to implement npm plugin. And your npm package don't
-have to waist time to install nobone dependencies. The `package.json` file can only have these properties:
+NoBone support a simple way to implement npm plugin. And your npm package doesn't have to waist time to install nobone dependencies. The `package.json` file can only have these properties:
 
 ```javascript
 {
@@ -222,6 +221,8 @@ You can use `nobone ls` to list all installed plugins.
 *****************************************************************************
 
 ## Modules API
+
+_It's highly recommended reading the API doc locally by command `nobone --doc`_
 
 ### nobone
 

@@ -9,7 +9,7 @@
 
 0. The documentation looks weird on Github.
 
-  > Yes, please see the FAQ 1 and use offline documentation.
+  > Due to the bug of Github markdown parser, please see the FAQ 1 and use offline documentation.
 
 0. Why I can't execute the entrance file with nobone cli tool?
 

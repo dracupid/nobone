@@ -91,12 +91,11 @@ nobone bone -h
 
 ## Plugin
 
-Here I give a simple instruction. For Real example see [nobone-sync](https://github.com/ysmood/nobone-sync).
+Here I give a simple instruction. For a real example, see [nobone-sync](https://github.com/ysmood/nobone-sync).
 
 ### Package config
 
-NoBone support a simple way to implement npm plugin. And your npm package don't
-have to waist time to install nobone dependencies. The `package.json` file can only have these properties:
+NoBone support a simple way to implement npm plugin. And your npm package doesn't have to waist time to install nobone dependencies. The `package.json` file can only have these properties:
 
 ```javascript
 {
@@ -131,6 +130,8 @@ You can use `nobone ls` to list all installed plugins.
 *****************************************************************************
 
 ## Modules API
+
+_It's highly recommended reading the API doc locally by command `nobone --doc`_
 
 <%- mods_api %>
 
