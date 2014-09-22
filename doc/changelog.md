@@ -3,6 +3,7 @@
   - Update `jdb` to `v0.3.1`.
   - Update `express` to `v4.9.4`.
   - Update `serve-index` to `v1.3.0`.
+  - Rename `sendfile` t `sendFile`.
 
 - v0.7.2
 
