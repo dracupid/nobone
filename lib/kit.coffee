@@ -1048,8 +1048,8 @@ _.extend kit, {
 		ps.on 'error', (err) ->
 			defer.reject err
 
-		ps.on 'exit', (worker, code, signal) ->
-			defer.resolve { worker, code, signal }
+		ps.on 'close', (code, signal) ->
+			defer.resolve { code, signal }
 
 		defer.promise.process = ps
 
