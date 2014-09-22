@@ -230,9 +230,9 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  NoBone has several modules and a helper lib.
  **All the modules are optional**.
- Only the `kit` lib is load by default and is not optional.
+ Only the `kit` lib is loaded by default and is not optional.
  
- Most of the async functions are inplemented with [Q][Q].
+ Most of the async functions are implemented with [Q][Q].
  [Q]: https://github.com/kriskowal/q
 
 - #### <a href="lib/nobone.coffee#L33" target="_blank"><b>nobone</b></a>

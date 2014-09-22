@@ -1,9 +1,9 @@
 ###*
  * NoBone has several modules and a helper lib.
  * **All the modules are optional**.
- * Only the `kit` lib is load by default and is not optional.
+ * Only the `kit` lib is loaded by default and is not optional.
  *
- * Most of the async functions are inplemented with [Q][Q].
+ * Most of the async functions are implemented with [Q][Q].
  * [Q]: https://github.com/kriskowal/q
 ###
 Overview = 'nobone'
