@@ -505,6 +505,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	get_content = (ext_bin, cache, is_cache = true) ->
 		cache.last_ext_bin = ext_bin
 		if ext_bin == cache.ext and not cache.force_compile
+			if opts.enable_watcher and is_cache and not cache.deleted
+				watch cache
 			Q cache.source
 		else if cache.content
 			Q cache.content
@@ -523,7 +525,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.then ->
 				if opts.enable_watcher and is_cache and not cache.deleted
 					watch cache
-			.then ->
+
 				if cache.error
 					throw cache.error
 				else
