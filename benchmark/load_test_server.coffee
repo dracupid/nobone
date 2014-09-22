@@ -3,10 +3,13 @@ nobone = require '../lib/nobone'
 
 port = 8215
 
-file_path = 'assets/img/nobone.png'
+file_path = './assets/img/nobone.png'
 
 service.get '/stream', (req, res) ->
-	res.sendFile file_path
+	kit.readFile file_path
+	.done (data) ->
+		res.type 'png'
+		res.send data
 
 mem_cache = kit.fs.readFileSync file_path
 service.get '/memory', (req, res) ->
