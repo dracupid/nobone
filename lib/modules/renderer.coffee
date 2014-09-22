@@ -33,7 +33,7 @@ fs = kit.require 'fs'
  * 			ext_src: ['.ejs', '.jade']
  * 			extra_watch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
- * 			compiler: (str, path, ext_src, data) -> ...
+ * 			compiler: (str, path, data) -> ...
  * 		}
  * 		'.js': {
  * 			ext_src: '.coffee'
@@ -79,10 +79,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				ext_src: ['.ejs', '.jade']
 				###*
 				 * The compiler can handle any type of file.
-				 * @this {File_handler} It has a extra property `opts` which is the
-				 * options of the current renderer.
-				 * If you need source map support, the `source_map`property
-				 * must be set during the compile process.
+				 * @context {File_handler} Properties:
+				 * ```coffeescript
+				 * {
+				 * 	ext: String # The current file's extension.
+				 * 	opts: Object # The current options of renderer.
+				 *
+				 * 	# The source map informantion.
+				 *  # If you need source map support, the `source_map`property
+				 *  # must be set during the compile process.
+				 * 	source_map: Boolean
+				 * }
+				 * ```
 				 * @param  {String} str Source content.
 				 * @param  {String} path For debug info.
 				 * @param  {Any} data The data sent from the `render` function.
