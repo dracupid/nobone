@@ -22,7 +22,7 @@ file_path = 'readme.md'
 s_etag = 0
 nb.service.get '/stream', (req, res) ->
 	res.set 'Etag', s_etag++
-	res.sendfile file_path
+	res.sendFile file_path
 
 nb.service.get '/', (req, res) ->
 	res.send 200

@@ -21,7 +21,7 @@ renderer.file_handlers['.md'].compiler = (str, path) ->
 		tpl { path, body: md }
 
 service.get '/favicon.ico', (req, res) ->
-	res.sendfile nobone_favicon
+	res.sendFile nobone_favicon
 
 service.use renderer.static(root_dir)
 service.use '/assets', renderer.static(assets_dir)

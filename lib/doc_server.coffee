@@ -51,7 +51,7 @@ service.use renderer.static({
 	index: true
 })
 service.get '/favicon.ico', (req, res) ->
-	res.sendfile nobone_favicon
+	res.sendFile nobone_favicon
 
 module.exports = (opts) ->
 	service.listen opts.port, ->
