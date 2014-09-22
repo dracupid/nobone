@@ -254,6 +254,67 @@ _.extend kit, {
 		kit.log msg, 'error', opts
 
 	###*
+	 * A better `child_process.exec`.
+	 * @param  {String} cmd   Shell commands.
+	 * @param  {String} shell Shell name. Such as `bash`, `zsh`. Optinal.
+	 * @return {Promise} Resolves when the process's stdio is drained.
+	 * @example
+	 * ```coffeescript
+	 * kit.exec """
+	 * a=10
+	 * echo $a
+	 * """
+	 *
+	 * # Bash doesn't support "**" recusive match pattern.
+	 * kit.exec """
+	 * echo **\/*.css
+	 * """, 'zsh'
+	 * ```
+	###
+	exec: (cmd, shell) ->
+		stream = kit.require 'stream'
+
+		shell = process.env.SHELL or
+			process.env.ComSpec or
+			process.env.COMSPEC
+
+		defer = Q.defer()
+
+		cmd_stream = new stream.Transform
+		cmd_stream.push cmd
+		cmd_stream.end()
+
+		stdout = ''
+		out_stream = new stream.Writable
+		out_stream._write = (chunk) ->
+			stdout += chunk
+
+		stderr = ''
+		err_stream = new stream.Writable
+		err_stream._write = (chunk) ->
+			stderr += chunk
+
+		p = kit.spawn shell, [], {
+			stdio: 'pipe'
+		}
+		cmd_stream.pipe p.process.stdin
+		p.process.stdout.pipe out_stream
+		p.process.stderr.pipe err_stream
+
+		p.catch (err) -> defer.reject err
+
+		drain = 0
+		resolve = ->
+			if drain == 2
+				defer.resolve { stdout, stderr }
+			drain++
+		p.process.stderr.on 'end', resolve
+		p.process.stdout.on 'end', resolve
+		p.done resolve
+
+		defer.promise
+
+	###*
 	 * See my project [fs-more][fs-more].
 	 * [fs-more]: https://github.com/ysmood/fs-more
 	###
