@@ -394,10 +394,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Release the resources.
 	###
 	self.close = ->
-		for path, handler of cache_pool
-			for wpath, watcher of handler.watched_list
-				fs.unwatchFile(wpath, watcher)
-			delete cache_pool[path]
+		for path of cache_pool
+			self.release_cache path
+
+	###*
+	 * Release memory cache of a file.
+	 * @param  {String} path
+	###
+	self.release_cache = (path) ->
+		handler = cache_pool[path]
+		for wpath, watcher of handler.watched_list
+			fs.unwatchFile(wpath, watcher)
+		delete cache_pool[path]
 
 	self.e = {}
 
@@ -571,7 +579,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		watcher = (path, curr, prev, is_deletion) ->
 			# If moved or deleted
 			if is_deletion
-				delete cache_pool[path]
+				self.release_cache path
 				emit self.e.file_deleted, path + ' -> '.cyan + handler.path
 
 			else if curr.mtime != prev.mtime
