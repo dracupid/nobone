@@ -167,7 +167,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							Q.ninvoke stylus, 'render', str, data
 
 						when '.less'
-							@dependency_reg = /@import\s+([^\r\n]+)/
+							@dependency_reg = /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
 							try
 								less = kit.require('less')
 							catch e
@@ -442,7 +442,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	emit = (args...) ->
 		if opts.auto_log
 			if args[0] == 'compile_error'
-				kit.err args[1].yellow + '\n' + args[2].toString().red
+				kit.err args[1].yellow + '\n' + (args[2] + '').red
 			else
 				kit.log [args[0].cyan].concat(args[1..]).join(' | '.grey)
 
@@ -650,11 +650,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				"name"\s\s
 				"name'"
 				"name\""
+				"name";\s\s
 		###
 		trim = (path) ->
-			path.trim()
-			.replace /^['"]/, ''
-			.replace /['"]$/, ''
+			path
+			.replace /^[\s'"]+/, ''
+			.replace /[\s'";]+$/, ''
 
 		reg = new RegExp(handler.dependency_reg.source, 'g')
 		if curr_path
