@@ -1,3 +1,7 @@
+- v0.7.6
+
+  - Fix a less dependency pattern bug.
+
 - v0.7.5
 
   - Add `kit.exec` helper.
