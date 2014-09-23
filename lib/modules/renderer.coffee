@@ -368,7 +368,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			{ path, ext, data, is_cache, req_path } = path
 
 		if _.isString ext
-			path = path[...-kit.path.extname(path).length] + ext
+			path = force_ext path, ext
 		else if _.isBoolean ext
 			is_cache = ext
 			data = undefined
@@ -648,8 +648,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		###
 			Trim cases:
 				"name"\s\s
-				"name'"
-				"name\""
 				"name";\s\s
 		###
 		trim = (path) ->
@@ -669,7 +667,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						return if not matches
 						Q.all matches.map (m) ->
 							path = trim m.match(handler.dependency_reg)[1]
-							dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
+							unless kit.path.extname(path)
+								path = path + handler.ext
+							dep_path = kit.path.join(handler.dirname, path)
 							get_dependencies handler, dep_path
 			.catch -> return
 		else
@@ -678,7 +678,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			return Q() if not matches
 			Q.all matches.map (m) ->
 				path = trim m.match(handler.dependency_reg)[1]
-				dep_path = kit.path.join(handler.dirname, force_ext(path, handler.ext))
+				unless kit.path.extname(path)
+					path = path + handler.ext
+				dep_path = kit.path.join(handler.dirname, path)
 				get_dependencies handler, dep_path
 
 	gen_watch_list = (handler) ->
