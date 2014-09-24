@@ -1,4 +1,4 @@
-- v0.7.6
+- v0.7.7
 
   - Fix a less dependency pattern bug.
   - Add dependency roots option for `File_handler`.

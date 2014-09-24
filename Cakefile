@@ -208,6 +208,6 @@ task 'hotfix', 'Hotfix third dependencies\' bugs', ->
 				'var isStats = entity.isFile && entity.isDirectory && entity.blksize'
 			)
 			kit.outputFile path, str
-		.done()
+		.catch()
 
 	fix_issue7()
