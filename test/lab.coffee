@@ -3,14 +3,15 @@ _ = require 'lodash'
 
 { kit, renderer: rr, service: srv } = nobone()
 
-rr.file_handlers['.css'].dependency_roots = 'test/fixtures/deps_root'
 rr.file_handlers['.css'].compiler = (str, path) ->
 	@dependency_reg = /@(?:import|require)\s+([^\r\n]+)/
+	@dependency_roots = 'test/fixtures/deps_root'
+
 	stylus = kit.require 'stylus'
 	kit.Q.ninvoke(
 		stylus(str)
 		.set('filename', path)
-		.include('test/fixtures/deps_root')
+		.include(@dependency_roots)
 		'render'
 	)
 

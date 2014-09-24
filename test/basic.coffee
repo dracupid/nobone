@@ -25,6 +25,18 @@ describe 'Basic:', ->
 	nb.service.use nb.renderer.static('test/fixtures')
 	nb.service.use '/test', nb.renderer.static('test')
 
+	nb.renderer.file_handlers['.css'].compiler = (str, path) ->
+		@dependency_reg = /@(?:import|require)\s+([^\r\n]+)/
+		@dependency_roots = 'test/fixtures/deps_root'
+
+		stylus = nb.kit.require 'stylus'
+		Q.ninvoke(
+			stylus(str)
+			.set('filename', path)
+			.include(@dependency_roots)
+			'render'
+		)
+
 	port = 8022
 	nb.kit.log 'Listen port: ' + port
 	watcher_file_cache = null
@@ -38,7 +50,8 @@ describe 'Basic:', ->
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
-				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}\nh1 input {\n  color: #00f;\n}\n"
+				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}" +
+					"\nh1 .input2 {\n  color: #00f;\n}\nh1 .input3 {\n  color: #008000;\n}\n"
 				assert.equal results[2], 'compile_error'
 			.then ->
 				nb.kit.readFile 'test/fixtures/main.coffee'
@@ -137,11 +150,11 @@ describe 'Basic:', ->
 		]).process
 
 		setTimeout(->
-			get '/default.css', port
+			get '/main.js', port
 			.catch (err) ->
 				tdone err.stack
 			.then (res) ->
-				assert.equal res, "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}\nh1 input {\n  color: #00f;\n}\n"
+				assert.equal res.indexOf("document.body.appendChild(elem);"), 75
 				tdone()
 			.fin ->
 				ps.kill 'SIGINT'
