@@ -85,10 +85,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 * {
 				 * 	ext: String # The current file's extension.
 				 * 	opts: Object # The current options of renderer.
+				 * 	dependency_reg: RegExp # The regex to match dependency path.
+				 * 	dependency_roots: Array | String # The root directories for searching dependencies.
 				 *
 				 * 	# The source map informantion.
-				 *  # If you need source map support, the `source_map`property
-				 *  # must be set during the compile process.
+				 * 	# If you need source map support, the `source_map`property
+				 * 	# must be set during the compile process.
 				 * 	source_map: Boolean
 				 * }
 				 * ```
@@ -644,7 +646,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		.done()
 
 	# Parse the dependencies.
-	get_dependencies = (handler, curr_path) ->
+	get_dependencies = (handler, curr_paths) ->
 		###
 			Trim cases:
 				"name"\s\s
@@ -655,33 +657,36 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.replace /^[\s'"]+/, ''
 			.replace /[\s'";]+$/, ''
 
+		gen_dep_paths = (matches) ->
+			Q.all matches.map (m) ->
+				path = trim m.match(handler.dependency_reg)[1]
+				unless kit.path.extname(path)
+					path = path + handler.ext
+
+				dep_paths = handler.dependency_roots.map (root) ->
+					kit.path.join root, path
+
+				get_dependencies handler, dep_paths
+
 		reg = new RegExp(handler.dependency_reg.source, 'g')
-		if curr_path
-			kit.glob curr_path
+		if curr_paths
+			kit.glob curr_paths
 			.then (paths) ->
 				Q.all paths.map (path) ->
 					kit.readFile(path, 'utf8')
 					.then (str) ->
+						# The point to add path to watch list.
 						handler.new_watch_list[path] = null
+
 						matches = str.match reg
 						return if not matches
-						Q.all matches.map (m) ->
-							path = trim m.match(handler.dependency_reg)[1]
-							unless kit.path.extname(path)
-								path = path + handler.ext
-							dep_path = kit.path.join(handler.dirname, path)
-							get_dependencies handler, dep_path
+						gen_dep_paths matches
 			.catch -> return
 		else
 			return Q() if not handler.source
 			matches = handler.source.match reg
 			return Q() if not matches
-			Q.all matches.map (m) ->
-				path = trim m.match(handler.dependency_reg)[1]
-				unless kit.path.extname(path)
-					path = path + handler.ext
-				dep_path = kit.path.join(handler.dirname, path)
-				get_dependencies handler, dep_path
+			gen_dep_paths matches
 
 	gen_watch_list = (handler) ->
 		if watch.processing.indexOf(handler.path) > -1
@@ -693,6 +698,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		# Add the src file to watch list.
 		if not _.isFunction(handler.watched_list[handler.path])
 			handler.watched_list[handler.path] = null
+
+		# Make sure the dependency_roots is string.
+		handler.dependency_roots ?= []
+		if _.isString handler.dependency_roots
+			handler.dependency_roots = [handler.dependency_roots]
+		handler.dependency_roots.push handler.dirname
 
 		handler.new_watch_list = {}
 		_.extend handler.new_watch_list, handler.extra_watch
