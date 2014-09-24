@@ -1,7 +1,8 @@
-- v0.7.7
+- v0.7.8
 
   - Fix a less dependency pattern bug.
   - Add dependency roots option for `File_handler`.
+  - Fix a cake path issue.
 
 - v0.7.5
 

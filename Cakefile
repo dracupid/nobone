@@ -1,10 +1,6 @@
 process.env.NODE_ENV = 'development'
 
-try
-	kit = require './lib/kit'
-catch e
-	kit = require './dist/kit'
-
+kit = require './lib/kit'
 { Q, _ } = kit
 
 option '-d', '--debug', 'Node debug mode'
@@ -200,14 +196,20 @@ task 'hotfix', 'Hotfix third dependencies\' bugs', ->
 	# ys: Node break again and again.
 
 	fix_issue7 = ->
-		path = 'node_modules/express/node_modules/etag/index.js'
-		kit.readFile path, 'utf8'
-		.then (str) ->
-			str = str.replace(
-				'var isStats = entity instanceof Stats'
-				'var isStats = entity.isFile && entity.isDirectory && entity.blksize'
-			)
-			kit.outputFile path, str
-		.catch()
+		try
+			path = require.resolve 'express'
+			path = kit.path.dirname(path)
+			path = kit.path.join path, 'node_modules/etag/index.js'
 
-	fix_issue7()
+			kit.readFile path, 'utf8'
+			.then (str) ->
+				str = str.replace(
+					'var isStats = entity instanceof Stats'
+					'var isStats = entity.isFile && entity.isDirectory && entity.blksize'
+				)
+				kit.outputFile path, str
+			.then ->
+				kit.log 'fix_issue7'.yellow
+
+	if kit.node_version() > 0.1112
+		fix_issue7()

@@ -5,8 +5,6 @@ Q = require 'q'
 fs = require 'fs-more'
 glob = require 'glob'
 
-node_verion = +process.versions.node.match(/\d+\.(\d+)\.\d+/)[1]
-
 Q.longStackSupport = process.env.NODE_ENV == 'development'
 
 ###*
@@ -196,7 +194,7 @@ _.extend kit, {
 		crypto = kit.require 'crypto'
 		decipher = crypto.createDecipher algorithm, password
 
-		if node_verion < 10
+		if kit.node_version() < 0.10
 			if Buffer.isBuffer data
 				data = data.toString 'binary'
 			new Buffer(
@@ -219,7 +217,7 @@ _.extend kit, {
 		crypto = kit.require 'crypto'
 		cipher = crypto.createCipher algorithm, password
 
-		if node_verion < 10
+		if kit.node_version() < 0.10
 			if Buffer.isBuffer data
 				data = data.toString 'binary'
 			new Buffer(
@@ -588,6 +586,15 @@ _.extend kit, {
 		kit.log "Monitor: ".yellow + opts.watch_list
 
 		ps
+
+	###*
+	 * Node version. Such as `v0.10.23` is `0.1023`, `v0.10.1` is `0.1001`.
+	 * @type {Float}
+	###
+	node_version: ->
+		ms = process.versions.node.match /(\d+)\.(\d+)\.(\d+)/
+		str = ms[1] + '.' + kit.pad(ms[2], 2) + kit.pad(ms[3], 2)
+		+str
 
 	###*
 	 * Open a thing that your system can recognize.
