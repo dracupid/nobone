@@ -3,6 +3,7 @@
   - Fix a less dependency pattern bug.
   - Add dependency roots option for `File_handler`.
   - Fix a cake path issue.
+  - Update stylus.
 
 - v0.7.5
 

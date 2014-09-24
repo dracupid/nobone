@@ -161,7 +161,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					_.defaults data, {
 						filename: path
 						compress: process.env.NODE_ENV == 'production'
-						cache: false
 					}
 					switch @ext
 						when '.styl'
