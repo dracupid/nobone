@@ -37,10 +37,10 @@ class Nobone then constructor: (opts) ->
 			console.log(">> file_modified: " + msg.req_path)
 
 			reload_elem = (el, key) ->
-				if el[key].indexOf('?') == -1
+				if '?' not in el[key]
 					el[key] += '?nb_auto_reload=0'
 				else
-					if el[key].indexOf('nb_auto_reload') > -1
+					if 'nb_auto_reload' in el[key]
 						el[key] = el[key].replace /nb_auto_reload=(\d+)/, (m, p) ->
 							'nb_auto_reload=' + (+p + 1)
 					else
@@ -67,17 +67,17 @@ class Nobone then constructor: (opts) ->
 					each 'script', (el) ->
 						# Only reload the page if the page has included
 						# the href.
-						if el.src.indexOf(msg.req_path) > -1
+						if msg.req_path in el.src
 							location.reload()
 
 				when '.css'
 					each 'link', (el) ->
-						if el.href.indexOf(msg.req_path) > -1
+						if msg.req_path in el.href
 							reload_elem el, 'href'
 
 				when '.jpg', '.gif', '.png'
 					each 'img', (el) ->
-						if el.src.indexOf(msg.req_path) > -1
+						if msg.req_path in el.src
 							reload_elem el, 'src'
 
 				else

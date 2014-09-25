@@ -723,7 +723,7 @@ _.extend kit, {
 					type = parse_tag opts.type_reg
 					if type
 						tag.type = type
-						if opts.name_tags.indexOf(tag.tag_name) > -1
+						if tag.tag_name in opts.name_tags
 							tag.name = parse_tag opts.name_reg
 						tag.description = parse_tag(opts.description_reg) or ''
 					else
@@ -1017,7 +1017,7 @@ _.extend kit, {
 			kit.path.normalize __dirname + '/../node_modules/.bin'
 			kit.path.normalize process.cwd() + '/node_modules/.bin'
 		].forEach (path) ->
-			if PATH.indexOf(path) < 0 and kit.fs.existsSync(path)
+			if path not in PATH and kit.fs.existsSync(path)
 				PATH = [path, PATH].join kit.path.delimiter
 		process.env.PATH = PATH
 		process.env.Path = PATH
@@ -1220,7 +1220,7 @@ _.extend kit, {
 						opts.handler 'create', p
 
 				_.each opts.watched_list, (v, wpath) ->
-					if paths.indexOf(wpath) == -1 and
+					if wpath not in paths and
 					wpath.indexOf(path) == 0
 						delete opts.deleted_list[wpath]
 						delete opts.watched_list[wpath]

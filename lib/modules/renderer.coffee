@@ -325,7 +325,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
 					self.opts.inject_client_reg.test(body) and
-					body.indexOf(nobone.client()) == -1
+					nobone.client() not in body
 						body += nobone.client()
 
 					res.send body
@@ -582,11 +582,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		else if self.file_handlers[ext_bin]
 			handler = self.file_handlers[ext_bin]
 			if self.file_handlers[ext_bin].ext_src and
-			self.file_handlers[ext_bin].ext_src.indexOf(ext_bin) > -1
+			ext_bin in self.file_handlers[ext_bin].ext_src
 				handler.force_compile = true
 		else
 			handler = _.find self.file_handlers, (el) ->
-				el.ext_src and el.ext_src.indexOf(ext_bin) > -1
+				el.ext_src and ext_bin in el.ext_src
 
 		if handler
 			handler = _.cloneDeep(handler)
@@ -689,7 +689,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			gen_dep_paths matches
 
 	gen_watch_list = (handler) ->
-		if watch.processing.indexOf(handler.path) > -1
+		if handler.path in watch.processing
 			return
 
 		# lock current src file.
