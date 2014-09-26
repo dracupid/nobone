@@ -81,6 +81,7 @@ log_reg='.ejs' nobone
 
 # Use custom logic to start up.
 nobone app.js
+watch_persistent=on nobone app.js
 
 # Scaffolding helper
 nobone bone -h
