@@ -115,7 +115,7 @@ init = ->
 
 run_an_app = (plugin) ->
 	# Add the above dirs to PATH env.
-	if not process.env.NODE_PATH or lib_path not in process.env.NODE_PATH
+	if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
 		path_arr = [lib_path, node_lib_path]
 		if process.env.NODE_PATH
 			path_arr.push process.env.NODE_PATH

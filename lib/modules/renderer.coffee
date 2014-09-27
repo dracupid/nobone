@@ -325,7 +325,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
 					self.opts.inject_client_reg.test(body) and
-					nobone.client() not in body
+					body.indexOf(nobone.client()) == -1
 						body += nobone.client()
 
 					res.send body
@@ -689,7 +689,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			gen_dep_paths matches
 
 	gen_watch_list = (handler) ->
-		if handler.path in watch.processing
+		if watch.processing.indexOf(handler.path) > -1
 			return
 
 		# lock current src file.
