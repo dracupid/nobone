@@ -1,3 +1,8 @@
+- v0.7.9
+
+  - Fix a fatal bug of syntax using.
+  - Optimize the watch mechanism.
+
 - v0.7.8
 
   - Fix a less dependency pattern bug.
