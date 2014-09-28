@@ -52,15 +52,11 @@ nobone -d
 0. How to view the documentation with TOC (table of contents) or offline?
 
   > If you have installed nobone globally,
-  > just execute `nobone -d`. If you are on Windows or Mac,
+  > just execute `nobone --doc` or `nobone -d`. If you are on Windows or Mac,
   > it will auto open the documentation.
 
   > If you have installed nobone with `npm install nobone` in current
   > directory, execute `node_modules/.bin/nobone -d`.
-
-0. The documentation looks weird on Github.
-
-  > Due to the bug of Github markdown parser, please see the FAQ 1 and use offline documentation.
 
 0. Why I can't execute the entrance file with nobone cli tool?
 
