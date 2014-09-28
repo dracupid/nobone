@@ -213,7 +213,7 @@ kit.log 'sample plugin'
 
 Suppose we have published the `nobone-sampe` plugin with npm.
 
-Other people can use the plugin after installing it with whether `npm install nobone-sample` nor `npm install -g nobone-sample`.
+Other people can use the plugin after installing it with either `npm install nobone-sample` or `npm install -g nobone-sample`.
 
 To run the plugin simply use `nobone sample`.
 
@@ -242,26 +242,26 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `modules` { _Object_ }
 
-   By default, it only load two modules,
-   `service` and `renderer`:
-   ```coffeescript
-   {
-   	service: {}
-   	renderer: {}
-   	db: null
-   	proxy: null
-   
-   	lang_dir: null # language set directory
-   }
-   ```
+    By default, it only load two modules,
+    `service` and `renderer`:
+    ```coffeescript
+    {
+    	service: {}
+    	renderer: {}
+    	db: null
+    	proxy: null
+    
+    	lang_dir: null # language set directory
+    }
+    ```
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Other options.
+    Other options.
 
  - **<u>return</u>**:  { _Object_ }
 
-   A nobone instance.
+    A nobone instance.
 
 - #### <a href="lib/nobone.coffee#L68" target="_blank"><b>close</b></a>
 
@@ -277,23 +277,23 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   The options of the client, defaults:
-   ```coffeescript
-   {
-   	auto_reload: process.env.NODE_ENV == 'development'
-   	lang_current: kit.lang_current
-   	lang_data: kit.lang_data
-   	host: '' # The host of the event source.
-   }
-   ```
+    The options of the client, defaults:
+    ```coffeescript
+    {
+    	auto_reload: process.env.NODE_ENV == 'development'
+    	lang_current: kit.lang_current
+    	lang_data: kit.lang_data
+    	host: '' # The host of the event source.
+    }
+    ```
 
  - **<u>param</u>**: `use_js` { _Boolean_ }
 
-   By default use html. Default is false.
+    By default use html. Default is false.
 
  - **<u>return</u>**:  { _String_ }
 
-   The code of client helper.
+    The code of client helper.
 
 ### service
 
@@ -303,8 +303,8 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>extends</u>**:  { _Express_ }
 
-   [Ref][express]
-   [express]: http://expressjs.com/4x/api.html
+    [Ref][express]
+    [express]: http://expressjs.com/4x/api.html
 
 - #### <a href="lib/modules/service.coffee#L25" target="_blank"><b>service</b></a>
 
@@ -312,15 +312,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   ```coffeescript
-   {
-   	auto_log: process.env.NODE_ENV == 'development'
-   	enable_remote_log: process.env.NODE_ENV == 'development'
-   	enable_sse: process.env.NODE_ENV == 'development'
-   	express: {}
-   }
-   ```
+    Defaults:
+    ```coffeescript
+    {
+    	auto_log: process.env.NODE_ENV == 'development'
+    	enable_remote_log: process.env.NODE_ENV == 'development'
+    	enable_sse: process.env.NODE_ENV == 'development'
+    	express: {}
+    }
+    ```
 
  - **<u>return</u>**:  { _Service_ }
 
@@ -330,7 +330,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>type</u>**:  { _http.Server_ }
 
-   [Ref](http://nodejs.org/api/http.html#http_class_http_server)
+    [Ref](http://nodejs.org/api/http.html#http_class_http_server)
 
 - #### <a href="lib/modules/service.coffee#L131" target="_blank"><b>sse</b></a>
 
@@ -344,29 +344,29 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>property</u>**: `sessions` { _Array_ }
 
-   The sessions of connected clients.
+    The sessions of connected clients.
 
  - **<u>property</u>**: `retry` { _Integer_ }
 
-   The reconnection time to use when attempting to send the event, unit is ms.
-   Default is 1000ms.
-   A session object is something like:
-   ```coffeescript
-   {
-   	req  # The express.js req object.
-   	res  # The express.js res object.
-   }
-   ```
+    The reconnection time to use when attempting to send the event, unit is ms.
+    Default is 1000ms.
+    A session object is something like:
+    ```coffeescript
+    {
+    	req  # The express.js req object.
+    	res  # The express.js res object.
+    }
+    ```
 
  - **<u>example</u>**:
 
-   You browser code should be something like this:
-   ```coffeescript
-   es = new EventSource('/nobone-sse')
-   es.addEventListener('event_name', (e) ->
-   	msg = JSON.parse(e.data)
-   	console.log(msg)
-   ```
+    You browser code should be something like this:
+    ```coffeescript
+    es = new EventSource('/nobone-sse')
+    es.addEventListener('event_name', (e) ->
+    	msg = JSON.parse(e.data)
+    	console.log(msg)
+    ```
 
 - #### <a href="lib/modules/service.coffee#L143" target="_blank"><b>e.sse_connected</b></a>
 
@@ -378,7 +378,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `session` { _SSE_session_ }
 
-   The session object of current connection.
+    The session object of current connection.
 
 - #### <a href="lib/modules/service.coffee#L150" target="_blank"><b>e.sse_close</b></a>
 
@@ -388,7 +388,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `session` { _SSE_session_ }
 
-   The session object of current connection.
+    The session object of current connection.
 
 - #### <a href="lib/modules/service.coffee#L158" target="_blank"><b>sse.create</b></a>
 
@@ -406,11 +406,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `event` { _String_ }
 
-   The event name.
+    The event name.
 
  - **<u>param</u>**: `msg` { _Object | String_ }
 
-   The message to send to the client.
+    The message to send to the client.
 
 - #### <a href="lib/modules/service.coffee#L201" target="_blank"><b>sse.emit</b></a>
 
@@ -418,16 +418,16 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `event` { _String_ }
 
-   The event name.
+    The event name.
 
  - **<u>param</u>**: `msg` { _Object | String_ }
 
-   The data you want to emit to session.
+    The data you want to emit to session.
 
  - **<u>param</u>**:  { _String_ }
 
-   [path] The namespace of target sessions. If not set,
-   broadcast to all clients.
+    [path] The namespace of target sessions. If not set,
+    broadcast to all clients.
 
 ### renderer
 
@@ -441,7 +441,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>extends</u>**:  { _events.EventEmitter_ }
 
-   [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
+    [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
 
 - #### <a href="lib/modules/renderer.coffee#L65" target="_blank"><b>renderer</b></a>
 
@@ -449,48 +449,48 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   ```coffeescript
-   {
-   	enable_watcher: process.env.NODE_ENV == 'development'
-   	auto_log: process.env.NODE_ENV == 'development'
-   
-   	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
-   	# into the page.
-   	inject_client_reg: /<html[^<>]*>[\s\S]*</html>/i
-   	file_handlers: {
-   		'.html': {
-   			default: true
-   			ext_src: ['.ejs', '.jade']
-   			extra_watch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
-   			encoding: 'utf8' # optional, default is 'utf8'
-   			compiler: (str, path, data) -> ...
-   		}
-   		'.js': {
-   			ext_src: '.coffee'
-   			compiler: (str, path) -> ...
-   		}
-   		'.css': {
-   			ext_src: ['.styl', '.less']
-   			compiler: (str, path) -> ...
-   		}
-   		'.md': {
-   			type: 'html' # Force type, optional.
-   			ext_src: ['.md', '.markdown']
-   			compiler: (str, path) -> ...
-   		}
-   		'.jpg': {
-   			encoding: null # To use buffer.
-   			compiler: (buf) -> buf
-   		}
-   		'.png': {
-   			encoding: null # To use buffer.
-   			compiler: '.jpg' # Use the compiler of '.jpg'
-   		}
-   		'.gif' ...
-   	}
-   }
-   ```
+    Defaults:
+    ```coffeescript
+    {
+    	enable_watcher: process.env.NODE_ENV == 'development'
+    	auto_log: process.env.NODE_ENV == 'development'
+    
+    	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
+    	# into the page.
+    	inject_client_reg: /<html[^<>]*>[\s\S]*</html>/i
+    	file_handlers: {
+    		'.html': {
+    			default: true
+    			ext_src: ['.ejs', '.jade']
+    			extra_watch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
+    			encoding: 'utf8' # optional, default is 'utf8'
+    			compiler: (str, path, data) -> ...
+    		}
+    		'.js': {
+    			ext_src: '.coffee'
+    			compiler: (str, path) -> ...
+    		}
+    		'.css': {
+    			ext_src: ['.styl', '.less']
+    			compiler: (str, path) -> ...
+    		}
+    		'.md': {
+    			type: 'html' # Force type, optional.
+    			ext_src: ['.md', '.markdown']
+    			compiler: (str, path) -> ...
+    		}
+    		'.jpg': {
+    			encoding: null # To use buffer.
+    			compiler: (buf) -> buf
+    		}
+    		'.png': {
+    			encoding: null # To use buffer.
+    			compiler: '.jpg' # Use the compiler of '.jpg'
+    		}
+    		'.gif' ...
+    	}
+    }
+    ```
 
  - **<u>return</u>**:  { _Renderer_ }
 
@@ -500,43 +500,43 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>context</u>**:  { _File_handler_ }
 
-   Properties:
-   ```coffeescript
-   {
-   	ext: String # The current file's extension.
-   	opts: Object # The current options of renderer.
-   	dependency_reg: RegExp # The regex to match dependency path.
-   	dependency_roots: Array | String # The root directories for searching dependencies.
-   
-   	# The source map informantion.
-   	# If you need source map support, the `source_map`property
-   	# must be set during the compile process.
-   	source_map: Boolean
-   }
-   ```
+    Properties:
+    ```coffeescript
+    {
+    	ext: String # The current file's extension.
+    	opts: Object # The current options of renderer.
+    	dependency_reg: RegExp # The regex to match dependency path.
+    	dependency_roots: Array | String # The root directories for searching dependencies.
+    
+    	# The source map informantion.
+    	# If you need source map support, the `source_map`property
+    	# must be set during the compile process.
+    	source_map: Boolean
+    }
+    ```
 
  - **<u>param</u>**: `str` { _String_ }
 
-   Source content.
+    Source content.
 
  - **<u>param</u>**: `path` { _String_ }
 
-   For debug info.
+    For debug info.
 
  - **<u>param</u>**: `data` { _Any_ }
 
-   The data sent from the `render` function.
-   when you call the `render` directly. Default is an object:
-   ```coffeescript
-   {
-   	_: lodash
-   	inject_client: process.env.NODE_ENV == 'development'
-   }
-   ```
+    The data sent from the `render` function.
+    when you call the `render` directly. Default is an object:
+    ```coffeescript
+    {
+    	_: lodash
+    	inject_client: process.env.NODE_ENV == 'development'
+    }
+    ```
 
  - **<u>return</u>**:  { _Promise_ }
 
-   Promise that contains the compiled content.
+    Promise that contains the compiled content.
 
 - #### <a href="lib/modules/renderer.coffee#L235" target="_blank"><b>file_handlers</b></a>
 
@@ -547,10 +547,10 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   # We return js directly.
-   renderer.file_handlers['.js'].compiler = (str) -> str
-   ```
+    ```coffeescript
+    # We return js directly.
+    renderer.file_handlers['.js'].compiler = (str) -> str
+    ```
 
 - #### <a href="lib/modules/renderer.coffee#L241" target="_blank"><b>cache_pool</b></a>
 
@@ -558,7 +558,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>type</u>**:  { _Object_ }
 
-   Key is the file path.
+    Key is the file path.
 
 - #### <a href="lib/modules/renderer.coffee#L264" target="_blank"><b>static</b></a>
 
@@ -567,19 +567,19 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _String | Object_ }
 
-   If it's a string it represents the root_dir
-   of this static directory. Defaults:
-   ```coffeescript
-   {
-   	root_dir: '.'
-   	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
-   	inject_client: process.env.NODE_ENV == 'development'
-   }
-   ```
+    If it's a string it represents the root_dir
+    of this static directory. Defaults:
+    ```coffeescript
+    {
+    	root_dir: '.'
+    	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
+    	inject_client: process.env.NODE_ENV == 'development'
+    }
+    ```
 
  - **<u>return</u>**:  { _Middleware_ }
 
-   Experss.js middleware.
+    Experss.js middleware.
 
 - #### <a href="lib/modules/renderer.coffee#L368" target="_blank"><b>render</b></a>
 
@@ -588,43 +588,43 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `path` { _String | Object_ }
 
-   The file path. The path extension should be
-   the same with the compiled result file. If it's an object, it can contain
-   any number of following params.
+    The file path. The path extension should be
+    the same with the compiled result file. If it's an object, it can contain
+    any number of following params.
 
  - **<u>param</u>**: `ext` { _String_ }
 
-   Force the extension. Optional.
+    Force the extension. Optional.
 
  - **<u>param</u>**: `data` { _Object_ }
 
-   Extra data you want to send to the compiler. Optional.
+    Extra data you want to send to the compiler. Optional.
 
  - **<u>param</u>**: `is_cache` { _Boolean_ }
 
-   Whether to cache the result,
-   default is true. Optional.
+    Whether to cache the result,
+    default is true. Optional.
 
  - **<u>param</u>**: `req_path` { _String_ }
 
-   The http request path. Support it will make auto-reload
-   more efficient.
+    The http request path. Support it will make auto-reload
+    more efficient.
 
  - **<u>return</u>**:  { _Promise_ }
 
-   Contains the compiled content.
+    Contains the compiled content.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   # The 'a.ejs' file may not exists, it will auto-compile
-   # the 'a.ejs' or 'a.html' to html.
-   renderer.render('a.html').done (html) -> kit.log(html)
-   
-   # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
-   renderer.render('a.ejs', '.html').done (html) -> html == '10'
-   renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
-   ```
+    ```coffeescript
+    # The 'a.ejs' file may not exists, it will auto-compile
+    # the 'a.ejs' or 'a.html' to html.
+    renderer.render('a.html').done (html) -> kit.log(html)
+    
+    # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
+    renderer.render('a.ejs', '.html').done (html) -> html == '10'
+    renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
+    ```
 
 - #### <a href="lib/modules/renderer.coffee#L399" target="_blank"><b>close</b></a>
 
@@ -642,11 +642,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `path` { _string_ }
 
-   The error file.
+    The error file.
 
  - **<u>param</u>**: `err` { _Error_ }
 
-   The error info.
+    The error info.
 
 - #### <a href="lib/modules/renderer.coffee#L430" target="_blank"><b>e.watch_file</b></a>
 
@@ -654,15 +654,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `path` { _string_ }
 
-   The path of the file.
+    The path of the file.
 
  - **<u>param</u>**: `curr` { _fs.Stats_ }
 
-   Current state.
+    Current state.
 
  - **<u>param</u>**: `prev` { _fs.Stats_ }
 
-   Previous state.
+    Previous state.
 
 - #### <a href="lib/modules/renderer.coffee#L436" target="_blank"><b>e.file_deleted</b></a>
 
@@ -670,7 +670,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `path` { _string_ }
 
-   The path of the file.
+    The path of the file.
 
 - #### <a href="lib/modules/renderer.coffee#L442" target="_blank"><b>e.file_modified</b></a>
 
@@ -678,7 +678,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `path` { _string_ }
 
-   The path of the file.
+    The path of the file.
 
 - #### <a href="lib/modules/renderer.coffee#L541" target="_blank"><b>get_cache</b></a>
 
@@ -709,12 +709,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   ```coffeescript
-   {
-   	db_path: './nobone.db'
-   }
-   ```
+    Defaults:
+    ```coffeescript
+    {
+    	db_path: './nobone.db'
+    }
+    ```
 
  - **<u>return</u>**:  { _Jdb_ }
 
@@ -741,12 +741,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults: `{ }`
+    Defaults: `{ }`
 
  - **<u>return</u>**:  { _Proxy_ }
 
-   For more, see [node-http-proxy][node-http-proxy]
-   [node-http-proxy]: https://github.com/nodejitsu/node-http-proxy
+    For more, see [node-http-proxy][node-http-proxy]
+    [node-http-proxy]: https://github.com/nodejitsu/node-http-proxy
 
 - #### <a href="lib/modules/proxy.coffee#L42" target="_blank"><b>url</b></a>
 
@@ -758,22 +758,22 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `url` { _String_ }
 
-   The target url force to. Optional
+    The target url force to. Optional
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Other options. Default:
-   ```coffeescript
-   {
-   	bps: null # Limit the bandwidth byte per second.
-   	global_bps: false # if the bps is the global bps.
-   	agent: custom_http_agent
-   }
-   ```
+    Other options. Default:
+    ```coffeescript
+    {
+    	bps: null # Limit the bandwidth byte per second.
+    	global_bps: false # if the bps is the global bps.
+    	agent: custom_http_agent
+    }
+    ```
 
  - **<u>param</u>**: `err` { _Function_ }
 
-   Custom error handler.
+    Custom error handler.
 
  - **<u>return</u>**:  { _Promise_ }
 
@@ -790,25 +790,25 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `host` { _String_ }
 
-   The host force to. It's optional.
+    The host force to. It's optional.
 
  - **<u>param</u>**: `port` { _Int_ }
 
-   The port force to. It's optional.
+    The port force to. It's optional.
 
  - **<u>param</u>**: `err` { _Function_ }
 
-   Custom error handler.
+    Custom error handler.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   nobone = require 'nobone'
-   { proxy, service } = nobone { proxy:{}, service: {} }
-   
-   # Directly connect to the original site.
-   service.server.on 'connect', proxy.connect
-   ```
+    ```coffeescript
+    nobone = require 'nobone'
+    { proxy, service } = nobone { proxy:{}, service: {} }
+    
+    # Directly connect to the original site.
+    service.server.on 'connect', proxy.connect
+    ```
 
 - #### <a href="lib/modules/proxy.coffee#L150" target="_blank"><b>pac</b></a>
 
@@ -816,24 +816,24 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `curr_host` { _String_ }
 
-   The current host for proxy server. It's optional.
+    The current host for proxy server. It's optional.
 
  - **<u>param</u>**: `rule_handler` { _Function_ }
 
-   Your custom pac rules.
-   It gives you three helpers.
-   ```coffeescript
-   url # The current client request url.
-   host # The host name derived from the url.
-   curr_host = 'PROXY host:port;' # Nobone server host address.
-   direct =  "DIRECT;"
-   match = (pattern) -> # A function use shExpMatch to match your url.
-   proxy = (target) -> # return 'PROXY target;'.
-   ```
+    Your custom pac rules.
+    It gives you three helpers.
+    ```coffeescript
+    url # The current client request url.
+    host # The host name derived from the url.
+    curr_host = 'PROXY host:port;' # Nobone server host address.
+    direct =  "DIRECT;"
+    match = (pattern) -> # A function use shExpMatch to match your url.
+    proxy = (target) -> # return 'PROXY target;'.
+    ```
 
  - **<u>return</u>**:  { _Function_ }
 
-   Express Middleware.
+    Express Middleware.
 
 ### kit
 
@@ -851,12 +851,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   kit.readFile('test.txt').done (str) ->
-   	console.log str
-   
-   kit.outputFile('a.txt', 'test').done()
-   ```
+    ```coffeescript
+    kit.readFile('test.txt').done (str) ->
+    	console.log str
+    
+    kit.outputFile('a.txt', 'test').done()
+    ```
 
 - #### <a href="lib/kit.coffee#L39" target="_blank"><b>_</b></a>
 
@@ -871,22 +871,22 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `limit` { _Int_ }
 
-   The max task to run at the same time. It's optional.
-   Default is Infinity.
+    The max task to run at the same time. It's optional.
+    Default is Infinity.
 
  - **<u>param</u>**: `list` { _Array | Function_ }
 
-   If the list is an array, it should be a list of functions or promises. And each function will return a promise.
-   If the list is a function, it should be a iterator that returns a promise,
-   when it returns `undefined`, the iteration ends.
+    If the list is an array, it should be a list of functions or promises. And each function will return a promise.
+    If the list is a function, it should be a iterator that returns a promise,
+    when it returns `undefined`, the iteration ends.
 
  - **<u>param</u>**: `save_resutls` { _Boolean_ }
 
-   Whether to save each promise's result or not.
+    Whether to save each promise's result or not.
 
  - **<u>return</u>**:  { _Promise_ }
 
-   You can get each round's results by using the `promise.progress`.
+    You can get each round's results by using the `promise.progress`.
 
 - #### <a href="lib/kit.coffee#L146" target="_blank"><b>compose</b></a>
 
@@ -896,34 +896,34 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `fns` { _Function | Array_ }
 
-   Functions that return promise or any value.
-   And the array can also contains promises.
+    Functions that return promise or any value.
+    And the array can also contains promises.
 
  - **<u>return</u>**:  { _Function_ }
 
-   A composed function that will return a promise.
+    A composed function that will return a promise.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   # It helps to decouple sequential pipeline code logic.
-   
-   create_url = (name) ->
-   	return "http://test.com/" + name
-   
-   curl = (url) ->
-   	kit.request(url).then ->
-   		kit.log 'get'
-   
-   save = (str) ->
-   	kit.outputFile('a.txt', str).then ->
-   		kit.log 'saved'
-   
-   download = kit.compose create_url, curl, save
-   # same as "download = kit.compose [create_url, curl, save]"
-   
-   download()
-   ```
+    ```coffeescript
+    # It helps to decouple sequential pipeline code logic.
+    
+    create_url = (name) ->
+    	return "http://test.com/" + name
+    
+    curl = (url) ->
+    	kit.request(url).then ->
+    		kit.log 'get'
+    
+    save = (str) ->
+    	kit.outputFile('a.txt', str).then ->
+    		kit.log 'saved'
+    
+    download = kit.compose create_url, curl, save
+    # same as "download = kit.compose [create_url, curl, save]"
+    
+    download()
+    ```
 
 - #### <a href="lib/kit.coffee#L167" target="_blank"><b>daemonize</b></a>
 
@@ -931,17 +931,17 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   {
-   	bin: 'node'
-   	args: ['app.js']
-   	stdout: 'stdout.log'
-   	stderr: 'stderr.log'
-   }
+    Defaults:
+    {
+    	bin: 'node'
+    	args: ['app.js']
+    	stdout: 'stdout.log'
+    	stderr: 'stderr.log'
+    }
 
  - **<u>return</u>**:  { _Porcess_ }
 
-   The daemonized process.
+    The daemonized process.
 
 - #### <a href="lib/kit.coffee#L193" target="_blank"><b>decrypt</b></a>
 
@@ -953,7 +953,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `algorithm` { _String_ }
 
-   Default is 'aes128'.
+    Default is 'aes128'.
 
  - **<u>return</u>**:  { _Buffer_ }
 
@@ -967,7 +967,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `algorithm` { _String_ }
 
-   Default is 'aes128'.
+    Default is 'aes128'.
 
  - **<u>return</u>**:  { _Buffer_ }
 
@@ -978,11 +978,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `mode` { _String_ }
 
-   'development', 'production', etc.
+    'development', 'production', etc.
 
  - **<u>return</u>**:  { _Object_ }
 
-   `process.env` object.
+    `process.env` object.
 
 - #### <a href="lib/kit.coffee#L251" target="_blank"><b>err</b></a>
 
@@ -998,29 +998,29 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `cmd` { _String_ }
 
-   Shell commands.
+    Shell commands.
 
  - **<u>param</u>**: `shell` { _String_ }
 
-   Shell name. Such as `bash`, `zsh`. Optinal.
+    Shell name. Such as `bash`, `zsh`. Optinal.
 
  - **<u>return</u>**:  { _Promise_ }
 
-   Resolves when the process's stdio is drained.
+    Resolves when the process's stdio is drained.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   kit.exec """
-   a=10
-   echo $a
-   """
-   
-   # Bash doesn't support "**" recusive match pattern.
-   kit.exec """
-   echo **/*.css
-   """, 'zsh'
-   ```
+    ```coffeescript
+    kit.exec """
+    a=10
+    echo $a
+    """
+    
+    # Bash doesn't support "**" recusive match pattern.
+    kit.exec """
+    echo **/*.css
+    """, 'zsh'
+    ```
 
 - #### <a href="lib/kit.coffee#L311" target="_blank"><b>fs</b></a>
 
@@ -1034,17 +1034,17 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   ```coffeescript
-   {
-   	src_dir: null
-   	patterns: '**'
-   	dest_dir: null
-   	data: {}
-   	compile: (str, data, path) ->
-   		compile str
-   }
-   ```
+    Defaults:
+    ```coffeescript
+    {
+    	src_dir: null
+    	patterns: '**'
+    	dest_dir: null
+    	data: {}
+    	compile: (str, data, path) ->
+    		compile str
+    }
+    ```
 
  - **<u>return</u>**:  { _Promise_ }
 
@@ -1054,15 +1054,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `patterns` { _String | Array_ }
 
-   Minimatch pattern.
+    Minimatch pattern.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   The glob options.
+    The glob options.
 
  - **<u>return</u>**:  { _Promise_ }
 
-   Contains the path list.
+    Contains the path list.
 
 - #### <a href="lib/kit.coffee#L393" target="_blank"><b>jhash</b></a>
 
@@ -1076,35 +1076,35 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `cmd` { _String_ }
 
-   The original English text.
+    The original English text.
 
  - **<u>param</u>**: `lang` { _String_ }
 
-   The target language name.
+    The target language name.
 
  - **<u>param</u>**: `lang_set` { _String_ }
 
-   Specific a language collection.
+    Specific a language collection.
 
  - **<u>return</u>**:  { _String_ }
 
  - **<u>example</u>**:
 
-   Supports we have two json file in `langs_dir_path` folder.
-   - cn.js, content: `module.exports = { China: '中国' }`
-   - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
-   
-   ```coffeescript
-   kit.lang_load 'langs_dir_path'
-   
-   kit.lang_current = 'cn'
-   'China'.l # '中国'
-   'Good weather.'.l('jp') # '日和。'
-   
-   kit.lang_current = 'en'
-   'China'.l # 'China'
-   'Good weather.'.l('jp') # 'Good weather.'
-   ```
+    Supports we have two json file in `langs_dir_path` folder.
+    - cn.js, content: `module.exports = { China: '中国' }`
+    - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
+    
+    ```coffeescript
+    kit.lang_load 'langs_dir_path'
+    
+    kit.lang_current = 'cn'
+    'China'.l # '中国'
+    'Good weather.'.l('jp') # '日和。'
+    
+    kit.lang_current = 'en'
+    'China'.l # 'China'
+    'Good weather.'.l('jp') # 'Good weather.'
+    ```
 
 - #### <a href="lib/kit.coffee#L434" target="_blank"><b>lang_set</b></a>
 
@@ -1114,11 +1114,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   kit.lang_set = {
-   	'cn': { 'China': '中国' }
-   }
-   ```
+    ```coffeescript
+    kit.lang_set = {
+    	'cn': { 'China': '中国' }
+    }
+    ```
 
 - #### <a href="lib/kit.coffee#L441" target="_blank"><b>lang_current</b></a>
 
@@ -1128,7 +1128,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>default</u>**:
 
-   'en'
+    'en'
 
 - #### <a href="lib/kit.coffee#L455" target="_blank"><b>lang_load</b></a>
 
@@ -1137,16 +1137,16 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `dir_path` { _String_ }
 
-   The directory path that contains
-   js or coffee files.
+    The directory path that contains
+    js or coffee files.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   kit.lang_load 'assets/lang'
-   kit.lang_current = 'cn'
-   kit.log 'test'.l # This may output '测试'.
-   ```
+    ```coffeescript
+    kit.lang_load 'assets/lang'
+    kit.lang_current = 'cn'
+    kit.log 'test'.l # This may output '测试'.
+    ```
 
 - #### <a href="lib/kit.coffee#L477" target="_blank"><b>inspect</b></a>
 
@@ -1154,12 +1154,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `obj` { _Object_ }
 
-   Your target object.
+    Your target object.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Options. Default:
-   { colors: true, depth: 5 }
+    Options. Default:
+    { colors: true, depth: 5 }
 
  - **<u>return</u>**:  { _String_ }
 
@@ -1175,15 +1175,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `msg` { _Any_ }
 
-   Your log message.
+    Your log message.
 
  - **<u>param</u>**: `action` { _String_ }
 
-   'log', 'error', 'warn'.
+    'log', 'error', 'warn'.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Default is same with `kit.inspect`
+    Default is same with `kit.inspect`
 
 - #### <a href="lib/kit.coffee#L557" target="_blank"><b>monitor_app</b></a>
 
@@ -1193,19 +1193,19 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   ```coffeescript
-   {
-   	bin: 'node'
-   	args: ['app.js']
-   	watch_list: ['app.js']
-   	mode: 'development'
-   }
-   ```
+    Defaults:
+    ```coffeescript
+    {
+    	bin: 'node'
+    	args: ['app.js']
+    	watch_list: ['app.js']
+    	mode: 'development'
+    }
+    ```
 
  - **<u>return</u>**:  { _Process_ }
 
-   The child process.
+    The child process.
 
 - #### <a href="lib/kit.coffee#L594" target="_blank"><b>node_version</b></a>
 
@@ -1220,22 +1220,22 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `cmd` { _String_ }
 
-   The thing you want to open.
+    The thing you want to open.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   The options of the node native `child_process.exec`.
+    The options of the node native `child_process.exec`.
 
  - **<u>return</u>**:  { _Promise_ }
 
-   When the child process exits.
+    When the child process exits.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   # Open a webpage with the default browser.
-   kit.open 'http://ysmood.org'
-   ```
+    ```coffeescript
+    # Open a webpage with the default browser.
+    kit.open 'http://ysmood.org'
+    ```
 
 - #### <a href="lib/kit.coffee#L644" target="_blank"><b>pad</b></a>
 
@@ -1247,15 +1247,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `char` { _String_ }
 
-   Padding char. Default is '0'.
+    Padding char. Default is '0'.
 
  - **<u>return</u>**:  { _String_ }
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   kit.pad '1', 3 # '001'
-   ```
+    ```coffeescript
+    kit.pad '1', 3 # '001'
+    ```
 
 - #### <a href="lib/kit.coffee#L689" target="_blank"><b>parse_comment</b></a>
 
@@ -1264,52 +1264,52 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `module_name` { _String_ }
 
-   The name of the module it belongs to.
+    The name of the module it belongs to.
 
  - **<u>param</u>**: `code` { _String_ }
 
-   Coffee source code.
+    Coffee source code.
 
  - **<u>param</u>**: `path` { _String_ }
 
-   The path of the source code.
+    The path of the source code.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Parser options:
-   ```coffeescript
-   {
-   	comment_reg: RegExp
-   	split_reg: RegExp
-   	tag_name_reg: RegExp
-   	type_reg: RegExp
-   	name_reg: RegExp
-   	name_tags: ['param', 'property']
-   	description_reg: RegExp
-   }
-   ```
+    Parser options:
+    ```coffeescript
+    {
+    	comment_reg: RegExp
+    	split_reg: RegExp
+    	tag_name_reg: RegExp
+    	type_reg: RegExp
+    	name_reg: RegExp
+    	name_tags: ['param', 'property']
+    	description_reg: RegExp
+    }
+    ```
 
  - **<u>return</u>**:  { _Array_ }
 
-   The parsed comments. Each item is something like:
-   ```coffeescript
-   {
-   	module: 'nobone'
-   	name: 'parse_comment'
-   	description: 'A comments parser for coffee-script.'
-   	tags: [
-   		{
-   			tag_name: 'param'
-   			type: 'string'
-   			name: 'code'
-   			description: 'The name of the module it belongs to.'
-   			path: 'http://the_path_of_source_code'
-   			index: 256 # The target char index in the file.
-   			line: 32 # The line number of the target in the file.
-   		}
-   	]
-   }
-   ```
+    The parsed comments. Each item is something like:
+    ```coffeescript
+    {
+    	module: 'nobone'
+    	name: 'parse_comment'
+    	description: 'A comments parser for coffee-script.'
+    	tags: [
+    		{
+    			tag_name: 'param'
+    			type: 'string'
+    			name: 'code'
+    			description: 'The name of the module it belongs to.'
+    			path: 'http://the_path_of_source_code'
+    			index: 256 # The target char index in the file.
+    			line: 32 # The line number of the target in the file.
+    		}
+    	]
+    }
+    ```
 
 - #### <a href="lib/kit.coffee#L757" target="_blank"><b>path</b></a>
 
@@ -1322,11 +1322,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   See the https://github.com/flatiron/prompt
+    See the https://github.com/flatiron/prompt
 
  - **<u>return</u>**:  { _Promise_ }
 
-   Contains the results of prompt.
+    Contains the results of prompt.
 
 - #### <a href="lib/kit.coffee#L783" target="_blank"><b>Q</b></a>
 
@@ -1341,15 +1341,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `module_name` { _String_ }
 
-   Moudle path is not allowed!
+    Moudle path is not allowed!
 
  - **<u>param</u>**: `done` { _Function_ }
 
-   Run only the first time after the module loaded.
+    Run only the first time after the module loaded.
 
  - **<u>return</u>**:  { _Module_ }
 
-   The module that you require.
+    The module that you require.
 
 - #### <a href="lib/kit.coffee#L847" target="_blank"><b>request</b></a>
 
@@ -1357,51 +1357,51 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   The same as the [http.request][http.request], but with
-   some extra options:
-   ```coffeescript
-   {
-   	url: 'It is not optional, String or Url Object.'
-   	body: true # Other than return `res` with `res.body`, return `body` directly.
-   	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
-   
-   	# Set null to use buffer, optional.
-   	# It supports GBK, Shift_JIS etc.
-   	# For more info, see https://github.com/ashtuchkin/iconv-lite
-   	res_encoding: 'auto'
-   
-   	# It's string, object or buffer, optional. When it's an object,
-   	# The request will be 'application/x-www-form-urlencoded'.
-   	req_data: null
-   
-   	auto_end_req: true # auto end the request.
-   	req_pipe: Readable Stream.
-   	res_pipe: Writable Stream.
-   }
-   ```
-   And if set opts as string, it will be treated as the url.
-   [http.request]: http://nodejs.org/api/http.html#http_http_request_options_callback
+    The same as the [http.request][http.request], but with
+    some extra options:
+    ```coffeescript
+    {
+    	url: 'It is not optional, String or Url Object.'
+    	body: true # Other than return `res` with `res.body`, return `body` directly.
+    	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
+    
+    	# Set null to use buffer, optional.
+    	# It supports GBK, Shift_JIS etc.
+    	# For more info, see https://github.com/ashtuchkin/iconv-lite
+    	res_encoding: 'auto'
+    
+    	# It's string, object or buffer, optional. When it's an object,
+    	# The request will be 'application/x-www-form-urlencoded'.
+    	req_data: null
+    
+    	auto_end_req: true # auto end the request.
+    	req_pipe: Readable Stream.
+    	res_pipe: Writable Stream.
+    }
+    ```
+    And if set opts as string, it will be treated as the url.
+    [http.request]: http://nodejs.org/api/http.html#http_http_request_options_callback
 
  - **<u>return</u>**:  { _Promise_ }
 
-   Contains the http response object,
-   it has an extra `body` property.
-   You can also get the request object by using `Promise.req`, for example:
-   ```coffeescript
-   p = kit.request 'http://test.com'
-   p.req.on 'response', (res) ->
-   	kit.log res.headers['content-length']
-   p.done (body) ->
-   	kit.log body # html or buffer
-   
-   kit.request {
-   	url: 'https://test.com'
-   	body: false
-   }
-   .done (res) ->
-   	kit.log res.body
-   	kit.log res.headers
-   ```
+    Contains the http response object,
+    it has an extra `body` property.
+    You can also get the request object by using `Promise.req`, for example:
+    ```coffeescript
+    p = kit.request 'http://test.com'
+    p.req.on 'response', (res) ->
+    	kit.log res.headers['content-length']
+    p.done (body) ->
+    	kit.log body # html or buffer
+    
+    kit.request {
+    	url: 'https://test.com'
+    	body: false
+    }
+    .done (res) ->
+    	kit.log res.body
+    	kit.log res.headers
+    ```
 
 - #### <a href="lib/kit.coffee#L1014" target="_blank"><b>spawn</b></a>
 
@@ -1410,21 +1410,21 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `cmd` { _String_ }
 
-   Path of an executable program.
+    Path of an executable program.
 
  - **<u>param</u>**: `args` { _Array_ }
 
-   CLI arguments.
+    CLI arguments.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Process options. Same with the Node.js official doc.
-   Default will inherit the parent's stdio.
+    Process options. Same with the Node.js official doc.
+    Default will inherit the parent's stdio.
 
  - **<u>return</u>**:  { _Promise_ }
 
-   The `promise.process` is the child process object.
-   When the child process ends, it will resolve.
+    The `promise.process` is the child process object.
+    When the child process ends, it will resolve.
 
 - #### <a href="lib/kit.coffee#L1060" target="_blank"><b>url</b></a>
 
@@ -1440,34 +1440,34 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `path` { _String_ }
 
-   The file path
+    The file path
 
  - **<u>param</u>**: `handler` { _Function_ }
 
-   Event listener.
-   The handler has these params:
-   - file path
-   - current `fs.Stats`
-   - previous `fs.Stats`
-   - if its a deletion
+    Event listener.
+    The handler has these params:
+    - file path
+    - current `fs.Stats`
+    - previous `fs.Stats`
+    - if its a deletion
 
  - **<u>param</u>**: `auto_unwatch` { _Boolean_ }
 
-   Auto unwatch the file while file deletion.
-   Default is true.
+    Auto unwatch the file while file deletion.
+    Default is true.
 
  - **<u>return</u>**:  { _Function_ }
 
-   The wrapped watch listeners.
+    The wrapped watch listeners.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   process.env.watch_persistent = 'off'
-   kit.watch_file 'a.js', (path, curr, prev, is_deletion) ->
-   	if curr.mtime != prev.mtime
-   		kit.log path
-   ```
+    ```coffeescript
+    process.env.watch_persistent = 'off'
+    kit.watch_file 'a.js', (path, curr, prev, is_deletion) ->
+    	if curr.mtime != prev.mtime
+    		kit.log path
+    ```
 
 - #### <a href="lib/kit.coffee#L1116" target="_blank"><b>watch_files</b></a>
 
@@ -1476,21 +1476,21 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `patterns` { _Array_ }
 
-   String array with minimatch syntax.
-   Such as `['*/**.css', 'lib/**/*.js']`.
+    String array with minimatch syntax.
+    Such as `['*/**.css', 'lib/**/*.js']`.
 
  - **<u>param</u>**: `handler` { _Function_ }
 
  - **<u>return</u>**:  { _Promise_ }
 
-   It contains the wrapped watch listeners.
+    It contains the wrapped watch listeners.
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   kit.watch_files '*.js', (path, curr, prev, is_deletion) ->
-   	kit.log path
-   ```
+    ```coffeescript
+    kit.watch_files '*.js', (path, curr, prev, is_deletion) ->
+    	kit.log path
+    ```
 
 - #### <a href="lib/kit.coffee#L1151" target="_blank"><b>watch_dir</b></a>
 
@@ -1499,35 +1499,35 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-   Defaults:
-   ```coffeescript
-   {
-   	dir: '.'
-   	pattern: '**' # minimatch, string or array
-   
-   	# Whether to watch POSIX hidden file.
-   	dot: false
-   
-   	# If the "path" ends with '/' it's a directory, else a file.
-   	handler: (type, path, old_path) ->
-   }
-   ```
+    Defaults:
+    ```coffeescript
+    {
+    	dir: '.'
+    	pattern: '**' # minimatch, string or array
+    
+    	# Whether to watch POSIX hidden file.
+    	dot: false
+    
+    	# If the "path" ends with '/' it's a directory, else a file.
+    	handler: (type, path, old_path) ->
+    }
+    ```
 
  - **<u>return</u>**:  { _Promise_ }
 
  - **<u>example</u>**:
 
-   ```coffeescript
-   # Only current folder, and only watch js and css file.
-   kit.watch_dir {
-   	dir: 'lib'
-   	pattern: '*.+(js|css)'
-   	handler: (type, path) ->
-   		kit.log type
-   		kit.log path
-   	watched_list: {} # If you use watch_dir recursively, you need a global watched_list
-   }
-   ```
+    ```coffeescript
+    # Only current folder, and only watch js and css file.
+    kit.watch_dir {
+    	dir: 'lib'
+    	pattern: '*.+(js|css)'
+    	handler: (type, path) ->
+    		kit.log type
+    		kit.log path
+    	watched_list: {} # If you use watch_dir recursively, you need a global watched_list
+    }
+    ```
 
 
 

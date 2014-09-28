@@ -111,7 +111,7 @@ task 'build', 'Compile coffee and Docs', build = ->
 					""", 1
 					method_str += '\n\n'
 					if tag.description
-						method_str += indent tag.description, 3
+						method_str += indent tag.description, 4
 						method_str += '\n\n'
 
 				data.mods_api += method_str
