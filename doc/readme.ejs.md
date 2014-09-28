@@ -122,7 +122,7 @@ kit.log 'sample plugin'
 
 Suppose we have published the `nobone-sampe` plugin with npm.
 
-Other people can use the plugin after installing it with whether `npm install nobone-sample` nor `npm install -g nobone-sample`.
+Other people can use the plugin after installing it with either `npm install nobone-sample` or `npm install -g nobone-sample`.
 
 To run the plugin simply use `nobone sample`.
 
