@@ -513,9 +513,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		else if cache.content
 			Promise.resolve cache.content
 		else
-			Promise.resolve ->
+			Promise.resolve(
 				cache.compiler cache.source, cache.path, cache.data
-			.then (content) ->
+			).then (content) ->
 				cache.content = content
 				delete cache.error
 			.catch (err) ->
@@ -556,11 +556,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						self.release_cache min_handler.path
 				Promise.resolve cache
 		else
-			Promise.resolve ->
-				if cache.error
-					throw cache.error
-				else
-					cache
+			if cache.error
+				throw cache.error
+			else
+				Promise.resolve cache
 
 	###*
 	 * Generate a file handler.
@@ -629,8 +628,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						handler.req_path
 					)
 
-		Promise.resolve ->
-			gen_watch_list(handler)
+		gen_watch_list(handler)
 		.then ->
 			return if _.keys(handler.new_watch_list).length == 0
 
@@ -690,7 +688,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	gen_watch_list = (handler) ->
 		if watch.processing.indexOf(handler.path) > -1
-			return
+			return Promise.resolve()
 
 		# lock current src file.
 		watch.processing.push handler.path
@@ -711,6 +709,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler.dependency_reg
 			get_dependencies handler
+		else
+			Promise.resolve()
 
 	force_ext = (path, ext) ->
 		remove_ext(path) + ext
