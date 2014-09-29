@@ -1,3 +1,7 @@
+- v0.8.0
+
+  - Replace Q with ES6 style promise.
+
 - v0.7.9
 
   - Fix a fatal bug of syntax using.

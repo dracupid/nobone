@@ -140,7 +140,7 @@ task 'update', "Update all dependencies", ->
 		_.keys pack.dependencies
 
 	get_ver = (name) ->
-		Promise.promisify(npm.commands.v, [name, 'dist-tags.latest'], true)()
+		Promise.promisify(npm.commands.v)([name, 'dist-tags.latest'], true)
 		.then (data) ->
 			kit.log 'Update: '.cyan + name
 			info = {}
