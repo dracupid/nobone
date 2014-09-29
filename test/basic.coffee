@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'development'
-
 assert = require 'assert'
 nobone = require '../lib/nobone'
 { kit } = nobone

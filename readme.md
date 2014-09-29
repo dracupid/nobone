@@ -684,7 +684,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/renderer.coffee#L570" target="_blank"><b>gen_handler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L569" target="_blank"><b>gen_handler</b></a>
 
  Generate a file handler.
 
