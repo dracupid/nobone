@@ -194,3 +194,13 @@ task 'code', 'Code Statistics of this project', ->
 
 task 'hotfix', 'Hotfix third dependencies\' bugs', ->
 	# ys: Node break again and again.
+
+task 'benchmark', 'Some basic benchmarks', ->
+	server = kit.spawn('coffee', ['benchmark/load_test_server.coffee'])
+
+	setTimeout ->
+		tester = kit.spawn('coffee', ['benchmark/mem_vs_stream.coffee'])
+		tester.done ->
+			server.process.kill "SIGINT"
+	, 500
+

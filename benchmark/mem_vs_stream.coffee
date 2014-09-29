@@ -1,6 +1,8 @@
 ###*
  * <h3>Memory vs Stream</h3>
  * Memory cache is faster than direct file streaming even on SSD machine.
+ * It's hard to test the real condition, because most of the file system
+ * will cache a file into memory if it being read lot of times.
  *
  * Type   | Performance
  * ------ | ---------------
