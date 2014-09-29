@@ -201,18 +201,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					marked = kit.require 'marked'
 					marked str, data
 			}
-			'.jpg': {
-				encoding: null # To use buffer.
-				compiler: (buf) -> buf
-			}
-			'.png': {
-				encoding: null
-				compiler: '.jpg'
-			}
-			'.gif': {
-				encoding: null
-				compiler: '.jpg'
-			}
 		}
 	}
 
