@@ -155,7 +155,7 @@ describe 'Basic:', ->
 			.then (res) ->
 				assert.equal res.indexOf("document.body.appendChild(elem);"), 75
 				tdone()
-			.fin ->
+			.done ->
 				ps.kill 'SIGINT'
 		, 1000)
 
@@ -178,8 +178,7 @@ describe 'Kit:', ->
 				return
 			nb.kit.readFile __filename
 
-		nb.kit.async 3, iter, false
-		.progress (ret) ->
+		nb.kit.async 3, iter, false, (ret) ->
 			assert.equal ret.length, len
 		.done (rets) ->
 			assert.equal rets, undefined
@@ -188,13 +187,13 @@ describe 'Kit:', ->
 	it 'async results', (tdone) ->
 		len = nb.kit.fs.readFileSync(__filename).length
 
-		nb.kit.async 3, _.times 10, ->
+		nb.kit.async(3, _.times 10, ->
 			(i) ->
 				assert.equal typeof i, 'number'
 				nb.kit.readFile __filename
-		.progress (ret) ->
+		, (ret) ->
 			assert.equal ret.length, len
-		.done (rets) ->
+		).done (rets) ->
 			assert.equal rets.length, 10
 			tdone()
 
