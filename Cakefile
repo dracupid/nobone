@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'development'
 
 kit = require './lib/kit'
-{ Q, _ } = kit
+{ Promise, _ } = kit
 
 option '-d', '--debug', 'Node debug mode'
 option '-p', '--port [port]', 'Node debug mode'
@@ -46,7 +46,7 @@ task 'build', 'Compile coffee and Docs', build = ->
 
 	# Build readme
 	kit.log 'Make readme...'
-	Q.all([
+	Promise.all([
 		kit.readFile 'doc/faq.md', 'utf8'
 		kit.readFile 'doc/readme.ejs.md', 'utf8'
 		kit.readFile 'examples/basic.coffee', 'utf8'
@@ -70,7 +70,7 @@ task 'build', 'Compile coffee and Docs', build = ->
 			benchmark: kit.parse_comment 'benchmark', rets[3] + rets[4]
 		}
 	.then (data) ->
-		Q.all data.mods.map (path) ->
+		Promise.all data.mods.map (path) ->
 			name = kit.path.basename path, '.coffee'
 			kit.readFile path, 'utf8'
 			.then (code) ->
@@ -131,16 +131,16 @@ task 'update', "Update all dependencies", ->
 	pack = require './package.json'
 
 	load = ->
-		Q.nfcall npm.load, {
+		Promise.promisify(npm.load, {
 			loaded: false
 			loglevel: 'silent'
-		}
+		})()
 
 	get_deps = ->
 		_.keys pack.dependencies
 
 	get_ver = (name) ->
-		Q.nfcall npm.commands.v, [name, 'dist-tags.latest'], true
+		Promise.promisify(npm.commands.v, [name, 'dist-tags.latest'], true)()
 		.then (data) ->
 			kit.log 'Update: '.cyan + name
 			info = {}
@@ -154,7 +154,7 @@ task 'update', "Update all dependencies", ->
 	set_dep_via_ver = kit.compose get_ver, set_dep
 
 	set_deps = (names) ->
-		Q.all names.map set_dep_via_ver
+		Promise.all names.map set_dep_via_ver
 
 	save_change = ->
 		str = JSON.stringify(pack, null, 2) + '\n'
@@ -181,7 +181,7 @@ task 'code', 'Code Statistics of this project', ->
 		kit.async 20, (i) ->
 			if i >= paths.length
 				return
-			Q.all [
+			Promise.all [
 				kit.readFile paths[i], 'utf8'
 				kit.stat paths[i]
 			]

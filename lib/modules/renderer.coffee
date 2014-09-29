@@ -9,12 +9,11 @@
 Overview = 'renderer'
 
 _ = require 'lodash'
-Q = require 'q'
 nobone = require '../nobone'
 kit = nobone.kit
 express = require 'express'
 { EventEmitter } = require 'events'
-fs = kit.require 'fs'
+{ Promise, fs } = kit
 
 ###*
  * Create a Renderer instance.
@@ -166,7 +165,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						when '.styl'
 							@dependency_reg = /@(?:import|require)\s+([^\r\n]+)/
 							stylus = kit.require 'stylus'
-							Q.ninvoke stylus, 'render', str, data
+							Promise.promisify(stylus.render)(str, data)
 
 						when '.less'
 							@dependency_reg = /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
@@ -177,8 +176,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								process.exit()
 
 							parser = new less.Parser(data)
-							Q.ninvoke(parser, 'parse', str)
-							.then (tree) -> tree.toCSS data
+							Promise.promisify(parser.parse)(str)
+							.then (tree) ->
+								Promise.resolve tree.toCSS(data)
 
 						when '.sass', '.scss'
 							@dependency_reg = /@import\s+([^\r\n]+)/
@@ -465,12 +465,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.then (source) ->
 				handler.source = source
 				delete handler.content
-				handler
+				Promise.resolve handler
 
 		paths = handler.ext_src.map (el) -> handler.no_ext_path + el
 		check_src = ->
 			path = paths.shift()
-			return Q() if not path
+			return Promise.resolve() if not path
 			kit.fileExists path
 			.then (exists) ->
 				if exists
@@ -490,7 +490,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					kit.readFile path, handler.encoding
 					.then (source) ->
 						handler.source = source
-						handler
+						Promise.resolve handler
 				else
 					err = new Error('File not exists: ' + handler.no_ext_path)
 					err.name = 'file_not_exists'
@@ -509,11 +509,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if ext_bin == cache.ext and not cache.force_compile
 			if opts.enable_watcher and is_cache and not cache.deleted
 				watch cache
-			Q cache.source
+			Promise.resolve cache.source
 		else if cache.content
-			Q cache.content
+			Promise.resolve cache.content
 		else
-			Q.fcall ->
+			Promise.resolve ->
 				cache.compiler cache.source, cache.path, cache.data
 			.then (content) ->
 				cache.content = content
@@ -531,7 +531,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if cache.error
 					throw cache.error
 				else
-					cache.content
+					Promise.resolve cache.content
 
 	###*
 	 * Set handler cache.
@@ -554,9 +554,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					min_handler = _(cache_pool).values().min('ctime').value()
 					if min_handler
 						self.release_cache min_handler.path
-				cache
+				Promise.resolve cache
 		else
-			Q.fcall ->
+			Promise.resolve ->
 				if cache.error
 					throw cache.error
 				else
@@ -629,7 +629,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						handler.req_path
 					)
 
-		Q.fcall ->
+		Promise.resolve ->
 			gen_watch_list(handler)
 		.then ->
 			return if _.keys(handler.new_watch_list).length == 0
@@ -658,7 +658,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.replace /[\s'";]+$/, ''
 
 		gen_dep_paths = (matches) ->
-			Q.all matches.map (m) ->
+			Promise.all matches.map (m) ->
 				path = trim m.match(handler.dependency_reg)[1]
 				unless kit.path.extname(path)
 					path = path + handler.ext
@@ -672,20 +672,20 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if curr_paths
 			kit.glob curr_paths
 			.then (paths) ->
-				Q.all paths.map (path) ->
+				Promise.all paths.map (path) ->
 					kit.readFile(path, 'utf8')
 					.then (str) ->
 						# The point to add path to watch list.
 						handler.new_watch_list[path] = null
 
 						matches = str.match reg
-						return if not matches
+						return Promise.resolve() if not matches
 						gen_dep_paths matches
 			.catch -> return
 		else
-			return Q() if not handler.source
+			return Promise.resolve() if not handler.source
 			matches = handler.source.match reg
-			return Q() if not matches
+			return Promise.resolve() if not matches
 			gen_dep_paths matches
 
 	gen_watch_list = (handler) ->

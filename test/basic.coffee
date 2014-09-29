@@ -1,9 +1,9 @@
 process.env.NODE_ENV = 'development'
 
 assert = require 'assert'
-Q = require 'q'
-_ = require 'lodash'
 nobone = require '../lib/nobone'
+{ kit } = nobone
+{ Promise, _ } = kit
 
 nb = nobone {
 	db: {}
@@ -30,12 +30,12 @@ describe 'Basic:', ->
 		@dependency_roots = 'test/fixtures/deps_root'
 
 		stylus = nb.kit.require 'stylus'
-		Q.ninvoke(
-			stylus(str)
+		c = stylus(str)
 			.set('filename', path)
 			.include(@dependency_roots)
-			'render'
-		)
+		Promise.promisify(
+			c.render, c
+		)()
 
 	port = 8022
 	nb.kit.log 'Listen port: ' + port
@@ -43,7 +43,7 @@ describe 'Basic:', ->
 
 	it 'compiler', (tdone) ->
 		server = nb.service.listen port, ->
-			Q.all([
+			Promise.all([
 				get '/main.js', port
 				get '/default.css', port
 				get '/err_sample.css', port
@@ -60,14 +60,13 @@ describe 'Basic:', ->
 				# Test the watcher
 				nb.kit.outputFile 'test/fixtures/main.coffee', "console.log 'no'"
 			.then ->
-				deferred = Q.defer()
-				setTimeout(->
-					get '/main.js', port
-					.catch (err) -> deferred.reject err
-					.then (code) ->
-						deferred.resolve code
-				, 1000)
-				deferred.promise
+				new Promise (resolve, reject) ->
+					setTimeout(->
+						get '/main.js', port
+						.catch (err) -> reject err
+						.then (code) ->
+							resolve code
+					, 1000)
 			.then (code) ->
 				assert.equal code, "console.log('no');\n"
 			.then ->

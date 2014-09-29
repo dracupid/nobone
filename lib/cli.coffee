@@ -94,7 +94,7 @@ init = ->
 		kit._.extend global, {
 			nobone
 			_: kit._
-			Q: kit.Q
+			Promise: kit.Promise
 		}
 
 		cmd = require 'coffee-script/lib/coffee-script/command'

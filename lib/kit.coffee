@@ -1,11 +1,13 @@
 colors = require 'colors'
-colors.mode = 'none' if process.env.NODE_ENV == 'production'
 _ = require 'lodash'
-Q = require 'q'
+Promise = require 'bluebird'
 fs = require 'fs-more'
 glob = require 'glob'
 
-Q.longStackSupport = process.env.NODE_ENV == 'development'
+if process.env.NODE_ENV == 'development'
+	Promise.longStackTraces()
+else
+	colors.mode = 'none'
 
 ###*
  * All the async functions in `kit` return promise object.
@@ -15,7 +17,7 @@ Q.longStackSupport = process.env.NODE_ENV == 'development'
 kit = {}
 
 ###*
- * kit extends all the Q functions of [fs-more][fs-more].
+ * kit extends all the promise functions of [fs-more][fs-more].
  * [fs-more]: https://github.com/ysmood/fs-more
  * @example
  * ```coffeescript
@@ -25,9 +27,9 @@ kit = {}
  * kit.outputFile('a.txt', 'test').done()
  * ```
 ###
-kit_extends_fs_q = 'Q'
+kit_extends_fs_promise = 'promise'
 for k, v of fs
-	if k.slice(-1) == 'Q'
+	if k.slice(-1) == 'P'
 		kit[k.slice(0, -1)] = fs[k]
 
 _.extend kit, {
@@ -41,7 +43,7 @@ _.extend kit, {
 	require_cache: {}
 
 	###*
-	 * An throttle version of `Q.all`, it runs all the tasks under
+	 * An throttle version of `Promise.all`, it runs all the tasks under
 	 * a concurrent limitation.
 	 * @param  {Int} limit The max task to run at the same time. It's optional.
 	 * Default is Infinity.
@@ -50,15 +52,15 @@ _.extend kit, {
 	 * If the list is a function, it should be a iterator that returns a promise,
 	 * when it returns `undefined`, the iteration ends.
 	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
-	 * @return {Promise} You can get each round's results by using the `promise.progress`.
+	 * @param {Function} progress If a task ends, the resolve value will be passed to this function.
+	 * @return {Promise}
 	###
-	async: (limit, list, save_resutls = true) ->
+	async: (limit, list, save_resutls = true, progress = ->) ->
 		from = 0
 		resutls = []
 		iter_index = 0
 		running = 0
 		is_iter_done = false
-		defer = Q.defer()
 
 		if not _.isNumber limit
 			save_resutls = list
@@ -79,41 +81,40 @@ _.extend kit, {
 		else
 			throw new Error('unknown list type: ' + typeof list)
 
-		add_task = ->
-			task = iter(iter_index++)
-			if is_iter_done or task == undefined
-				is_iter_done = true
-				all_done() if running == 0
-				return false
+		new Promise (resolve, reject) ->
+			add_task = ->
+				task = iter(iter_index++)
+				if is_iter_done or task == undefined
+					is_iter_done = true
+					all_done() if running == 0
+					return false
 
-			if Q.isPromise(task)
-				p = task
-			else
-				p = Q task
+				if _.isFunction(task.then)
+					p = task
+				else
+					p = Promise.resolve task
 
-			running++
-			p.then (ret) ->
-				running--
+				running++
+				p.then (ret) ->
+					running--
+					if save_resutls
+						resutls.push ret
+					progress ret
+					add_task()
+				.catch (err) ->
+					running--
+					reject err
+
+				return true
+
+			all_done = ->
 				if save_resutls
-					resutls.push ret
-				defer.notify ret
-				add_task()
-			.catch (err) ->
-				running--
-				defer.reject err
+					resolve resutls
+				else
+					resolve()
 
-			return true
-
-		all_done = ->
-			if save_resutls
-				defer.resolve resutls
-			else
-				defer.resolve()
-
-		for i in [0 ... limit]
-			break if not add_task()
-
-		defer.promise
+			for i in [0 ... limit]
+				break if not add_task()
 
 	###*
 	 * Creates a function that is the composition of the provided functions.
@@ -147,11 +148,11 @@ _.extend kit, {
 		fns = fns[0] if _.isArray fns[0]
 
 		fns.reduce (pre_fn, fn) ->
-			if Q.isPromise fn
+			if _.isFunction fn.then
 				pre_fn.then -> fn
 			else
 				pre_fn.then fn
-		, Q(val)
+		, Promise.resolve(val)
 
 	###*
 	 * Daemonize a program.
@@ -276,8 +277,6 @@ _.extend kit, {
 			process.env.ComSpec or
 			process.env.COMSPEC
 
-		defer = Q.defer()
-
 		cmd_stream = new stream.Transform
 		cmd_stream.push cmd
 		cmd_stream.end()
@@ -299,10 +298,8 @@ _.extend kit, {
 		p.process.stdout.pipe out_stream
 		p.process.stderr.pipe err_stream
 
-		p.catch (err) -> defer.reject err
-
 		p.then (msg) ->
-			_.extend msg, { stdout, stderr }
+			Promise.resolve(_.extend msg, { stdout, stderr })
 
 	###*
 	 * See my project [fs-more][fs-more].
@@ -342,7 +339,7 @@ _.extend kit, {
 
 		kit.glob(opts.patterns, { cwd: opts.src_dir })
 		.then (paths) ->
-			Q.all paths.map (path) ->
+			Promise.all paths.map (path) ->
 				src_path = kit.path.join opts.src_dir, path
 				dest_path = kit.path.join opts.dest_dir, path
 
@@ -352,7 +349,7 @@ _.extend kit, {
 				.then (code) ->
 					kit.outputFile dest_path, code
 				.catch (err) ->
-					if err.code != 'EISDIR'
+					if err.cause.code != 'EISDIR'
 						throw err
 
 	###*
@@ -367,7 +364,7 @@ _.extend kit, {
 
 		all_paths = []
 		stat_cache = {}
-		Q.all patterns.map (p) ->
+		Promise.all patterns.map (p) ->
 			kit._glob p, opts
 			.then (paths) ->
 				_.extend stat_cache, paths.glob.statCache
@@ -377,14 +374,13 @@ _.extend kit, {
 			all_paths
 
 	_glob: (pattern, opts) ->
-		defer = Q.defer()
-		g = glob pattern, opts, (err, paths) ->
-			paths.glob = g
-			if err
-				defer.reject
-			else
-				defer.resolve paths
-		defer.promise
+		new Promise (resolve, reject) ->
+			g = glob pattern, opts, (err, paths) ->
+				paths.glob = g
+				if err
+					reject err
+				else
+					resolve paths
 
 	###*
 	 * See my [jhash][jhash] project.
@@ -611,8 +607,6 @@ _.extend kit, {
 	open: (cmd, opts = {}) ->
 		{ exec } = kit.require 'child_process'
 
-		defer = Q.defer()
-
 		switch process.platform
 			when 'darwin'
 				cmds = ['open']
@@ -622,13 +616,13 @@ _.extend kit, {
 				cmds = []
 
 		cmds.push cmd
-		exec cmds.join(' '), opts, (err, stdout, stderr) ->
-			if err
-				defer.reject err
-			else
-				defer.resolve { stdout, stderr }
 
-		defer.promise
+		new Promise (resolve, reject) ->
+			exec cmds.join(' '), opts, (err, stdout, stderr) ->
+				if err
+					reject err
+				else
+					resolve { stdout, stderr }
 
 	###*
 	 * String padding helper.
@@ -767,20 +761,18 @@ _.extend kit, {
 			prompt.message = '>> '
 			prompt.delimiter = ''
 
-		defer = Q.defer()
-		prompt.get opts, (err, res) ->
-			if err
-				defer.reject err
-			else
-				defer.resolve res
-
-		defer.promise
+		new Promise (resolve, reject) ->
+			prompt.get opts, (err, res) ->
+				if err
+					reject err
+				else
+					resolve res
 
 	###*
-	 * The promise Q lib.
+	 * The promise lib.
 	 * @type {Object}
 	###
-	Q: Q
+	Promise: Promise
 
 	###*
 	 * Much much faster than the native require of node, but
@@ -895,111 +887,112 @@ _.extend kit, {
 		if req_buf.length > 0
 			opts.headers['content-length'] ?= req_buf.length
 
-		defer = Q.defer()
-		req = request opts, (res) ->
-			if opts.redirect > 0 and res.headers.location
-				opts.redirect--
-				kit.request(
-					_.extend opts, kit.url.parse(res.headers.location)
-				)
-				.catch (err) -> defer.reject err
-				.done (val) -> defer.resolve val
-				return
+		req = null
+		promise = new Promise (resolve, reject) ->
+			req = request opts, (res) ->
+				if opts.redirect > 0 and res.headers.location
+					opts.redirect--
+					kit.request(
+						_.extend opts, kit.url.parse(res.headers.location)
+					)
+					.catch (err) -> reject err
+					.done (val) -> resolve val
+					return
 
-			if opts.res_pipe
-				res_pipe_error = (err) ->
-					defer.reject err
-					opts.res_pipe.end()
+				if opts.res_pipe
+					res_pipe_error = (err) ->
+						reject err
+						opts.res_pipe.end()
 
-				if opts.auto_unzip
-					switch res.headers['content-encoding']
-						when 'gzip'
-							unzip = kit.require('zlib').createGunzip()
-						when 'deflate'
-							unzip = kit.require('zlib').createInflat()
+					if opts.auto_unzip
+						switch res.headers['content-encoding']
+							when 'gzip'
+								unzip = kit.require('zlib').createGunzip()
+							when 'deflate'
+								unzip = kit.require('zlib').createInflat()
+							else
+								unzip = null
+						if unzip
+							unzip.on 'error', res_pipe_error
+							res.pipe(unzip).pipe(opts.res_pipe)
 						else
-							unzip = null
-					if unzip
-						unzip.on 'error', res_pipe_error
-						res.pipe(unzip).pipe(opts.res_pipe)
+							res.pipe opts.res_pipe
 					else
 						res.pipe opts.res_pipe
+
+					opts.res_pipe.on 'error', res_pipe_error
+					res.on 'error', res_pipe_error
+					res.on 'end', -> resolve res
 				else
-					res.pipe opts.res_pipe
+					buf = new Buffer(0)
+					res.on 'data', (chunk) ->
+						buf = Buffer.concat [buf, chunk]
 
-				opts.res_pipe.on 'error', res_pipe_error
-				res.on 'error', res_pipe_error
-				res.on 'end', -> defer.resolve res
-			else
-				buf = new Buffer(0)
-				res.on 'data', (chunk) ->
-					buf = Buffer.concat [buf, chunk]
-
-				res.on 'end', ->
-					resolve = (body) ->
-						if opts.body
-							defer.resolve body
-						else
-							res.body = body
-							defer.resolve res
-
-					if opts.res_encoding
-						encoding = 'utf8'
-						if opts.res_encoding == 'auto'
-							c_type = res.headers['content-type']
-							if _.isString c_type
-								m = c_type.match(/charset=(.+);?/i)
-								if m and m[1]
-									encoding = m[1]
-								if not /^(text)|(application)\//.test(c_type)
-									encoding = null
-
-						decode = (buf) ->
-							if not encoding
-								return buf
-							try
-								if encoding == 'utf8'
-									buf.toString()
-								else
-									kit.require('iconv-lite')
-									.decode buf, encoding
-							catch err
-								defer.reject err
-
-						if opts.auto_unzip
-							switch res.headers['content-encoding']
-								when 'gzip'
-									unzip = kit.require('zlib').gunzip
-								when 'deflate'
-									unzip = kit.require('zlib').inflate
-								else
-									unzip = null
-							if unzip
-								unzip buf, (err, buf) ->
-									resolve decode(buf)
+					res.on 'end', ->
+						resolver = (body) ->
+							if opts.body
+								resolve body
 							else
-								resolve decode(buf)
+								res.body = body
+								resolve res
+
+						if opts.res_encoding
+							encoding = 'utf8'
+							if opts.res_encoding == 'auto'
+								c_type = res.headers['content-type']
+								if _.isString c_type
+									m = c_type.match(/charset=(.+);?/i)
+									if m and m[1]
+										encoding = m[1]
+									if not /^(text)|(application)\//.test(c_type)
+										encoding = null
+
+							decode = (buf) ->
+								if not encoding
+									return buf
+								try
+									if encoding == 'utf8'
+										buf.toString()
+									else
+										kit.require('iconv-lite')
+										.decode buf, encoding
+								catch err
+									reject err
+
+							if opts.auto_unzip
+								switch res.headers['content-encoding']
+									when 'gzip'
+										unzip = kit.require('zlib').gunzip
+									when 'deflate'
+										unzip = kit.require('zlib').inflate
+									else
+										unzip = null
+								if unzip
+									unzip buf, (err, buf) ->
+										resolver decode(buf)
+								else
+									resolver decode(buf)
+							else
+								resolver decode(buf)
 						else
-							resolve decode(buf)
+							resolver buf
+
+			req.on 'error', (err) ->
+				# Release pipe
+				opts.res_pipe?.end()
+				reject err
+
+			if opts.req_pipe
+				opts.req_pipe.pipe req
+			else
+				if opts.auto_end_req
+					if req_buf.length > 0
+						req.end req_buf
 					else
-						resolve buf
+						req.end()
 
-		req.on 'error', (err) ->
-			# Release pipe
-			opts.res_pipe?.end()
-			defer.reject err
-
-		if opts.req_pipe
-			opts.req_pipe.pipe req
-		else
-			if opts.auto_end_req
-				if req_buf.length > 0
-					req.end req_buf
-				else
-					req.end()
-
-		defer.promise.req = req
-		defer.promise
+		promise.req = req
+		promise
 
 	###*
 	 * A safer version of `child_process.spawn` to run a process on Windows or Linux.
@@ -1035,24 +1028,23 @@ _.extend kit, {
 				cmd = which.sync(cmd)
 			cmd = kit.path.normalize cmd
 
-		defer = Q.defer()
-
 		{ spawn } = kit.require 'child_process'
 
-		try
-			ps = spawn cmd, args, opts
-		catch err
-			defer.reject err
+		ps = null
+		promise = new Promise (resolve, reject) ->
+			try
+				ps = spawn cmd, args, opts
+			catch err
+				reject err
 
-		ps.on 'error', (err) ->
-			defer.reject err
+			ps.on 'error', (err) ->
+				reject err
 
-		ps.on 'close', (code, signal) ->
-			defer.resolve { code, signal }
+			ps.on 'close', (code, signal) ->
+				resolve { code, signal }
 
-		defer.promise.process = ps
-
-		return defer.promise
+		promise.process = ps
+		promise
 
 	###*
 	 * Node native module

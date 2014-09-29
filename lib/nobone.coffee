@@ -3,14 +3,14 @@
  * **All the modules are optional**.
  * Only the `kit` lib is loaded by default and is not optional.
  *
- * Most of the async functions are implemented with [Q][Q].
- * [Q]: https://github.com/kriskowal/q
+ * Most of the async functions are implemented with [Promise][Promise].
+ * [Promise]: https://github.com/petkaantonov/bluebird
 ###
 Overview = 'nobone'
 
 _ = require 'lodash'
 kit = require './kit'
-Q = require 'q'
+{ Promise } = kit
 
 
 ###*
@@ -66,13 +66,13 @@ nobone = (modules, opts = {}) ->
 	 * @return {Promise}
 	###
 	close = ->
-		Q.all _.map(modules, (v, k) ->
+		Promise.all _.map(modules, (v, k) ->
 			mod = nb[k]
 			if v and mod.close
 				if mod.close.length > 0
-					Q.ninvoke mod, 'close'
+					Promise.promisify(mod.close, mod)()
 				else
-					mod.close()
+					Promise.resolve mod.close()
 		)
 	nb.close = close
 

@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'production'
 
 nobone = require './nobone'
 { kit, service, renderer } = nobone()
-Q = require 'q'
+{ Promise } = kit
 marked = require 'marked'
 
 nobone_dir = kit.path.normalize __dirname + '/../'
@@ -16,7 +16,7 @@ service.get '/', (req, res) ->
 	if doc_cache != null
 		return res.send doc_cache
 
-	Q.all([
+	Promise.all([
 		renderer.render marked_html
 		kit.readFile nobone_readme, 'utf8'
 	])
@@ -35,7 +35,7 @@ service.get '/', (req, res) ->
 
 service.get '/*.coffee', (req, res) ->
 	path = kit.path.normalize __dirname + '/../' + req.path[1..]
-	Q.all([
+	Promise.all([
 		renderer.render source_html
 		kit.readFile path, 'utf8'
 	])
