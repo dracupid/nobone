@@ -1,3 +1,7 @@
+- v0.8.1
+
+  - Fix a fatal bug of Rendreer's promise rejection.
+
 - v0.8.0
 
   - Replace Q with ES6 style promise.
