@@ -51,7 +51,7 @@ _.extend kit, {
 	 * If the list is an array, it should be a list of functions or promises, and each function will return a promise.
 	 * If the list is a function, it should be a iterator that returns a promise,
 	 * when it returns `undefined`, the iteration ends.
-	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
+	 * @param {Boolean} save_resutls Whether to save each promise's result or not. Default is true.
 	 * @param {Function} progress If a task ends, the resolve value will be passed to this function.
 	 * @return {Promise}
 	 * @example
