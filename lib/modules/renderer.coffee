@@ -473,12 +473,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			kit.fileExists path
 			.then (exists) ->
 				if exists
-					handler.path = path
-					handler.ext = handler.ext_bin
-					kit.readFile path, handler.encoding
-					.then (source) ->
-						handler.source = source
-						Promise.resolve handler
+					readfile path
 				else
 					err = new Error('File not exists: ' + handler.no_ext_path)
 					err.name = 'file_not_exists'
