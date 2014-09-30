@@ -496,9 +496,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		else if cache.content
 			Promise.resolve cache.content
 		else
-			Promise.resolve(
-				cache.compiler cache.source, cache.path, cache.data
-			).then (content) ->
+			p = try
+					Promise.resolve(
+						cache.compiler cache.source, cache.path, cache.data
+					)
+				catch err
+					Promise.reject err
+
+			p.then (content) ->
 				cache.content = content
 				delete cache.error
 			.catch (err) ->
