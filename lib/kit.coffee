@@ -48,12 +48,40 @@ _.extend kit, {
 	 * @param  {Int} limit The max task to run at the same time. It's optional.
 	 * Default is Infinity.
 	 * @param  {Array | Function} list
-	 * If the list is an array, it should be a list of functions or promises. And each function will return a promise.
+	 * If the list is an array, it should be a list of functions or promises, and each function will return a promise.
 	 * If the list is a function, it should be a iterator that returns a promise,
 	 * when it returns `undefined`, the iteration ends.
 	 * @param {Boolean} save_resutls Whether to save each promise's result or not.
 	 * @param {Function} progress If a task ends, the resolve value will be passed to this function.
 	 * @return {Promise}
+	 * @example
+	 * ```coffeescript
+	 * urls = [
+	 * 	'http://a.com'
+	 * 	'http://b.com'
+	 * 	'http://c.com'
+	 * 	'http://d.com'
+	 * ]
+	 * tasks = [
+	 * 	-> kit.request url[0]
+	 * 	-> kit.request url[1]
+	 * 	-> kit.request url[2]
+	 * 	-> kit.request url[3]
+	 * ]
+	 *
+	 * kit.async(tasks).then ->
+	 * 	kit.log 'all done!'
+	 *
+	 * kit.async(2, tasks).then ->
+	 * 	kit.log 'max concurrent limit is 2'
+	 *
+	 * kit.async 3, ->
+	 * 	url = urls.pop()
+	 * 	if url
+	 * 		kit.request url
+	 * .then ->
+	 * 	kit.log 'all done!'
+	 * ```
 	###
 	async: (limit, list, save_resutls = true, progress = ->) ->
 		from = 0
@@ -141,7 +169,7 @@ _.extend kit, {
 	 * download = kit.compose create_url, curl, save
 	 * # same as "download = kit.compose [create_url, curl, save]"
 	 *
-	 * download()
+	 * download 'home'
 	 * ```
 	###
 	compose: (fns...) -> (val) ->
