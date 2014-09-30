@@ -8,12 +8,13 @@ rr.file_handlers['.css'].compiler = (str, path) ->
 	@dependency_roots = 'test/fixtures/deps_root'
 
 	stylus = kit.require 'stylus'
-	kit.Q.ninvoke(
-		stylus(str)
+	c = stylus(str)
 		.set('filename', path)
 		.include(@dependency_roots)
-		'render'
-	)
+
+	kit.Promise.promisify(
+		c.render, c
+	)()
 
 srv.get '/', (req, res) ->
 	rr.render 'test/fixtures/index.html'
