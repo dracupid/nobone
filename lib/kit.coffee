@@ -622,7 +622,7 @@ _.extend kit, {
 
 	###*
 	 * Open a thing that your system can recognize.
-	 * Now only support Windows and OSX.
+	 * Now only support Windows, OSX or system that installed 'xdg-open'.
 	 * @param  {String} cmd  The thing you want to open.
 	 * @param  {Object} opts The options of the node native `child_process.exec`.
 	 * @return {Promise} When the child process exits.
@@ -641,7 +641,11 @@ _.extend kit, {
 			when 'win32'
 				cmds = ['start']
 			else
-				cmds = []
+				which = kit.require 'which'
+				try
+					cmds = [which.sync('xdg-open')]
+				catch
+					cmds = []
 
 		cmds.push cmd
 
