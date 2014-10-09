@@ -1,3 +1,7 @@
+- v0.8.2
+
+  - `kit.open` now supports Linux.
+
 - v0.8.1
 
   - Fix a fatal bug of Rendreer's promise rejection.
