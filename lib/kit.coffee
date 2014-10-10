@@ -1052,13 +1052,13 @@ _.extend kit, {
 		}
 
 		if process.platform == 'win32'
-			cmd_ext = cmd + '.cmd'
-			if fs.existsSync cmd_ext
-				cmd = cmd_ext
-			else
-				which = kit.require 'which'
-				cmd = which.sync(cmd)
+			which = kit.require 'which'
+			cmd = which.sync cmd
+			cmd_src = kit.fs.readFileSync(cmd, 'utf8')
+			cmd = kit.path.join cmd, '..', cmd_src.match(/node\s+"%~dp0\\(\.\.\\.+)"/)[1]
 			cmd = kit.path.normalize cmd
+			args = [cmd].concat args
+			cmd = 'node'
 
 		{ spawn } = kit.require 'child_process'
 
