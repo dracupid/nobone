@@ -1054,11 +1054,13 @@ _.extend kit, {
 		if process.platform == 'win32'
 			which = kit.require 'which'
 			cmd = which.sync cmd
-			cmd_src = kit.fs.readFileSync(cmd, 'utf8')
-			cmd = kit.path.join cmd, '..', cmd_src.match(/node\s+"%~dp0\\(\.\.\\.+)"/)[1]
-			cmd = kit.path.normalize cmd
-			args = [cmd].concat args
-			cmd = 'node'
+			if cmd[..-3].toLowerCase() == 'cmd'
+				cmd_src = kit.fs.readFileSync(cmd, 'utf8')
+				m = kit.path.join cmd, '..', cmd_src.match(/node\s+"%~dp0\\(\.\.\\.+)"/)
+				if m and m[1]
+					cmd = kit.path.normalize m[1]
+					args = [cmd].concat args
+					cmd = 'node'
 
 		{ spawn } = kit.require 'child_process'
 
