@@ -604,8 +604,8 @@ _.extend kit, {
 			if curr.mtime != prev.mtime
 				kit.log "Reload app, modified: ".yellow + path +
 					'\n' + _.times(64, ->'*').join('').yellow
+				ps.on 'close', start
 				ps.kill 'SIGINT'
-				start()
 
 		kit.log "Monitor: ".yellow + opts.watch_list
 
