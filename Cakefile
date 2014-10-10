@@ -185,7 +185,7 @@ task 'code', 'Code Statistics of this project', ->
 				kit.readFile paths[i], 'utf8'
 				kit.stat paths[i]
 			]
-		.progress ([str, stats]) ->
+		, false, ([str, stats]) ->
 			line_count += str.split('\n').length
 			size_count += stats.size
 	.done ->
