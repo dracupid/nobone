@@ -2,6 +2,7 @@
 
   - `kit.open` now supports Linux.
   - Fix a Windows spawn pid bug.
+  - Update dependencies.
 
 - v0.8.1
 
