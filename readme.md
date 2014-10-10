@@ -1454,11 +1454,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     The `promise.process` is the child process object.
     When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L1084" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L1087" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L1110" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L1113" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1497,7 +1497,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     		kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1140" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1143" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1520,7 +1520,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1175" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1178" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.
