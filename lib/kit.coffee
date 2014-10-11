@@ -594,6 +594,8 @@ _.extend kit, {
 				kit.env_mode opts.mode
 			).process
 
+			ps.on 'close', -> ps.is_closed = true
+
 		start()
 
 		process.on 'SIGINT', ->
@@ -604,8 +606,11 @@ _.extend kit, {
 			if curr.mtime != prev.mtime
 				kit.log "Reload app, modified: ".yellow + path +
 					'\n' + _.times(64, ->'*').join('').yellow
-				ps.on 'close', start
-				ps.kill 'SIGINT'
+				if ps.is_closed
+					start()
+				else
+					ps.on 'close', start
+					ps.kill 'SIGINT'
 
 		kit.log "Monitor: ".yellow + opts.watch_list
 
