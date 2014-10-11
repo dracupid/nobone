@@ -1,3 +1,7 @@
+- v0.8.3
+
+  - Fix `kit.monitor_app` a restart ended process bug.
+
 - v0.8.2
 
   - `kit.open` now supports Linux.
