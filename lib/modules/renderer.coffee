@@ -72,6 +72,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		enable_watcher: process.env.NODE_ENV == 'development'
 		auto_log: process.env.NODE_ENV == 'development'
 		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
+		cache_dir: '.nobone_renderer'
 		cache_limit: 1024
 		file_handlers: {
 			'.html': {
@@ -496,14 +497,30 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		else if cache.content
 			Promise.resolve cache.content
 		else
-			p = try
-					Promise.resolve(
+			file_cache_path = kit.path.join(self.opts.cache_dir, cache.path)
+
+			Promise.all([
+				kit.stat(file_cache_path)
+				kit.stat(cache.path)
+			]).then ([cache_stats, src_stats]) ->
+				Promise.resolve cache_stats.mtime > src_stats.mtime
+			.catch(->).then (use_cache) ->
+				if use_cache
+					return kit.readFile file_cache_path
+
+				try
+					p = Promise.resolve(
 						cache.compiler cache.source, cache.path, cache.data
 					)
+
+					p.then (content) ->
+						switch content.constructor.name
+							when 'String', 'Buffer'
+								kit.outputFile file_cache_path, content
+					p
 				catch err
 					Promise.reject err
-
-			p.then (content) ->
+			.then (content) ->
 				cache.content = content
 				delete cache.error
 			.catch (err) ->
