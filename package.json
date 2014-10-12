@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "benchmark": "*",
+    "coffee-cache": "*",
     "jade": "*",
     "less": "*",
     "mocha": "*",

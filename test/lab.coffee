@@ -1,3 +1,5 @@
+require 'coffee-cache'
+
 nobone = require '../lib/nobone'
 
 { kit, renderer: rr, service: srv } = nobone()
