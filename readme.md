@@ -676,7 +676,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L580" target="_blank"><b>get_cache</b></a>
+- #### <a href="lib/modules/renderer.coffee#L594" target="_blank"><b>get_cache</b></a>
 
  Set handler cache.
 
@@ -684,7 +684,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/renderer.coffee#L608" target="_blank"><b>gen_handler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L622" target="_blank"><b>gen_handler</b></a>
 
  Generate a file handler.
 

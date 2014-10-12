@@ -72,7 +72,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		enable_watcher: process.env.NODE_ENV == 'development'
 		auto_log: process.env.NODE_ENV == 'development'
 		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
-		cache_dir: '.nobone_renderer'
+		cache_dir: '.nobone_renderer_cache'
 		cache_limit: 1024
 		file_handlers: {
 			'.html': {
@@ -528,6 +528,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					cache.content
 
+	###*
+	 * Get the compiled source code from file system.
+	 * For a better restart performance.
+	 * @private
+	 * @param  {File_handler} handler
+	 * @return {Promise}
+	###
 	get_content_cache = (handler) ->
 		handler.file_cache_path = kit.path.join(
 			self.opts.cache_dir
@@ -553,6 +560,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						return
 		.catch(->)
 
+	###*
+	 * Save the compiled source code to file system.
+	 * For a better restart performance.
+	 * @private
+	 * @param  {File_handler} handler
+	 * @return {Promise}
+	###
 	save_content_cache = (handler) ->
 		switch handler.content.constructor.name
 			when 'String', 'Buffer'
@@ -644,6 +658,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		handler
 
+	###*
+	 * Watch the source file.
+	 * @private
+	 * @param  {file_handler} handler
+	###
 	watch = (handler) ->
 		# async lock, make sure one file won't be watched twice.
 		watch.processing ?= []
