@@ -3,6 +3,8 @@ prj.sublime-project
 prj.sublime-workspace
 appveyor.yml
 .travis.yml
+.nobone
+.coffee
 
 benchmark
 test/*
