@@ -107,7 +107,7 @@ _.extend kit, {
 		else if _.isFunction list
 			iter = list
 		else
-			throw new Error('unknown list type: ' + typeof list)
+			Promise.reject new Error('unknown list type: ' + typeof list)
 
 		new Promise (resolve, reject) ->
 			add_task = ->
@@ -378,7 +378,7 @@ _.extend kit, {
 					kit.outputFile dest_path, code
 				.catch (err) ->
 					if err.cause.code != 'EISDIR'
-						throw err
+						Promise.reject err
 
 	###*
 	 * See the https://github.com/isaacs/node-glob
@@ -894,7 +894,7 @@ _.extend kit, {
 			when 'https:'
 				{ request } = kit.require 'https'
 			else
-				throw new Error('Protocol not supported: ' + url.protocol)
+				Promise.reject new Error('Protocol not supported: ' + url.protocol)
 
 		_.defaults opts, url
 

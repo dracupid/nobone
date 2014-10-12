@@ -314,7 +314,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 									path.cyan + '\n' + kit.inspect(content).yellow
 								err = new Error(body)
 								err.name = 'unknown_type'
-								throw err
+								Promise.reject err
 
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
@@ -330,7 +330,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						when 'file_not_exists'
 							rnext()
 						else
-							throw err
+							Promise.reject err
 				.done()
 			else
 				rnext()
@@ -385,7 +385,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			p.then (cache) ->
 				get_content handler.ext_bin, cache, is_cache
 		else
-			throw new Error('No matched content handler for:' + path)
+			Promise.reject new Error('No matched content handler for:' + path)
 
 	###*
 	 * Release the resources.
@@ -483,7 +483,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					err = new Error('File not exists: ' + handler.no_ext_path)
 					err.name = 'file_not_exists'
-					throw err
+					Promise.reject err
 
 	###*
 	 * Get the compiled code
@@ -524,7 +524,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					watch cache
 
 				if cache.error
-					throw cache.error
+					Promise.reject cache.error
 				else
 					cache.content
 
@@ -610,7 +610,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				cache
 		else
 			if cache.error
-				throw cache.error
+				Promise.reject cache.error
 			else
 				Promise.resolve cache
 
