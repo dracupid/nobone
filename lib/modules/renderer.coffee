@@ -773,11 +773,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		_.extend handler.new_watch_list, handler.extra_watch
 		handler.new_watch_list[handler.path] = handler.watched_list[handler.path]
 
+		if handler.dependency_reg and not _.isRegExp(handler.dependency_reg)
+			handler.dependency_reg = handler.dependency_reg[handler.ext]
+
 		if handler.dependency_reg
-			if not _.isRegExp(handler.dependency_reg)
-				handler.dependency_reg = handler.dependency_reg[handler.ext]
-			if handler.dependency_reg
-				get_dependencies handler
+			get_dependencies handler
 		else
 			Promise.resolve()
 
