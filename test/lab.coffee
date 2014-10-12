@@ -1,20 +1,21 @@
 nobone = require '../lib/nobone'
-_ = require 'lodash'
 
 { kit, renderer: rr, service: srv } = nobone()
 
-rr.file_handlers['.css'].compiler = (str, path) ->
-	@dependency_reg = /@(?:import|require)\s+([^\r\n]+)/
-	@dependency_roots = 'test/fixtures/deps_root'
+{ Promise, _ } = kit
 
-	stylus = kit.require 'stylus'
-	c = stylus(str)
-		.set('filename', path)
-		.include(@dependency_roots)
-
-	kit.Promise.promisify(
-		c.render, c
-	)()
+_.extend rr.file_handlers['.css'], {
+	dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
+	dependency_roots: 'test/fixtures/deps_root'
+	compiler: (str, path) ->
+		stylus = kit.require 'stylus'
+		c = stylus(str)
+			.set('filename', path)
+			.include(@dependency_roots)
+		Promise.promisify(
+			c.render, c
+		)()
+}
 
 srv.get '/', (req, res) ->
 	rr.render 'test/fixtures/index.html'

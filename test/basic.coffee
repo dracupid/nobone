@@ -23,17 +23,18 @@ describe 'Basic:', ->
 	nb.service.use nb.renderer.static('test/fixtures')
 	nb.service.use '/test', nb.renderer.static('test')
 
-	nb.renderer.file_handlers['.css'].compiler = (str, path) ->
-		@dependency_reg = /@(?:import|require)\s+([^\r\n]+)/
-		@dependency_roots = 'test/fixtures/deps_root'
-
-		stylus = nb.kit.require 'stylus'
-		c = stylus(str)
-			.set('filename', path)
-			.include(@dependency_roots)
-		Promise.promisify(
-			c.render, c
-		)()
+	_.extend nb.renderer.file_handlers['.css'], {
+		dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
+		dependency_roots: 'test/fixtures/deps_root'
+		compiler: (str, path) ->
+			stylus = nb.kit.require 'stylus'
+			c = stylus(str)
+				.set('filename', path)
+				.include(@dependency_roots)
+			Promise.promisify(
+				c.render, c
+			)()
+	}
 
 	port = 8022
 	nb.kit.log 'Listen port: ' + port

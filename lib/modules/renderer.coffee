@@ -78,6 +78,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			'.html': {
 				default: true    # Whether it is a default handler, optional.
 				ext_src: ['.ejs', '.jade']
+				dependency_reg: {
+					'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
+					'.jade': /^\s*(?:include|extends)\s+([^\r\n]+)/
+				}
 				###*
 				 * The compiler can handle any type of file.
 				 * @context {File_handler} Properties:
@@ -85,7 +89,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 * {
 				 * 	ext: String # The current file's extension.
 				 * 	opts: Object # The current options of renderer.
-				 * 	dependency_reg: RegExp # The regex to match dependency path.
+				 * 	dependency_reg: RegExp # The regex to match dependency path. Regex or Table.
 				 * 	dependency_roots: Array | String # The root directories for searching dependencies.
 				 *
 				 * 	# The source map informantion.
@@ -110,10 +114,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					self = @
 					switch @ext
 						when '.ejs'
-							@dependency_reg = /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
 							compiler = kit.require 'ejs'
 						when '.jade'
-							@dependency_reg = /^\s*(?:include|extends)\s+([^\r\n]+)/
 							try
 								compiler = kit.require 'jade'
 							catch e
@@ -157,6 +159,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			}
 			'.css': {
 				ext_src: ['.styl', '.less', '.sass', '.scss']
+				dependency_reg: {
+					'.styl': /@(?:import|require)\s+([^\r\n]+)/
+					'.less': /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
+					'.sass': /@import\s+([^\r\n]+)/
+					'.scss': /@import\s+([^\r\n]+)/
+				}
 				compiler: (str, path, data = {}) ->
 					_.defaults data, {
 						filename: path
@@ -164,12 +172,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					}
 					switch @ext
 						when '.styl'
-							@dependency_reg = /@(?:import|require)\s+([^\r\n]+)/
 							stylus = kit.require 'stylus'
 							Promise.promisify(stylus.render)(str, data)
 
 						when '.less'
-							@dependency_reg = /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
 							try
 								less = kit.require('less')
 							catch e
@@ -182,7 +188,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								tree.toCSS(data)
 
 						when '.sass', '.scss'
-							@dependency_reg = /@import\s+([^\r\n]+)/
 							try
 								sass = kit.require 'node-sass'
 							catch e
@@ -539,8 +544,33 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			).value()
 		.then (outdate_list) ->
 			if not _.any(outdate_list)
-				kit.readFile handler.file_cache_path
+				switch info.type
+					when 'String'
+						kit.readFile handler.file_cache_path, 'utf8'
+					when 'Buffer'
+						kit.readFile handler.file_cache_path
+					else
+						return
 		.catch(->)
+
+	save_content_cache = (handler) ->
+		switch handler.content.constructor.name
+			when 'String', 'Buffer'
+				content = handler.content
+			else
+				return
+
+		kit.outputFile handler.file_cache_path, handler.content
+
+		cache_info = {
+			type: handler.content.constructor.name
+			dependencies: {}
+		}
+		Promise.all(_.map(handler.new_watch_list, (v, path) ->
+			kit.stat(path).then (stats) ->
+				cache_info.dependencies[path] = stats.mtime
+		)).then ->
+			kit.outputJson handler.file_cache_path + '.json', cache_info
 
 	###*
 	 * Set handler cache.
@@ -647,19 +677,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				emit self.e.watch_file, path, handler.req_path
 
 			# Save the cached files.
-			switch handler.content.constructor.name
-				when 'String', 'Buffer'
-					kit.outputFile handler.file_cache_path, handler.content
-
-			cache_info = {
-				type: handler.content.constructor.name
-				dependencies: {}
-			}
-			Promise.all(_.map(handler.new_watch_list, (v, path) ->
-				kit.stat(path).then (stats) ->
-					cache_info.dependencies[path] = stats.mtime
-			)).then ->
-				kit.outputJson handler.file_cache_path + '.json', cache_info
+			if handler.content
+				save_content_cache handler
 
 			delete handler.new_watch_list
 
@@ -732,6 +751,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		handler.new_watch_list[handler.path] = handler.watched_list[handler.path]
 
 		if handler.dependency_reg
+			if not _.isRegExp(handler.dependency_reg)
+				handler.dependency_reg = handler.dependency_reg[handler.ext]
 			get_dependencies handler
 		else
 			Promise.resolve()
