@@ -497,27 +497,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		else if cache.content
 			Promise.resolve cache.content
 		else
-			file_cache_path = kit.path.join(self.opts.cache_dir, cache.path)
-
-			Promise.all([
-				kit.stat(file_cache_path)
-				kit.stat(cache.path)
-			]).then ([cache_stats, src_stats]) ->
-				Promise.resolve cache_stats.mtime > src_stats.mtime
-			.catch(->).then (use_cache) ->
-				if use_cache
-					return kit.readFile file_cache_path
+			get_content_cache(cache).then (content_cache) ->
+				if content_cache
+					return content_cache
 
 				try
-					p = Promise.resolve(
-						cache.compiler cache.source, cache.path, cache.data
-					)
-
-					p.then (content) ->
-						switch content.constructor.name
-							when 'String', 'Buffer'
-								kit.outputFile file_cache_path, content
-					p
+					cache.compiler cache.source, cache.path, cache.data
 				catch err
 					Promise.reject err
 			.then (content) ->
@@ -536,7 +521,26 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if cache.error
 					throw cache.error
 				else
-					Promise.resolve cache.content
+					cache.content
+
+	get_content_cache = (handler) ->
+		handler.file_cache_path = kit.path.join(
+			self.opts.cache_dir
+			handler.path
+		)
+
+		kit.readJSON handler.file_cache_path + '.json'
+		.then (info) ->
+			handler.cache_info = info
+			Promise.all _(info.dependencies).keys().map(
+				(path) ->
+					kit.stat(path).then (stats) ->
+						info.dependencies[path] < stats.mtime.toJSON()
+			).value()
+		.then (outdate_list) ->
+			if not _.any(outdate_list)
+				kit.readFile handler.file_cache_path
+		.catch(->)
 
 	###*
 	 * Set handler cache.
@@ -641,6 +645,21 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				continue if _.isFunction(handler.watched_list[path])
 				handler.watched_list[path] = kit.watch_file path, watcher
 				emit self.e.watch_file, path, handler.req_path
+
+			# Save the cached files.
+			switch handler.content.constructor.name
+				when 'String', 'Buffer'
+					kit.outputFile handler.file_cache_path, handler.content
+
+			cache_info = {
+				type: handler.content.constructor.name
+				dependencies: {}
+			}
+			Promise.all(_.map(handler.new_watch_list, (v, path) ->
+				kit.stat(path).then (stats) ->
+					cache_info.dependencies[path] = stats.mtime
+			)).then ->
+				kit.outputJson handler.file_cache_path + '.json', cache_info
 
 			delete handler.new_watch_list
 
