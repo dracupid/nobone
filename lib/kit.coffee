@@ -327,7 +327,7 @@ _.extend kit, {
 		p.process.stderr.pipe err_stream
 
 		p.then (msg) ->
-			Promise.resolve(_.extend msg, { stdout, stderr })
+			_.extend msg, { stdout, stderr }
 
 	###*
 	 * See my project [fs-more][fs-more].

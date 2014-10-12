@@ -179,7 +179,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							parser = new less.Parser(data)
 							Promise.promisify(parser.parse)(str)
 							.then (tree) ->
-								Promise.resolve tree.toCSS(data)
+								tree.toCSS(data)
 
 						when '.sass', '.scss'
 							@dependency_reg = /@import\s+([^\r\n]+)/
@@ -454,7 +454,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.then (source) ->
 				handler.source = source
 				delete handler.content
-				Promise.resolve handler
+				handler
 
 		paths = handler.ext_src.map (el) -> handler.no_ext_path + el
 		check_src = ->
@@ -559,7 +559,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					min_handler = _(cache_pool).values().min('ctime').value()
 					if min_handler
 						self.release_cache min_handler.path
-				Promise.resolve cache
+				cache
 		else
 			if cache.error
 				throw cache.error
