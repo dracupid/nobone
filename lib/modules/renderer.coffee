@@ -26,6 +26,10 @@ express = require 'express'
  * 	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
  * 	# into the page.
  * 	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
+ *
+ * 	cache_dir: '.nobone/renderer_cache'
+ * 	cache_limit: 1024
+
  * 	file_handlers: {
  * 		'.html': {
  * 			default: true
@@ -72,7 +76,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		enable_watcher: process.env.NODE_ENV == 'development'
 		auto_log: process.env.NODE_ENV == 'development'
 		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
-		cache_dir: '.nobone_renderer_cache'
+		cache_dir: '.nobone/renderer_cache'
 		cache_limit: 1024
 		file_handlers: {
 			'.html': {
