@@ -524,7 +524,6 @@ _.extend kit, {
 		if not kit.last_log_time
 			kit.last_log_time = new Date
 			if process.env.log_reg
-				console.log '>> Log should match:'.yellow, process.env.log_reg
 				kit.log_reg = new RegExp(process.env.log_reg)
 
 		time = new Date()
@@ -543,7 +542,6 @@ _.extend kit, {
 			].join(':')
 		].join(' ').grey
 
-
 		log = ->
 			str = _.toArray(arguments).join ' '
 
@@ -552,13 +550,13 @@ _.extend kit, {
 
 			console[action] str.replace /\n/g, '\n  '
 
+			if process.env.log_trace == 'on'
+				console.log (new Error).stack.replace(/.+\n.+\n.+/, '\nStack trace:').grey
+
 		if _.isObject msg
 			log "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
 		else
 			log "[#{time}]", msg, time_delta
-
-		if process.env.log_trace == 'on'
-			log (new Error).stack.replace('Error:', '\nStack trace:').grey
 
 		if action == 'error'
 			process.stdout.write "\u0007"

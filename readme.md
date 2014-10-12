@@ -1217,7 +1217,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Default is same with `kit.inspect`
 
-- #### <a href="lib/kit.coffee#L581" target="_blank"><b>monitor_app</b></a>
+- #### <a href="lib/kit.coffee#L579" target="_blank"><b>monitor_app</b></a>
 
  Monitor an application and automatically restart it when file changed.
  When the monitored app exit with error, the monitor itself will also exit.
@@ -1239,13 +1239,13 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The child process.
 
-- #### <a href="lib/kit.coffee#L623" target="_blank"><b>node_version</b></a>
+- #### <a href="lib/kit.coffee#L621" target="_blank"><b>node_version</b></a>
 
  Node version. Such as `v0.10.23` is `0.1023`, `v0.10.1` is `0.1001`.
 
  - **<u>type</u>**:  { _Float_ }
 
-- #### <a href="lib/kit.coffee#L640" target="_blank"><b>open</b></a>
+- #### <a href="lib/kit.coffee#L638" target="_blank"><b>open</b></a>
 
  Open a thing that your system can recognize.
  Now only support Windows, OSX or system that installed 'xdg-open'.
@@ -1269,7 +1269,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     kit.open 'http://ysmood.org'
     ```
 
-- #### <a href="lib/kit.coffee#L675" target="_blank"><b>pad</b></a>
+- #### <a href="lib/kit.coffee#L673" target="_blank"><b>pad</b></a>
 
  String padding helper.
 
@@ -1289,7 +1289,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     kit.pad '1', 3 # '001'
     ```
 
-- #### <a href="lib/kit.coffee#L720" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L718" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1343,11 +1343,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     }
     ```
 
-- #### <a href="lib/kit.coffee#L788" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L786" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L796" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L794" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1360,13 +1360,13 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L812" target="_blank"><b>Promise</b></a>
+- #### <a href="lib/kit.coffee#L810" target="_blank"><b>Promise</b></a>
 
  The promise lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L821" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L819" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1383,7 +1383,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The module that you require.
 
-- #### <a href="lib/kit.coffee#L876" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L874" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1435,7 +1435,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log res.headers
     ```
 
-- #### <a href="lib/kit.coffee#L1044" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L1042" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1458,11 +1458,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     The `promise.process` is the child process object.
     When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L1092" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L1090" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L1118" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L1116" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1501,7 +1501,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     		kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1148" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1146" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1524,7 +1524,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1183" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1181" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.

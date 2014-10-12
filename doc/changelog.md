@@ -3,6 +3,7 @@
   - Fix `kit.monitor_app` a restart ended process bug.
   - Add auto-compiled code file system cache, better restart performance.
   - Update dependencies.
+  - Fix a `kit.log` trace and regex conflict bug.
 
 - v0.8.2
 
