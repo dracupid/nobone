@@ -2,6 +2,7 @@
 
   - Fix `kit.monitor_app` a restart ended process bug.
   - Add auto-compiled code file system cache, better restart performance.
+  - Update dependencies.
 
 - v0.8.2
 
