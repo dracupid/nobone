@@ -4,6 +4,7 @@
   - Add auto-compiled code file system cache, better restart performance.
   - Update dependencies.
   - Fix a `kit.log` trace and regex conflict bug.
+  - Update the source map API.
 
 - v0.8.2
 
