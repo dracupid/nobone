@@ -13,6 +13,7 @@ _.extend rr.file_handlers['.css'], {
 		stylus = kit.require 'stylus'
 		c = stylus(str)
 			.set('filename', path)
+			.set('sourcemap', { inline: true })
 			.include(@dependency_roots)
 		Promise.promisify(
 			c.render, c
