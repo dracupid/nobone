@@ -98,8 +98,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 *
 				 * 	# The source map informantion.
 				 * 	# If you need source map support, the `source_map`property
-				 * 	# must be set during the compile process.
-				 * 	source_map: Boolean
+				 * 	# must be set during the compile process. If you use inline source map,
+				 * 	# this property shouldn't be set.
+				 * 	source_map: String or Object
 				 * }
 				 * ```
 				 * @param  {String} str Source content.
@@ -155,6 +156,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						compress: process.env.NODE_ENV == 'production'
 						compress_opts: { fromString: true }
 					})
+					@source_map = '''"{"version":3,"sources":["test/fixtures/default.styl"],"names":[],"mappings":"AAAA;EACC,YAAW,KAAX","file":"default.css","sourcesContent":["background #000"]}'''
 					if data.compress
 						ug = kit.require 'uglify-js'
 						ug.minify(code, data.compress_opts).code
@@ -173,6 +175,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					_.defaults data, {
 						filename: path
 						compress: process.env.NODE_ENV == 'production'
+						sourcemap: { inline: true }
 					}
 					switch @ext
 						when '.styl'
@@ -303,28 +306,20 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						when 'Function'
 							body = content()
 						else
-							if cache.source_map
-								if handler.is_source_map
-									body = cache.source_map
-								else
-									source_map_comment = "sourceMappingURL=#{handler.req_path}.map"
-									if handler.ext_bin == '.js'
-										source_map_comment = "\n//# #{source_map_comment}\n"
-									else
-										source_map_comment = "\n/*# #{source_map_comment} */\n"
-									body = content + source_map_comment
-							else
-								body = 'The compiler should produce a number, string, buffer or function: '.red +
-									path.cyan + '\n' + kit.inspect(content).yellow
-								err = new Error(body)
-								err.name = 'unknown_type'
-								Promise.reject err
+							body = 'The compiler should produce a number, string, buffer or function: '.red +
+								path.cyan + '\n' + kit.inspect(content).yellow
+							err = new Error(body)
+							err.name = 'unknown_type'
+							Promise.reject err
 
 					if opts.inject_client and
 					res.get('Content-Type').indexOf('text/html;') == 0 and
 					self.opts.inject_client_reg.test(body) and
 					body.indexOf(nobone.client()) == -1
 						body += nobone.client()
+
+					if handler.source_map
+						body += handler.source_map
 
 					res.send body
 				.catch (err) ->
@@ -448,6 +443,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		self.emit.apply self, args
 
+	set_source_map = (handler) ->
+		if _.isObject(handler.source_map)
+			handler.source_map = JSON.stringify(handler.source_map)
+
+		handler.source_map = (new Buffer(handler.source_map)).toString('base64')
+
+		flag = 'sourceMappingURL=data:application/json;base64,'
+		handler.source_map = if handler.ext_bin == '.js'
+			"\n//# #{flag}#{handler.source_map}\n"
+		else
+			"\n/*# #{flag}#{handler.source_map} */\n"
+
 	###*
 	 * Set the handler's source property.
 	 * @private
@@ -516,6 +523,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					Promise.reject err
 			.then (content) ->
 				cache.content = content
+
+				if cache.source_map
+					set_source_map cache
+
 				delete cache.error
 			.catch (err) ->
 				if _.isString err
@@ -628,11 +639,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		ext_bin = kit.path.extname path
 
-		if ext_bin == '.map'
-			path = remove_ext path
-			ext_bin = kit.path.extname path
-			is_source_map = true
-
 		if ext_bin == ''
 			handler = _.find self.file_handlers, (el) -> el.default
 		else if self.file_handlers[ext_bin]
@@ -647,7 +653,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if handler
 			handler = _.cloneDeep(handler)
 			handler.ctime = Date.now()
-			handler.is_source_map = is_source_map
 			handler.watched_list = {}
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
