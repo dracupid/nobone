@@ -294,7 +294,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				handler.req_path = req_path
 				get_cache(handler)
 				.then (cache) ->
-					get_content handler.ext_bin, cache
+					get_compiled handler.ext_bin, cache
 				.then (content) ->
 					res.type handler.type or handler.ext_bin
 
@@ -382,7 +382,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			else
 				p = get_src handler
 			p.then (cache) ->
-				get_content handler.ext_bin, cache, is_cache
+				get_compiled handler.ext_bin, cache, is_cache
 		else
 			Promise.reject new Error('No matched content handler for:' + path)
 
@@ -504,7 +504,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {Boolean} is_cache
 	 * @return {Promise} Contains the compiled content.
 	###
-	get_content = (ext_bin, cache, is_cache = true) ->
+	get_compiled = (ext_bin, cache, is_cache = true) ->
 		cache.last_ext_bin = ext_bin
 		if ext_bin == cache.ext and not cache.force_compile
 			if opts.enable_watcher and is_cache and not cache.deleted
@@ -513,7 +513,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		else if cache.content
 			Promise.resolve cache.content
 		else
-			get_content_cache(cache).then (content_cache) ->
+			cache_from_file(cache).then (content_cache) ->
 				if content_cache
 					return content_cache
 
@@ -550,7 +550,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {File_handler} handler
 	 * @return {Promise}
 	###
-	get_content_cache = (handler) ->
+	cache_from_file = (handler) ->
 		handler.file_cache_path = kit.path.join(
 			self.opts.cache_dir
 			handler.path
@@ -582,7 +582,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {File_handler} handler
 	 * @return {Promise}
 	###
-	save_content_cache = (handler) ->
+	cache_to_file = (handler) ->
 		switch handler.content.constructor.name
 			when 'String', 'Buffer'
 				content = handler.content
@@ -685,7 +685,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			else if curr.mtime != prev.mtime
 				get_src(handler)
 				.then ->
-					get_content handler.last_ext_bin, handler
+					get_compiled handler.last_ext_bin, handler
 				.catch(->)
 				.then ->
 					emit(
@@ -706,7 +706,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 			# Save the cached files.
 			if handler.content
-				save_content_cache handler
+				cache_to_file handler
 
 			delete handler.new_watch_list
 
