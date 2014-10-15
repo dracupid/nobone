@@ -156,7 +156,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						compress: process.env.NODE_ENV == 'production'
 						compress_opts: { fromString: true }
 					})
-					@source_map = '''"{"version":3,"sources":["test/fixtures/default.styl"],"names":[],"mappings":"AAAA;EACC,YAAW,KAAX","file":"default.css","sourcesContent":["background #000"]}'''
 					if data.compress
 						ug = kit.require 'uglify-js'
 						ug.minify(code, data.compress_opts).code
