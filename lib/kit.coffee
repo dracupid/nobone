@@ -418,11 +418,27 @@ _.extend kit, {
 
 	###*
 	 * It will find the right `key/value` pair in your defined `kit.lang_set`.
-	 * If it cannot file the one, it will output the key directly.
-	 * @param  {String} cmd  The original English text.
-	 * @param  {String} lang The target language name.
+	 * If it cannot find the one, it will output the key directly.
+	 * @param  {String} cmd The original text.
+	 * @param  {String} name The target language name.
 	 * @param  {String} lang_set Specific a language collection.
 	 * @return {String}
+	 * @example
+	 * ```coffeescript
+	 * lang_set =
+	 * 	cn:
+	 * 		China: '中国'
+	 * 		open:
+	 * 			formal: '开启' # Formal way to say 'open'.
+	 * 			casual: '打开' # Casual way to say 'open'.
+	 * 	jp:
+	 * 		human: '人間'
+	 * 		'find %s men': '%sっ人が見付かる'
+	 *
+	 * kit.lang('China', 'cn', lang_set) # -> '中国'
+	 * kit.lang('open|casual', 'cn', lang_set) # -> '打开'
+	 * kit.lang('find %s men', [10], 'jp', lang_set) # -> '10っ人が見付かる'
+	 * ```
 	 * @example
 	 * Supports we have two json file in `langs_dir_path` folder.
 	 * - cn.js, content: `module.exports = { China: '中国' }`
@@ -433,17 +449,48 @@ _.extend kit, {
 	 *
 	 * kit.lang_current = 'cn'
 	 * 'China'.l # '中国'
-	 * 'Good weather.'.l('jp') # '日和。'
+	 * 'Good weather.'.la('jp') # '日和。'
 	 *
 	 * kit.lang_current = 'en'
 	 * 'China'.l # 'China'
-	 * 'Good weather.'.l('jp') # 'Good weather.'
+	 * 'Good weather.'.la('jp') # 'Good weather.'
 	 * ```
 	###
-	lang: (cmd, name = kit.lang_current, lang_set = kit.lang_set) ->
+	lang: (cmd, args = [], name, lang_set) ->
+		if _.isString args
+			lang_set = name
+			name = args
+			args = []
+
+		name ?= kit.lang_current
+		lang_set ?= kit.lang_set
+
 		i = cmd.lastIndexOf '|'
-		en = if i > -1 then cmd[...i] else cmd
-		lang_set[name]?[cmd] or en
+		if i > -1
+			key = cmd[...i]
+			cat = cmd[i + 1 ..]
+		else
+			key = cmd
+
+		out = if lang_set[name]
+			if lang_set[name][key] == undefined
+				key
+			else
+				if cat == undefined
+					lang_set[name][key]
+				else if _.isObject lang_set[name][key]
+					lang_set[name][key][cat]
+				else
+					key
+		else
+			key
+
+		if args.length > 0
+			util = kit.require 'util'
+			args.unshift out
+			util.format.apply util, args
+		else
+			out
 
 	###*
 	 * Language collections.
@@ -473,7 +520,8 @@ _.extend kit, {
 	 * ```coffeescript
 	 * kit.lang_load 'assets/lang'
 	 * kit.lang_current = 'cn'
-	 * kit.log 'test'.l # This may output '测试'.
+	 * kit.log 'test'.l # -> '测试'.
+	 * kit.log '%s persons'.la([10]) # -> '10 persons'
 	 * ```
 	###
 	lang_load: (dir_path) ->
@@ -488,8 +536,12 @@ _.extend kit, {
 			kit.lang_set[name] = require kit.path.join(dir_path, name)
 
 		Object.defineProperty String.prototype, 'l', {
-			get: (name, lang_set) -> kit.lang this, name, lang_set
+			get: -> kit.lang this + ''
 		}
+
+		String.prototype.la = (args...) ->
+			args.unshift this + ''
+			kit.lang.apply null, args
 
 	###*
 	 * For debugging use. Dump a colorful object.

@@ -1,3 +1,7 @@
+- v0.8.5
+
+  - Better language API.
+
 - v0.8.4
 
   - Fix `kit.monitor_app` a restart ended process bug.

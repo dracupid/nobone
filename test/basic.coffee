@@ -196,12 +196,11 @@ describe 'Kit:', ->
 			assert.equal rets.length, 10
 			tdone()
 
-	it 'lang normal', ->
+	it 'lang', ->
 		str = nb.kit.lang 'test', 'cn'
 		assert.equal str, '测试'
-
-	it 'lang alter', ->
 		assert.equal 'test|0'.l, 'test'
+		assert.equal 'find %s men'.la([10], 'cn'), '找到 10 个人'
 
 	it 'crypto', ->
 		en = nb.kit.encrypt '123', 'test'
