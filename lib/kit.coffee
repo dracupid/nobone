@@ -2,7 +2,6 @@ colors = require 'colors'
 _ = require 'lodash'
 Promise = require 'bluebird'
 fs = require 'fs-more'
-glob = require 'glob'
 
 if process.env.NODE_ENV == 'development'
 	Promise.longStackTraces()
@@ -402,6 +401,7 @@ _.extend kit, {
 			all_paths
 
 	_glob: (pattern, opts) ->
+		glob = kit.require 'glob'
 		new Promise (resolve, reject) ->
 			g = glob pattern, opts, (err, paths) ->
 				paths.glob = g
@@ -1191,6 +1191,15 @@ _.extend kit, {
 		if _.isString opts.pattern
 			opts.pattern = [opts.pattern]
 
+		expand_watch_pattern = (root, pattern) ->
+			# Make sure the parent directory is also in the watch list.
+			parent_dirs = []
+			patterns = pattern.map (el) ->
+				p = kit.path.join(root, el)
+				parent_dirs.push kit.path.dirname(p) + kit.path.sep
+				p
+			_.union patterns, parent_dirs
+
 		is_same_file = (stats_a, stats_b) ->
 			stats_a.mtime.getTime() == stats_b.mtime.getTime() and
 			stats_a.ctime.getTime() == stats_b.ctime.getTime() and
@@ -1219,10 +1228,15 @@ _.extend kit, {
 			# Each time a direcotry change happens, it will check all
 			# it children files, if any child is not in the watched_list,
 			# a `create` event will be triggered.
-			kit.glob(opts.pattern.map((el) -> kit.path.join(path, el)), {
-				mark: true, dot: opts.dot
-			}).then (paths) ->
-				for p in paths
+			kit.glob(
+				expand_watch_pattern path, opts.pattern
+				{
+					mark: true
+					dot: opts.dot
+					nosort: true
+				}
+			).then (paths) ->
+				for p in paths.sort().reverse()
 					if opts.watched_list[p] != undefined
 						continue
 
@@ -1259,11 +1273,16 @@ _.extend kit, {
 			.catch (err) ->
 				kit.err err
 
-		kit.glob(opts.pattern.map((el) -> kit.path.join(opts.dir, el)), {
-			mark: true, dot: opts.dot
-		}).then (paths) ->
+		kit.glob(
+			expand_watch_pattern opts.dir, opts.pattern
+			{
+				mark: true
+				dot: opts.dot
+				nosort: true
+			}
+		).then (paths) ->
 			# The reverse will keep the children event happen at first.
-			for path in paths.reverse()
+			for path in paths.sort().reverse()
 				if path[-1..] == '/'
 					w = kit.watch_file path, main_watch
 				else
