@@ -838,14 +838,14 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
 ### kit
 
-- #### <a href="lib/kit.coffee#L17" target="_blank"><b>kit</b></a>
+- #### <a href="lib/kit.coffee#L16" target="_blank"><b>kit</b></a>
 
  All the async functions in `kit` return promise object.
  Most time I use it to handle files and system staffs.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L30" target="_blank"><b>kit_extends_fs_promise</b></a>
+- #### <a href="lib/kit.coffee#L29" target="_blank"><b>kit_extends_fs_promise</b></a>
 
  kit extends all the promise functions of [fs-more][fs-more].
  [fs-more]: https://github.com/ysmood/fs-more
@@ -859,13 +859,13 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     kit.outputFile('a.txt', 'test').done()
     ```
 
-- #### <a href="lib/kit.coffee#L41" target="_blank"><b>_</b></a>
+- #### <a href="lib/kit.coffee#L40" target="_blank"><b>_</b></a>
 
  The lodash lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L86" target="_blank"><b>async</b></a>
+- #### <a href="lib/kit.coffee#L85" target="_blank"><b>async</b></a>
 
  An throttle version of `Promise.all`, it runs all the tasks under
  a concurrent limitation.
@@ -921,7 +921,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log 'all done!'
     ```
 
-- #### <a href="lib/kit.coffee#L175" target="_blank"><b>compose</b></a>
+- #### <a href="lib/kit.coffee#L174" target="_blank"><b>compose</b></a>
 
  Creates a function that is the composition of the provided functions.
  Besides it can also accept async function that returns promise.
@@ -958,7 +958,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     download 'home'
     ```
 
-- #### <a href="lib/kit.coffee#L196" target="_blank"><b>daemonize</b></a>
+- #### <a href="lib/kit.coffee#L195" target="_blank"><b>daemonize</b></a>
 
  Daemonize a program.
 
@@ -976,7 +976,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The daemonized process.
 
-- #### <a href="lib/kit.coffee#L222" target="_blank"><b>decrypt</b></a>
+- #### <a href="lib/kit.coffee#L221" target="_blank"><b>decrypt</b></a>
 
  A simple decrypt helper
 
@@ -990,7 +990,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Buffer_ }
 
-- #### <a href="lib/kit.coffee#L245" target="_blank"><b>encrypt</b></a>
+- #### <a href="lib/kit.coffee#L244" target="_blank"><b>encrypt</b></a>
 
  A simple encrypt helper
 
@@ -1004,7 +1004,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Buffer_ }
 
-- #### <a href="lib/kit.coffee#L267" target="_blank"><b>env_mode</b></a>
+- #### <a href="lib/kit.coffee#L266" target="_blank"><b>env_mode</b></a>
 
  A shortcut to set process option with specific mode,
  and keep the current env variables.
@@ -1017,7 +1017,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     `process.env` object.
 
-- #### <a href="lib/kit.coffee#L280" target="_blank"><b>err</b></a>
+- #### <a href="lib/kit.coffee#L279" target="_blank"><b>err</b></a>
 
  A log error shortcut for `kit.log(msg, 'error', opts)`
 
@@ -1025,7 +1025,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-- #### <a href="lib/kit.coffee#L301" target="_blank"><b>exec</b></a>
+- #### <a href="lib/kit.coffee#L300" target="_blank"><b>exec</b></a>
 
  A better `child_process.exec`.
 
@@ -1055,12 +1055,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     """, 'zsh'
     ```
 
-- #### <a href="lib/kit.coffee#L336" target="_blank"><b>fs</b></a>
+- #### <a href="lib/kit.coffee#L335" target="_blank"><b>fs</b></a>
 
  See my project [fs-more][fs-more].
  [fs-more]: https://github.com/ysmood/fs-more
 
-- #### <a href="lib/kit.coffee#L354" target="_blank"><b>generate_bone</b></a>
+- #### <a href="lib/kit.coffee#L353" target="_blank"><b>generate_bone</b></a>
 
  A scaffolding helper to generate template project.
  The `lib/cli.coffee` used it as an example.
@@ -1081,7 +1081,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/kit.coffee#L389" target="_blank"><b>glob</b></a>
+- #### <a href="lib/kit.coffee#L388" target="_blank"><b>glob</b></a>
 
  See the https://github.com/isaacs/node-glob
 
