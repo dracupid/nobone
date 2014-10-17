@@ -1,10 +1,11 @@
-- v0.8.3
+- v0.8.4
 
   - Fix `kit.monitor_app` a restart ended process bug.
   - Add auto-compiled code file system cache, better restart performance.
   - Update dependencies.
   - Fix a `kit.log` trace and regex conflict bug.
   - Update the source map API.
+  - The `kit.watch_dir` now automatically watches file's parent folder.
 
 - v0.8.2
 
