@@ -1150,11 +1150,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     
     kit.lang_current = 'cn'
     'China'.l # '中国'
-    'Good weather.'.la('jp') # '日和。'
+    'Good weather.'.lang('jp') # '日和。'
     
     kit.lang_current = 'en'
     'China'.l # 'China'
-    'Good weather.'.la('jp') # 'Good weather.'
+    'Good weather.'.lang('jp') # 'Good weather.'
     ```
 
 - #### <a href="lib/kit.coffee#L505" target="_blank"><b>lang_set</b></a>
@@ -1197,7 +1197,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     kit.lang_load 'assets/lang'
     kit.lang_current = 'cn'
     kit.log 'test'.l # -> '测试'.
-    kit.log '%s persons'.la([10]) # -> '10 persons'
+    kit.log '%s persons'.lang([10]) # -> '10 persons'
     ```
 
 - #### <a href="lib/kit.coffee#L553" target="_blank"><b>inspect</b></a>

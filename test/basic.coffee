@@ -200,7 +200,7 @@ describe 'Kit:', ->
 		str = nb.kit.lang 'test', 'cn'
 		assert.equal str, '测试'
 		assert.equal 'test|0'.l, 'test'
-		assert.equal 'find %s men'.la([10], 'cn'), '找到 10 个人'
+		assert.equal 'find %s men'.lang([10], 'cn'), '找到 10 个人'
 
 	it 'crypto', ->
 		en = nb.kit.encrypt '123', 'test'

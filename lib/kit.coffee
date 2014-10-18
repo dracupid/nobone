@@ -449,11 +449,11 @@ _.extend kit, {
 	 *
 	 * kit.lang_current = 'cn'
 	 * 'China'.l # '中国'
-	 * 'Good weather.'.la('jp') # '日和。'
+	 * 'Good weather.'.lang('jp') # '日和。'
 	 *
 	 * kit.lang_current = 'en'
 	 * 'China'.l # 'China'
-	 * 'Good weather.'.la('jp') # 'Good weather.'
+	 * 'Good weather.'.lang('jp') # 'Good weather.'
 	 * ```
 	###
 	lang: (cmd, args = [], name, lang_set) ->
@@ -521,7 +521,7 @@ _.extend kit, {
 	 * kit.lang_load 'assets/lang'
 	 * kit.lang_current = 'cn'
 	 * kit.log 'test'.l # -> '测试'.
-	 * kit.log '%s persons'.la([10]) # -> '10 persons'
+	 * kit.log '%s persons'.lang([10]) # -> '10 persons'
 	 * ```
 	###
 	lang_load: (dir_path) ->
@@ -539,7 +539,7 @@ _.extend kit, {
 			get: -> kit.lang this + ''
 		}
 
-		String.prototype.la = (args...) ->
+		String.prototype.lang = (args...) ->
 			args.unshift this + ''
 			kit.lang.apply null, args
 
