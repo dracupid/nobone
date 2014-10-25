@@ -8,7 +8,7 @@ marked = require 'marked'
 	}
 }
 
-[ host, port, root_dir ] = process.argv[2..]
+[ host, port, root_dir, open_dir ] = process.argv[2..]
 assets_dir = kit.path.normalize __dirname + '/../assets'
 marked_html =  kit.path.normalize __dirname + '/../assets/markdown/index.html'
 nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
@@ -29,4 +29,6 @@ kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
 
 service.listen port, host, ->
 	kit.log "Listen: " + "#{host}:#{port}".cyan
-	kit.open 'http://127.0.0.1:' + port
+
+	if JSON.parse open_dir
+		kit.open 'http://127.0.0.1:' + port

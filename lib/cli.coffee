@@ -37,6 +37,7 @@ cmder
 			return JSON.parse list
 		catch
 			return [list]
+	.option '--no-open-dir', "Disable auto-open the static file site."
 	.option '-v, --ver', 'Print version.'
 	.option '-d, --doc', 'Open the web documentation.'
 
@@ -145,6 +146,7 @@ run_a_dir = ->
 			opts.host
 			opts.port
 			opts.root_dir
+			cmder.openDir
 		]
 		watch_list: opts.watch
 	}

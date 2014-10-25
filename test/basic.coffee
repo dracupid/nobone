@@ -11,12 +11,24 @@ nb = nobone {
 	lang_dir: 'test/lang'
 }
 
+wait = (span = 100) ->
+	new Promise (resolve) ->
+		setTimeout ->
+			resolve()
+		, span
+
 get = (path, port) ->
-	nb.kit.request {
+	kit.request {
 		url: '127.0.0.1'
 		port: port
 		path: path
 	}
+	.catch (err) ->
+		if err.code == 'ECONNREFUSED'
+			wait().then ->
+				get path, port
+		else
+			Promise.reject err
 
 describe 'Basic:', ->
 
@@ -59,20 +71,19 @@ describe 'Basic:', ->
 				# Test the watcher
 				nb.kit.outputFile 'test/fixtures/main.coffee', "console.log 'no'"
 			.then ->
-				new Promise (resolve, reject) ->
-					setTimeout(->
-						get '/main.js', port
-						.catch (err) -> reject err
-						.then (code) ->
-							resolve code
-					, 1000)
+				wait 1000
+			.then ->
+				get '/main.js', port
 			.then (code) ->
 				assert.equal code, "console.log('no');\n"
 			.then ->
 				nb.kit.outputFile 'test/fixtures/main.coffee', watcher_file_cache
+			.then ->
+				tdone()
+			.catch (err) ->
+				tdone err.stack
 			.done ->
 				server.close()
-				tdone()
 
 	it 'render force html', (tdone) ->
 		nb.kit.glob 'test/fixtures/inde*.ejs'
@@ -144,19 +155,18 @@ describe 'Basic:', ->
 		ps = nb.kit.spawn('node', [
 			'bin/nobone.js'
 			'-p', port
+			'--no-open-dir'
 			'test/fixtures'
 		]).process
 
-		setTimeout(->
-			get '/main.js', port
-			.catch (err) ->
-				tdone err.stack
-			.then (res) ->
-				assert.equal res.indexOf("document.body.appendChild(elem);"), 75
-				tdone()
-			.done ->
-				ps.kill 'SIGINT'
-		, 1000)
+		get '/main.js', port
+		.then (res) ->
+			assert.equal res.indexOf("document.body.appendChild(elem);"), 75
+			tdone()
+		.catch (err) ->
+			tdone err.stack
+		.done ->
+			ps.kill 'SIGINT'
 
 describe 'Kit:', ->
 
