@@ -269,6 +269,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			root_dir: '.'
 			index: process.env.NODE_ENV == 'development'
 			inject_client: process.env.NODE_ENV == 'development'
+			req_path_handler: (path) ->
+				decodeURIComponent(path)
 		}
 
 		static_handler = express.static opts.root_dir
@@ -279,7 +281,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			)
 
 		return (req, res, next) ->
-			req_path = decodeURIComponent(req.path)
+			req_path = opts.req_path_handler req.path
 			path = kit.path.join opts.root_dir, req_path
 
 			rnext = -> static_handler req, res, (err) ->
