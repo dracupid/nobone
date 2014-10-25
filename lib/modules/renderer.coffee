@@ -296,8 +296,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 *
 	 * 	inject_client: process.env.NODE_ENV == 'development'
 	 *
-	 * 	# Useful when removing hash extension of the file path.
-	 * 	# Such as map '/lib/main-jk2x.js' to '/lib/main.js'.
+	 * 	# Useful when mapping a normal path to a hashed file.
+	 * 	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
 	 * 	req_path_handler: (path) ->
 	 * 		decodeURIComponent path
 	 * }
@@ -793,7 +793,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						matches = str.match reg
 						return Promise.resolve() if not matches
 						gen_dep_paths matches
-			.catch -> return
+			.catch(->)
 		else
 			return Promise.resolve() if not handler.source
 			matches = handler.source.match reg
