@@ -283,15 +283,23 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			fn null, str
 
 	###*
-	 * Set a static directory.
-	 * Static folder to automatically serve coffeescript and stylus.
+	 * Set a static directory proxy.
+	 * Automatically compile, cache and serve source files for both deveopment and production.
 	 * @param  {String | Object} opts If it's a string it represents the root_dir
 	 * of this static directory. Defaults:
 	 * ```coffeescript
 	 * {
 	 * 	root_dir: '.'
-	 * 	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
+	 *
+	 * 	# Whether enable serve direcotry index.
+	 * 	index: process.env.NODE_ENV == 'development'
+	 *
 	 * 	inject_client: process.env.NODE_ENV == 'development'
+	 *
+	 * 	# Useful when removing hash extension of the file path.
+	 * 	# Such as map '/lib/main-jk2x.js' to '/lib/main.js'.
+	 * 	req_path_handler: (path) ->
+	 * 		decodeURIComponent path
 	 * }
 	 * ```
 	 * @return {Middleware} Experss.js middleware.
@@ -304,6 +312,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			root_dir: '.'
 			index: process.env.NODE_ENV == 'development'
 			inject_client: process.env.NODE_ENV == 'development'
+			req_path_handler: (path) -> decodeURIComponent path
 		}
 
 		static_handler = express.static opts.root_dir
@@ -314,7 +323,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			)
 
 		return (req, res, next) ->
-			req_path = decodeURIComponent(req.path)
+			req_path = opts.req_path_handler req.path
 			path = kit.path.join opts.root_dir, req_path
 
 			rnext = -> static_handler req, res, (err) ->
