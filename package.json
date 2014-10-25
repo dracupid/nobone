@@ -26,19 +26,13 @@
     "bluebird": "2.3.6",
     "coffee-script": "1.8.0",
     "colors": "1.0.3",
-<<<<<<< HEAD
-    "commander": "2.3.0",
-    "commonjs-everywhere": "^0.9.7",
-    "convert-source-map": "^0.4.1",
-    "ejs": "1.0.0",
-    "escodegen": "^1.4.1",
-    "esmangle": "^1.0.1",
-    "express": "4.9.7",
-=======
     "commander": "2.5.0",
+    "commonjs-everywhere": "0.9.7",
+    "convert-source-map": "0.4.1",
     "ejs": "1.0.0",
+    "escodegen": "1.4.1",
+    "esmangle": "1.0.1",
     "express": "4.10.0",
->>>>>>> FETCH_HEAD
     "fs-more": "0.0.5",
     "glob": "4.0.6",
     "iconv-lite": "0.4.4",
