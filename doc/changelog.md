@@ -1,6 +1,7 @@
 - v0.8.5
 
   - Better language API.
+  - Add `req_path_handler` option to `renderer.static`.
 
 - v0.8.4
 

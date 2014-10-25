@@ -561,10 +561,10 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L264" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L272" target="_blank"><b>static</b></a>
 
- Set a static directory.
- Static folder to automatically serve coffeescript and stylus.
+ Set a static directory proxy.
+ Automatically compile, cache and serve source files for both deveopment and production.
 
  - **<u>param</u>**: `opts` { _String | Object_ }
 
@@ -573,8 +573,16 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     ```coffeescript
     {
     	root_dir: '.'
-    	index: process.env.NODE_ENV == 'development' # Whether enable serve direcotry index.
+    
+    	# Whether enable serve direcotry index.
+    	index: process.env.NODE_ENV == 'development'
+    
     	inject_client: process.env.NODE_ENV == 'development'
+    
+    	# Useful when removing hash extension of the file path.
+    	# Such as map '/lib/main-jk2x.js' to '/lib/main.js'.
+    	req_path_handler: (path) ->
+    		decodeURIComponent path
     }
     ```
 
@@ -582,7 +590,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L362" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L369" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -627,17 +635,17 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
     ```
 
-- #### <a href="lib/modules/renderer.coffee#L393" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L400" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L401" target="_blank"><b>release_cache</b></a>
+- #### <a href="lib/modules/renderer.coffee#L408" target="_blank"><b>release_cache</b></a>
 
  Release memory cache of a file.
 
  - **<u>param</u>**: `path` { _String_ }
 
-- #### <a href="lib/modules/renderer.coffee#L416" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L423" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
@@ -649,7 +657,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L424" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L431" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
@@ -665,7 +673,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L430" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L437" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
@@ -673,7 +681,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L436" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L443" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 
@@ -681,7 +689,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L610" target="_blank"><b>get_cache</b></a>
+- #### <a href="lib/modules/renderer.coffee#L617" target="_blank"><b>get_cache</b></a>
 
  Set handler cache.
 
@@ -689,7 +697,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/renderer.coffee#L638" target="_blank"><b>gen_handler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L645" target="_blank"><b>gen_handler</b></a>
 
  Generate a file handler.
 
