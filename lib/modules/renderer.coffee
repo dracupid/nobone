@@ -164,6 +164,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			}
 			'.jsb': {
 				type: '.js' # Force type, optional.
+				dependency_reg: {
+					'.coffee': /require\s+([^\r\n]+)/
+				}
 				ext_src: '.coffee'
 				compiler: (str, path, data = {} ) ->
 					CJSEveryWhere = kit.require 'commonjs-everywhere'
