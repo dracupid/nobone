@@ -149,7 +149,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			}
 			'.js': {
 				ext_src: '.coffee'
-				compiler: (str, path, data = {}) ->
+				compiler: (str, path, data ={}) ->
 					coffee = kit.require 'coffee-script'
 					code = coffee.compile str, _.defaults(data, {
 						bare: true
@@ -162,6 +162,41 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else
 						code
 			}
+			'.jsb': {
+				type: '.js' # Force type, optional.
+				ext_src: '.coffee'
+				compiler: (str, path, data = {} ) ->
+					CJSEveryWhere = kit.require 'commonjs-everywhere'
+					escodegen = kit.require 'escodegen'
+					esmangle = kit.require 'esmangle'
+					convert = kit.require 'convert-source-map'
+					bundled = CJSEveryWhere.cjsify kit.path.basename(path),
+						kit.path.join(process.cwd(), kit.path.dirname(path)),
+						node: true
+
+					if data.compress
+						bundled = esmangle.mangle (esmangle.optimize bundled), destructive: yes
+						codegenFormat = escodegen.FORMAT_MINIFY
+					else codegenFormat = escodegen.FORMAT_DEFAULTS
+
+					try
+						{code, map} = escodegen.generate bundled,
+							comment: false
+							sourceMap: yes
+							sourceMapWithCode: yes
+							sourceMapRoot: kit.path.dirname(path)
+							format: codegenFormat
+					catch e
+						console.log e.stack
+					sourceMap = convert.fromJSON(map)
+					sourcesPath = sourceMap.getProperty 'sources'
+					sourcesPathRelative = sourcesPath.map (path) ->
+						path.substring 1, path.length
+					sourceMap.setProperty 'sources', sourcesPathRelative
+						.setProperty 'file', path.replace(/\.[^\.]+$/, '.js');
+					compiled = code + '\n' + sourceMap.toComment()
+
+				}
 			'.css': {
 				ext_src: ['.styl', '.less', '.sass', '.scss']
 				dependency_reg: {
@@ -201,7 +236,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								process.exit()
 							sass.renderSync _.defaults data, {
 								outputStyle: if data.compress then 'compressed' else 'nested'
-								file: path
+								file: pathopts.root_dir
 								data: str
 								includePaths: [kit.path.dirname(path)]
 							}
