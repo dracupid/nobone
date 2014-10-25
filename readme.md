@@ -579,8 +579,8 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     
     	inject_client: process.env.NODE_ENV == 'development'
     
-    	# Useful when removing hash extension of the file path.
-    	# Such as map '/lib/main-jk2x.js' to '/lib/main.js'.
+    	# Useful when mapping a normal path to a hashed file.
+    	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
     	req_path_handler: (path) ->
     		decodeURIComponent path
     }
