@@ -149,7 +149,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			}
 			'.js': {
 				ext_src: '.coffee'
-				compiler: (str, path, data ={}) ->
+				compiler: (str, path, data = {}) ->
 					coffee = kit.require 'coffee-script'
 					code = coffee.compile str, _.defaults(data, {
 						bare: true
@@ -236,7 +236,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								process.exit()
 							sass.renderSync _.defaults data, {
 								outputStyle: if data.compress then 'compressed' else 'nested'
-								file: pathopts.root_dir
+								file: path
 								data: str
 								includePaths: [kit.path.dirname(path)]
 							}
