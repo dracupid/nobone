@@ -470,6 +470,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     			ext_src: '.coffee'
     			compiler: (str, path) -> ...
     		}
+            '.jsb':{
+                ext_src: '.coffee'
+    			compiler: (str, path) -> ...
+
+            }
     		'.css': {
     			ext_src: ['.styl', '.less']
     			compiler: (str, path) -> ...

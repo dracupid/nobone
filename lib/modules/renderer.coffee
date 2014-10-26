@@ -162,6 +162,44 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					else
 						code
 			}
+			'.jsb': {
+				type: '.js' # Force type, optional.
+				dependency_reg: {
+					'.coffee': /require\s+([^\r\n]+)/
+				}
+				ext_src: '.coffee'
+				compiler: (str, path, data = {} ) ->
+					CJSEveryWhere = kit.require 'commonjs-everywhere'
+					escodegen = kit.require 'escodegen'
+					esmangle = kit.require 'esmangle'
+					convert = kit.require 'convert-source-map'
+					bundled = CJSEveryWhere.cjsify kit.path.basename(path),
+						kit.path.join(process.cwd(), kit.path.dirname(path)),
+						node: true
+
+					if data.compress
+						bundled = esmangle.mangle (esmangle.optimize bundled), destructive: yes
+						codegenFormat = escodegen.FORMAT_MINIFY
+					else codegenFormat = escodegen.FORMAT_DEFAULTS
+
+					try
+						{code, map} = escodegen.generate bundled,
+							comment: false
+							sourceMap: yes
+							sourceMapWithCode: yes
+							sourceMapRoot: kit.path.dirname(path)
+							format: codegenFormat
+					catch e
+						console.log e.stack
+					sourceMap = convert.fromJSON(map)
+					sourcesPath = sourceMap.getProperty 'sources'
+					sourcesPathRelative = sourcesPath.map (path) ->
+						path.substring 1, path.length
+					sourceMap.setProperty 'sources', sourcesPathRelative
+						.setProperty 'file', path.replace(/\.[^\.]+$/, '.js');
+					compiled = code + '\n' + sourceMap.toComment()
+
+				}
 			'.css': {
 				ext_src: ['.styl', '.less', '.sass', '.scss']
 				dependency_reg: {
