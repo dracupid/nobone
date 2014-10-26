@@ -785,13 +785,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			kit.glob curr_paths
 			.then (paths) ->
 				Promise.all paths.map (path) ->
+					# Prevent the recycle dependencies.
+					return if handler.new_watch_list[path]
+
 					kit.readFile(path, 'utf8')
 					.then (str) ->
 						# The point to add path to watch list.
 						handler.new_watch_list[path] = null
 
 						matches = str.match reg
-						return Promise.resolve() if not matches
+						return if not matches
 						gen_dep_paths matches
 			.catch(->)
 		else
