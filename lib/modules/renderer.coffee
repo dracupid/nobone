@@ -163,12 +163,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						code
 			}
 			'.jsb': {
-				type: '.js' # Force type, optional.
-				dependency_reg: {
-					'.coffee': /require\s+([^\r\n]+)/
-				}
+				type: '.js'
+				dependency_reg: /require\s+([^\r\n]+)/
 				ext_src: '.coffee'
-				compiler: (str, path, data = {} ) ->
+				compiler: (str, path, data = {}) ->
 					CJSEveryWhere = kit.require 'commonjs-everywhere'
 					escodegen = kit.require 'escodegen'
 					esmangle = kit.require 'esmangle'
@@ -198,7 +196,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					sourceMap.setProperty 'sources', sourcesPathRelative
 						.setProperty 'file', path.replace(/\.[^\.]+$/, '.js');
 					compiled = code + '\n' + sourceMap.toComment()
-
 				}
 			'.css': {
 				ext_src: ['.styl', '.less', '.sass', '.scss']
