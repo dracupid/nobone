@@ -50,6 +50,7 @@
     "jade": "*",
     "less": "*",
     "mocha": "*",
-    "npm": "*"
+    "npm": "*",
+    "through": "*"
   }
 }

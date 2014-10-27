@@ -177,11 +177,12 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				type: '.js'
 				dependency_reg: /require\s+([^\r\n]+)/
 				ext_src: '.coffee'
-				compiler: (str, path, data = {}) ->
+				compiler: (nil, path, data = {}) ->
 					try
 						browserify = kit.require 'browserify'
+						through = kit.require 'through'
 					catch
-						kit.err '"npm install browserify" first.'.red
+						kit.err '"npm install browserify through" first.'.red
 						process.exit()
 
 					coffee = kit.require 'coffee-script'
@@ -195,20 +196,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							debug: process.env.NODE_ENV == 'development'
 					})
 
-					class T extends kit.require('stream').Transform
-						constructor: ->
-							super
-							@str = ''
-						_transform: (chunk, enc, cb) ->
-							@str += chunk
-							cb()
-						_flush: (cb) ->
-							this.push coffee.compile(@str, data)
-							cb()
-
 					b = browserify data.browserify
 					b.add './' + path
-					b.transform -> new T
+					b.transform ->
+						str = ''
+						through(
+							(chunk) -> str += chunk
+							->
+								this.queue coffee.compile(str, data)
+								this.queue null
+						)
 					Promise.promisify(b.bundle, b)().then (code) ->
 						if data.compress
 							ug = kit.require 'uglify-js'
