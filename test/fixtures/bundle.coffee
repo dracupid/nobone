@@ -1,4 +1,4 @@
-foo = require 'bundle_foo'
+foo = require './bundle_foo'
 
 
 elem = document.createElement 'p'

@@ -58,12 +58,14 @@ describe 'Basic:', ->
 				get '/main.js', port
 				get '/default.css', port
 				get '/err_sample.css', port
+				get '/bundle.jsb', port
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
 				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}" +
 					"\nh1 .input2 {\n  color: #00f;\n}\nh1 .input3 {\n  color: #008000;\n}\n"
 				assert.equal results[2], 'compile_error'
+				assert.equal results[3].indexOf('sourceMappingURL'), 814
 			.then ->
 				nb.kit.readFile 'test/fixtures/main.coffee'
 			.then (str) ->

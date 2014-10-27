@@ -36,14 +36,34 @@ express = require 'express'
  * 			ext_src: ['.ejs', '.jade']
  * 			extra_watch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
+ * 			dependency_reg: {
+ * 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
+ * 				'.jade': /^\s*(?:include|extends)\s+([^\r\n]+)/
+ * 			}
  * 			compiler: (str, path, data) -> ...
  * 		}
+ *
+ * 		# Simple coffee compiler
  * 		'.js': {
  * 			ext_src: '.coffee'
  * 			compiler: (str, path) -> ...
  * 		}
+ *
+ * 		# Browserify a main entrance file.
+ * 		'.jsb': {
+ * 			type: '.js'
+ * 			ext_src: '.coffee'
+ * 			dependency_reg: /require\s+([^\r\n]+)/
+ * 			compiler: (str, path) -> ...
+ * 		}
  * 		'.css': {
- * 			ext_src: ['.styl', '.less']
+ * 			ext_src: ['.styl', '.less', '.sass', '.scss']
+ * 			dependency_reg: {
+ *    			'.styl': /@(?:import|require)\s+([^\r\n]+)/
+ * 				'.less': /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
+ * 				'.sass': /@import\s+([^\r\n]+)/
+ * 				'.scss': /@import\s+([^\r\n]+)/
+ * 			}
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.md': {
@@ -51,15 +71,6 @@ express = require 'express'
  * 			ext_src: ['.md', '.markdown']
  * 			compiler: (str, path) -> ...
  * 		}
- * 		'.jpg': {
- * 			encoding: null # To use buffer.
- * 			compiler: (buf) -> buf
- * 		}
- * 		'.png': {
- * 			encoding: null # To use buffer.
- * 			compiler: '.jpg' # Use the compiler of '.jpg'
- * 		}
- * 		'.gif' ...
  * 	}
  * }
  * ```
@@ -167,35 +178,43 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				dependency_reg: /require\s+([^\r\n]+)/
 				ext_src: '.coffee'
 				compiler: (str, path, data = {}) ->
-					CJSEveryWhere = kit.require 'commonjs-everywhere'
-					escodegen = kit.require 'escodegen'
-					esmangle = kit.require 'esmangle'
-					convert = kit.require 'convert-source-map'
-					bundled = CJSEveryWhere.cjsify kit.path.basename(path),
-						kit.path.join(process.cwd(), kit.path.dirname(path)),
-						node: true
-
-					if data.compress
-						bundled = esmangle.mangle (esmangle.optimize bundled), destructive: yes
-						codegenFormat = escodegen.FORMAT_MINIFY
-					else codegenFormat = escodegen.FORMAT_DEFAULTS
-
 					try
-						{code, map} = escodegen.generate bundled,
-							comment: false
-							sourceMap: yes
-							sourceMapWithCode: yes
-							sourceMapRoot: kit.path.dirname(path)
-							format: codegenFormat
-					catch e
-						console.log e.stack
-					sourceMap = convert.fromJSON(map)
-					sourcesPath = sourceMap.getProperty 'sources'
-					sourcesPathRelative = sourcesPath.map (path) ->
-						path.substring 1, path.length
-					sourceMap.setProperty 'sources', sourcesPathRelative
-						.setProperty 'file', path.replace(/\.[^\.]+$/, '.js');
-					compiled = code + '\n' + sourceMap.toComment()
+						browserify = kit.require 'browserify'
+					catch
+						kit.err '"npm install browserify" first.'.red
+						process.exit()
+
+					coffee = kit.require 'coffee-script'
+
+					_.defaults(data, {
+						bare: true
+						compress: process.env.NODE_ENV == 'production'
+						compress_opts: { fromString: true }
+						browserify:
+							extensions: '.coffee'
+							debug: process.env.NODE_ENV == 'development'
+					})
+
+					class T extends kit.require('stream').Transform
+						constructor: ->
+							super
+							@str = ''
+						_transform: (chunk, enc, cb) ->
+							@str += chunk
+							cb()
+						_flush: (cb) ->
+							this.push coffee.compile(@str, data)
+							cb()
+
+					b = browserify data.browserify
+					b.add './' + path
+					b.transform -> new T
+					Promise.promisify(b.bundle, b)().then (code) ->
+						if data.compress
+							ug = kit.require 'uglify-js'
+							ug.minify(code, data.compress_opts).code
+						else
+							code
 				}
 			'.css': {
 				ext_src: ['.styl', '.less', '.sass', '.scss']
@@ -242,7 +261,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							}
 			}
 			'.md': {
-				type: '.html' # Force type, optional.
+				type: '.html'
 				ext_src: ['.md','.markdown']
 				compiler: (str, path, data = {}) ->
 					marked = kit.require 'marked'
