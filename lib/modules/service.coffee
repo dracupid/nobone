@@ -181,7 +181,6 @@ init_sse = (self) ->
 
 		req.on 'close', ->
 			_.remove self.sse.sessions, (el) -> el == session
-			session.res.end()
 
 		session.emit 'connect', 'ok'
 		session
