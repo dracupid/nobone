@@ -1,6 +1,7 @@
 - v0.8.6
 
   - `renderer.static` add `brwoserify` support. Use `.jsb` extension to take advantage of this bundle helper.
+  - More friendly `kit.monitor_app` info.
 
 - v0.8.5
 

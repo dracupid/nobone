@@ -636,35 +636,46 @@ _.extend kit, {
 			mode: 'development'
 		}
 
-		ps = null
+		sep_line = ->
+			console.log _.times(process.stdout.columns, -> '*').join('').yellow
+
+		child_ps = null
 		start = ->
-			ps = kit.spawn(
+			sep_line()
+
+			child_ps = kit.spawn(
 				opts.bin
 				opts.args
 				kit.env_mode opts.mode
 			).process
 
-			ps.on 'close', -> ps.is_closed = true
+			child_ps.on 'close', (code, sig) ->
+				child_ps.is_closed = true
 
-		start()
+				kit.log 'EXIT'.yellow + " code: #{(code + '').cyan} signal: #{(sig + '').cyan}"
+
+				if code != null and code != 0
+					kit.log 'Process closed. Edit and save the watched file to restart.'.red
 
 		process.on 'SIGINT', ->
-			ps.kill 'SIGINT'
+			child_ps.kill 'SIGINT'
 			process.exit()
 
 		kit.watch_files opts.watch_list, (path, curr, prev) ->
 			if curr.mtime != prev.mtime
-				kit.log "Reload app, modified: ".yellow + path +
-					'\n' + _.times(64, ->'*').join('').yellow
-				if ps.is_closed
+				kit.log "Reload app, modified: ".yellow + path
+
+				if child_ps.is_closed
 					start()
 				else
-					ps.on 'close', start
-					ps.kill 'SIGINT'
+					child_ps.on 'close', start
+					child_ps.kill 'SIGINT'
 
 		kit.log "Monitor: ".yellow + opts.watch_list
 
-		ps
+		start()
+
+		child_ps
 
 	###*
 	 * Node version. Such as `v0.10.23` is `0.1023`, `v0.10.1` is `0.1001`.
