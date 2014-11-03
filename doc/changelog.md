@@ -1,3 +1,7 @@
+- v0.8.7
+
+  - Optimize `proxy.url`.
+
 - v0.8.6
 
   - `renderer.static` add `brwoserify` support. Use `.jsb` extension to take advantage of this bundle helper.

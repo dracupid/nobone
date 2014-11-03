@@ -768,7 +768,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     For more, see [node-http-proxy][node-http-proxy]
     [node-http-proxy]: https://github.com/nodejitsu/node-http-proxy
 
-- #### <a href="lib/modules/proxy.coffee#L42" target="_blank"><b>url</b></a>
+- #### <a href="lib/modules/proxy.coffee#L45" target="_blank"><b>url</b></a>
 
  Use it to proxy one url to another.
 
@@ -778,7 +778,10 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `url` { _String_ }
 
-    The target url force to. Optional
+    The target url forced to. Optional.
+    Such as force 'http://test.com/a' to 'http://test.com/b',
+    force 'http://test.com/a' to 'http://other.com/a',
+    force 'http://test.com' to 'other.com'.
 
  - **<u>param</u>**: `opts` { _Object_ }
 
@@ -797,7 +800,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/proxy.coffee#L111" target="_blank"><b>connect</b></a>
+- #### <a href="lib/modules/proxy.coffee#L121" target="_blank"><b>connect</b></a>
 
  Http CONNECT method tunneling proxy helper.
  Most times used with https proxing.
@@ -830,7 +833,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     service.server.on 'connect', proxy.connect
     ```
 
-- #### <a href="lib/modules/proxy.coffee#L150" target="_blank"><b>pac</b></a>
+- #### <a href="lib/modules/proxy.coffee#L160" target="_blank"><b>pac</b></a>
 
  A pac helper.
 
