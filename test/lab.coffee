@@ -21,9 +21,8 @@ _.extend rr.file_handlers['.css'], {
 }
 
 srv.get '/', (req, res) ->
-	rr.render 'test/fixtures/index.html'
-	.done (tpl_fn) ->
-		res.send tpl_fn({ name: 'nobone' })
+	kit.log req.rawHeaders
+	res.send 'ok'
 
 srv.use rr.static('test/fixtures')
 

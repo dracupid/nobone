@@ -69,9 +69,11 @@ proxy = (opts = {}) ->
 		error = err or (e) ->
 			kit.log e.toString() + ' -> ' + req.url.red
 
-		headers = _(req.rawHeaders)
-		.groupBy (el, i) -> i - i % 2
-		.toArray().object().value()
+		# Normalize the headers
+		headers = {}
+		for k, v in req.headers
+			nk = k.replace(/(\w)(\w*)/g, (m, p1, p2) -> p1.toUpperCase() + p2)
+			headers[nk] = v
 
 		stream = if opts.bps == null
 			res
