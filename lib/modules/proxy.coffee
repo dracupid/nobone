@@ -27,7 +27,10 @@ proxy = (opts = {}) ->
 	 * Use it to proxy one url to another.
 	 * @param {http.IncomingMessage} req
 	 * @param {http.ServerResponse} res
-	 * @param {String} url The target url force to. Optional
+	 * @param {String} url The target url forced to. Optional.
+	 * Such as force 'http://test.com/a' to 'http://test.com/b',
+	 * force 'http://test.com/a' to 'http://other.com/a',
+	 * force 'http://test.com' to 'other.com'.
 	 * @param {Object} opts Other options. Default:
 	 * ```coffeescript
 	 * {
@@ -55,6 +58,13 @@ proxy = (opts = {}) ->
 
 		if _.isObject url
 			url = kit.url.format url
+		else
+			sep_index = url.indexOf('/')
+			switch sep_index
+				when 0
+					url = req.headers.host + url
+				when -1
+					url = 'http://' + url + req.url
 
 		error = err or (e) ->
 			kit.log e.toString() + ' -> ' + req.url.red

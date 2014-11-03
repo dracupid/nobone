@@ -17,11 +17,12 @@ wait = (span = 100) ->
 			resolve()
 		, span
 
-get = (path, port) ->
+get = (path, port, body = true) ->
 	kit.request {
 		url: '127.0.0.1'
 		port: port
 		path: path
+		body
 	}
 	.catch (err) ->
 		if err.code == 'ECONNREFUSED'
@@ -48,11 +49,10 @@ describe 'Basic:', ->
 			)()
 	}
 
-	port = 8022
-	nb.kit.log 'Listen port: ' + port
 	watcher_file_cache = null
 
 	it 'compiler', (tdone) ->
+		port = 8022
 		server = nb.service.listen port, ->
 			Promise.all([
 				get '/main.js', port
@@ -169,6 +169,25 @@ describe 'Basic:', ->
 			tdone err.stack
 		.done ->
 			ps.kill 'SIGINT'
+
+describe 'Proxy: ', ->
+	it 'url', (tdone) ->
+		nb = nobone { service: {}, proxy: {} }
+		nb.service.get '/proxy_origin', (req, res) ->
+			res.set 'Test-Header', 'ok'
+			res.send 'origin'
+
+		nb.service.use '/proxy', (req, res) ->
+			nb.proxy.url req, res, '/proxy_origin'
+
+		nb.service.listen 8291, ->
+			p = get '/proxy', 8291, false
+			.then (res) ->
+				assert.equal res.body, 'origin'
+				assert.equal res.headers['test-header'], 'ok'
+
+				nb.close()
+				tdone()
 
 describe 'Kit:', ->
 
