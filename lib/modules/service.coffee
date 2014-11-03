@@ -14,9 +14,9 @@ kit = require '../kit'
  * @param  {Object} opts Defaults:
  * ```coffeescript
  * {
- * 	auto_log: process.env.NODE_ENV == 'development'
- * 	enable_remote_log: process.env.NODE_ENV == 'development'
- * 	enable_sse: process.env.NODE_ENV == 'development'
+ * 	auto_log: kit.is_development()
+ * 	enable_remote_log: kit.is_development()
+ * 	enable_sse: kit.is_development()
  * 	express: {}
  * }
  * ```
@@ -24,10 +24,10 @@ kit = require '../kit'
 ###
 service = (opts = {}) ->
 	_.defaults opts, {
-		auto_log: process.env.NODE_ENV == 'development'
-		enable_remote_log: process.env.NODE_ENV == 'development'
-		enable_sse: process.env.NODE_ENV == 'development'
-		allow_origin: if process.env.NODE_ENV == 'development' then '*' else null
+		auto_log: kit.is_development()
+		enable_remote_log: kit.is_development()
+		enable_sse: kit.is_development()
+		allow_origin: if kit.is_development() then '*' else null
 		express: {}
 	}
 

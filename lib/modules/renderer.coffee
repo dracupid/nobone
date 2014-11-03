@@ -20,8 +20,8 @@ express = require 'express'
  * @param {Object} opts Defaults:
  * ```coffeescript
  * {
- * 	enable_watcher: process.env.NODE_ENV == 'development'
- * 	auto_log: process.env.NODE_ENV == 'development'
+ * 	enable_watcher: kit.is_development()
+ * 	auto_log: kit.is_development()
  *
  * 	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
  * 	# into the page.
@@ -84,8 +84,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	super
 
 	_.defaults opts, {
-		enable_watcher: process.env.NODE_ENV == 'development'
-		auto_log: process.env.NODE_ENV == 'development'
+		enable_watcher: kit.is_development()
+		auto_log: kit.is_development()
 		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
 		cache_dir: '.nobone/renderer_cache'
 		cache_limit: 1024
@@ -121,7 +121,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 * ```coffeescript
 				 * {
 				 * 	_: lodash
-				 * 	inject_client: process.env.NODE_ENV == 'development'
+				 * 	inject_client: kit.is_development()
 				 * }
 				 * ```
 				 * @return {Promise} Promise that contains the compiled content.
@@ -142,7 +142,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					render = (data) ->
 						_.defaults data, {
 							_
-							inject_client: process.env.NODE_ENV == 'development'
+							inject_client: kit.is_development()
 						}
 						html = tpl_fn data
 						if data.inject_client and
@@ -164,7 +164,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					coffee = kit.require 'coffee-script'
 					code = coffee.compile str, _.defaults(data, {
 						bare: true
-						compress: process.env.NODE_ENV == 'production'
+						compress: kit.is_production()
 						compress_opts: { fromString: true }
 					})
 					if data.compress
@@ -189,11 +189,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 					_.defaults(data, {
 						bare: true
-						compress: process.env.NODE_ENV == 'production'
+						compress: kit.is_production()
 						compress_opts: { fromString: true }
 						browserify:
 							extensions: '.coffee'
-							debug: process.env.NODE_ENV == 'development'
+							debug: kit.is_development()
 					})
 
 					b = browserify data.browserify
@@ -224,7 +224,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				compiler: (str, path, data = {}) ->
 					_.defaults data, {
 						filename: path
-						compress: process.env.NODE_ENV == 'production'
+						compress: kit.is_production()
 						sourcemap: { inline: true }
 					}
 					switch @ext
@@ -308,9 +308,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * 	root_dir: '.'
 	 *
 	 * 	# Whether enable serve direcotry index.
-	 * 	index: process.env.NODE_ENV == 'development'
+	 * 	index: kit.is_development()
 	 *
-	 * 	inject_client: process.env.NODE_ENV == 'development'
+	 * 	inject_client: kit.is_development()
 	 *
 	 * 	# Useful when mapping a normal path to a hashed file.
 	 * 	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
@@ -326,8 +326,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		_.defaults opts, {
 			root_dir: '.'
-			index: process.env.NODE_ENV == 'development'
-			inject_client: process.env.NODE_ENV == 'development'
+			index: kit.is_development()
+			inject_client: kit.is_development()
 			req_path_handler: (path) -> decodeURIComponent path
 		}
 

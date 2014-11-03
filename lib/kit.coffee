@@ -3,11 +3,6 @@ _ = require 'lodash'
 Promise = require 'bluebird'
 fs = require 'fs-more'
 
-if process.env.NODE_ENV == 'development'
-	Promise.longStackTraces()
-else
-	colors.mode = 'none'
-
 ###*
  * All the async functions in `kit` return promise object.
  * Most time I use it to handle files and system staffs.
@@ -554,11 +549,29 @@ _.extend kit, {
 		util = kit.require 'util'
 
 		_.defaults opts, {
-			colors: process.env.NODE_ENV == 'development'
+			colors: kit.is_development()
 			depth: 5
 		}
 
 		str = util.inspect obj, opts
+
+	###*
+	 * Nobone use it to check the running mode of the app.
+	 * Overwrite it if you want to control the check logic.
+	 * By default it returns the `rocess.env.NODE_ENV == 'development'`.
+	 * @return {Boolean}
+	###
+	is_development: ->
+		process.env.NODE_ENV == 'development'
+
+	###*
+	 * Nobone use it to check the running mode of the app.
+	 * Overwrite it if you want to control the check logic.
+	 * By default it returns the `rocess.env.NODE_ENV == 'production'`.
+	 * @return {Boolean}
+	###
+	is_production: ->
+		process.env.NODE_ENV == 'production'
 
 	###*
 	 * A better log for debugging, it uses the `kit.inspect` to log.
@@ -1357,5 +1370,11 @@ _.extend kit, {
 
 # Fix node bugs
 kit.path.delimiter = if process.platform == 'win32' then ';' else ':'
+
+# Some debug options.
+if kit.is_development()
+	Promise.longStackTraces()
+else
+	colors.mode = 'none'
 
 module.exports = kit

@@ -88,7 +88,7 @@ _.extend nobone, {
 	 * @param {Object} opts The options of the client, defaults:
 	 * ```coffeescript
 	 * {
-	 * 	auto_reload: process.env.NODE_ENV == 'development'
+	 * 	auto_reload: kit.is_development()
 	 * 	lang_current: kit.lang_current
 	 * 	lang_data: kit.lang_data
 	 * 	host: '' # The host of the event source.
@@ -105,7 +105,7 @@ _.extend nobone, {
 			nobone.client_js_cache = js
 
 		opts_str = JSON.stringify _.defaults(opts, {
-			auto_reload: process.env.NODE_ENV == 'development'
+			auto_reload: kit.is_development()
 			lang_current: kit.lang_current
 			lang_data: kit.lang_data
 			host: ''
