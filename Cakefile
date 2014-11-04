@@ -126,45 +126,6 @@ task 'clean', 'Clean js', ->
 
 	kit.remove('dist').done()
 
-task 'update', "Update all dependencies", ->
-	npm = require 'npm'
-	pack = require './package.json'
-
-	load = ->
-		Promise.promisify(npm.load, {
-			loaded: false
-			loglevel: 'silent'
-		})()
-
-	get_deps = ->
-		_.keys pack.dependencies
-
-	get_ver = (name) ->
-		Promise.promisify(npm.commands.v)([name, 'dist-tags.latest'], true)
-		.then (data) ->
-			kit.log 'Update: '.cyan + name
-			info = {}
-			info[name] = _(data).keys().first()
-			info
-
-	set_dep = (info) ->
-		[name, ver] = _.pairs(info)[0]
-		pack.dependencies[name] = ver
-
-	set_dep_via_ver = kit.compose get_ver, set_dep
-
-	set_deps = (names) ->
-		Promise.all names.map set_dep_via_ver
-
-	save_change = ->
-		str = JSON.stringify(pack, null, 2) + '\n'
-		kit.outputFile 'package.json', str
-
-	start = kit.compose load, get_deps, set_deps, save_change
-
-	start().done ->
-		kit.log 'Update done.'.green
-
 # Just for fun.
 task 'code', 'Code Statistics of this project', ->
 	line_count = 0
