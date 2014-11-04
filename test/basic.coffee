@@ -182,7 +182,8 @@ describe 'Proxy: ', ->
 		nb.service.listen 8291, ->
 			p = get '/proxy', 8291, { client: 'ok' }
 			.then (body) ->
-				assert.equal body, '{"client":"ok","host":"127.0.0.1:8291","connection":"close"}'
+				data = JSON.parse body
+				assert.equal data.client, 'ok'
 
 				nb.close()
 				tdone()
