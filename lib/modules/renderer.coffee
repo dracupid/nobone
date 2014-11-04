@@ -590,7 +590,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.catch (err) ->
 				if _.isString err
 					err = new Error(err)
-				emit self.e.compile_error, cache.path, err.stack
+				emit self.e.compile_error, cache.path, err
 				err.name = self.e.compile_error
 				cache.error = err
 			.then ->
