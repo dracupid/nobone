@@ -1,4 +1,4 @@
-- v0.8.7
+- v0.8.8
 
   - Optimize `proxy.url`.
 
