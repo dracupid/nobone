@@ -17,12 +17,12 @@ wait = (span = 100) ->
 			resolve()
 		, span
 
-get = (path, port, body = true) ->
+get = (path, port, headers) ->
 	kit.request {
 		url: '127.0.0.1'
 		port: port
 		path: path
-		body
+		headers
 	}
 	.catch (err) ->
 		if err.code == 'ECONNREFUSED'
@@ -174,17 +174,15 @@ describe 'Proxy: ', ->
 	it 'url', (tdone) ->
 		nb = nobone { service: {}, proxy: {} }
 		nb.service.get '/proxy_origin', (req, res) ->
-			res.set 'Test-Header', 'ok'
-			res.send 'origin'
+			res.send req.headers
 
 		nb.service.use '/proxy', (req, res) ->
 			nb.proxy.url req, res, '/proxy_origin'
 
 		nb.service.listen 8291, ->
-			p = get '/proxy', 8291, false
-			.then (res) ->
-				assert.equal res.body, 'origin'
-				assert.equal res.headers['test-header'], 'ok'
+			p = get '/proxy', 8291, { client: 'ok' }
+			.then (body) ->
+				assert.equal body, '{"client":"ok","host":"127.0.0.1:8291","connection":"close"}'
 
 				nb.close()
 				tdone()

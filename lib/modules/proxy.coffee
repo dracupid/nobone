@@ -71,7 +71,7 @@ proxy = (opts = {}) ->
 
 		# Normalize the headers
 		headers = {}
-		for k, v in req.headers
+		for k, v of req.headers
 			nk = k.replace(/(\w)(\w*)/g, (m, p1, p2) -> p1.toUpperCase() + p2)
 			headers[nk] = v
 
