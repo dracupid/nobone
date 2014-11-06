@@ -1523,13 +1523,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L1192" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L1191" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
  Use `process.env.watch_persistent = 'off'` to disable the persistent.
- For samba server, we have to choose `watchFile` than `watch`.
- variable.
+ For samba server, we have to choose `watchFile` other than `watch`.
 
  - **<u>param</u>**: `path` { _String_ }
 
@@ -1562,7 +1561,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     		kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1222" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1221" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1585,7 +1584,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1257" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1256" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.
@@ -1626,7 +1625,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
 ## Changelog
 
-See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/changelog.md) file.
+See the [doc/changelog.md](doc/changelog.md) file.
 
 *****************************************************************************
 

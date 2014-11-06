@@ -138,7 +138,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
 ## Changelog
 
-See the [doc/changelog.md](https://github.com/ysmood/nobone/blob/master/doc/changelog.md) file.
+See the [doc/changelog.md](doc/changelog.md) file.
 
 *****************************************************************************
 

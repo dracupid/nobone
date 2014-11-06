@@ -1169,8 +1169,7 @@ _.extend kit, {
 	 * Watch a file. If the file changes, the handler will be invoked.
 	 * You can change the polling interval by using `process.env.polling_watch`.
 	 * Use `process.env.watch_persistent = 'off'` to disable the persistent.
-	 * For samba server, we have to choose `watchFile` than `watch`.
-	 * variable.
+	 * For samba server, we have to choose `watchFile` other than `watch`.
 	 * @param  {String}   path    The file path
 	 * @param  {Function} handler Event listener.
 	 * The handler has these params:
