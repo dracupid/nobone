@@ -43,11 +43,14 @@ nb.service.use nb.renderer.static('examples/fixtures')
 # Nobone has a build-in file database.
 # Here we save 'a' as value 1.
 nb.db.loaded.done ->
-	nb.db.exec (jdb) ->
-		jdb.doc.a = 1
-		jdb.save('DB OK')
+	nb.db.exec (db) ->
+		db.doc.a = 1
+		db.save('DB OK')
 	.done (data) ->
 		nb.kit.log data
+
+	# Get data 'a'.
+	kit.log nb.db.doc.a
 
 # Proxy
 # Proxy path to specific url.
