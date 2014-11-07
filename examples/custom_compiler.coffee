@@ -11,7 +11,7 @@ delete renderer.file_handlers['.jpg']
 renderer
 .file_handlers['.css'].compiler = (str, args...) ->
 	stylus = kit.require 'stylus'
-	kit.Q.ninvoke stylus, 'render', str
+	kit.Promise.promisify('render', stylus)(str)
 	.then (str) ->
 		'/* nobone */' + str
 

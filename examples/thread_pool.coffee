@@ -7,7 +7,7 @@
 
 nobone = require 'nobone'
 { kit } = nobone
-{ _, Q } = kit
+{ _, Promise } = kit
 
 store = []
 
@@ -20,13 +20,10 @@ launch = ->
 	kit.async max_consumer, consumer, false
 
 sleep = (time) ->
-	defer = Q.defer()
-
-	setTimeout ->
-		defer.resolve()
-	, time
-
-	defer.promise
+	new Promise (resolve, reject) ->
+		setTimeout ->
+			resolve()
+		, time
 
 producer = ->
 	url = 'http://www.baidu.com/s?wd=' + _.random(10 ** 7)

@@ -12,17 +12,17 @@ service.use (req, res) ->
 	switch req.url
 
 		# You can force the destination url.
-		when 'http://www.baidu.com/img/bdlogo.gif'
+		when 'http://example.com/favicon.ico'
 			proxy.url req, res, 'http://ysmood.org/favicon.ico'
 
 		# Hack the content.
-		when 'http://www.baidu.com'
+		when 'http://example.com/'
 			kit.request {
 				url: req.url
 				headers: req.headers
 			}
 			.done (body) ->
-				res.send body.replace(/百度一下/g, 'ys')
+				res.send body.replace(/Example/g, 'ys')
 
 		# Limit other connections' max bandwidth to 30KB/s.
 		else
