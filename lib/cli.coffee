@@ -32,7 +32,7 @@ cmder
 	.option '-p, --port <port>', "Server port. Default is #{opts.port}.", (d) -> +d
 	.option '--host <host>', "Host to listen to. Default is #{opts.host} only."
 	.option '-i, --interactive', "Start as interactive mode."
-	.option '-w, --watch <list>', "Watch list to auto-restart server. String or JSON array.", (list) ->
+	.option '-w, --watch <list>', "Watch list to auto-restart server. String or JSON array. If 'off', nothing will be watched.", (list) ->
 		try
 			return JSON.parse list
 		catch
@@ -125,7 +125,7 @@ run_an_app = (plugin) ->
 		args = process.argv[1..]
 		watch_list = args[1..].filter (el) -> kit.fs.existsSync el
 		if cmder.watch
-			watch_list = watch_list.concat cmder.watch
+			watch_list = cmder.watch
 		kit.monitor_app {
 			args
 			watch_list

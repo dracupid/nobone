@@ -1,7 +1,8 @@
-- v0.9.0
+- v0.9.1
 
   - Optimize `proxy.url`.
   - Update dependencies.
+  - Minor changes.
 
 - v0.8.6
 
