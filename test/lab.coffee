@@ -8,13 +8,13 @@ nobone = require '../lib/nobone'
 
 _.extend rr.file_handlers['.css'], {
 	dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
-	dependency_roots: 'test/fixtures/deps_root'
+	dependency_roots: ['test/fixtures/deps_root']
 	compiler: (str, path) ->
 		stylus = kit.require 'stylus'
 		c = stylus(str)
 			.set('filename', path)
 			.set('sourcemap', { inline: true })
-			.include(@dependency_roots)
+			.include(@dependency_roots[0])
 		Promise.promisify(
 			c.render, c
 		)()

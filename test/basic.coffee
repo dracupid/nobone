@@ -38,21 +38,21 @@ describe 'Basic:', ->
 
 	_.extend nb.renderer.file_handlers['.css'], {
 		dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
-		dependency_roots: 'test/fixtures/deps_root'
+		dependency_roots: ['test/fixtures/deps_root']
 		compiler: (str, path) ->
 			stylus = nb.kit.require 'stylus'
 			c = stylus(str)
 				.set('filename', path)
-				.include(@dependency_roots)
+				.include(@dependency_roots[0])
 			Promise.promisify(
 				c.render, c
 			)()
 	}
 
-	watcher_file_cache = null
-
 	it 'compiler', (tdone) ->
 		port = 8022
+		watcher_file_cache = null
+
 		server = nb.service.listen port, ->
 			Promise.all([
 				get '/main.js', port
@@ -62,28 +62,55 @@ describe 'Basic:', ->
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
-				assert.equal results[1], "h1 {\n  color: #126dd0;\n}\nh1 a {\n  color: #f00;\n}" +
-					"\nh1 .input2 {\n  color: #00f;\n}\nh1 .input3 {\n  color: #008000;\n}\n"
+				assert.equal results[1], """
+				h1 {
+				  color: #126dd0;
+				}
+				h1 a {
+				  color: #f00;
+				}
+				h1 .input2 {
+				  color: #00f;
+				}
+				h1 .input3 {
+				  color: #008000;
+				}\n"""
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
 			.then ->
-				nb.kit.readFile 'test/fixtures/main.coffee'
+				nb.kit.readFile 'test/fixtures/deps_root/mixin3.styl'
 			.then (str) ->
 				watcher_file_cache = str
 				# Test the watcher
-				nb.kit.outputFile 'test/fixtures/main.coffee', "console.log 'no'"
+				nb.kit.outputFile 'test/fixtures/deps_root/mixin3.styl', """
+				cor()
+					.input3
+						color yellow
+				"""
 			.then ->
 				wait 1000
 			.then ->
-				get '/main.js', port
+				get '/default.css', port
 			.then (code) ->
-				assert.equal code, "console.log('no');\n"
-			.then ->
-				nb.kit.outputFile 'test/fixtures/main.coffee', watcher_file_cache
+				assert.equal code, """
+				h1 {
+				  color: #126dd0;
+				}
+				h1 a {
+				  color: #f00;
+				}
+				h1 .input2 {
+				  color: #00f;
+				}
+				h1 .input3 {
+				  color: #ff0;
+				}\n"""
 			.then ->
 				tdone()
 			.catch (err) ->
 				tdone err.stack
+			.then ->
+				nb.kit.outputFile 'test/fixtures/deps_root/mixin3.styl', watcher_file_cache
 			.done ->
 				server.close()
 
@@ -142,7 +169,7 @@ describe 'Basic:', ->
 
 		rr.render 'test/fixtures/main.js'
 		.done (len) ->
-			assert.equal len, watcher_file_cache.length
+			assert.equal len, 90
 			tdone()
 
 	it 'nobone.close', (tdone) ->
