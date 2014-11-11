@@ -1,3 +1,7 @@
+- v0.9.2
+
+  - Now the `dependency_roots` can only be an array.
+
 - v0.9.1
 
   - Optimize `proxy.url`.

@@ -105,7 +105,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 * 	ext: String # The current file's extension.
 				 * 	opts: Object # The current options of renderer.
 				 * 	dependency_reg: RegExp # The regex to match dependency path. Regex or Table.
-				 * 	dependency_roots: Array | String # The root directories for searching dependencies.
+				 * 	dependency_roots: Array # The root directories for searching dependencies.
 				 *
 				 * 	# The source map informantion.
 				 * 	# If you need source map support, the `source_map`property
@@ -832,9 +832,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		# Make sure the dependency_roots is string.
 		handler.dependency_roots ?= []
-		if _.isString handler.dependency_roots
-			handler.dependency_roots = [handler.dependency_roots]
-		handler.dependency_roots.push handler.dirname
+		if handler.dependency_roots.indexOf(handler.dirname) < 0
+			handler.dependency_roots.push handler.dirname
 
 		handler.new_watch_list = {}
 		_.extend handler.new_watch_list, handler.extra_watch

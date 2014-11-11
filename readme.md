@@ -520,7 +520,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	ext: String # The current file's extension.
     	opts: Object # The current options of renderer.
     	dependency_reg: RegExp # The regex to match dependency path. Regex or Table.
-    	dependency_roots: Array | String # The root directories for searching dependencies.
+    	dependency_roots: Array # The root directories for searching dependencies.
     
     	# The source map informantion.
     	# If you need source map support, the `source_map`property
