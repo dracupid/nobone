@@ -24,7 +24,7 @@ kit = require './kit'
  * 	db: null
  * 	proxy: null
  *
- * 	lang_dir: null # language set directory
+ * 	lang_path: null # language set directory
  * }
  * ```
  * @param {Object} opts Other options.
@@ -39,7 +39,7 @@ nobone = (modules, opts = {}) ->
 	}
 
 	_.defaults opts, {
-		lang_dir: null
+		lang_path: null
 	}
 
 	nb = {
@@ -59,7 +59,7 @@ nobone = (modules, opts = {}) ->
 			)
 
 	# Load language.
-	kit.lang_load opts.lang_dir
+	kit.lang_load opts.lang_path
 
 	###*
 	 * Release the resources.

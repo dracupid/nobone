@@ -1,6 +1,7 @@
 - v0.9.2
 
   - Now the `dependency_roots` can only be an array.
+  - Better language api.
 
 - v0.9.1
 

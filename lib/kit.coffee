@@ -421,26 +421,24 @@ _.extend kit, {
 	 * @example
 	 * ```coffeescript
 	 * lang_set =
-	 * 	cn:
-	 * 		human: '人类'
-	 * 		open:
+	 * 	human:
+	 * 		cn: '人类'
+	 * 		jp: '人間'
+	 *
+	 * 	open:
+	 * 		cn:
 	 * 			formal: '开启' # Formal way to say 'open'.
 	 * 			casual: '打开' # Casual way to say 'open'.
-	 * 	jp:
-	 * 		human: '人間'
-	 * 		'find %s men': '%sっ人が見付かる'
+	 *
+	 * 	'find %s men': '%sっ人が見付かる'
 	 *
 	 * kit.lang('human', 'cn', lang_set) # -> '人类'
 	 * kit.lang('open|casual', 'cn', lang_set) # -> '打开'
 	 * kit.lang('find %s men', [10], 'jp', lang_set) # -> '10っ人が見付かる'
 	 * ```
 	 * @example
-	 * Suppose we have two json files in `langs_dir_path` folder.
-	 * - cn.js, content: `module.exports = { human: '人类' }`
-	 * - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
-	 *
 	 * ```coffeescript
-	 * kit.lang_load 'langs_dir_path'
+	 * kit.lang_load 'lang.coffee'
 	 *
 	 * kit.lang_current = 'cn'
 	 * 'human'.l # '人类'
@@ -467,16 +465,20 @@ _.extend kit, {
 		else
 			key = cmd
 
-		out = if lang_set[name]
-			if lang_set[name][key] == undefined
+		set = lang_set[key]
+
+		out = if _.isObject set
+			if set[name] == undefined
 				key
 			else
 				if cat == undefined
-					lang_set[name][key]
-				else if _.isObject lang_set[name][key]
-					lang_set[name][key][cat]
+					set[name]
+				else if _.isObject set[name]
+					set[name][cat]
 				else
 					key
+		else if _.isString set
+		 	set
 		else
 			key
 
@@ -507,9 +509,9 @@ _.extend kit, {
 	lang_current: 'en'
 
 	###*
-	 * Load language set directory and save them into
-	 * the `kit.lang_set`.
-	 * @param  {String} dir_path The directory path that contains
+	 * Load language set and save them into the `kit.lang_set`.
+	 * Besides, it will also add properties `l` and `lang` to `String.prototype`.
+	 * @param  {String} file_path
 	 * js or coffee files.
 	 * @example
 	 * ```coffeescript
@@ -519,16 +521,10 @@ _.extend kit, {
 	 * kit.log '%s persons'.lang([10]) # -> '10 persons'
 	 * ```
 	###
-	lang_load: (dir_path) ->
-		return if not _.isString dir_path
-		dir_path = kit.fs.realpathSync dir_path
-
-		paths = kit.fs.readdirSync dir_path
-		for p in paths
-			ext = kit.path.extname p
-			continue if _.isEmpty ext
-			name = kit.path.basename p, ext
-			kit.lang_set[name] = require kit.path.join(dir_path, name)
+	lang_load: (lang_path) ->
+		return if not _.isString lang_path
+		lang_path = kit.path.resolve lang_path
+		kit.lang_set = require lang_path
 
 		Object.defineProperty String.prototype, 'l', {
 			get: -> kit.lang this + ''
