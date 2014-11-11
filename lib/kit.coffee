@@ -422,7 +422,7 @@ _.extend kit, {
 	 * ```coffeescript
 	 * lang_set =
 	 * 	cn:
-	 * 		China: '中国'
+	 * 		human: '人类'
 	 * 		open:
 	 * 			formal: '开启' # Formal way to say 'open'.
 	 * 			casual: '打开' # Casual way to say 'open'.
@@ -430,24 +430,24 @@ _.extend kit, {
 	 * 		human: '人間'
 	 * 		'find %s men': '%sっ人が見付かる'
 	 *
-	 * kit.lang('China', 'cn', lang_set) # -> '中国'
+	 * kit.lang('human', 'cn', lang_set) # -> '人类'
 	 * kit.lang('open|casual', 'cn', lang_set) # -> '打开'
 	 * kit.lang('find %s men', [10], 'jp', lang_set) # -> '10っ人が見付かる'
 	 * ```
 	 * @example
-	 * Supports we have two json file in `langs_dir_path` folder.
-	 * - cn.js, content: `module.exports = { China: '中国' }`
+	 * Suppose we have two json files in `langs_dir_path` folder.
+	 * - cn.js, content: `module.exports = { human: '人类' }`
 	 * - jp.coffee, content: `module.exports = 'Good weather.': '日和。'`
 	 *
 	 * ```coffeescript
 	 * kit.lang_load 'langs_dir_path'
 	 *
 	 * kit.lang_current = 'cn'
-	 * 'China'.l # '中国'
+	 * 'human'.l # '人类'
 	 * 'Good weather.'.lang('jp') # '日和。'
 	 *
 	 * kit.lang_current = 'en'
-	 * 'China'.l # 'China'
+	 * 'human'.l # 'human'
 	 * 'Good weather.'.lang('jp') # 'Good weather.'
 	 * ```
 	###
@@ -493,7 +493,7 @@ _.extend kit, {
 	 * @example
 	 * ```coffeescript
 	 * kit.lang_set = {
-	 * 	'cn': { 'China': '中国' }
+	 * 	'cn': { 'human': '人类' }
 	 * }
 	 * ```
 	###
