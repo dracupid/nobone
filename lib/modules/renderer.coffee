@@ -103,6 +103,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				 * {
 				 * 	ext: String # The current file's extension.
 				 * 	opts: Object # The current options of renderer.
+				 *
+				 * 	# The file dependencies of current file. If you set it in the `compiler`,
+				 * 	# the `dependency_reg` and `dependency_roots` should be left undefined.
+				 * 	deps_list: Array
+				 *
 				 * 	dependency_reg: RegExp # The regex to match dependency path. Regex or Table.
 				 * 	dependency_roots: Array # The root directories for searching dependencies.
 				 *
