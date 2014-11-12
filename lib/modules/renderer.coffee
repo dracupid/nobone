@@ -95,7 +95,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				ext_src: ['.ejs', '.jade']
 				dependency_reg: {
 					'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
-					'.jade': /^\s*(?:include|extends)\s+([^\r\n]+)/
 				}
 				###*
 				 * The compiler can handle any type of file.
@@ -131,13 +130,15 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					switch @ext
 						when '.ejs'
 							compiler = kit.require 'ejs'
+							tpl_fn = compiler.compile str, { filename: path }
 						when '.jade'
 							try
 								compiler = kit.require 'jade'
+								tpl_fn = compiler.compile str, { filename: path }
+								@deps_list = tpl_fn.dependencies
 							catch e
 								kit.err '"npm install jade" first.'.red
 								process.exit()
-					tpl_fn = compiler.compile str, { filename: path }
 
 					render = (data) ->
 						_.defaults data, {

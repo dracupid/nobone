@@ -55,7 +55,7 @@ describe 'Basic:', ->
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
 
-				assert.equal results[4].indexOf('<html><head><title></title></head><body><h1>Nobone</h1></body></html>'), 0
+				assert.equal results[4].indexOf('Nobone'), 44
 				assert.equal results[5].indexOf('color: red;'), 58
 			.then ->
 				nb.kit.readFile 'test/fixtures/deps_root/mixin3.styl'
