@@ -51,12 +51,12 @@ describe 'Basic:', ->
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
-				assert.equal results[1].indexOf("color: #008000;"), 94
+				assert.equal results[1].indexOf("color: #00f;"), 64
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
 
 				assert.equal results[4].indexOf('<html><head><title></title></head><body><h1>Nobone</h1></body></html>'), 0
-				assert.equal results[5], "a b {\n  color: red;\n}\n"
+				assert.equal results[5].indexOf('color: red;'), 33
 			.then ->
 				nb.kit.readFile 'test/fixtures/deps_root/mixin3.styl'
 			.then (str) ->

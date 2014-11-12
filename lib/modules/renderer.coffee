@@ -241,7 +241,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								process.exit()
 
 							new Promise (resolve, reject) ->
-								less.render str, (err, css) ->
+								less.render str, data, (err, css) ->
 									if err
 										# The error message of less is the worst.
 										err.message = err.filename + ":#{err.line}:#{err.column}\n" + err.message
