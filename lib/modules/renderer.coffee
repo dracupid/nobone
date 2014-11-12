@@ -216,11 +216,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			'.css': {
 				ext_src: ['.styl', '.less', '.sass', '.scss']
 				dependency_reg: {
-					'.less': /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
 					'.sass': /@import\s+([^\r\n]+)/
 					'.scss': /@import\s+([^\r\n]+)/
 				}
 				compiler: (str, path, data = {}) ->
+					self = @
 					_.defaults data, {
 						filename: path
 						compress: kit.is_production()
@@ -240,14 +240,16 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								kit.err '"npm install less" first.'.red
 								process.exit()
 
+							parser = new less.Parser data
 							new Promise (resolve, reject) ->
-								less.render str, data, (err, css) ->
+								parser.parse str, (err, tree) ->
 									if err
 										# The error message of less is the worst.
 										err.message = err.filename + ":#{err.line}:#{err.column}\n" + err.message
 										reject err
 									else
-										resolve css.css or css
+										self.deps_list = _.keys(parser.imports.files)
+										resolve tree.toCSS()
 
 						when '.sass', '.scss'
 							try
