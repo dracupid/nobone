@@ -223,12 +223,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					self = @
 					_.defaults data, {
 						filename: path
-						compress: kit.is_production()
-						sourcemap: { inline: true }
 					}
 					switch @ext
 						when '.styl'
 							stylus = kit.require 'stylus'
+							_.defaults data, { sourcemap: { inline: kit.is_development() } }
 							styl = stylus(str, data)
 							@deps_list = styl.deps()
 							Promise.promisify(styl.render, styl)()
@@ -237,19 +236,23 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 							try
 								less = kit.require('less')
 							catch e
-								kit.err '"npm install less" first.'.red
+								kit.err '"npm install less@1.7.5" first.'.red
 								process.exit()
 
-							parser = new less.Parser data
+							parser = new less.Parser(_.defaults data, {
+								sourceMapFileInline: kit.is_development()
+								sourceMap: kit.is_development()
+							})
 							new Promise (resolve, reject) ->
 								parser.parse str, (err, tree) ->
 									if err
+										kit.log err.stack
 										# The error message of less is the worst.
 										err.message = err.filename + ":#{err.line}:#{err.column}\n" + err.message
 										reject err
 									else
 										self.deps_list = _.keys(parser.imports.files)
-										resolve tree.toCSS()
+										resolve tree.toCSS(data)
 
 						when '.sass', '.scss'
 							try
@@ -258,7 +261,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								kit.err '"npm install node-sass" first.'.red
 								process.exit()
 							sass.renderSync _.defaults data, {
-								outputStyle: if data.compress then 'compressed' else 'nested'
+								outputStyle: if kit.is_production() then 'compressed' else 'nested'
 								file: path
 								data: str
 								includePaths: [kit.path.dirname(path)]
