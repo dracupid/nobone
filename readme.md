@@ -79,8 +79,6 @@ nobone -d
 
 ## Quick Start
 
-For more examples, go through the [examples](examples) folder.
-
 ```coffeescript
 process.env.NODE_ENV = 'development'
 
@@ -150,6 +148,12 @@ close = ->
 		nb.kit.log 'Peacefully closed.'
 
 ```
+
+*****************************************************************************
+
+## Examples
+
+For examples, go to [examples](examples) folder.
 
 *****************************************************************************
 
@@ -659,11 +663,23 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `path` { _String_ }
 
-- #### <a href="lib/modules/renderer.coffee#L484" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L484" target="_blank"><b>e.compiled</b></a>
+
+ - **<u>event</u>**:  { _compiled_ }
+
+ - **<u>param</u>**: `content` { _String_ }
+
+    Compiled content.
+
+ - **<u>param</u>**: `handler` { _File_handler_ }
+
+    The current file handler.
+
+- #### <a href="lib/modules/renderer.coffee#L491" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
- - **<u>param</u>**: `path` { _string_ }
+ - **<u>param</u>**: `path` { _String_ }
 
     The error file.
 
@@ -671,11 +687,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L492" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L499" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
- - **<u>param</u>**: `path` { _string_ }
+ - **<u>param</u>**: `path` { _String_ }
 
     The path of the file.
 
@@ -687,23 +703,23 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L498" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L505" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
- - **<u>param</u>**: `path` { _string_ }
+ - **<u>param</u>**: `path` { _String_ }
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L504" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L511" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 
- - **<u>param</u>**: `path` { _string_ }
+ - **<u>param</u>**: `path` { _String_ }
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L678" target="_blank"><b>get_cache</b></a>
+- #### <a href="lib/modules/renderer.coffee#L686" target="_blank"><b>get_cache</b></a>
 
  Set handler cache.
 
@@ -711,7 +727,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/renderer.coffee#L706" target="_blank"><b>gen_handler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L714" target="_blank"><b>gen_handler</b></a>
 
  Generate a file handler.
 

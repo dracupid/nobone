@@ -55,11 +55,15 @@ nobone -d
 
 ## Quick Start
 
-For more examples, go through the [examples](examples) folder.
-
 ```coffeescript
 <%- basic %>
 ```
+
+*****************************************************************************
+
+## Examples
+
+For examples, go to [examples](examples) folder.
 
 *****************************************************************************
 

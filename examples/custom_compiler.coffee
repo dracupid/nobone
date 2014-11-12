@@ -52,5 +52,10 @@ renderer.file_handlers['.js'] = {
 # After all settings, set static folder.
 service.use renderer.static('examples/fixtures')
 
+# Listen to the compiled event.
+renderer.on 'compiled', (content, handler) ->
+	kit.log content.length
+	kit.log handler.source.length
+
 service.listen 8293, ->
 	kit.log 'Listen: 8293'

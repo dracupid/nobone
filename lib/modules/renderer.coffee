@@ -477,15 +477,22 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	self.e = {}
 
 	###*
+	 * @event {compiled}
+	 * @param {String} content Compiled content.
+	 * @param {File_handler} handler The current file handler.
+	###
+	self.e.compiled = 'compiled'
+
+	###*
 	 * @event {compile_error}
-	 * @param {string} path The error file.
+	 * @param {String} path The error file.
 	 * @param {Error} err The error info.
 	###
 	self.e.compile_error = 'compile_error'
 
 	###*
 	 * @event {watch_file}
-	 * @param {string} path The path of the file.
+	 * @param {String} path The path of the file.
 	 * @param {fs.Stats} curr Current state.
 	 * @param {fs.Stats} prev Previous state.
 	###
@@ -493,13 +500,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	###*
 	 * @event {file_deleted}
-	 * @param {string} path The path of the file.
+	 * @param {String} path The path of the file.
 	###
 	self.e.file_deleted = 'file_deleted'
 
 	###*
 	 * @event {file_modified}
-	 * @param {string} path The path of the file.
+	 * @param {String} path The path of the file.
 	###
 	self.e.file_modified = 'file_modified'
 
@@ -597,6 +604,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					set_source_map cache
 
 				delete cache.error
+				self.emit.call self, self.e.compiled, content, cache
 			.catch (err) ->
 				if _.isString err
 					err = new Error(err)

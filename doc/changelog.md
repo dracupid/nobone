@@ -3,6 +3,7 @@
   - Now the `dependency_roots` can only be an array.
   - Better language api.
   - Fix a `less` compiler bug.
+  - Add 'compiled' event to renderer.
 
 - v0.9.1
 
