@@ -36,22 +36,6 @@ describe 'Basic:', ->
 	nb.service.use nb.renderer.static('test/fixtures')
 	nb.service.use '/test', nb.renderer.static('test')
 
-	_.extend nb.renderer.file_handlers['.css'], {
-		dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
-		dependency_roots: ['test/fixtures/deps_root']
-		compiler: _.wrap nb.renderer.file_handlers['.css'].compiler, (fn, str, path) ->
-			if @ext == '.styl'
-				stylus = nb.kit.require 'stylus'
-				c = stylus(str)
-					.set('filename', path)
-					.include(@dependency_roots[0])
-				Promise.promisify(
-					c.render, c
-				)()
-			else
-				fn.call @, str, path
-	}
-
 	it 'compiler', (tdone) ->
 		port = 8022
 		watcher_file_cache = null
@@ -67,19 +51,7 @@ describe 'Basic:', ->
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
-				assert.equal results[1], """
-				h1 {
-				  color: #126dd0;
-				}
-				h1 a {
-				  color: #f00;
-				}
-				h1 .input2 {
-				  color: #00f;
-				}
-				h1 .input3 {
-				  color: #008000;
-				}\n"""
+				assert.equal results[1].indexOf("color: #008000;"), 94
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
 
@@ -95,24 +67,11 @@ describe 'Basic:', ->
 					.input3
 						color yellow
 				"""
-			.then ->
-				wait 1000
+			.then -> wait 1000
 			.then ->
 				get '/default.css', port
 			.then (code) ->
-				assert.equal code, """
-				h1 {
-				  color: #126dd0;
-				}
-				h1 a {
-				  color: #f00;
-				}
-				h1 .input2 {
-				  color: #00f;
-				}
-				h1 .input3 {
-				  color: #ff0;
-				}\n"""
+				assert.equal code.indexOf("color: #ff0;"), 94
 			.then ->
 				tdone()
 			.catch (err) ->

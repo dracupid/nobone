@@ -216,7 +216,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			'.css': {
 				ext_src: ['.styl', '.less', '.sass', '.scss']
 				dependency_reg: {
-					'.styl': /@(?:import|require)\s+([^\r\n]+)/
 					'.less': /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
 					'.sass': /@import\s+([^\r\n]+)/
 					'.scss': /@import\s+([^\r\n]+)/
@@ -230,7 +229,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					switch @ext
 						when '.styl'
 							stylus = kit.require 'stylus'
-							Promise.promisify(stylus.render)(str, data)
+							styl = stylus(str, data)
+							@deps_list = styl.deps()
+							Promise.promisify(styl.render, styl)()
 
 						when '.less'
 							try
@@ -716,6 +717,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if handler
 			handler = _.cloneDeep(handler)
 			handler.ctime = Date.now()
+			handler.deps_list ?= []
 			handler.watched_list = {}
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
@@ -842,6 +844,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		handler.new_watch_list = {}
 		_.extend handler.new_watch_list, handler.extra_watch
 		handler.new_watch_list[handler.path] = handler.watched_list[handler.path]
+
+		for p in handler.deps_list
+			handler.new_watch_list[p] = handler.watched_list[p]
 
 		if handler.dependency_reg and not _.isRegExp(handler.dependency_reg)
 			handler.dependency_reg = handler.dependency_reg[handler.ext]
