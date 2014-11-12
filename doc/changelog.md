@@ -2,6 +2,7 @@
 
   - Now the `dependency_roots` can only be an array.
   - Better language api.
+  - Fix a `less` compiler bug.
 
 - v0.9.1
 

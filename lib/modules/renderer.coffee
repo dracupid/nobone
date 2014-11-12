@@ -239,10 +239,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								kit.err '"npm install less" first.'.red
 								process.exit()
 
-							parser = new less.Parser(data)
-							Promise.promisify(parser.parse)(str)
-							.then (tree) ->
-								tree.toCSS(data)
+							Promise.promisify(less.render, less)(str, data)
+							.catch (err) ->
+								# The error message of less is the worst.
+								err.message = err.filename + ":#{err.line}:#{err.column}\n" + err.message
+								Promise.reject err
 
 						when '.sass', '.scss'
 							try
