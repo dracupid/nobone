@@ -23,7 +23,6 @@ task 'dev', 'Dev Server', (opts) ->
 task 'test', 'Basic test', (options) ->
 	build().then ->
 		[
-			# 'test/single.coffee'
 			'test/basic.coffee'
 		].forEach (file) ->
 			kit.spawn('mocha', [

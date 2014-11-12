@@ -48,7 +48,7 @@
     "browserify": "*",
     "coffee-cache": "*",
     "jade": "*",
-    "less": "*",
+    "less": "1.7.5",
     "mocha": "*",
     "npm": "*",
     "through": "*"

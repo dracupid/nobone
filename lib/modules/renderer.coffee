@@ -240,6 +240,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 								process.exit()
 
 							Promise.promisify(less.render, less)(str, data)
+							.then (ret) -> ret.css or ret
 							.catch (err) ->
 								# The error message of less is the worst.
 								err.message = err.filename + ":#{err.line}:#{err.column}\n" + err.message
@@ -358,7 +359,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.then (content) ->
 					res.type handler.type or handler.ext_bin
 
-					switch content.constructor.name
+					switch content and content.constructor.name
 						when 'Number'
 							body = content.toString()
 						when 'String', 'Buffer'

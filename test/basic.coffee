@@ -39,14 +39,17 @@ describe 'Basic:', ->
 	_.extend nb.renderer.file_handlers['.css'], {
 		dependency_reg: /@(?:import|require)\s+([^\r\n]+)/
 		dependency_roots: ['test/fixtures/deps_root']
-		compiler: (str, path) ->
-			stylus = nb.kit.require 'stylus'
-			c = stylus(str)
-				.set('filename', path)
-				.include(@dependency_roots[0])
-			Promise.promisify(
-				c.render, c
-			)()
+		compiler: _.wrap nb.renderer.file_handlers['.css'].compiler, (fn, str, path) ->
+			if @ext == '.styl'
+				stylus = nb.kit.require 'stylus'
+				c = stylus(str)
+					.set('filename', path)
+					.include(@dependency_roots[0])
+				Promise.promisify(
+					c.render, c
+				)()
+			else
+				fn.call @, str, path
 	}
 
 	it 'compiler', (tdone) ->
@@ -59,6 +62,8 @@ describe 'Basic:', ->
 				get '/default.css', port
 				get '/err_sample.css', port
 				get '/bundle.jsb', port
+				get '/jade.html', port
+				get '/less.css', port
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
@@ -77,6 +82,9 @@ describe 'Basic:', ->
 				}\n"""
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
+
+				assert.equal results[4].indexOf('<html><head><title></title></head><body><h1>Nobone</h1></body></html>'), 0
+				assert.equal results[5], "a b {\n  color: red;\n}\n"
 			.then ->
 				nb.kit.readFile 'test/fixtures/deps_root/mixin3.styl'
 			.then (str) ->
