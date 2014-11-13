@@ -464,7 +464,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				get_compiled handler.ext_bin, cache, is_cache
 			p.handler = handler
 
-			p.then -> delete render_queue[handler.path]
+			# Release the lock when the compilation is done.
+			p.catch(->).then -> delete render_queue[handler.path]
+
 			render_queue[handler.path] = p
 		else
 			err = new Error('No matched content handler for:' + path)
