@@ -77,7 +77,7 @@ _.extend kit, {
 	 * 	kit.log 'all done!'
 	 * ```
 	###
-	async: (limit, list, save_resutls = true, progress = ->) ->
+	async: (limit, list, save_resutls, progress) ->
 		from = 0
 		resutls = []
 		iter_index = 0
@@ -85,9 +85,12 @@ _.extend kit, {
 		is_iter_done = false
 
 		if not _.isNumber limit
+			progress = save_resutls
 			save_resutls = list
 			list = limit
 			limit = Infinity
+
+		save_resutls ?= true
 
 		if _.isArray list
 			list_len = list.length - 1
@@ -121,7 +124,7 @@ _.extend kit, {
 					running--
 					if save_resutls
 						resutls.push ret
-					progress ret
+					progress? ret
 					add_task()
 				.catch (err) ->
 					running--
