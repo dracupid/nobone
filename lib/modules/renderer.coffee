@@ -592,12 +592,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	get_compiled = (ext_bin, cache, is_cache = true) ->
 		cache.last_ext_bin = ext_bin
+		pp = Promise.resolve()
 		if ext_bin == cache.ext and not cache.force_compile
 			if opts.enable_watcher and is_cache and not cache.deleted
-				watch cache
-			Promise.resolve cache.source
+				pp = watch cache
+			pp.then -> cache.source
 		else if cache.content
-			Promise.resolve cache.content
+			pp.then -> cache.content
 		else
 			cache_from_file(cache).then (content_cache) ->
 				if content_cache
@@ -622,13 +623,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				cache.error = err
 			.then ->
 				if opts.enable_watcher and is_cache and not cache.deleted
-					watch cache
+					pp = watch cache
 
 				if cache.error
 					Promise.reject cache.error
 				else
 					self.emit.call self, self.e.compiled, cache.content, cache
-					cache.content
+					pp.then -> cache.content
 
 	###*
 	 * Get the compiled source code from file system.
@@ -795,7 +796,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				cache_to_file handler
 
 			delete handler.new_watch_list
-		.done()
 
 	# Parse the dependencies.
 	get_dependencies = (handler, curr_paths) ->
