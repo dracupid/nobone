@@ -203,7 +203,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					})
 
 					b = browserify data.browserify
-					b.add './' + path
+					b.add path
 					b.transform ->
 						str = ''
 						through(
@@ -364,50 +364,45 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					next err
 
-			handler = gen_handler path
-			if handler
-				handler.req_path = req_path
-				get_cache(handler)
-				.then (cache) ->
-					get_compiled handler.ext_bin, cache
-				.then (content) ->
-					res.type handler.type or handler.ext_bin
+			p = self.render path, true, req_path
 
-					switch content and content.constructor.name
-						when 'Number'
-							body = content.toString()
-						when 'String', 'Buffer'
-							body = content
-						when 'Function'
-							body = content()
-						else
-							body = 'The compiler should produce a number, string, buffer or function: '.red +
-								path.cyan + '\n' + kit.inspect(content).yellow
-							err = new Error(body)
-							err.name = 'unknown_type'
-							Promise.reject err
+			p.then (content) ->
+				handler = p.handler
+				res.type handler.type or handler.ext_bin
 
-					if opts.inject_client and
-					res.get('Content-Type').indexOf('text/html;') == 0 and
-					self.opts.inject_client_reg.test(body) and
-					body.indexOf(nobone.client()) == -1
-						body += nobone.client()
+				switch content and content.constructor.name
+					when 'Number'
+						body = content.toString()
+					when 'String', 'Buffer'
+						body = content
+					when 'Function'
+						body = content()
+					else
+						body = 'The compiler should produce a number, string, buffer or function: '.red +
+							path.cyan + '\n' + kit.inspect(content).yellow
+						err = new Error(body)
+						err.name = 'unknown_type'
+						Promise.reject err
 
-					if handler.source_map
-						body += handler.source_map
+				if opts.inject_client and
+				res.get('Content-Type').indexOf('text/html;') == 0 and
+				self.opts.inject_client_reg.test(body) and
+				body.indexOf(nobone.client()) == -1
+					body += nobone.client()
 
-					res.send body
-				.catch (err) ->
-					switch err.name
-						when self.e.compile_error
-							res.status(500).end self.e.compile_error
-						when 'file_not_exists'
-							rnext()
-						else
-							Promise.reject err
-				.done()
-			else
-				rnext()
+				if handler.source_map
+					body += handler.source_map
+
+				res.send body
+			.catch (err) ->
+				switch err.name
+					when self.e.compile_error
+						res.status(500).end self.e.compile_error
+					when 'file_not_exists', 'no_matched_handler'
+						rnext()
+					else
+						Promise.reject err
+			.done()
 
 	###*
 	 * Render a file. It will auto-detect the file extension and
@@ -440,10 +435,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if _.isString ext
 			path = force_ext path, ext
 		else if _.isBoolean ext
+			req_path = data
 			is_cache = ext
 			data = undefined
 		else
-			[data, is_cache] = [ext, data]
+			[data, is_cache, req_path] = [ext, data, is_cache]
 
 		is_cache ?= true
 
@@ -456,10 +452,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				p = get_cache(handler)
 			else
 				p = get_src handler
-			p.then (cache) ->
+			p = p.then (cache) ->
 				get_compiled handler.ext_bin, cache, is_cache
+			p.handler = handler
+			p
 		else
-			Promise.reject new Error('No matched content handler for:' + path)
+			err = new Error('No matched content handler for:' + path)
+			err.name = 'no_matched_handler'
+			Promise.reject err
 
 	###*
 	 * Release the resources.
