@@ -610,7 +610,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 					set_source_map cache
 
 				delete cache.error
-				self.emit.call self, self.e.compiled, content, cache
 			.catch (err) ->
 				if _.isString err
 					err = new Error(err)
@@ -624,6 +623,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if cache.error
 					Promise.reject cache.error
 				else
+					self.emit.call self, self.e.compiled, cache.content, cache
 					cache.content
 
 	###*

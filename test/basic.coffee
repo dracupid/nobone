@@ -11,13 +11,13 @@ nb = nobone {
 	lang_path: 'test/fixtures/lang'
 }
 
-wait = (span = 100) ->
-	new Promise (resolve) ->
-		setTimeout ->
-			resolve()
-		, span
-
 get = (path, port, headers) ->
+	wait = (span = 100) ->
+		new Promise (resolve) ->
+			setTimeout ->
+				resolve()
+			, span
+
 	kit.request {
 		url: '127.0.0.1'
 		port: port
@@ -60,19 +60,21 @@ describe 'Basic:', ->
 			.then ->
 				nb.kit.readFile 'test/fixtures/deps_root/mixin3.styl'
 			.then (str) ->
-				watcher_file_cache = str
 				# Test the watcher
-				nb.kit.outputFile 'test/fixtures/deps_root/mixin3.styl', """
+				watcher_file_cache = str
+
+				compile_p = new Promise (resolve) ->
+					nb.renderer.once 'compiled', resolve
+
+				nb.kit.outputFile('test/fixtures/deps_root/mixin3.styl', """
 				cor()
 					.input3
 						color yellow
-				"""
-			.then -> wait 1000
+				""").then -> compile_p
 			.then ->
 				get '/default.css', port
 			.then (code) ->
 				assert.equal code.indexOf("color: #ff0;"), 94
-			.then ->
 				tdone()
 			.catch (err) ->
 				tdone err.stack
