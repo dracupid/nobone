@@ -562,7 +562,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Promise that contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee#L302" target="_blank"><b>file_handlers</b></a>
+- #### <a href="lib/modules/renderer.coffee#L305" target="_blank"><b>file_handlers</b></a>
 
  You can access all the file_handlers here.
  Manipulate them at runtime.
@@ -576,7 +576,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     renderer.file_handlers['.js'].compiler = (str) -> str
     ```
 
-- #### <a href="lib/modules/renderer.coffee#L308" target="_blank"><b>cache_pool</b></a>
+- #### <a href="lib/modules/renderer.coffee#L311" target="_blank"><b>cache_pool</b></a>
 
  The cache pool of the result of `file_handlers.compiler`
 
@@ -584,7 +584,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Key is the file path.
 
-- #### <a href="lib/modules/renderer.coffee#L339" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee#L342" target="_blank"><b>static</b></a>
 
  Set a static directory proxy.
  Automatically compile, cache and serve source files for both deveopment and production.
@@ -613,7 +613,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee#L436" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee#L434" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -658,17 +658,17 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
     ```
 
-- #### <a href="lib/modules/renderer.coffee#L467" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee#L479" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee#L475" target="_blank"><b>release_cache</b></a>
+- #### <a href="lib/modules/renderer.coffee#L487" target="_blank"><b>release_cache</b></a>
 
  Release memory cache of a file.
 
  - **<u>param</u>**: `path` { _String_ }
 
-- #### <a href="lib/modules/renderer.coffee#L490" target="_blank"><b>e.compiled</b></a>
+- #### <a href="lib/modules/renderer.coffee#L502" target="_blank"><b>e.compiled</b></a>
 
  - **<u>event</u>**:  { _compiled_ }
 
@@ -680,7 +680,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The current file handler.
 
-- #### <a href="lib/modules/renderer.coffee#L497" target="_blank"><b>e.compile_error</b></a>
+- #### <a href="lib/modules/renderer.coffee#L509" target="_blank"><b>e.compile_error</b></a>
 
  - **<u>event</u>**:  { _compile_error_ }
 
@@ -692,7 +692,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The error info.
 
-- #### <a href="lib/modules/renderer.coffee#L505" target="_blank"><b>e.watch_file</b></a>
+- #### <a href="lib/modules/renderer.coffee#L517" target="_blank"><b>e.watch_file</b></a>
 
  - **<u>event</u>**:  { _watch_file_ }
 
@@ -708,7 +708,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Previous state.
 
-- #### <a href="lib/modules/renderer.coffee#L511" target="_blank"><b>e.file_deleted</b></a>
+- #### <a href="lib/modules/renderer.coffee#L523" target="_blank"><b>e.file_deleted</b></a>
 
  - **<u>event</u>**:  { _file_deleted_ }
 
@@ -716,7 +716,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L517" target="_blank"><b>e.file_modified</b></a>
+- #### <a href="lib/modules/renderer.coffee#L529" target="_blank"><b>e.file_modified</b></a>
 
  - **<u>event</u>**:  { _file_modified_ }
 
@@ -724,7 +724,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L692" target="_blank"><b>get_cache</b></a>
+- #### <a href="lib/modules/renderer.coffee#L708" target="_blank"><b>get_cache</b></a>
 
  Set handler cache.
 
@@ -732,7 +732,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/renderer.coffee#L720" target="_blank"><b>gen_handler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L736" target="_blank"><b>gen_handler</b></a>
 
  Generate a file handler.
 
@@ -967,7 +967,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log 'all done!'
     ```
 
-- #### <a href="lib/kit.coffee#L169" target="_blank"><b>compose</b></a>
+- #### <a href="lib/kit.coffee#L172" target="_blank"><b>compose</b></a>
 
  Creates a function that is the composition of the provided functions.
  Besides it can also accept async function that returns promise.
@@ -1004,7 +1004,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     download 'home'
     ```
 
-- #### <a href="lib/kit.coffee#L190" target="_blank"><b>daemonize</b></a>
+- #### <a href="lib/kit.coffee#L193" target="_blank"><b>daemonize</b></a>
 
  Daemonize a program.
 
@@ -1022,7 +1022,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The daemonized process.
 
-- #### <a href="lib/kit.coffee#L216" target="_blank"><b>decrypt</b></a>
+- #### <a href="lib/kit.coffee#L219" target="_blank"><b>decrypt</b></a>
 
  A simple decrypt helper
 
@@ -1036,7 +1036,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Buffer_ }
 
-- #### <a href="lib/kit.coffee#L239" target="_blank"><b>encrypt</b></a>
+- #### <a href="lib/kit.coffee#L242" target="_blank"><b>encrypt</b></a>
 
  A simple encrypt helper
 
@@ -1050,7 +1050,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Buffer_ }
 
-- #### <a href="lib/kit.coffee#L261" target="_blank"><b>env_mode</b></a>
+- #### <a href="lib/kit.coffee#L264" target="_blank"><b>env_mode</b></a>
 
  A shortcut to set process option with specific mode,
  and keep the current env variables.
@@ -1063,7 +1063,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     `process.env` object.
 
-- #### <a href="lib/kit.coffee#L274" target="_blank"><b>err</b></a>
+- #### <a href="lib/kit.coffee#L277" target="_blank"><b>err</b></a>
 
  A log error shortcut for `kit.log(msg, 'error', opts)`
 
@@ -1071,7 +1071,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `opts` { _Object_ }
 
-- #### <a href="lib/kit.coffee#L295" target="_blank"><b>exec</b></a>
+- #### <a href="lib/kit.coffee#L298" target="_blank"><b>exec</b></a>
 
  A better `child_process.exec`.
 
@@ -1101,12 +1101,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     """, 'zsh'
     ```
 
-- #### <a href="lib/kit.coffee#L330" target="_blank"><b>fs</b></a>
+- #### <a href="lib/kit.coffee#L333" target="_blank"><b>fs</b></a>
 
  See my project [fs-more][fs-more].
  [fs-more]: https://github.com/ysmood/fs-more
 
-- #### <a href="lib/kit.coffee#L348" target="_blank"><b>generate_bone</b></a>
+- #### <a href="lib/kit.coffee#L351" target="_blank"><b>generate_bone</b></a>
 
  A scaffolding helper to generate template project.
  The `lib/cli.coffee` used it as an example.
@@ -1127,7 +1127,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/kit.coffee#L383" target="_blank"><b>glob</b></a>
+- #### <a href="lib/kit.coffee#L386" target="_blank"><b>glob</b></a>
 
  See the https://github.com/isaacs/node-glob
 
@@ -1143,12 +1143,12 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Contains the path list.
 
-- #### <a href="lib/kit.coffee#L412" target="_blank"><b>jhash</b></a>
+- #### <a href="lib/kit.coffee#L415" target="_blank"><b>jhash</b></a>
 
  See my [jhash][jhash] project.
  [jhash]: https://github.com/ysmood/jhash
 
-- #### <a href="lib/kit.coffee#L452" target="_blank"><b>lang</b></a>
+- #### <a href="lib/kit.coffee#L455" target="_blank"><b>lang</b></a>
 
  It will find the right `key/value` pair in your defined `kit.lang_set`.
  If it cannot find the one, it will output the key directly.
@@ -1201,7 +1201,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     'Good weather.'.lang('jp') # 'Good weather.'
     ```
 
-- #### <a href="lib/kit.coffee#L502" target="_blank"><b>lang_set</b></a>
+- #### <a href="lib/kit.coffee#L505" target="_blank"><b>lang_set</b></a>
 
  Language collections.
 
@@ -1215,7 +1215,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     }
     ```
 
-- #### <a href="lib/kit.coffee#L509" target="_blank"><b>lang_current</b></a>
+- #### <a href="lib/kit.coffee#L512" target="_blank"><b>lang_current</b></a>
 
  Current default language.
 
@@ -1225,7 +1225,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     'en'
 
-- #### <a href="lib/kit.coffee#L524" target="_blank"><b>lang_load</b></a>
+- #### <a href="lib/kit.coffee#L527" target="_blank"><b>lang_load</b></a>
 
  Load language set and save them into the `kit.lang_set`.
  Besides, it will also add properties `l` and `lang` to `String.prototype`.
@@ -1243,7 +1243,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     kit.log '%s persons'.lang([10]) # -> '10 persons'
     ```
 
-- #### <a href="lib/kit.coffee#L544" target="_blank"><b>inspect</b></a>
+- #### <a href="lib/kit.coffee#L547" target="_blank"><b>inspect</b></a>
 
  For debugging use. Dump a colorful object.
 
@@ -1258,7 +1258,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/kit.coffee#L560" target="_blank"><b>is_development</b></a>
+- #### <a href="lib/kit.coffee#L563" target="_blank"><b>is_development</b></a>
 
  Nobone use it to check the running mode of the app.
  Overwrite it if you want to control the check logic.
@@ -1266,7 +1266,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Boolean_ }
 
-- #### <a href="lib/kit.coffee#L569" target="_blank"><b>is_production</b></a>
+- #### <a href="lib/kit.coffee#L572" target="_blank"><b>is_production</b></a>
 
  Nobone use it to check the running mode of the app.
  Overwrite it if you want to control the check logic.
@@ -1274,7 +1274,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Boolean_ }
 
-- #### <a href="lib/kit.coffee#L584" target="_blank"><b>log</b></a>
+- #### <a href="lib/kit.coffee#L587" target="_blank"><b>log</b></a>
 
  A better log for debugging, it uses the `kit.inspect` to log.
  
@@ -1296,7 +1296,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Default is same with `kit.inspect`
 
-- #### <a href="lib/kit.coffee#L640" target="_blank"><b>monitor_app</b></a>
+- #### <a href="lib/kit.coffee#L643" target="_blank"><b>monitor_app</b></a>
 
  Monitor an application and automatically restart it when file changed.
  When the monitored app exit with error, the monitor itself will also exit.
@@ -1318,13 +1318,13 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The child process.
 
-- #### <a href="lib/kit.coffee#L693" target="_blank"><b>node_version</b></a>
+- #### <a href="lib/kit.coffee#L696" target="_blank"><b>node_version</b></a>
 
  Node version. Such as `v0.10.23` is `0.1023`, `v0.10.1` is `0.1001`.
 
  - **<u>type</u>**:  { _Float_ }
 
-- #### <a href="lib/kit.coffee#L710" target="_blank"><b>open</b></a>
+- #### <a href="lib/kit.coffee#L713" target="_blank"><b>open</b></a>
 
  Open a thing that your system can recognize.
  Now only support Windows, OSX or system that installed 'xdg-open'.
@@ -1348,7 +1348,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     kit.open 'http://ysmood.org'
     ```
 
-- #### <a href="lib/kit.coffee#L745" target="_blank"><b>pad</b></a>
+- #### <a href="lib/kit.coffee#L748" target="_blank"><b>pad</b></a>
 
  String padding helper.
 
@@ -1368,7 +1368,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     kit.pad '1', 3 # '001'
     ```
 
-- #### <a href="lib/kit.coffee#L790" target="_blank"><b>parse_comment</b></a>
+- #### <a href="lib/kit.coffee#L793" target="_blank"><b>parse_comment</b></a>
 
  A comments parser for coffee-script. Used to generate documentation automatically.
  It will traverse through all the comments.
@@ -1422,11 +1422,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     }
     ```
 
-- #### <a href="lib/kit.coffee#L858" target="_blank"><b>path</b></a>
+- #### <a href="lib/kit.coffee#L861" target="_blank"><b>path</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L866" target="_blank"><b>prompt_get</b></a>
+- #### <a href="lib/kit.coffee#L869" target="_blank"><b>prompt_get</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1439,13 +1439,13 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee#L882" target="_blank"><b>Promise</b></a>
+- #### <a href="lib/kit.coffee#L885" target="_blank"><b>Promise</b></a>
 
  The promise lib.
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L891" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L894" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1462,7 +1462,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The module that you require.
 
-- #### <a href="lib/kit.coffee#L946" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L949" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1514,7 +1514,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log res.headers
     ```
 
-- #### <a href="lib/kit.coffee#L1114" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L1117" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1537,11 +1537,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     The `promise.process` is the child process object.
     When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L1162" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L1165" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L1187" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L1190" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1579,7 +1579,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     		kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1217" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1220" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1602,7 +1602,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1252" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1255" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.

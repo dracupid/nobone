@@ -4,6 +4,7 @@
   - Better language api.
   - Fix a `less` compiler bug.
   - Add 'compiled' event to renderer.
+  - Better render performance under burst requests.
 
 - v0.9.1
 
