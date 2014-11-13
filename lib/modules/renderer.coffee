@@ -289,6 +289,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	cache_pool = {}
 
+	# Async lock, make sure one file won't be handled twice.
+	render_queue = {}
+
 	###*
 	 * You can access all the file_handlers here.
 	 * Manipulate them at runtime.
@@ -428,7 +431,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
 	 * ```
 	###
-	self.render = (path, ext, data, is_cache = true, req_path) ->
+	self.render = (path, ext, data, is_cache, req_path) ->
 		if _.isObject path
 			{ path, ext, data, is_cache, req_path } = path
 
@@ -446,16 +449,23 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		handler = gen_handler path
 
 		if handler
+			# If current path is under processing, wait for it.
+			if render_queue[handler.path]
+				return render_queue[handler.path]
+
 			handler.data = data
 			handler.req_path = req_path
-			if is_cache
-				p = get_cache(handler)
+			p = if is_cache
+				get_cache(handler)
 			else
-				p = get_src handler
+				get_src handler
+
 			p = p.then (cache) ->
 				get_compiled handler.ext_bin, cache, is_cache
 			p.handler = handler
-			p
+
+			p.then -> delete render_queue[handler.path]
+			render_queue[handler.path] = p
 		else
 			err = new Error('No matched content handler for:' + path)
 			err.name = 'no_matched_handler'
@@ -748,8 +758,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
 			handler.encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
-			handler.dirname = kit.path.dirname(path)
-			handler.no_ext_path = remove_ext path
+			handler.dirname = kit.path.dirname(handler.path)
+			handler.no_ext_path = remove_ext handler.path
 			if _.isString handler.compiler
 				handler.compiler = self.file_handlers[handler.compiler].compiler
 
