@@ -2,9 +2,16 @@ require 'coffee-cache'
 
 nobone = require '../lib/nobone'
 
-{ kit, renderer: rr, service: srv } = nobone()
+{ kit, renderer: rr, service: srv } = nobone({
+	renderer: {}
+	service: {}
+}, {
+	lang_path: 'test/fixtures/lang'
+})
 
 { Promise, _ } = kit
+
+kit.lang_current = 'cn'
 
 srv.get '/', (req, res) ->
 	rr.render 'test/fixtures/index.html'

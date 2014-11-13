@@ -107,7 +107,7 @@ _.extend nobone, {
 		opts_str = JSON.stringify _.defaults(opts, {
 			auto_reload: kit.is_development()
 			lang_current: kit.lang_current
-			lang_data: kit.lang_data
+			lang_set: kit.lang_set
 			host: ''
 		})
 

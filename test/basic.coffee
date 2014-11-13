@@ -50,7 +50,7 @@ describe 'Basic:', ->
 				get '/less.css', port
 			])
 			.then (results) ->
-				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
+				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 138
 				assert.equal results[1].indexOf("color: #319;"), 94
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
@@ -138,7 +138,7 @@ describe 'Basic:', ->
 
 		rr.render 'test/fixtures/main.js'
 		.done (len) ->
-			assert.equal len, 90
+			assert.equal len, 132
 			tdone()
 
 	it 'nobone.close', (tdone) ->
@@ -159,7 +159,7 @@ describe 'Basic:', ->
 
 		get '/main.js', port
 		.then (res) ->
-			assert.equal res.indexOf("document.body.appendChild(elem);"), 75
+			assert.equal res.indexOf("document.body.appendChild(elem);"), 138
 			tdone()
 		.catch (err) ->
 			tdone err.stack

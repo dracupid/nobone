@@ -1,3 +1,5 @@
-elem = document.createElement 'h1'
-elem.textContent = 'ok'
-document.body.appendChild elem
+window.onload = ->
+	nb.lang_load()
+	elem = document.createElement 'h1'
+	elem.textContent = 'test'.l
+	document.body.appendChild elem
