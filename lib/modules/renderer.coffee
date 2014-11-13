@@ -757,9 +757,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {file_handler} handler
 	###
 	watch = (handler) ->
-		# async lock, make sure one file won't be watched twice.
-		watch.processing ?= []
-
 		watcher = (path, curr, prev, is_deletion) ->
 			# If moved or deleted
 			if is_deletion
@@ -793,9 +790,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				cache_to_file handler
 
 			delete handler.new_watch_list
-
-			# Unlock the src file.
-			_.remove watch.processing, (el) -> el == handler.path
 		.done()
 
 	# Parse the dependencies.
@@ -845,12 +839,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			gen_dep_paths matches
 
 	gen_watch_list = (handler) ->
-		if watch.processing.indexOf(handler.path) > -1
-			return Promise.resolve()
-
-		# lock current src file.
-		watch.processing.push handler.path
-
 		# Add the src file to watch list.
 		if not _.isFunction(handler.watched_list[handler.path])
 			handler.watched_list[handler.path] = null
