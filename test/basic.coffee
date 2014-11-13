@@ -51,7 +51,7 @@ describe 'Basic:', ->
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 75
-				assert.equal results[1].indexOf("color: #00f;"), 64
+				assert.equal results[1].indexOf("color: #319;"), 94
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
 
@@ -69,12 +69,12 @@ describe 'Basic:', ->
 				nb.kit.outputFile('test/fixtures/deps_root/mixin3.styl', """
 				cor()
 					.input3
-						color yellow
+						color #990
 				""").then -> compile_p
 			.then ->
 				get '/default.css', port
 			.then (code) ->
-				assert.equal code.indexOf("color: #ff0;"), 94
+				assert.equal code.indexOf("color: #990;"), 94
 				tdone()
 			.catch (err) ->
 				tdone err.stack

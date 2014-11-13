@@ -450,8 +450,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			# If current path is under processing, wait for it.
-			if render_queue[handler.path]
-				return render_queue[handler.path]
+			if render_queue[handler.key]
+				return render_queue[handler.key]
 
 			handler.data = data
 			handler.req_path = req_path
@@ -465,7 +465,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			p.handler = handler
 
 			# Release the lock when the compilation is done.
-			p.catch(->).then -> delete render_queue[handler.path]
+			p.catch(->).then -> delete render_queue[handler.key]
 
 			render_queue[handler.path] = p
 		else
@@ -751,7 +751,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler = _.cloneDeep(handler)
-			handler.path = kit.path.resolve path
+			handler.key = kit.path.resolve path
 			handler.ctime = Date.now()
 			handler.deps_list ?= []
 			handler.watched_list = {}
@@ -759,8 +759,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
 			handler.encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
-			handler.dirname = kit.path.dirname(handler.path)
-			handler.no_ext_path = remove_ext handler.path
+			handler.dirname = kit.path.dirname(handler.key)
+			handler.no_ext_path = remove_ext handler.key
 			if _.isString handler.compiler
 				handler.compiler = self.file_handlers[handler.compiler].compiler
 
