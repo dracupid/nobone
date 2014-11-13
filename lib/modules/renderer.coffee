@@ -516,6 +516,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.e.file_modified = 'file_modified'
 
+	relate = (p) ->
+		if p[0] == '/' or p[1...3] == ':\\'
+			kit.path.relative process.cwd(), p
+
 	emit = (args...) ->
 		if opts.auto_log
 			if args[0] == 'compile_error'
@@ -545,7 +549,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	get_src = (handler) ->
 		readfile = (path) ->
-			handler.path = path
+			handler.path = kit.path.resolve path
 			handler.ext = kit.path.extname path
 
 			kit.readFile path, handler.encoding
@@ -613,7 +617,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.catch (err) ->
 				if _.isString err
 					err = new Error(err)
-				emit self.e.compile_error, cache.path, err
+				emit self.e.compile_error, relate(cache.path), err
 				err.name = self.e.compile_error
 				cache.error = err
 			.then ->
@@ -735,6 +739,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		if handler
 			handler = _.cloneDeep(handler)
+			handler.path = kit.path.resolve path
 			handler.ctime = Date.now()
 			handler.deps_list ?= []
 			handler.watched_list = {}
@@ -761,7 +766,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			# If moved or deleted
 			if is_deletion
 				self.release_cache path
-				emit self.e.file_deleted, path + ' -> '.cyan + handler.path
+				emit self.e.file_deleted, relate(path) + ' -> '.cyan + relate(handler.path)
 
 			else if curr.mtime != prev.mtime
 				get_src(handler)
@@ -771,7 +776,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				.then ->
 					emit(
 						self.e.file_modified
-						path
+						relate(path)
 						handler.type or handler.ext_bin
 						handler.req_path
 					)
@@ -783,7 +788,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			for path of handler.new_watch_list
 				continue if _.isFunction(handler.watched_list[path])
 				handler.watched_list[path] = kit.watch_file path, watcher
-				emit self.e.watch_file, path, handler.req_path
+				emit self.e.watch_file, relate(path), handler.req_path
 
 			# Save the cached files.
 			if handler.content
