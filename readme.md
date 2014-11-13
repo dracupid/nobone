@@ -1445,14 +1445,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>type</u>**:  { _Object_ }
 
-- #### <a href="lib/kit.coffee#L894" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee#L895" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
 
  - **<u>param</u>**: `module_name` { _String_ }
 
-    Moudle path is not allowed!
+    Relative moudle path is not allowed!
+    Only allow absolute path or module name.
 
  - **<u>param</u>**: `done` { _Function_ }
 
@@ -1462,7 +1463,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The module that you require.
 
-- #### <a href="lib/kit.coffee#L949" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L967" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1514,7 +1515,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log res.headers
     ```
 
-- #### <a href="lib/kit.coffee#L1117" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L1135" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1537,11 +1538,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     The `promise.process` is the child process object.
     When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L1165" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L1183" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L1190" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L1208" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1579,7 +1580,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     		kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1220" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1238" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1602,7 +1603,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1255" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1273" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.

@@ -887,17 +887,35 @@ _.extend kit, {
 	###*
 	 * Much much faster than the native require of node, but
 	 * you should follow some rules to use it safely.
-	 * @param  {String}   module_name Moudle path is not allowed!
+	 * @param  {String}   module_name Relative moudle path is not allowed!
+	 * Only allow absolute path or module name.
 	 * @param  {Function} done Run only the first time after the module loaded.
 	 * @return {Module} The module that you require.
 	###
 	require: (module_name, done) ->
 		if not kit.require_cache[module_name]
 			if module_name[0] == '.'
-				throw new Error('Only module name is allowed: ' + module_name)
+				throw new Error('Relative path is not allowed: ' + module_name)
 
-			kit.require_cache[module_name] = require module_name
-			done? kit.require_cache[module_name]
+			names = [module_name]
+
+			if process.env.NODE_PATH
+				for p in process.env.NODE_PATH.split(kit.path.delimiter)
+					names.push kit.path.join(p, module_name)
+
+			dir = process.cwd()
+			while dir != kit.path.sep
+				names.push kit.path.join(dir, 'node_modules', module_name)
+				dir = kit.path.dirname dir
+
+			for name in names
+				try
+					kit.require_cache[module_name] = require name
+					done? kit.require_cache[module_name]
+					break
+
+		if not kit.require_cache[module_name]
+			throw new Error('Module not found: ' + module_name)
 
 		kit.require_cache[module_name]
 
