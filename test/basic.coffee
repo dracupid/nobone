@@ -167,6 +167,7 @@ describe 'Basic:', ->
 			ps.kill 'SIGINT'
 
 describe 'Proxy: ', ->
+
 	it 'url', (tdone) ->
 		nb = nobone { service: {}, proxy: {} }
 		nb.service.get '/proxy_origin', (req, res) ->

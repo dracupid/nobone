@@ -529,8 +529,13 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	self.e.file_modified = 'file_modified'
 
 	relate = (p) ->
-		if p[0] == '/' or p[1...3] == ':\\'
-			kit.path.relative process.cwd(), p
+		rp = kit.path.relative process.cwd(), p
+
+		m = rp.match(/\.\.\//g)
+		if m and m.length > 3
+			p
+		else
+			rp
 
 	emit = (args...) ->
 		if opts.auto_log
