@@ -904,9 +904,12 @@ _.extend kit, {
 					names.push kit.path.join(p, module_name)
 
 			dir = process.cwd()
-			while dir != kit.path.sep
+			while true
 				names.push kit.path.join(dir, 'node_modules', module_name)
-				dir = kit.path.dirname dir
+				p_dir = kit.path.dirname dir
+
+				break if dir == p_dir
+				dir = p_dir
 
 			for name in names
 				try
