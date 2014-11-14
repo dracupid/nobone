@@ -134,11 +134,11 @@ describe 'Basic:', ->
 		{ renderer: rr } = nobone()
 
 		rr.file_handlers['.js'].compiler = (str) ->
-			str.length
+			str[0..3]
 
 		rr.render 'test/fixtures/main.js'
-		.done (len) ->
-			assert.equal len, 132
+		.done (str) ->
+			assert.equal str, 'wind'
 			tdone()
 
 	it 'nobone.close', (tdone) ->
