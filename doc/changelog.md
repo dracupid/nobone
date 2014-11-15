@@ -5,6 +5,8 @@
   - Fix a `less` compiler bug.
   - Add 'compiled' event to renderer.
   - Better render performance under burst requests.
+  - Now `kit.request` supports transport progress.
+  - Add `lang` module.
 
 - v0.9.1
 
