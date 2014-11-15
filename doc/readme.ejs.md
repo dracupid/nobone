@@ -61,9 +61,9 @@ nobone -d
 
 *****************************************************************************
 
-## Examples
+## Tutorials
 
-For examples, go to [examples](examples) folder.
+See the [examples](examples).
 
 *****************************************************************************
 

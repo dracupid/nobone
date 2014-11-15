@@ -15,6 +15,10 @@ nb = nobone {
 	proxy: {}
 	renderer: {}
 	service: {}
+	lang: {
+		lang_path: 'examples/fixtures/lang'
+		current: 'cn'
+	}
 }
 
 # Service
@@ -50,7 +54,7 @@ nb.db.loaded.done ->
 		nb.kit.log data
 
 	# Get data 'a'.
-	kit.log nb.db.doc.a
+	nb.kit.log nb.db.doc.a
 
 # Proxy
 # Proxy path to specific url.
@@ -59,6 +63,11 @@ nb.service.get '/proxy.*', (req, res) ->
 	# it'll return the "http://127.0.0.1:8013/main.js" from the remote server,
 	# though here we just use a local server for test.
 	nb.proxy.url req, res, "http://127.0.0.1:#{port}/main." + req.params[0]
+
+# Globalization
+nb.kit.log 'human'.l # -> '人类'
+nb.kit.log 'open|formal'.l # -> '开启'
+nb.kit.log nb.lang('find %s men', [10], 'jp') # -> '10人が見付かる'
 
 close = ->
 	# Release all the resources.

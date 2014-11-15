@@ -31,14 +31,14 @@ module.exports = (opts = {}) ->
 	 *
 	 * 	open:
 	 * 		cn:
-	 * 			formal: '开启' # Formal way to say 'open'.
-	 * 			casual: '打开' # Casual way to say 'open'.
+	 * 			formal: '开启' # Formal way to say 'open'
+	 * 			casual: '打开' # Casual way to say 'open'
 	 *
-	 * 	'find %s men': '%sっ人が見付かる'
+	 * 	'find %s men': '%s人が見付かる'
 	 *
 	 * lang('human', 'cn', lang_set) # -> '人类'
 	 * lang('open|casual', 'cn', lang_set) # -> '打开'
-	 * lang('find %s men', [10], 'jp', lang_set) # -> '10っ人が見付かる'
+	 * lang('find %s men', [10], 'jp', lang_set) # -> '10人が見付かる'
 	 * ```
 	 * @example
 	 * ```coffeescript

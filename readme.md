@@ -97,6 +97,10 @@ nb = nobone {
 	proxy: {}
 	renderer: {}
 	service: {}
+	lang: {
+		lang_path: 'examples/fixtures/lang'
+		current: 'cn'
+	}
 }
 
 # Service
@@ -132,7 +136,7 @@ nb.db.loaded.done ->
 		nb.kit.log data
 
 	# Get data 'a'.
-	kit.log nb.db.doc.a
+	nb.kit.log nb.db.doc.a
 
 # Proxy
 # Proxy path to specific url.
@@ -141,6 +145,11 @@ nb.service.get '/proxy.*', (req, res) ->
 	# it'll return the "http://127.0.0.1:8013/main.js" from the remote server,
 	# though here we just use a local server for test.
 	nb.proxy.url req, res, "http://127.0.0.1:#{port}/main." + req.params[0]
+
+# Globalization
+nb.kit.log 'human'.l # -> '人类'
+nb.kit.log 'open|formal'.l # -> '开启'
+nb.kit.log nb.lang('find %s men', [10], 'jp') # -> '10人が見付かる'
 
 close = ->
 	# Release all the resources.
@@ -151,9 +160,9 @@ close = ->
 
 *****************************************************************************
 
-## Examples
+## Tutorials
 
-For examples, go to [examples](examples) folder.
+See the [examples](examples).
 
 *****************************************************************************
 
@@ -913,14 +922,14 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     
     	open:
     		cn:
-    			formal: '开启' # Formal way to say 'open'.
-    			casual: '打开' # Casual way to say 'open'.
+    			formal: '开启' # Formal way to say 'open'
+    			casual: '打开' # Casual way to say 'open'
     
-    	'find %s men': '%sっ人が見付かる'
+    	'find %s men': '%s人が見付かる'
     
     lang('human', 'cn', lang_set) # -> '人类'
     lang('open|casual', 'cn', lang_set) # -> '打开'
-    lang('find %s men', [10], 'jp', lang_set) # -> '10っ人が見付かる'
+    lang('find %s men', [10], 'jp', lang_set) # -> '10人が見付かる'
     ```
 
  - **<u>example</u>**:
