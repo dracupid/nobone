@@ -9,6 +9,7 @@ nobone = require 'nobone'
 { kit } = nobone
 { _, Promise } = kit
 
+tasks = ['http://www.baidu.com']
 store = []
 
 # Max running threads at the same time.
@@ -16,38 +17,49 @@ max_producer = 5
 max_consumer = 2
 
 launch = ->
-	kit.async max_producer, producer, false
-	kit.async max_consumer, consumer, false
-
-sleep = (time) ->
-	new Promise (resolve, reject) ->
-		setTimeout ->
-			resolve()
-		, time
-
-producer = ->
-	url = 'http://www.baidu.com/s?wd=' + _.random(10 ** 7)
-	kit.request url
-	.then (page) ->
-		store.push page
-		kit.log "+ produced: #{url}".grey
-
-		# We don't want to attack the server.
-		sleep _.random(1000)
+	# The producer and the comsumer will create
+	# a nearly infinity life circle.
+	kit.async [
+		kit.async max_producer, producer, false
+		kit.async max_consumer, consumer, false
+	]
 	.catch (err) ->
-		kit.err err
+		kit.err err.message
 
-consumer = ->
-	if store.length > 0
-		# Consume an product.
-		page = store.pop()
-		kit.log "- consume: #{page.length}".green
+sleep_awhile = ->
+	new Promise (resolve) ->
+		setTimeout resolve, 200
 
-		# Return a non-undefined value to keep the thread_pool running.
-		# If you want to exit this thread pool, return `undefined` will do.
-		true
-	else
+# Producer will download a page and add it to the store.
+producer = ->
+	if tasks.length == 0
 		# Nothing to work, sleep.
-		sleep 200
+		return sleep_awhile()
+
+	url = tasks.pop()
+
+	kit.request(url).then (page) ->
+		kit.log "Produce: #{url}".cyan
+
+		store.push page
+
+# Comsumer will parse a page and find some urls in the page,
+# then add the urls to the tasks.
+consumer = ->
+	if store.length == 0
+		return sleep_awhile()
+
+	page = store.pop()
+
+	urls = []
+
+	# Find url in page.
+	page.replace /<a[\w\s]+href="(http.+?)"/g, (m, p) ->
+		urls.push p
+
+	# Randomly get 3 urls.
+	urls = _.sample(urls, 3)
+
+	tasks = tasks.concat urls
 
 launch()

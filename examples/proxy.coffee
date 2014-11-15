@@ -12,7 +12,7 @@ service.use (req, res) ->
 	switch req.url
 
 		# You can force the destination url.
-		when 'http://example.com/favicon.ico'
+		when 'http://example.com/img.ico'
 			proxy.url req, res, 'http://ysmood.org/favicon.ico'
 
 		# Hack the content.
