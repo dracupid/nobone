@@ -1,3 +1,7 @@
+###*
+ * Covers most important interfaces.
+###
+
 assert = require 'assert'
 nobone = require '../lib/nobone'
 { kit } = nobone

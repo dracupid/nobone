@@ -1,3 +1,7 @@
+###*
+ * Test burst requests.
+###
+
 require 'coffee-cache'
 assert = require 'assert'
 
