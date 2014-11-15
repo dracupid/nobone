@@ -816,7 +816,7 @@ _.extend kit, {
 	 * 	path: '/'
 	 * 	headers: {}
 	 * 	auth: ''
-	 * 	agent: undefined
+	 * 	agent: null
 	 *
 	 * 	# Set null to use buffer, optional.
 	 * 	# It supports GBK, Shift_JIS etc.
@@ -831,11 +831,11 @@ _.extend kit, {
 	 * 	auto_end_req: true
 	 *
 	 * 	# Readable stream.
-	 * 	# If this option is set, the `headers['content-length']` optional also must be set.
-	 * 	req_pipe: undefined
+	 * 	# If this option is set, the `headers['content-length']` should also be set.
+	 * 	req_pipe: null
 	 *
 	 * 	# Writable stream.
-	 * 	res_pipe: undefined
+	 * 	res_pipe: null
 	 *
 	 * 	# The progress of the request.
 	 * 	req_progress: (complete, total) ->
@@ -1031,6 +1031,7 @@ _.extend kit, {
 						opts.req_pipe.on 'data', (chunk) ->
 							complete += chunk.length
 							opts.req_progress complete, total
+
 				opts.req_pipe.pipe req
 			else
 				if opts.auto_end_req
