@@ -11,8 +11,8 @@ nb = nobone {
 	db: {}
 	renderer: {}
 	service: {}
-}, {
-	lang_path: 'test/fixtures/lang'
+	lang:
+		lang_path: 'test/fixtures/lang'
 }
 
 get = (path, port, headers) ->
@@ -54,7 +54,7 @@ describe 'Basic:', ->
 				get '/less.css', port
 			])
 			.then (results) ->
-				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 138
+				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 77
 				assert.equal results[1].indexOf("color: #319;"), 94
 				assert.equal results[2], 'compile_error'
 				assert.equal results[3].indexOf('sourceMappingURL'), 814
@@ -142,14 +142,14 @@ describe 'Basic:', ->
 
 		rr.render 'test/fixtures/main.js'
 		.done (str) ->
-			assert.equal str, 'wind'
+			assert.equal str, 'elem'
 			tdone()
 
 	it 'nobone.close', (tdone) ->
 		port = 8398
-		nb = nobone()
-		nb.service.listen port, ->
-			nb.close().done ->
+		nb2 = nobone()
+		nb2.service.listen port, ->
+			nb2.close().done ->
 				tdone()
 
 	it 'cli', (tdone) ->
@@ -163,7 +163,7 @@ describe 'Basic:', ->
 
 		get '/main.js', port
 		.then (res) ->
-			assert.equal res.indexOf("document.body.appendChild(elem);"), 138
+			assert.equal res.indexOf("document.body.appendChild(elem);"), 77
 			tdone()
 		.catch (err) ->
 			tdone err.stack
@@ -173,20 +173,20 @@ describe 'Basic:', ->
 describe 'Proxy: ', ->
 
 	it 'url', (tdone) ->
-		nb = nobone { service: {}, proxy: {} }
-		nb.service.get '/proxy_origin', (req, res) ->
+		nb3 = nobone { service: {}, proxy: {} }
+		nb3.service.get '/proxy_origin', (req, res) ->
 			res.send req.headers
 
-		nb.service.use '/proxy', (req, res) ->
-			nb.proxy.url req, res, '/proxy_origin'
+		nb3.service.use '/proxy', (req, res) ->
+			nb3.proxy.url req, res, '/proxy_origin'
 
-		nb.service.listen 8291, ->
+		nb3.service.listen 8291, ->
 			p = get '/proxy', 8291, { client: 'ok' }
 			.then (body) ->
 				data = JSON.parse body
 				assert.equal data.client, 'ok'
 
-				nb.close()
+				nb3.close()
 				tdone()
 
 describe 'Kit:', ->
@@ -228,7 +228,7 @@ describe 'Kit:', ->
 			tdone()
 
 	it 'lang', ->
-		str = nb.kit.lang 'test', 'cn'
+		str = nb.lang 'test', 'cn'
 		assert.equal str, '测试'
 		assert.equal 'test|0'.l, 'test'
 		assert.equal 'find %s men'.lang([10], 'cn'), '找到 10 个人'

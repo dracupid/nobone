@@ -12,7 +12,6 @@ _ = require 'lodash'
 kit = require './kit'
 { Promise } = kit
 
-
 ###*
  * Main constructor.
  * @param  {Object} modules By default, it only load two modules,
@@ -23,23 +22,20 @@ kit = require './kit'
  * 	renderer: {}
  * 	db: null
  * 	proxy: null
+ * 	lang: null
  *
  * 	lang_path: null # language set directory
  * }
  * ```
- * @param {Object} opts Other options.
  * @return {Object} A nobone instance.
 ###
-nobone = (modules, opts = {}) ->
+nobone = (modules) ->
 	modules ?= {
-		db: null
-		proxy: null
 		service: {}
 		renderer: {}
-	}
-
-	_.defaults opts, {
-		lang_path: null
+		db: null
+		proxy: null
+		lang: null
 	}
 
 	nb = {
@@ -48,7 +44,9 @@ nobone = (modules, opts = {}) ->
 
 	for k, v of modules
 		if modules[k]
-			nb[k] = require('./modules/' + k)(v)
+			mod = require './modules/' + k
+			nobone[k] = mod
+			nb[k] = mod v
 
 	if nb.service and nb.service.sse and nb.renderer
 		nb.renderer.on 'file_modified', (path, ext_bin, req_path) ->
@@ -57,9 +55,6 @@ nobone = (modules, opts = {}) ->
 				{ path, ext_bin, req_path }
 				'/auto_reload'
 			)
-
-	# Load language.
-	kit.lang_load opts.lang_path
 
 	###*
 	 * Release the resources.
@@ -89,8 +84,6 @@ _.extend nobone, {
 	 * ```coffeescript
 	 * {
 	 * 	auto_reload: kit.is_development()
-	 * 	lang_current: kit.lang_current
-	 * 	lang_data: kit.lang_data
 	 * 	host: '' # The host of the event source.
 	 * }
 	 * ```
@@ -106,8 +99,6 @@ _.extend nobone, {
 
 		opts_str = JSON.stringify _.defaults(opts, {
 			auto_reload: kit.is_development()
-			lang_current: kit.lang_current
-			lang_set: kit.lang_set
 			host: ''
 		})
 

@@ -64,6 +64,7 @@ task 'build', 'Compile coffee and Docs', build = ->
 				'lib/modules/renderer.coffee'
 				'lib/modules/db.coffee'
 				'lib/modules/proxy.coffee'
+				'lib/modules/lang.coffee'
 				'lib/kit.coffee'
 			]
 			benchmark: kit.parse_comment 'benchmark', rets[3] + rets[4]

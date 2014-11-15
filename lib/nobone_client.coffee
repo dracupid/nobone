@@ -5,10 +5,6 @@ class Nobone then constructor: (opts) ->
 
 	self = @
 
-
-	self.lang_current = opts.lang_current
-	self.lang_set = opts.lang_set
-
 	init = ->
 		if opts.auto_reload
 			init_auto_reload()
@@ -19,94 +15,6 @@ class Nobone then constructor: (opts) ->
 		req.open 'POST', '/nobone-log'
 		req.setRequestHeader 'Content-Type', 'application/json'
 		req.send JSON.stringify(msg)
-
-	formatRegExp = /%[sdj%]/g
-	self.format = (f) ->
-		unless isString(f)
-			objects = []
-			i = 0
-
-			while i < arguments.length
-				objects.push inspect(arguments[i])
-				i++
-			return objects.join(" ")
-		i = 1
-		args = arguments
-		len = args.length
-		str = String(f).replace(formatRegExp, (x) ->
-			return "%"  if x is "%%"
-			return x  if i >= len
-			switch x
-				when "%s"
-					String args[i++]
-				when "%d"
-					Number args[i++]
-				when "%j"
-					try
-						return JSON.stringify(args[i++])
-					catch _
-						return "[Circular]"
-				else
-					x
-			return
-		)
-		x = args[i]
-
-		while i < len
-			if isNull(x) or not isObject(x)
-				str += " " + x
-			else
-				str += " " + inspect(x)
-			x = args[++i]
-		str
-
-	self.lang = (cmd, args = [], name, lang_set) ->
-		if args.constructor.name == 'String'
-			lang_set = name
-			name = args
-			args = []
-
-		name ?= self.lang_current
-		lang_set ?= self.lang_set
-
-		i = cmd.lastIndexOf '|'
-		if i > -1
-			key = cmd[...i]
-			cat = cmd[i + 1 ..]
-		else
-			key = cmd
-
-		set = lang_set[key]
-
-		out = if set and set.constructor.name == 'Object'
-			if set[name] == undefined
-				key
-			else
-				if cat == undefined
-					set[name]
-				else if _.isObject set[name]
-					set[name][cat]
-				else
-					key
-		else if set and set.constructor.name == 'String'
-		 	set
-		else
-			key
-
-		if args.length > 0
-			args.unshift out
-			self.format.apply util, args
-		else
-			out
-
-	self.lang_load = ->
-		Object.defineProperty String.prototype, 'l', {
-			get: -> self.lang this + ''
-		}
-
-		String.prototype.lang = (args...) ->
-			args.unshift this + ''
-			self.lang.apply null, args
 
 	init_auto_reload = ->
 		es = new EventSource(opts.host + '/nobone-sse/auto_reload')
