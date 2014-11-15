@@ -809,6 +809,15 @@ _.extend kit, {
 	 * 	body: true # Other than return `res` with `res.body`, return `body` directly.
 	 * 	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
 	 *
+	 * 	host: 'localhost'
+	 * 	hostname: 'localhost'
+	 * 	port: 80
+	 * 	method: 'GET'
+	 * 	path: '/'
+	 * 	headers: {}
+	 * 	auth: ''
+	 * 	agent: undefined
+	 *
 	 * 	# Set null to use buffer, optional.
 	 * 	# It supports GBK, Shift_JIS etc.
 	 * 	# For more info, see https://github.com/ashtuchkin/iconv-lite
@@ -818,9 +827,21 @@ _.extend kit, {
 	 * 	# The request will be 'application/x-www-form-urlencoded'.
 	 * 	req_data: null
 	 *
-	 * 	auto_end_req: true # auto end the request.
-	 * 	req_pipe: Readable Stream.
-	 * 	res_pipe: Writable Stream.
+	 * 	# auto end the request.
+	 * 	auto_end_req: true
+	 *
+	 * 	# Readable stream.
+	 * 	# If this option is set, the `headers['content-length']` optional also must be set.
+	 * 	req_pipe: undefined
+	 *
+	 * 	# Writable stream.
+	 * 	res_pipe: undefined
+	 *
+	 * 	# The progress of the request.
+	 * 	req_progress: (complete, total) ->
+	 *
+	 * 	# The progress of the response.
+	 * 	res_progress: (complete, total) ->
 	 * }
 	 * ```
 	 * And if set opts as string, it will be treated as the url.
@@ -836,11 +857,13 @@ _.extend kit, {
 	 * 	kit.log body # html or buffer
 	 *
 	 * kit.request {
-	 * 	url: 'https://test.com'
+	 * 	url: 'https://test.com/a.mp3'
 	 * 	body: false
+	 * 	res_progress: (complete, total) ->
+	 * 		kit.log "Progress: #{complete} / #{total}"
 	 * }
 	 * .done (res) ->
-	 * 	kit.log res.body
+	 * 	kit.log res.body.length
 	 * 	kit.log res.headers
 	 * ```
 	###
@@ -875,6 +898,8 @@ _.extend kit, {
 			req_data: null
 			auto_end_req: true
 			auto_unzip: true
+			req_progress: null
+			res_progress: null
 		}
 
 		opts.headers ?= {}
@@ -890,9 +915,9 @@ _.extend kit, {
 				.join '&'
 			)
 		else
-			req_buf = new Buffer(0)
+			req_buf = undefined
 
-		if req_buf.length > 0
+		if req_buf != undefined
 			opts.headers['content-length'] ?= req_buf.length
 
 		req = null
@@ -906,6 +931,14 @@ _.extend kit, {
 					.catch (err) -> reject err
 					.done (val) -> resolve val
 					return
+
+				if opts.res_progress
+					do ->
+						total = +res.headers['content-length']
+						complete = 0
+						res.on 'data', (chunk) ->
+							complete += chunk.length
+							opts.res_progress complete, total
 
 				if opts.res_pipe
 					res_pipe_error = (err) ->
@@ -991,13 +1024,17 @@ _.extend kit, {
 				reject err
 
 			if opts.req_pipe
+				if opts.req_progress
+					do ->
+						total = +opts.headers['content-length']
+						complete = 0
+						opts.req_pipe.on 'data', (chunk) ->
+							complete += chunk.length
+							opts.req_progress complete, total
 				opts.req_pipe.pipe req
 			else
 				if opts.auto_end_req
-					if req_buf.length > 0
-						req.end req_buf
-					else
-						req.end()
+					req.end req_buf
 
 		promise.req = req
 		promise

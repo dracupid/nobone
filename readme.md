@@ -1469,7 +1469,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The module that you require.
 
-- #### <a href="lib/kit.coffee#L847" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee#L870" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1483,6 +1483,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	body: true # Other than return `res` with `res.body`, return `body` directly.
     	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
     
+    	host: 'localhost'
+    	hostname: 'localhost'
+    	port: 80
+    	method: 'GET'
+    	path: '/'
+    	headers: {}
+    	auth: ''
+    	agent: undefined
+    
     	# Set null to use buffer, optional.
     	# It supports GBK, Shift_JIS etc.
     	# For more info, see https://github.com/ashtuchkin/iconv-lite
@@ -1492,9 +1501,21 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	# The request will be 'application/x-www-form-urlencoded'.
     	req_data: null
     
-    	auto_end_req: true # auto end the request.
-    	req_pipe: Readable Stream.
-    	res_pipe: Writable Stream.
+    	# auto end the request.
+    	auto_end_req: true
+    
+    	# Readable stream.
+    	# If this option is set, the `headers['content-length']` optional also must be set.
+    	req_pipe: undefined
+    
+    	# Writable stream.
+    	res_pipe: undefined
+    
+    	# The progress of the request.
+    	req_progress: (complete, total) ->
+    
+    	# The progress of the response.
+    	res_progress: (complete, total) ->
     }
     ```
     And if set opts as string, it will be treated as the url.
@@ -1513,15 +1534,17 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log body # html or buffer
     
     kit.request {
-    	url: 'https://test.com'
+    	url: 'https://test.com/a.mp3'
     	body: false
+    	res_progress: (complete, total) ->
+    		kit.log "Progress: #{complete} / #{total}"
     }
     .done (res) ->
-    	kit.log res.body
+    	kit.log res.body.length
     	kit.log res.headers
     ```
 
-- #### <a href="lib/kit.coffee#L1015" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee#L1052" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on Windows or Linux.
  It will automatically add `node_modules/.bin` to the `PATH` environment variable.
@@ -1544,11 +1567,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     The `promise.process` is the child process object.
     When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee#L1063" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee#L1100" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee#L1088" target="_blank"><b>watch_file</b></a>
+- #### <a href="lib/kit.coffee#L1125" target="_blank"><b>watch_file</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.polling_watch`.
@@ -1586,7 +1609,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     		kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1118" target="_blank"><b>watch_files</b></a>
+- #### <a href="lib/kit.coffee#L1155" target="_blank"><b>watch_files</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watch_file`.
@@ -1609,7 +1632,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log path
     ```
 
-- #### <a href="lib/kit.coffee#L1153" target="_blank"><b>watch_dir</b></a>
+- #### <a href="lib/kit.coffee#L1190" target="_blank"><b>watch_dir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.
