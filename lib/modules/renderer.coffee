@@ -317,6 +317,51 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		.done (str) ->
 			fn null, str
 
+	self.dir = (opts = {}) ->
+		_.defaults opts, {
+			root_dir: '.'
+		}
+
+		return (req, res, next) ->
+			path = kit.path.join(opts.root_dir, req.path)
+			kit.dirExists path
+			.then (exists) ->
+				if exists
+					kit.readdir path
+				else
+					Promise.reject 'no dir found'
+			.then (list) ->
+				if req.path != '/'
+					list.unshift '..'
+
+				kit.async list.map (p) ->
+					fp = kit.path.join opts.root_dir, req.path, p
+					kit.stat(fp).then (stats) ->
+						stats.is_dir = stats.isDirectory()
+						if stats.is_dir
+							stats.path = p + '/'
+						else
+							stats.path = p
+						stats.ext = kit.path.extname p
+						stats.size = stats.size
+						stats
+			.then (list) ->
+				list = _.groupBy list, (el) ->
+					if el.is_dir
+						'dirs'
+					else
+						'files'
+
+				kit.async [
+					self.render kit.path.join(__dirname, '../../assets/dir/index.html')
+					self.render kit.path.join(__dirname, '../../assets/dir/default.css')
+				]
+				.then ([fn, css]) ->
+					res.send fn({ list, css, path: req.path })
+			.catch (err) ->
+				kit.log err
+				next()
+
 	###*
 	 * Set a static directory proxy.
 	 * Automatically compile, cache and serve source files for both deveopment and production.
@@ -352,10 +397,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		static_handler = express.static opts.root_dir
 		if opts.index
-			dir_handler = kit.require('serve-index')(
-				kit.fs.realpathSync opts.root_dir
-				{ icons: true, view: 'details' }
-			)
+			dir_handler = self.dir {
+				root_dir: opts.root_dir
+			}
 
 		return (req, res, next) ->
 			req_path = opts.req_path_handler req.path

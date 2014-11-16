@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>List Directory - <%- path %></title>
+
+	<style type="text/css">
+		<%- css %>
+	</style>
+</head>
+<body>
+
+	<%
+	var format_time = function (t) {
+		if (typeof t == 'string')
+			return t;
+
+		return t.toDateString() + ' ' + t.toLocaleTimeString();
+	}
+
+	var format_size = function (s) {
+		if (typeof s == 'string')
+			return s;
+
+		if (s >= 1024 * 1024 * 1024)
+			s = (s / 1024 / 1024 / 1024).toFixed(1) + 'G'
+		else if (s >= 1024 * 1024)
+			s = (s / 1024 / 1024).toFixed(1) + 'M'
+		else if (s >= 1024)
+			s = (s / 1024).toFixed(1) + 'K'
+		else
+			s = s + 'B'
+
+		return s;
+	}
+
+	var render_list = function (list) {
+		_.each(list, function (el) {
+	%>
+
+		<a class='item' href="<%= el.path %>">
+			<span class="name">
+				<%= el.path %>
+			</span>
+
+			<span class="size">
+				<%= format_size(el.size) %>
+			</span>
+			<span class="mtime">
+				<%= format_time(el.mtime) %>
+			</span>
+			<span class="ctime">
+				<%= format_time(el.ctime) %>
+			</span>
+		</a>
+
+	<%
+		});
+	}
+	%>
+
+	<h1 class="path">
+		<%- path %>
+	</h1>
+
+	<div class="titles">
+		<div class='item'>
+			<span class="name">
+				Name
+			</span>
+
+			<span class="size">
+				Size
+			</span>
+			<span class="mtime">
+				Modified
+			</span>
+			<span class="ctime">
+				Created
+			</span>
+		</div>
+	</div>
+
+	<div class="dirs">
+		<% render_list(list.dirs) %>
+	</div>
+
+	<div class="files">
+		<% render_list(list.files) %>
+	</div>
+
+</body>
+</html>

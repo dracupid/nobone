@@ -37,7 +37,6 @@
     "lodash": "2.4.1",
     "marked": "0.3.2",
     "prompt": "0.2.14",
-    "serve-index": "1.5.0",
     "stylus": "0.49.3",
     "throttle": "1.0.3",
     "uglify-js": "2.4.15",

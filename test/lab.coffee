@@ -17,10 +17,6 @@ nobone = require '../lib/nobone'
 
 { Promise, _ } = kit
 
-srv.get '/', (req, res) ->
-	rr.render 'test/fixtures/index.html'
-	.done (tpl_fn) ->
-		res.send tpl_fn({ name: 'test'.l })
 
 srv.use rr.static('test/fixtures')
 

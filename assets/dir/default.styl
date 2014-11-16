@@ -1,0 +1,62 @@
+
+html
+	background #F5F5F5
+	color #555
+	-webkit-font-smoothing antialiased
+
+body
+	position relative
+	margin 30px
+	font-family "Helvetica Neue", Helvetica, Arial, freesans, sans-serif
+
+.path
+	margin 5px 0px 10px 5px
+	font-size 30px
+
+.item
+	display block
+	padding 6px 2px 2px 2px
+	clear both
+	border-radius 4px
+	font-size 14px
+	border 1px solid transparent
+	text-decoration none
+	color #555
+
+	&:hover, &:hover .name
+		background #fff
+		border-color #eee
+		color #1B63D2
+
+	span
+		display inline-block
+		overflow hidden
+		text-overflow ellipsis
+		line-height 120%
+		text-indent: 10px
+
+.name
+	color #222
+	width 60%
+
+.size
+	width 8%
+	text-align right
+
+.mtime, .ctime
+	width 15%
+	text-align right
+
+.titles
+	margin-bottom 10px
+
+	.item
+		background #333
+		a, span
+			font-weight bold
+			color #fff
+
+.dirs
+	margin-bottom 10px
+	background #eee
+	border-radius 4px
