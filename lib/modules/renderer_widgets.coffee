@@ -272,9 +272,7 @@ module.exports = {
 				kit.log err
 				next()
 
-	static: (opts = {}) ->
-		self = @
-
+	static: (renderer, opts = {}) ->
 		if _.isString opts
 			opts = { root_dir: opts }
 
@@ -287,7 +285,7 @@ module.exports = {
 
 		static_handler = express.static opts.root_dir
 		if opts.index
-			dir_handler = self.dir {
+			dir_handler = renderer.dir {
 				root_dir: opts.root_dir
 			}
 
@@ -301,7 +299,7 @@ module.exports = {
 				else
 					next err
 
-			p = self.render path, true, req_path
+			p = renderer.render path, true, req_path
 
 			p.then (content) ->
 				handler = p.handler
@@ -323,7 +321,7 @@ module.exports = {
 
 				if opts.inject_client and
 				res.get('Content-Type').indexOf('text/html;') == 0 and
-				self.opts.inject_client_reg.test(body) and
+				renderer.opts.inject_client_reg.test(body) and
 				body.indexOf(nobone.client()) == -1
 					body += nobone.client()
 
@@ -333,8 +331,8 @@ module.exports = {
 				res.send body
 			.catch (err) ->
 				switch err.name
-					when self.e.compile_error
-						res.status(500).end self.e.compile_error
+					when renderer.e.compile_error
+						res.status(500).end renderer.e.compile_error
 					when 'file_not_exists', 'no_matched_handler'
 						rnext()
 					else

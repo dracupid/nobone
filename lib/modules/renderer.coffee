@@ -154,7 +154,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @return {Middleware} Experss.js middleware.
 	###
 	self.static = (opts) ->
-		renderer_widgets.static.call self, opts
+		renderer_widgets.static self, opts
 
 	###*
 	 * Render a file. It will auto-detect the file extension and
