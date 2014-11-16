@@ -24,7 +24,10 @@ task 'dev', 'Dev Server', (opts) ->
 	}
 
 task 'test', 'Basic test', (options) ->
-	build().then ->
+	build()
+	.then ->
+		kit.remove '.nobone'
+	.then ->
 		[
 			'test/basic.coffee'
 		].forEach (file) ->

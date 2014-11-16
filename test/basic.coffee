@@ -162,7 +162,6 @@ describe 'Basic:', ->
 			'bin/nobone.js'
 			'-p', port
 			'--no-open-dir'
-			'-w', 'off'
 			'test/fixtures'
 		]).process
 
@@ -172,6 +171,10 @@ describe 'Basic:', ->
 			tdone()
 		.catch (err) ->
 			tdone err.stack
+		.done ->
+			setTimeout ->
+				ps.kill 'SIGINT'
+			, 200
 
 describe 'Proxy: ', ->
 

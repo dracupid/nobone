@@ -21,7 +21,8 @@ module.exports = (opts) ->
 	]).then (rets) ->
 		faq = rets[0]
 		basic = rets[2]
-		{
+
+		data = {
 			tpl: rets[1]
 			basic
 			faq
@@ -36,7 +37,7 @@ module.exports = (opts) ->
 			]
 			benchmark: kit.parse_comment 'benchmark', rets[3] + rets[4]
 		}
-	.then (data) ->
+
 		Promise.all data.mods.map (path) ->
 			name = kit.path.basename path, '.coffee'
 			kit.readFile path, 'utf8'
