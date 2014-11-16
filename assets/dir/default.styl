@@ -22,11 +22,8 @@ body
 	border 1px solid transparent
 	text-decoration none
 	color #555
-
-	&:hover, &:hover .name
-		background #fff
-		border-color #eee
-		color #1B63D2
+	transition-property color background
+	transition-duration 0.2s
 
 	span
 		display inline-block
@@ -60,3 +57,13 @@ body
 	margin-bottom 10px
 	background #eee
 	border-radius 4px
+
+.dirs, .files
+	.item
+		&:hover
+			background #fff
+			border-color #eee
+			color #1B63D2
+
+			.name
+				color #1B63D2
