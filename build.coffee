@@ -30,6 +30,7 @@ module.exports = (opts) ->
 				'lib/nobone.coffee'
 				'lib/modules/service.coffee'
 				'lib/modules/renderer.coffee'
+				'lib/modules/renderer_widgets.coffee'
 				'lib/modules/db.coffee'
 				'lib/modules/proxy.coffee'
 				'lib/modules/lang.coffee'

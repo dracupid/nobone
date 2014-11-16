@@ -1,6 +1,7 @@
 ###*
  * It use the renderer module to create some handy functions.
 ###
+Overview = 'renderer_widgets'
 
 _ = require 'lodash'
 nobone = require '../nobone'
@@ -9,7 +10,7 @@ kit = require '../kit'
 
 express = require 'express'
 
-module.exports = {
+module.exports =
 	gen_file_handlers: ->
 		'.html':
 			# Whether it is a default handler, optional.
@@ -333,5 +334,3 @@ module.exports = {
 					else
 						Promise.reject err
 			.done()
-
-}
