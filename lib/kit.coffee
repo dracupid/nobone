@@ -502,6 +502,8 @@ _.extend kit, {
 		if action == 'error'
 			process.stdout.write "\u0007"
 
+		return
+
 	###*
 	 * Monitor an application and automatically restart it when file changed.
 	 * When the monitored app exit with error, the monitor itself will also exit.

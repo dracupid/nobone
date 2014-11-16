@@ -15,6 +15,7 @@ module.exports = {
 			# Whether it is a default handler, optional.
 			default: true
 			ext_src: ['.ejs', '.jade']
+			enable_file_cache: false
 			dependency_reg: {
 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
 			}
@@ -201,12 +202,6 @@ module.exports = {
 			compiler: (str, path, data = {}) ->
 				marked = kit.require 'marked'
 				marked str, data
-
-	__express: (path, opts, cb) ->
-		@render path, opts
-		.then (data) ->
-			cb null, data
-		.catch cb
 
 	dir: (opts = {}) ->
 		if _.isString opts

@@ -120,10 +120,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.cache_pool = cache_pool
 
-	# Express.js engine api.
-	self.__express = (args...) ->
-		renderer_widgets.apply self, args
-
 	###*
 	 * Set a service for listing directory content, similar with the `serve-index` project.
 	 * @param  {String | Object} opts If it's a string it represents the root_dir.
@@ -190,8 +186,6 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			req_path = data
 			is_cache = ext
 			data = undefined
-		else if _.isObject ext
-			{ ext, data, is_cache, req_path } = ext
 		else
 			[data, is_cache, req_path] = [ext, data, is_cache]
 
@@ -279,6 +273,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.e.file_modified = 'file_modified'
 
+	jhash = new kit.jhash.constructor
+
 	relate = (p) ->
 		rp = kit.path.relative process.cwd(), p
 
@@ -360,15 +356,21 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	get_compiled = (ext_bin, cache, is_cache = true) ->
 		cache.last_ext_bin = ext_bin
+
+		# Direct return source file without compilation. Such as plain html or js.
 		if ext_bin == cache.ext and not cache.force_compile
 			if opts.enable_watcher and is_cache and not cache.deleted
 				watch_src cache
 			Promise.resolve cache.source
+
+		# If cached, return cache directly.
 		else if cache.content
 			Promise.resolve cache.content
+
+		# Recompile.
 		else
 			cache_from_file(cache).then (content_cache) ->
-				if content_cache
+				if content_cache != undefined
 					return content_cache
 
 				try
@@ -406,29 +408,36 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @return {Promise}
 	###
 	cache_from_file = (handler) ->
+		return Promise.resolve() if not handler.enable_file_cache
+
 		handler.file_cache_path = kit.path.join(
 			self.opts.cache_dir
-			handler.path
+			jhash.hash(handler.path, true) + '-' + kit.path.basename(handler.path)
 		)
 
 		kit.readJSON handler.file_cache_path + '.json'
+		.catch (err) ->
+			Promise.reject new Error('cannot_read')
 		.then (info) ->
 			handler.cache_info = info
 			Promise.all _(info.dependencies).keys().map(
 				(path) ->
 					kit.stat(path).then (stats) ->
-						info.dependencies[path] < stats.mtime.toJSON()
+						info.dependencies[path] >= stats.mtime.getTime()
 			).value()
-		.then (outdate_list) ->
-			if not _.any(outdate_list)
-				switch info.type
+		.then (latest_list) ->
+			if _.all(latest_list)
+				handler.deps_list = _.keys handler.cache_info.dependencies
+				switch handler.cache_info.type
 					when 'String'
 						kit.readFile handler.file_cache_path, 'utf8'
 					when 'Buffer'
 						kit.readFile handler.file_cache_path
 					else
 						return
-		.catch(->)
+		.catch (err) ->
+			return if err.message == 'cannot_read'
+			kit.err err
 
 	###*
 	 * Save the compiled source code to file system.
@@ -438,23 +447,26 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @return {Promise}
 	###
 	cache_to_file = (handler) ->
+		return if not handler.enable_file_cache
+
 		switch handler.content.constructor.name
 			when 'String', 'Buffer'
 				content = handler.content
 			else
 				return
 
-		kit.outputFile handler.file_cache_path, handler.content
-
 		cache_info = {
-			type: handler.content.constructor.name
+			type: content.constructor.name
 			dependencies: {}
 		}
-		Promise.all(_.map(handler.new_watch_list, (v, path) ->
-			kit.stat(path).then (stats) ->
-				cache_info.dependencies[path] = stats.mtime
-		)).then ->
-			kit.outputJson handler.file_cache_path + '.json', cache_info
+		Promise.all [
+			kit.outputFile handler.file_cache_path, content
+			Promise.all(_.map(handler.watched_list, (v, path) ->
+				kit.stat(path).then (stats) ->
+					cache_info.dependencies[path] = stats.mtime.getTime()
+			)).then ->
+				kit.outputJson handler.file_cache_path + '.json', cache_info
+		]
 
 	###*
 	 * Set handler cache.
@@ -508,7 +520,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if handler
 			handler = _.cloneDeep(handler)
 			handler.key = kit.path.resolve path
-			handler.ctime = Date.now()
+			handler.ctime = Date.now() # Used for cache_limit
+			handler.cache_info = {}
 			handler.deps_list ?= []
 			handler.watched_list = {}
 			handler.ext_src ?= ext_bin
@@ -517,6 +530,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
 			handler.dirname = kit.path.dirname(handler.key)
 			handler.no_ext_path = remove_ext handler.key
+			handler.enable_file_cache ?= true
 			if _.isString handler.compiler
 				handler.compiler = self.file_handlers[handler.compiler].compiler
 
@@ -558,11 +572,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				handler.watched_list[path] = kit.watch_file path, watcher
 				emit self.e.watch_file, relate(path), handler.req_path
 
+			delete handler.new_watch_list
+
 			# Save the cached files.
 			if handler.content
 				cache_to_file handler
-
-			delete handler.new_watch_list
 
 	# Parse the dependencies.
 	get_dependencies = (handler, curr_paths) ->

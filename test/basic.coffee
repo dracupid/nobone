@@ -135,7 +135,11 @@ describe 'Basic:', ->
 		.done()
 
 	it 'custom code_handler', (tdone) ->
-		{ renderer: rr } = nobone()
+		{ renderer: rr } = nobone {
+			renderer: {
+				cache_dir: '.nobone/custom_code_handler'
+			}
+		}
 
 		rr.file_handlers['.js'].compiler = (str) ->
 			str[0..3]
@@ -158,6 +162,7 @@ describe 'Basic:', ->
 			'bin/nobone.js'
 			'-p', port
 			'--no-open-dir'
+			'-w', 'off'
 			'test/fixtures'
 		]).process
 
@@ -167,8 +172,6 @@ describe 'Basic:', ->
 			tdone()
 		.catch (err) ->
 			tdone err.stack
-		.done ->
-			ps.kill 'SIGINT'
 
 describe 'Proxy: ', ->
 
