@@ -544,7 +544,7 @@ _.extend kit, {
 				kit.log 'EXIT'.yellow + " code: #{(code + '').cyan} signal: #{(sig + '').cyan}"
 
 				if code != null and code != 0
-					kit.log 'Process closed. Edit and save the watched file to restart.'.red
+					kit.err 'Process closed. Edit and save the watched file to restart.'.red
 
 		process.on 'SIGINT', ->
 			child_ps.kill 'SIGINT'
