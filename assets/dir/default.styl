@@ -34,13 +34,13 @@ body
 
 .name
 	color #222
-	width 60%
+	width 65%
 
-.size
+.dir_count, .size
 	width 8%
 	text-align right
 
-.mtime, .ctime
+.mtime
 	width 15%
 	text-align right
 
@@ -55,11 +55,14 @@ body
 
 .dirs
 	margin-bottom 10px
-	background #eee
+	border 1px dashed #aaa
 	border-radius 4px
 
 .dirs, .files
 	.item
+		&:nth-child(odd)
+			background #ECECEC
+
 		&:hover
 			background #fff
 			border-color #eee

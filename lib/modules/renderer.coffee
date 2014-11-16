@@ -331,6 +331,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				else
 					Promise.reject 'no dir found'
 			.then (list) ->
+				list.unshift '.'
 				if req.path != '/'
 					list.unshift '..'
 
@@ -345,12 +346,24 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 						stats.ext = kit.path.extname p
 						stats.size = stats.size
 						stats
+					.then (stats) ->
+						if stats.is_dir
+							kit.readdir(fp).then (list) ->
+								stats.dir_count = list.length
+								stats
+						else
+							stats
 			.then (list) ->
+				list.sort (a, b) -> a.path.localeCompare b.path
+
 				list = _.groupBy list, (el) ->
 					if el.is_dir
 						'dirs'
 					else
 						'files'
+
+				list.dirs ?= []
+				list.files ?= []
 
 				kit.async [
 					self.render kit.path.join(__dirname, '../../assets/dir/index.html')

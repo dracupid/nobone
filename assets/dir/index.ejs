@@ -41,15 +41,14 @@
 			<span class="name">
 				<%= el.path %>
 			</span>
-
+			<span class="dir_count">
+				<%= el.dir_count == undefined ? '' : el.dir_count %>
+			</span>
 			<span class="size">
 				<%= format_size(el.size) %>
 			</span>
 			<span class="mtime">
 				<%= format_time(el.mtime) %>
-			</span>
-			<span class="ctime">
-				<%= format_time(el.ctime) %>
 			</span>
 		</a>
 
@@ -67,15 +66,14 @@
 			<span class="name">
 				Name
 			</span>
-
+			<span class="dir_count">
+				Count
+			</span>
 			<span class="size">
 				Size
 			</span>
 			<span class="mtime">
 				Modified
-			</span>
-			<span class="ctime">
-				Created
 			</span>
 		</div>
 	</div>
