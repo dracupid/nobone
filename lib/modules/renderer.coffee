@@ -90,7 +90,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
 		cache_dir: '.nobone/renderer_cache'
 		cache_limit: 1024
-		file_handlers: renderer_widgets.file_handlers
+		file_handlers: renderer_widgets.gen_file_handlers()
 	}
 
 	self = @

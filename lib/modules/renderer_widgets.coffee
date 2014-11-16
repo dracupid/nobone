@@ -10,9 +10,10 @@ kit = require '../kit'
 express = require 'express'
 
 module.exports = {
-	file_handlers: {
-		'.html': {
-			default: true    # Whether it is a default handler, optional.
+	gen_file_handlers: ->
+		'.html':
+			# Whether it is a default handler, optional.
+			default: true
 			ext_src: ['.ejs', '.jade']
 			dependency_reg: {
 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
@@ -84,8 +85,8 @@ module.exports = {
 						render data
 					func.toString = -> str
 					func
-		}
-		'.js': {
+
+		'.js':
 			ext_src: '.coffee'
 			compiler: (str, path, data = {}) ->
 				coffee = kit.require 'coffee-script'
@@ -99,8 +100,8 @@ module.exports = {
 					ug.minify(code, data.compress_opts).code
 				else
 					code
-		}
-		'.jsb': {
+
+		'.jsb':
 			type: '.js'
 			dependency_reg: /require\s+([^\r\n]+)/
 			ext_src: '.coffee'
@@ -139,8 +140,8 @@ module.exports = {
 						ug.minify(code, data.compress_opts).code
 					else
 						code
-			}
-		'.css': {
+
+		'.css':
 			ext_src: ['.styl', '.less', '.sass', '.scss']
 			dependency_reg: {
 				'.sass': /@import\s+([^\r\n]+)/
@@ -193,15 +194,13 @@ module.exports = {
 							data: str
 							includePaths: [kit.path.dirname(path)]
 						}
-		}
-		'.md': {
+
+		'.md':
 			type: '.html'
 			ext_src: ['.md','.markdown']
 			compiler: (str, path, data = {}) ->
 				marked = kit.require 'marked'
 				marked str, data
-		}
-	}
 
 	__express: (path, opts, cb) ->
 		@render path, opts
