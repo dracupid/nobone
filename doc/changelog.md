@@ -1,4 +1,4 @@
-- v0.9.2
+- v0.9.3
 
   - Now the `dependency_roots` can only be an array.
   - Better language api.
@@ -7,6 +7,7 @@
   - Better render performance under burst requests.
   - Now `kit.request` supports transport progress.
   - Add `lang` module.
+  - Fix some cache issues.
 
 - v0.9.1
 
