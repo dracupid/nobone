@@ -92,7 +92,9 @@ describe 'Basic:', ->
 		.then ([path]) ->
 			nb.renderer.render(path, '.html')
 		.done (tpl) ->
-			assert.equal tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
+			assert.equal(
+				tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
+			)
 			tdone()
 
 	it 'render raw', (tdone) ->
@@ -116,7 +118,9 @@ describe 'Basic:', ->
 			'test/fixtures/index.html'
 			{ name: 'nobone' }
 		).done (page) ->
-			assert.equal page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
+			assert.equal(
+				page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
+			)
 			tdone()
 
 	it 'database', (tdone) ->

@@ -46,6 +46,7 @@
     "benchmark": "*",
     "browserify": "*",
     "coffee-cache": "*",
+    "coffeelint": "*",
     "jade": "*",
     "less": "1.7.5",
     "mocha": "*",

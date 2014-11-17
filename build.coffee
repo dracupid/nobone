@@ -2,7 +2,17 @@ kit = require './lib/kit'
 { Promise, _ } = kit
 
 module.exports = (opts) ->
+	compile_coffee()
 
+	if opts.bare
+		return
+
+	kit.compose(
+		lint_coffee
+		build_docs
+	)()
+
+compile_coffee = ->
 	kit.log "Compile coffee..."
 
 	kit.spawn 'coffee', [
@@ -10,7 +20,21 @@ module.exports = (opts) ->
 		'-cb', 'lib'
 	]
 
-	# Build readme
+lint_coffee = ->
+	kit.compose(
+		kit.glob([
+			'lib/**/*.coffee'
+			'test/**/*.coffee'
+			'examples/**/*.coffee'
+		])
+		(list) ->
+			kit.spawn 'coffeelint', list
+		({ code, signal }) ->
+			if code != 0
+				process.exit()
+	)()
+
+build_docs = ->
 	kit.log 'Make readme...'
 	Promise.all([
 		kit.readFile 'doc/faq.md', 'utf8'

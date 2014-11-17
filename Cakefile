@@ -6,8 +6,9 @@ kit = require './lib/kit'
 
 build = require './build'
 
-option '-d', '--debug', 'Node debug mode'
-option '-p', '--port [port]', 'Node debug mode'
+option '-d', '--debug', 'Node debug mode.'
+option '-p', '--port [port]', 'Node debug mode.'
+option '-b', '--bare', 'Build source code without doc or lint.'
 
 task 'dev', 'Dev Server', (opts) ->
 	app_path = 'test/lab.coffee'
@@ -23,8 +24,8 @@ task 'dev', 'Dev Server', (opts) ->
 		watch_list: ['test/lab.coffee', 'lib/**/*.coffee']
 	}
 
-task 'test', 'Basic test', (options) ->
-	build()
+task 'test', 'Basic test', (opts) ->
+	build opts
 	.then ->
 		kit.remove '.nobone'
 	.then ->
@@ -41,8 +42,8 @@ task 'test', 'Basic test', (options) ->
 					process.exit code
 	.done()
 
-task 'build', 'Compile coffee and Docs', ->
-	build()
+task 'build', 'Compile coffee and Docs', (opts) ->
+	build opts
 
 task 'clean', 'Clean js', ->
 	kit.log ">> Clean js..."
