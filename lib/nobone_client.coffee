@@ -19,8 +19,16 @@ class Nobone then constructor: (opts) ->
 	init_auto_reload = ->
 		es = new EventSource(opts.host + '/nobone-sse/auto_reload')
 
-		es.addEventListener 'error', (e) ->
-			console.warn(e.message)
+		is_connected = false
+
+		es.addEventListener 'connect', (e) ->
+			# If already connected, reload the page.
+			if is_connected
+				location.reload()
+
+			data = JSON.parse e.data
+			if data == 'ok'
+				is_connected = true
 
 		es.addEventListener 'file_modified', (e) ->
 			msg = JSON.parse(e.data)
