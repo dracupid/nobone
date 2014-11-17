@@ -265,7 +265,9 @@ module.exports =
 				.then ([fn, css]) ->
 					res.send fn({ list, css, path: req.path })
 			.catch (err) ->
-				kit.log err
+				if err != 'no dir found'
+					kit.err err
+
 				next()
 
 	static: (renderer, opts = {}) ->
