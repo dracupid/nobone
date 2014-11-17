@@ -309,9 +309,9 @@ module.exports =
 			req_path = opts.req_path_handler req.path
 			path = kit.path.join opts.root_dir, req_path
 
-			rnext = -> static_handler req, res, (err) ->
+			rnext = -> dir_handler req, res, (err) ->
 				if dir_handler
-					dir_handler req, res, next
+					static_handler req, res, next
 				else
 					next err
 
