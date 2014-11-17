@@ -22,22 +22,30 @@ cmder
 	.usage """[action] [options] [root_dir or coffee_file or js_file].\
 		\n
 		    Default root_dir is current folder.
-		    For the js or coffee entrance file, you could require any npm lib in nobone's dependencies,
-		    You can use "var _ = require('lodash')" without "npm install lodash" before.
+		    For the js or coffee entrance file, you could require any npm lib in
+		    nobone's dependencies, You can use "var _ = require('lodash')"
+		    without "npm install lodash" before.
 
-		    Any package, whether npm installed locally or globally, that is prefixed with 'nobone-'
-		    will be treat as a nobone plugin. You can use 'nobone <plugin_name> [args]' to run a plugin.
+		    Any package, whether npm installed locally or globally, that is
+		    prefixed with 'nobone-' will be treat as a nobone plugin. You can
+		    use 'nobone <plugin_name> [args]' to run a plugin.
 		    Note that the 'plugin_name' should be without the 'nobone-' prefix.
 	"""
-	.option '-p, --port <port>', "Server port. Default is #{opts.port}.", (d) -> +d
-	.option '--host <host>', "Host to listen to. Default is #{opts.host} only."
+	.option(
+		'-p, --port <port>', "Server port. Default is #{opts.port}."
+		(d) -> +d
+	).option '--host <host>', "Host to listen to. Default is #{opts.host} only."
 	.option '-i, --interactive', "Start as interactive mode."
-	.option '-w, --watch <list>', "Watch list to auto-restart server. String or JSON array. If 'off', nothing will be watched.", (list) ->
-		try
-			return JSON.parse list
-		catch
-			return [list]
-	.option '--no-open-dir', "Disable auto-open the static file site."
+	.option(
+		'-w, --watch <list>'
+		"Watch list to auto-restart server.\
+		String or JSON array. If 'off', nothing will be watched."
+		(list) ->
+			try
+				return JSON.parse list
+			catch
+				return [list]
+	).option '--no-open-dir', "Disable auto-open the static file site."
 	.option '-v, --ver', 'Print version.'
 	.option '-d, --doc', 'Open the web documentation.'
 

@@ -527,7 +527,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.ext_src ?= ext_bin
 			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
 			handler.ext_bin = ext_bin
-			handler.encoding = if handler.encoding == undefined then 'utf8' else handler.encoding
+			handler.encoding =
+				if handler.encoding == undefined
+					'utf8'
+				else
+					handler.encoding
 			handler.dirname = kit.path.dirname(handler.key)
 			handler.no_ext_path = remove_ext handler.key
 			handler.enable_file_cache ?= true
@@ -548,7 +552,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			# If moved or deleted
 			if is_deletion
 				self.release_cache path
-				emit self.e.file_deleted, relate(path) + ' -> '.cyan + relate(handler.path)
+				emit(
+					self.e.file_deleted
+					relate(path) + ' -> '.cyan + relate(handler.path)
+				)
 
 			else if curr.mtime != prev.mtime
 				get_src(handler)
@@ -625,9 +632,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			gen_dep_paths matches
 
 	gen_watch_list = (handler) ->
+		path = handler.path
+
 		# Add the src file to watch list.
-		if not _.isFunction(handler.watched_list[handler.path])
-			handler.watched_list[handler.path] = null
+		if not _.isFunction(handler.watched_list[path])
+			handler.watched_list[path] = null
 
 		# Make sure the dependency_roots is string.
 		handler.dependency_roots ?= []
@@ -636,7 +645,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		handler.new_watch_list = {}
 		_.extend handler.new_watch_list, handler.extra_watch
-		handler.new_watch_list[handler.path] = handler.watched_list[handler.path]
+		handler.new_watch_list[path] = handler.watched_list[path]
 
 		for p in handler.deps_list
 			handler.new_watch_list[p] = handler.watched_list[p]

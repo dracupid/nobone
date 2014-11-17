@@ -32,15 +32,19 @@ class Nobone then constructor: (opts) ->
 					el[key] += '?nb_auto_reload=0'
 				else
 					if el[key].indexOf('nb_auto_reload') > -1
-						el[key] = el[key].replace /nb_auto_reload=(\d+)/, (m, p) ->
-							'nb_auto_reload=' + (+p + 1)
+						el[key] = el[key].replace(
+							/nb_auto_reload=(\d+)/
+							(m, p) ->
+								'nb_auto_reload=' + (+p + 1)
+						)
 					else
 						el[key] += '&nb_auto_reload=0'
 
 				# Fix the Chrome renderer bug.
 				body = document.body
 				body.style.display = 'none'
-				body.offsetHeight; # no need to store this anywhere, the reference is enough
+				# no need to store this anywhere, the reference is enough.
+				body.offsetHeight
 				setTimeout ->
 					body.style.display = 'block'
 				, 50

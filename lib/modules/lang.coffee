@@ -84,7 +84,7 @@ module.exports = (opts = {}) ->
 				else
 					key
 		else if _.isString set
-		 	set
+			set
 		else
 			key
 

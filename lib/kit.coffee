@@ -42,11 +42,14 @@ _.extend kit, {
 	 * @param  {Int} limit The max task to run at the same time. It's optional.
 	 * Default is Infinity.
 	 * @param  {Array | Function} list
-	 * If the list is an array, it should be a list of functions or promises, and each function will return a promise.
-	 * If the list is a function, it should be a iterator that returns a promise,
-	 * when it returns `undefined`, the iteration ends.
-	 * @param {Boolean} save_resutls Whether to save each promise's result or not. Default is true.
-	 * @param {Function} progress If a task ends, the resolve value will be passed to this function.
+	 * If the list is an array, it should be a list of functions or promises,
+	 * and each function will return a promise.
+	 * If the list is a function, it should be a iterator that returns
+	 * a promise, hen it returns `undefined`, the iteration ends.
+	 * @param {Boolean} save_resutls Whether to save each promise's result or
+	 * not. Default is true.
+	 * @param {Function} progress If a task ends, the resolve value will be
+	 * passed to this function.
 	 * @return {Promise}
 	 * @example
 	 * ```coffeescript
@@ -145,7 +148,8 @@ _.extend kit, {
 	 * Creates a function that is the composition of the provided functions.
 	 * Besides it can also accept async function that returns promise.
 	 * It's more powerful than `_.compose`.
-	 * @param  {Function | Array} fns Functions that return promise or any value.
+	 * @param  {Function | Array} fns Functions that return
+	 * promise or any value.
 	 * And the array can also contains promises.
 	 * @return {Function} A composed function that will return a promise.
 	 * @example
@@ -492,7 +496,9 @@ _.extend kit, {
 			console[action] str.replace /\n/g, '\n  '
 
 			if process.env.log_trace == 'on'
-				console.log (new Error).stack.replace(/.+\n.+\n.+/, '\nStack trace:').grey
+				err = (new Error).stack
+					.replace(/.+\n.+\n.+/, '\nStack trace:').grey
+				console.log err
 
 		if _.isObject msg
 			log "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
@@ -506,7 +512,8 @@ _.extend kit, {
 
 	###*
 	 * Monitor an application and automatically restart it when file changed.
-	 * When the monitored app exit with error, the monitor itself will also exit.
+	 * When the monitored app exit with error,
+	 * the monitor itself will also exit.
 	 * It will make sure your app crash properly.
 	 * @param  {Object} opts Defaults:
 	 * ```coffeescript
@@ -543,10 +550,12 @@ _.extend kit, {
 			child_ps.on 'close', (code, sig) ->
 				child_ps.is_closed = true
 
-				kit.log 'EXIT'.yellow + " code: #{(code + '').cyan} signal: #{(sig + '').cyan}"
+				kit.log 'EXIT'.yellow +
+					" code: #{(code + '').cyan} signal: #{(sig + '').cyan}"
 
 				if code != null and code != 0
-					kit.err 'Process closed. Edit and save the watched file to restart.'.red
+					kit.err 'Process closed. Edit and save
+						the watched file to restart.'.red
 
 		process.on 'SIGINT', ->
 			child_ps.kill 'SIGINT'
@@ -581,7 +590,8 @@ _.extend kit, {
 	 * Open a thing that your system can recognize.
 	 * Now only support Windows, OSX or system that installed 'xdg-open'.
 	 * @param  {String} cmd  The thing you want to open.
-	 * @param  {Object} opts The options of the node native `child_process.exec`.
+	 * @param  {Object} opts The options of the node native
+	 * `child_process.exec`.
 	 * @return {Promise} When the child process exits.
 	 * @example
 	 * ```coffeescript
@@ -632,7 +642,8 @@ _.extend kit, {
 			new Array(width - str.length + 1).join(char) + str
 
 	###*
-	 * A comments parser for coffee-script. Used to generate documentation automatically.
+	 * A comments parser for coffee-script.
+	 * Used to generate documentation automatically.
 	 * It will traverse through all the comments.
 	 * @param  {String} module_name The name of the module it belongs to.
 	 * @param  {String} code Coffee source code.
@@ -803,13 +814,17 @@ _.extend kit, {
 
 	###*
 	 * A powerful extended combination of `http.request` and `https.request`.
-	 * @param  {Object} opts The same as the [http.request][http.request], but with
-	 * some extra options:
+	 * @param  {Object} opts The same as the [http.request][http.request],
+	 * but with some extra options:
 	 * ```coffeescript
 	 * {
 	 * 	url: 'It is not optional, String or Url Object.'
-	 * 	body: true # Other than return `res` with `res.body`, return `body` directly.
-	 * 	redirect: 0 # Max times of auto redirect. If 0, no auto redirect.
+	 *
+	 * 	# Other than return `res` with `res.body`,return `body` directly.
+	 * 	body: true
+	 *
+	 * 	# Max times of auto redirect. If 0, no auto redirect.
+	 * 	redirect: 0
 	 *
 	 * 	host: 'localhost'
 	 * 	hostname: 'localhost'
@@ -833,7 +848,8 @@ _.extend kit, {
 	 * 	auto_end_req: true
 	 *
 	 * 	# Readable stream.
-	 * 	# If this option is set, the `headers['content-length']` should also be set.
+	 * 	# If this option is set, the `headers['content-length']`
+	 * 	# should also be set.
 	 * 	req_pipe: null
 	 *
 	 * 	# Writable stream.
@@ -910,7 +926,8 @@ _.extend kit, {
 		else if _.isString opts.req_data
 			req_buf = new Buffer(opts.req_data)
 		else if _.isObject opts.req_data
-			opts.headers['content-type'] ?= 'application/x-www-form-urlencoded; charset=utf-8'
+			opts.headers['content-type'] ?=
+				'application/x-www-form-urlencoded; charset=utf-8'
 			req_buf = new Buffer(
 				_.map opts.req_data, (v, k) ->
 					[encodeURIComponent(k), encodeURIComponent(v)].join '='
@@ -1043,11 +1060,14 @@ _.extend kit, {
 		promise
 
 	###*
-	 * A safer version of `child_process.spawn` to run a process on Windows or Linux.
-	 * It will automatically add `node_modules/.bin` to the `PATH` environment variable.
+	 * A safer version of `child_process.spawn` to run a process on
+	 * Windows or Linux.
+	 * It will automatically add `node_modules/.bin` to the `PATH`
+	 * environment variable.
 	 * @param  {String} cmd Path of an executable program.
 	 * @param  {Array} args CLI arguments.
-	 * @param  {Object} opts Process options. Same with the Node.js official doc.
+	 * @param  {Object} opts Process options.
+	 * Same with the Node.js official doc.
 	 * Default will inherit the parent's stdio.
 	 * @return {Promise} The `promise.process` is the child process object.
 	 * When the child process ends, it will resolve.
@@ -1186,7 +1206,9 @@ _.extend kit, {
 	 * 	handler: (type, path) ->
 	 * 		kit.log type
 	 * 		kit.log path
-	 * 	watched_list: {} # If you use watch_dir recursively, you need a global watched_list
+	 *
+	 * 	# If you use watch_dir recursively, you need a global watched_list
+	 * 	watched_list: {}
 	 * }
 	 * ```
 	###

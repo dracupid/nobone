@@ -28,17 +28,21 @@ module.exports =
 			 * 	ext: String # The current file's extension.
 			 * 	opts: Object # The current options of renderer.
 			 *
-			 * 	# The file dependencies of current file. If you set it in the `compiler`,
-			 * 	# the `dependency_reg` and `dependency_roots` should be left undefined.
+			 * 	# The file dependencies of current file.
+			 * 	# If you set it in the `compiler`, the `dependency_reg`
+			 * 	# and `dependency_roots` should be left undefined.
 			 * 	deps_list: Array
 			 *
-			 * 	dependency_reg: RegExp # The regex to match dependency path. Regex or Table.
-			 * 	dependency_roots: Array # The root directories for searching dependencies.
+			 * 	# The regex to match dependency path. Regex or Table.
+			 * 	dependency_reg: RegExp
+			 *
+			 * 	# The root directories for searching dependencies.
+			 * 	dependency_roots: Array
 			 *
 			 * 	# The source map informantion.
 			 * 	# If you need source map support, the `source_map`property
-			 * 	# must be set during the compile process. If you use inline source map,
-			 * 	# this property shouldn't be set.
+			 * 	# must be set during the compile process.
+			 * 	# If you use inline source map, this property shouldn't be set.
 			 * 	source_map: String or Object
 			 * }
 			 * ```
@@ -157,7 +161,10 @@ module.exports =
 				switch @ext
 					when '.styl'
 						stylus = kit.require 'stylus'
-						_.defaults data, { sourcemap: { inline: kit.is_development() } }
+						_.defaults data, {
+							sourcemap:
+								inline: kit.is_development()
+						}
 						styl = stylus(str, data)
 						@deps_list = styl.deps()
 						Promise.promisify(styl.render, styl)()
@@ -178,10 +185,14 @@ module.exports =
 								if err
 									kit.log err.stack
 									# The error message of less is the worst.
-									err.message = err.filename + ":#{err.line}:#{err.column}\n" + err.message
+									err.message = err.filename +
+										":#{err.line}:#{err.column}\n" +
+										err.message
 									reject err
 								else
-									self.deps_list = _.keys(parser.imports.files)
+									self.deps_list = _.keys(
+										parser.imports.files
+									)
 									resolve tree.toCSS(data)
 
 					when '.sass', '.scss'
@@ -191,7 +202,11 @@ module.exports =
 							kit.err '"npm install node-sass" first.'.red
 							process.exit()
 						sass.renderSync _.defaults data, {
-							outputStyle: if kit.is_production() then 'compressed' else 'nested'
+							outputStyle:
+								if kit.is_production()
+									'compressed'
+								else
+									'nested'
 							file: path
 							data: str
 							includePaths: [kit.path.dirname(path)]
@@ -258,9 +273,12 @@ module.exports =
 				list.dirs ?= []
 				list.files ?= []
 
+				assets = (name) ->
+					kit.path.join(__dirname, '../../assets/dir', name)
+
 				kit.async [
-					renderer.render kit.path.join(__dirname, '../../assets/dir/index.html')
-					renderer.render kit.path.join(__dirname, '../../assets/dir/default.css')
+					renderer.render assets('index.html')
+					renderer.render assets('default.css')
 				]
 				.then ([fn, css]) ->
 					res.send fn({ list, css, path: req.path })
@@ -311,7 +329,8 @@ module.exports =
 					when 'Function'
 						body = content()
 					else
-						body = 'The compiler should produce a number, string, buffer or function: '.red +
+						body = 'The compiler should produce a number,
+							string, buffer or function: '.red +
 							path.cyan + '\n' + kit.inspect(content).yellow
 						err = new Error(body)
 						err.name = 'unknown_type'

@@ -32,7 +32,9 @@ module.exports = (dest_dir) ->
 		}
 	.then ->
 		kit.log 'npm install...'.cyan
-		kit.spawn 'npm', ['install', '-S', 'q', 'coffee-script', 'lodash', 'bower', 'nobone'], {
+		kit.spawn 'npm', [
+			'install', '-S', 'q', 'coffee-script', 'lodash', 'bower', 'nobone'
+		], {
 			cwd: dest_dir
 		}
 	.then ->
@@ -45,7 +47,9 @@ module.exports = (dest_dir) ->
 		}
 	.then ->
 		kit.log 'bower install...'.cyan
-		kit.spawn dest_dir + '/node_modules/.bin/bower', ['install', '-S', 'lodash'], {
+		kit.spawn dest_dir + '/node_modules/.bin/bower', [
+			'install', '-S', 'lodash'
+		], {
 			cwd: dest_dir
 		}
 	.then ->
