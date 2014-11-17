@@ -172,13 +172,13 @@ describe 'Basic:', ->
 		get '/main.js', port
 		.then (res) ->
 			assert.equal res.indexOf("document.body.appendChild(elem);"), 77
-			tdone()
-		.catch (err) ->
-			tdone err.stack
-		.done ->
 			setTimeout ->
 				ps.kill 'SIGINT'
+				tdone()
 			, 200
+		.catch (err) ->
+			tdone err.stack
+		.done()
 
 describe 'Proxy: ', ->
 
