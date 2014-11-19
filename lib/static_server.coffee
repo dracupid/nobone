@@ -8,10 +8,17 @@ marked = require 'marked'
 	}
 }
 
+{ renderer: assets_r } = nobone {
+	renderer:
+		enable_watcher: false
+		auto_log: false
+		cache_dir: kit.path.join __dirname, '/../.nobone/renderer_cache'
+}
+
 [ host, port, root_dir, open_dir ] = process.argv[2..]
-assets_dir = kit.path.normalize __dirname + '/../assets'
-marked_html =  kit.path.normalize __dirname + '/../assets/markdown/index.html'
-nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
+assets_dir = kit.path.join __dirname, '/../assets'
+marked_html =  kit.path.join __dirname, '/../assets/markdown/index.html'
+nobone_favicon = kit.path.join __dirname, '/../assets/img/nobone.png'
 
 # Markdown support
 renderer.file_handlers['.md'].compiler = (str, path) ->
@@ -24,8 +31,8 @@ service.get '/favicon.ico', (req, res) ->
 	res.sendFile nobone_favicon
 
 service.use renderer.static(root_dir)
-service.use '/assets', renderer.static(assets_dir)
-kit.log "Static folder: " + root_dir.cyan + ', ' + assets_dir.cyan
+service.use '/assets', assets_r.static(assets_dir)
+kit.log "Static folder: " + root_dir.cyan
 
 service.listen port, host, ->
 	kit.log "Listen: " + "#{host}:#{port}".cyan

@@ -224,7 +224,11 @@ module.exports =
 			opts = { root_dir: opts }
 
 		_.defaults opts, {
-			renderer: {}
+			renderer: {
+				enable_watcher: false
+				auto_log: false
+				cache_dir: kit.path.join __dirname, '/../.nobone/renderer_cache'
+			}
 			root_dir: '.'
 		}
 
