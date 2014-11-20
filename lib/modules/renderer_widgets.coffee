@@ -313,11 +313,12 @@ module.exports =
 			req_path = opts.req_path_handler req.path
 			path = kit.path.join opts.root_dir, req_path
 
-			rnext = -> dir_handler req, res, (err) ->
+			rnext = ->
 				if dir_handler
-					static_handler req, res, next
+					dir_handler req, res, ->
+						static_handler req, res, next
 				else
-					next err
+					static_handler req, res, next
 
 			p = renderer.render path, true, req_path
 
