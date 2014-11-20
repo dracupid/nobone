@@ -241,6 +241,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	###*
 	 * @event {compiled}
+	 * @param {String} path The compiled file.
 	 * @param {String} content Compiled content.
 	 * @param {File_handler} handler The current file handler.
 	###
@@ -397,7 +398,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if cache.error
 					Promise.reject cache.error
 				else
-					self.emit.call self, self.e.compiled, cache.content, cache
+					self.emit.call self, self.e.compiled, cache.path, cache.content, cache
 					Promise.resolve cache.content
 
 	###*
