@@ -1,3 +1,7 @@
+- v0.9.6
+
+  - Auto check new version of nobone.
+
 - v0.9.5
 
   - Now the `dependency_roots` can only be an array.

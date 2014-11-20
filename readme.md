@@ -278,7 +278,19 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/nobone.coffee#L93" target="_blank"><b>client</b></a>
+- #### <a href="lib/nobone.coffee#L84" target="_blank"><b>version</b></a>
+
+ Get current nobone version string.
+
+ - **<u>return</u>**:  { _String_ }
+
+- #### <a href="lib/nobone.coffee#L91" target="_blank"><b>check_upgrade</b></a>
+
+ Check if nobone need to be upgraded.
+
+ - **<u>return</u>**:  { _Promise_ }
+
+- #### <a href="lib/nobone.coffee#L112" target="_blank"><b>client</b></a>
 
  The NoBone client helper.
 

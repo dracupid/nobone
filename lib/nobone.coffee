@@ -78,6 +78,25 @@ _.extend nobone, {
 	kit
 
 	###*
+	 * Get current nobone version string.
+	 * @return {String}
+	###
+	version: ->
+		require('../package').version
+
+	###*
+	 * Check if nobone need to be upgraded.
+	 * @return {Promise}
+	###
+	check_upgrade: ->
+		kit.request 'https://registry.npmjs.org/nobone/latest'
+		.done (data) ->
+			{ version: ver } = JSON.parse data
+			if ver > nobone.version()
+				info = "nobone@#{ver}".yellow
+				console.warn "[ A new version of ".green + info + " is available. ]".green
+
+	###*
 	 * The NoBone client helper.
 	 * @static
 	 * @param {Object} opts The options of the client, defaults:
@@ -118,5 +137,8 @@ _.extend nobone, {
 			"""
 
 }
+
+if kit.is_development()
+	nobone.check_upgrade()
 
 module.exports = nobone
