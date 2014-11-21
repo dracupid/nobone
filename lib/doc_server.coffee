@@ -33,18 +33,20 @@ service.get '/', (req, res) ->
 		})
 		res.send doc_cache
 
-service.get '/*.coffee', (req, res) ->
+service.get '/*.coffee', (req, res, next) ->
 	path = kit.path.normalize __dirname + '/../' + req.path[1..]
 	Promise.all([
 		renderer.render source_html
 		kit.readFile path, 'utf8'
 	])
-	.done (rets) ->
+	.then (rets) ->
 		[tpl, source] = rets
 		res.send tpl({
 			path: req.path
 			body: source
 		})
+	.catch ->
+		next()
 
 service.use renderer.static({
 	root_dir: nobone_dir
