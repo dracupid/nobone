@@ -239,7 +239,10 @@ module.exports =
 			kit.dirExists path
 			.then (exists) ->
 				if exists
-					kit.readdir path
+					if req.path.slice(-1) == '/'
+						kit.readdir path
+					else
+						Promise.reject 'not strict dir path'
 				else
 					Promise.reject 'no dir found'
 			.then (list) ->
@@ -287,6 +290,9 @@ module.exports =
 				.then ([fn, css]) ->
 					res.send fn({ list, css, path: req.path })
 			.catch (err) ->
+				if err == 'not strict dir path'
+					return res.redirect req.path + '/'
+
 				if err != 'no dir found'
 					kit.err err
 
