@@ -65,7 +65,7 @@ nobone -d
 
 0. Why doesn't the auto-reaload work?
 
-  > Check if the `process.env.NODEENV` is set to `development`.
+  > Check if the `process.env.NODE_ENV` is set to `development`.
 
 0. When serving `jade` or `less`, it doesn't work.
 
@@ -80,7 +80,7 @@ nobone -d
 ## Quick Start
 
 ```coffeescript
-process.env.NODEENV = 'development'
+process.env.NODE_ENV = 'development'
 
 nobone = require 'nobone'
 
