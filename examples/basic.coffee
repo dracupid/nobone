@@ -1,4 +1,4 @@
-process.env.NODEENV = 'development'
+process.env.NODE_ENV = 'development'
 
 nobone = require 'nobone'
 
