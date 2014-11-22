@@ -12,7 +12,7 @@ nb = nobone {
 	renderer: {}
 	service: {}
 	lang:
-		lang_path: 'test/fixtures/lang'
+		langPath: 'test/fixtures/lang'
 }
 
 get = (path, port, headers) ->
@@ -42,13 +42,13 @@ describe 'Basic:', ->
 
 	it 'compiler', (tdone) ->
 		port = 8022
-		watcher_file_cache = null
+		watcherFileCache = null
 
 		server = nb.service.listen port, ->
 			Promise.all([
 				get '/main.js', port
 				get '/default.css', port
-				get '/err_sample.css', port
+				get '/errSample.css', port
 				get '/bundle.jsb', port
 				get '/jade.html', port
 				get '/less.css', port
@@ -56,25 +56,25 @@ describe 'Basic:', ->
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 77
 				assert.equal results[1].indexOf("color: #319;"), 94
-				assert.equal results[2], 'compile_error'
-				assert.equal results[3].indexOf('sourceMappingURL'), 814
+				assert.equal results[2], 'compileError'
+				assert.equal results[3].indexOf('sourceMappingURL'), 812
 
 				assert.equal results[4].indexOf('Nobone'), 44
 				assert.equal results[5].indexOf('color: red;'), 58
 			.then ->
-				nb.kit.readFile 'test/fixtures/deps_root/mixin3.styl'
+				nb.kit.readFile 'test/fixtures/depsRoot/mixin3.styl'
 			.then (str) ->
 				# Test the watcher
-				watcher_file_cache = str
+				watcherFileCache = str
 
-				compile_p = new Promise (resolve) ->
+				compileP = new Promise (resolve) ->
 					nb.renderer.once 'compiled', resolve
 
-				nb.kit.outputFile('test/fixtures/deps_root/mixin3.styl', """
+				nb.kit.outputFile('test/fixtures/depsRoot/mixin3.styl', """
 				cor()
 					.input3
 						color #990
-				""").then -> compile_p
+				""").then -> compileP
 			.then ->
 				get '/default.css', port
 			.then (code) ->
@@ -83,7 +83,7 @@ describe 'Basic:', ->
 			.catch (err) ->
 				tdone err.stack
 			.then ->
-				nb.kit.outputFile 'test/fixtures/deps_root/mixin3.styl', watcher_file_cache
+				nb.kit.outputFile 'test/fixtures/depsRoot/mixin3.styl', watcherFileCache
 			.done ->
 				server.close()
 
@@ -138,14 +138,14 @@ describe 'Basic:', ->
 					tdone()
 		.done()
 
-	it 'custom code_handler', (tdone) ->
+	it 'custom codeHandler', (tdone) ->
 		{ renderer: rr } = nobone {
 			renderer: {
-				cache_dir: '.nobone/custom_code_handler'
+				cacheDir: '.nobone/customCodeHandler'
 			}
 		}
 
-		rr.file_handlers['.js'].compiler = (str) ->
+		rr.fileHandlers['.js'].compiler = (str) ->
 			str[0..3]
 
 		rr.render 'test/fixtures/main.js'
@@ -184,11 +184,11 @@ describe 'Proxy: ', ->
 
 	it 'url', (tdone) ->
 		nb3 = nobone { service: {}, proxy: {} }
-		nb3.service.get '/proxy_origin', (req, res) ->
+		nb3.service.get '/proxyOrigin', (req, res) ->
 			res.send req.headers
 
 		nb3.service.use '/proxy', (req, res) ->
-			nb3.proxy.url req, res, '/proxy_origin'
+			nb3.proxy.url req, res, '/proxyOrigin'
 
 		nb3.service.listen 8291, ->
 			p = get '/proxy', 8291, { client: 'ok' }
@@ -201,11 +201,11 @@ describe 'Proxy: ', ->
 
 describe 'Kit:', ->
 
-	it 'kit.parse_comment', (tdone) ->
+	it 'kit.parseComment', (tdone) ->
 		path = 'lib/nobone.coffee'
 		nb.kit.readFile path, 'utf8'
 		.done (str) ->
-			comments = nb.kit.parse_comment 'nobone', str, path
+			comments = nb.kit.parseComment 'nobone', str, path
 			assert.equal comments[1].path, path
 			assert.equal comments[1].tags[0].type, 'Object'
 			assert.equal comments[1].tags[0].name, 'modules'

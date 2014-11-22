@@ -1,7 +1,7 @@
 kit = require '../lib/kit'
 
-line_count = 0
-size_count = 0
+lineCount = 0
+sizeCount = 0
 
 kit.glob [
 	'assets', 'benchmark', 'bin', 'bone', 'doc', 'examples', 'lib', 'test'
@@ -19,8 +19,8 @@ kit.glob [
 			kit.stat paths[i]
 		]
 	, false, ([str, stats]) ->
-		line_count += str.split('\n').length
-		size_count += stats.size
+		lineCount += str.split('\n').length
+		sizeCount += stats.size
 .done ->
-	kit.log 'Total Lines: '.cyan + line_count
-	kit.log ' Total Size: '.cyan + (size_count / 1024).toFixed(2) + ' kb'
+	kit.log 'Total Lines: '.cyan + lineCount
+	kit.log ' Total Size: '.cyan + (sizeCount / 1024).toFixed(2) + ' kb'

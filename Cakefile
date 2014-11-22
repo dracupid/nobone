@@ -11,17 +11,17 @@ option '-p', '--port [port]', 'Node debug mode.'
 option '-b', '--bare', 'Build source code without doc or lint.'
 
 task 'dev', 'Dev Server', (opts) ->
-	app_path = 'test/lab.coffee'
+	appPath = 'test/lab.coffee'
 	if opts.debug
 		port = opts.port or 8283
-		args = ['--nodejs', '--debug-brk=' + port, app_path]
+		args = ['--nodejs', '--debug-brk=' + port, appPath]
 	else
-		args = [app_path]
+		args = [appPath]
 
-	kit.monitor_app {
+	kit.monitorApp {
 		bin: 'coffee'
 		args
-		watch_list: ['test/lab.coffee', 'lib/**/*.coffee']
+		watchList: ['test/lab.coffee', 'lib/**/*.coffee']
 	}
 
 task 'test', 'Basic test', (opts) ->
@@ -33,7 +33,7 @@ task 'test', 'Basic test', (opts) ->
 			'test/basic.coffee'
 		].forEach (file) ->
 			kit.spawn('mocha', [
-				'-t', 30 * 1000
+				'-t', 3000
 				'-r', 'coffee-script/register'
 				'-R', 'spec'
 				file

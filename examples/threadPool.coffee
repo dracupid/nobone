@@ -13,20 +13,20 @@ tasks = ['http://www.baidu.com']
 store = []
 
 # Max running threads at the same time.
-max_producer = 5
-max_consumer = 2
+maxProducer = 5
+maxConsumer = 2
 
 launch = ->
 	# The producer and the comsumer will create
 	# a nearly infinity life circle.
 	kit.async [
-		kit.async max_producer, producer, false
-		kit.async max_consumer, consumer, false
+		kit.async maxProducer, producer, false
+		kit.async maxConsumer, consumer, false
 	]
 	.catch (err) ->
 		kit.err err.message
 
-sleep_awhile = ->
+sleepAwhile = ->
 	new Promise (resolve) ->
 		setTimeout resolve, 200
 
@@ -34,7 +34,7 @@ sleep_awhile = ->
 producer = ->
 	if tasks.length == 0
 		# Nothing to work, sleep.
-		return sleep_awhile()
+		return sleepAwhile()
 
 	url = tasks.pop()
 
@@ -47,7 +47,7 @@ producer = ->
 # then add the urls to the tasks.
 consumer = ->
 	if store.length == 0
-		return sleep_awhile()
+		return sleepAwhile()
 
 	page = store.pop()
 

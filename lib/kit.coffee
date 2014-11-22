@@ -21,7 +21,7 @@ kit = {}
  * kit.outputFile('a.txt', 'test').done()
  * ```
 ###
-kit_extends_fs_promise = 'promise'
+kitExtendsFsPromise = 'promise'
 for k, v of fs
 	if k.slice(-1) == 'P'
 		kit[k.slice(0, -1)] = fs[k]
@@ -34,7 +34,7 @@ _.extend kit, {
 	###
 	_: _
 
-	require_cache: {}
+	requireCache: {}
 
 	###*
 	 * An throttle version of `Promise.all`, it runs all the tasks under
@@ -46,7 +46,7 @@ _.extend kit, {
 	 * and each function will return a promise.
 	 * If the list is a function, it should be a iterator that returns
 	 * a promise, hen it returns `undefined`, the iteration ends.
-	 * @param {Boolean} save_resutls Whether to save each promise's result or
+	 * @param {Boolean} saveResutls Whether to save each promise's result or
 	 * not. Default is true.
 	 * @param {Function} progress If a task ends, the resolve value will be
 	 * passed to this function.
@@ -80,25 +80,25 @@ _.extend kit, {
 	 * 	kit.log 'all done!'
 	 * ```
 	###
-	async: (limit, list, save_resutls, progress) ->
+	async: (limit, list, saveResutls, progress) ->
 		from = 0
 		resutls = []
-		iter_index = 0
+		iterIndex = 0
 		running = 0
-		is_iter_done = false
+		isIterDone = false
 
 		if not _.isNumber limit
-			progress = save_resutls
-			save_resutls = list
+			progress = saveResutls
+			saveResutls = list
 			list = limit
 			limit = Infinity
 
-		save_resutls ?= true
+		saveResutls ?= true
 
 		if _.isArray list
-			list_len = list.length - 1
+			listLen = list.length - 1
 			iter = (i) ->
-				return if i > list_len
+				return if i > listLen
 				if _.isFunction list[i]
 					list[i](i)
 				else
@@ -110,11 +110,11 @@ _.extend kit, {
 			Promise.reject new Error('unknown list type: ' + typeof list)
 
 		new Promise (resolve, reject) ->
-			add_task = ->
-				task = iter(iter_index++)
-				if is_iter_done or task == undefined
-					is_iter_done = true
-					all_done() if running == 0
+			addTask = ->
+				task = iter(iterIndex++)
+				if isIterDone or task == undefined
+					isIterDone = true
+					allDone() if running == 0
 					return false
 
 				if _.isFunction(task.then)
@@ -125,24 +125,24 @@ _.extend kit, {
 				running++
 				p.then (ret) ->
 					running--
-					if save_resutls
+					if saveResutls
 						resutls.push ret
 					progress? ret
-					add_task()
+					addTask()
 				.catch (err) ->
 					running--
 					reject err
 
 				return true
 
-			all_done = ->
-				if save_resutls
+			allDone = ->
+				if saveResutls
 					resolve resutls
 				else
 					resolve()
 
 			for i in [0 ... limit]
-				break if not add_task()
+				break if not addTask()
 
 	###*
 	 * Creates a function that is the composition of the provided functions.
@@ -156,7 +156,7 @@ _.extend kit, {
 	 * ```coffeescript
 	 * # It helps to decouple sequential pipeline code logic.
 	 *
-	 * create_url = (name) ->
+	 * createUrl = (name) ->
 	 * 	return "http://test.com/" + name
 	 *
 	 * curl = (url) ->
@@ -167,8 +167,8 @@ _.extend kit, {
 	 * 	kit.outputFile('a.txt', str).then ->
 	 * 		kit.log 'saved'
 	 *
-	 * download = kit.compose create_url, curl, save
-	 * # same as "download = kit.compose [create_url, curl, save]"
+	 * download = kit.compose createUrl, curl, save
+	 * # same as "download = kit.compose [createUrl, curl, save]"
 	 *
 	 * download 'home'
 	 * ```
@@ -176,11 +176,11 @@ _.extend kit, {
 	compose: (fns...) -> (val) ->
 		fns = fns[0] if _.isArray fns[0]
 
-		fns.reduce (pre_fn, fn) ->
+		fns.reduce (preFn, fn) ->
 			if _.isFunction fn.then
-				pre_fn.then -> fn
+				preFn.then -> fn
 			else
-				pre_fn.then fn
+				preFn.then fn
 		, Promise.resolve(val)
 
 	###*
@@ -202,12 +202,12 @@ _.extend kit, {
 			stderr: 'stderr.log'
 		}
 
-		out_log = os.openSync(opts.stdout, 'a')
-		err_log = os.openSync(opts.stderr, 'a')
+		outLog = os.openSync(opts.stdout, 'a')
+		errLog = os.openSync(opts.stderr, 'a')
 
 		p = kit.spawn(opts.bin, opts.args, {
 			detached: true
-			stdio: [ 'ignore', out_log, err_log ]
+			stdio: [ 'ignore', outLog, errLog ]
 		}).process
 		p.unref()
 		kit.log "Run as background daemon, PID: #{p.pid}".yellow
@@ -224,7 +224,7 @@ _.extend kit, {
 		crypto = kit.require 'crypto'
 		decipher = crypto.createDecipher algorithm, password
 
-		if kit.node_version() < 0.10
+		if kit.nodeVersion() < 0.10
 			if Buffer.isBuffer data
 				data = data.toString 'binary'
 			new Buffer(
@@ -247,7 +247,7 @@ _.extend kit, {
 		crypto = kit.require 'crypto'
 		cipher = crypto.createCipher algorithm, password
 
-		if kit.node_version() < 0.10
+		if kit.nodeVersion() < 0.10
 			if Buffer.isBuffer data
 				data = data.toString 'binary'
 			new Buffer(
@@ -265,7 +265,7 @@ _.extend kit, {
 	 * @param  {String} mode 'development', 'production', etc.
 	 * @return {Object} `process.env` object.
 	###
-	env_mode: (mode) ->
+	envMode: (mode) ->
 		{
 			env: _.defaults(
 				{ NODE_ENV: mode }
@@ -306,26 +306,26 @@ _.extend kit, {
 			process.env.ComSpec or
 			process.env.COMSPEC
 
-		cmd_stream = new stream.Transform
-		cmd_stream.push cmd
-		cmd_stream.end()
+		cmdStream = new stream.Transform
+		cmdStream.push cmd
+		cmdStream.end()
 
 		stdout = ''
-		out_stream = new stream.Writable
-		out_stream._write = (chunk) ->
+		outStream = new stream.Writable
+		outStream._write = (chunk) ->
 			stdout += chunk
 
 		stderr = ''
-		err_stream = new stream.Writable
-		err_stream._write = (chunk) ->
+		errStream = new stream.Writable
+		errStream._write = (chunk) ->
 			stderr += chunk
 
 		p = kit.spawn shell, [], {
 			stdio: 'pipe'
 		}
-		cmd_stream.pipe p.process.stdin
-		p.process.stdout.pipe out_stream
-		p.process.stderr.pipe err_stream
+		cmdStream.pipe p.process.stdin
+		p.process.stdout.pipe outStream
+		p.process.stderr.pipe errStream
 
 		p.then (msg) ->
 			_.extend msg, { stdout, stderr }
@@ -342,9 +342,9 @@ _.extend kit, {
 	 * @param  {Object} opts Defaults:
 	 * ```coffeescript
 	 * {
-	 * 	src_dir: null
+	 * 	srcDir: null
 	 * 	patterns: '**'
-	 * 	dest_dir: null
+	 * 	destDir: null
 	 * 	data: {}
 	 * 	compile: (str, data, path) ->
 	 * 		compile str
@@ -352,31 +352,31 @@ _.extend kit, {
 	 * ```
 	 * @return {Promise}
 	###
-	generate_bone: (opts) ->
+	generateBone: (opts) ->
 		###
 			It will treat all the files in the path as an ejs file
 		###
 		_.defaults opts, {
-			src_dir: null
+			srcDir: null
 			patterns: ['**', '**/.*']
-			dest_dir: null
+			destDir: null
 			data: {}
 			compile: (str, data, path) ->
 				data.filename = path
 				_.template str, data
 		}
 
-		kit.glob(opts.patterns, { cwd: opts.src_dir })
+		kit.glob(opts.patterns, { cwd: opts.srcDir })
 		.then (paths) ->
 			Promise.all paths.map (path) ->
-				src_path = kit.path.join opts.src_dir, path
-				dest_path = kit.path.join opts.dest_dir, path
+				srcPath = kit.path.join opts.srcDir, path
+				destPath = kit.path.join opts.destDir, path
 
-				kit.readFile(src_path, 'utf8')
+				kit.readFile(srcPath, 'utf8')
 				.then (str) ->
-					opts.compile str, opts.data, src_path
+					opts.compile str, opts.data, srcPath
 				.then (code) ->
-					kit.outputFile dest_path, code
+					kit.outputFile destPath, code
 				.catch (err) ->
 					if err.cause.code != 'EISDIR'
 						Promise.reject err
@@ -391,16 +391,16 @@ _.extend kit, {
 		if _.isString patterns
 			patterns = [patterns]
 
-		all_paths = []
-		stat_cache = {}
+		allPaths = []
+		statCache = {}
 		Promise.all patterns.map (p) ->
 			kit._glob p, opts
 			.then (paths) ->
-				_.extend stat_cache, paths.glob.statCache
-				all_paths = _.union all_paths, paths
+				_.extend statCache, paths.glob.statCache
+				allPaths = _.union allPaths, paths
 		.then ->
-			all_paths.stat_cache = stat_cache
-			all_paths
+			allPaths.statCache = statCache
+			allPaths
 
 	_glob: (pattern, opts) ->
 		glob = kit.require 'glob'
@@ -429,7 +429,7 @@ _.extend kit, {
 		util = kit.require 'util'
 
 		_.defaults opts, {
-			colors: kit.is_development()
+			colors: kit.isDevelopment()
 			depth: 5
 		}
 
@@ -441,7 +441,7 @@ _.extend kit, {
 	 * By default it returns the `rocess.env.NODE_ENV == 'development'`.
 	 * @return {Boolean}
 	###
-	is_development: ->
+	isDevelopment: ->
 		process.env.NODE_ENV == 'development'
 
 	###*
@@ -450,30 +450,30 @@ _.extend kit, {
 	 * By default it returns the `rocess.env.NODE_ENV == 'production'`.
 	 * @return {Boolean}
 	###
-	is_production: ->
+	isProduction: ->
 		process.env.NODE_ENV == 'production'
 
 	###*
 	 * A better log for debugging, it uses the `kit.inspect` to log.
 	 *
-	 * You can use terminal command like `log_reg='pattern' node app.js` to
+	 * You can use terminal command like `logReg='pattern' node app.js` to
 	 * filter the log info.
 	 *
-	 * You can use `log_trace='on' node app.js` to force each log end with a
+	 * You can use `logTrace='on' node app.js` to force each log end with a
 	 * stack trace.
 	 * @param  {Any} msg Your log message.
 	 * @param  {String} action 'log', 'error', 'warn'.
 	 * @param  {Object} opts Default is same with `kit.inspect`
 	###
 	log: (msg, action = 'log', opts = {}) ->
-		if not kit.last_log_time
-			kit.last_log_time = new Date
-			if process.env.log_reg
-				kit.log_reg = new RegExp(process.env.log_reg)
+		if not kit.lastLogTime
+			kit.lastLogTime = new Date
+			if process.env.logReg
+				kit.logReg = new RegExp(process.env.logReg)
 
 		time = new Date()
-		time_delta = (+time - +kit.last_log_time).toString().magenta + 'ms'
-		kit.last_log_time = time
+		timeDelta = (+time - +kit.lastLogTime).toString().magenta + 'ms'
+		kit.lastLogTime = time
 		time = [
 			[
 				kit.pad time.getFullYear(), 4
@@ -490,20 +490,20 @@ _.extend kit, {
 		log = ->
 			str = _.toArray(arguments).join ' '
 
-			if kit.log_reg and not kit.log_reg.test(str)
+			if kit.logReg and not kit.logReg.test(str)
 				return
 
 			console[action] str.replace /\n/g, '\n  '
 
-			if process.env.log_trace == 'on'
+			if process.env.logTrace == 'on'
 				err = (new Error).stack
 					.replace(/.+\n.+\n.+/, '\nStack trace:').grey
 				console.log err
 
 		if _.isObject msg
-			log "[#{time}] ->\n" + kit.inspect(msg, opts), time_delta
+			log "[#{time}] ->\n" + kit.inspect(msg, opts), timeDelta
 		else
-			log "[#{time}]", msg, time_delta
+			log "[#{time}]", msg, timeDelta
 
 		if action == 'error'
 			process.stdout.write "\u0007"
@@ -520,35 +520,35 @@ _.extend kit, {
 	 * {
 	 * 	bin: 'node'
 	 * 	args: ['app.js']
-	 * 	watch_list: ['app.js']
+	 * 	watchList: ['app.js']
 	 * 	mode: 'development'
 	 * }
 	 * ```
 	 * @return {Process} The child process.
 	###
-	monitor_app: (opts) ->
+	monitorApp: (opts) ->
 		_.defaults opts, {
 			bin: 'node'
 			args: ['app.js']
-			watch_list: ['app.js']
+			watchList: ['app.js']
 			mode: 'development'
 		}
 
-		sep_line = ->
+		sepLine = ->
 			console.log _.times(process.stdout.columns, -> '*').join('').yellow
 
-		child_ps = null
+		childPs = null
 		start = ->
-			sep_line()
+			sepLine()
 
-			child_ps = kit.spawn(
+			childPs = kit.spawn(
 				opts.bin
 				opts.args
-				kit.env_mode opts.mode
+				kit.envMode opts.mode
 			).process
 
-			child_ps.on 'close', (code, sig) ->
-				child_ps.is_closed = true
+			childPs.on 'close', (code, sig) ->
+				childPs.isClosed = true
 
 				kit.log 'EXIT'.yellow +
 					" code: #{(code + '').cyan} signal: #{(sig + '').cyan}"
@@ -558,30 +558,30 @@ _.extend kit, {
 						the watched file to restart.'.red
 
 		process.on 'SIGINT', ->
-			child_ps.kill 'SIGINT'
+			childPs.kill 'SIGINT'
 			process.exit()
 
-		kit.watch_files opts.watch_list, (path, curr, prev) ->
+		kit.watchFiles opts.watchList, (path, curr, prev) ->
 			if curr.mtime != prev.mtime
 				kit.log "Reload app, modified: ".yellow + path
 
-				if child_ps.is_closed
+				if childPs.isClosed
 					start()
 				else
-					child_ps.on 'close', start
-					child_ps.kill 'SIGINT'
+					childPs.on 'close', start
+					childPs.kill 'SIGINT'
 
-		kit.log "Monitor: ".yellow + opts.watch_list
+		kit.log "Monitor: ".yellow + opts.watchList
 
 		start()
 
-		child_ps
+		childPs
 
 	###*
 	 * Node version. Such as `v0.10.23` is `0.1023`, `v0.10.1` is `0.1001`.
 	 * @type {Float}
 	###
-	node_version: ->
+	nodeVersion: ->
 		ms = process.versions.node.match /(\d+)\.(\d+)\.(\d+)/
 		str = ms[1] + '.' + kit.pad(ms[2], 2) + kit.pad(ms[3], 2)
 		+str
@@ -645,34 +645,34 @@ _.extend kit, {
 	 * A comments parser for coffee-script.
 	 * Used to generate documentation automatically.
 	 * It will traverse through all the comments.
-	 * @param  {String} module_name The name of the module it belongs to.
+	 * @param  {String} moduleName The name of the module it belongs to.
 	 * @param  {String} code Coffee source code.
 	 * @param  {String} path The path of the source code.
 	 * @param  {Object} opts Parser options:
 	 * ```coffeescript
 	 * {
-	 * 	comment_reg: RegExp
-	 * 	split_reg: RegExp
-	 * 	tag_name_reg: RegExp
-	 * 	type_reg: RegExp
-	 * 	name_reg: RegExp
-	 * 	name_tags: ['param', 'property']
-	 * 	description_reg: RegExp
+	 * 	commentReg: RegExp
+	 * 	splitReg: RegExp
+	 * 	tagNameReg: RegExp
+	 * 	typeReg: RegExp
+	 * 	nameReg: RegExp
+	 * 	nameTags: ['param', 'property']
+	 * 	descriptionReg: RegExp
 	 * }
 	 * ```
 	 * @return {Array} The parsed comments. Each item is something like:
 	 * ```coffeescript
 	 * {
 	 * 	module: 'nobone'
-	 * 	name: 'parse_comment'
+	 * 	name: 'parseComment'
 	 * 	description: 'A comments parser for coffee-script.'
 	 * 	tags: [
 	 * 		{
-	 * 			tag_name: 'param'
+	 * 			tagName: 'param'
 	 * 			type: 'string'
 	 * 			name: 'code'
 	 * 			description: 'The name of the module it belongs to.'
-	 * 			path: 'http://the_path_of_source_code'
+	 * 			path: 'http://thePathOfSourceCode'
 	 * 			index: 256 # The target char index in the file.
 	 * 			line: 32 # The line number of the target in the file.
 	 * 		}
@@ -680,29 +680,29 @@ _.extend kit, {
 	 * }
 	 * ```
 	###
-	parse_comment: (module_name, code, path = '', opts = {}) ->
+	parseComment: (moduleName, code, path = '', opts = {}) ->
 		_.defaults opts, {
-			comment_reg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
-			split_reg: /^\s+\* @/m
-			tag_name_reg: /^([\w\.]+)\s*/
-			type_reg: /^\{(.+?)\}\s*/
-			name_reg: /^(\w+)\s*/
-			name_tags: ['param', 'property']
-			description_reg: /^([\s\S]*)/
+			commentReg: /###\*([\s\S]+?)###\s+([\w\.]+)/g
+			splitReg: /^\s+\* @/m
+			tagNameReg: /^([\w\.]+)\s*/
+			typeReg: /^\{(.+?)\}\s*/
+			nameReg: /^(\w+)\s*/
+			nameTags: ['param', 'property']
+			descriptionReg: /^([\s\S]*)/
 		}
 
-		parse_info = (block) ->
+		parseInfo = (block) ->
 			# Unescape '\/'
 			block = block.replace /\\\//g, '/'
 
 			# Clean the prefix '*'
-			arr = block.split(opts.split_reg).map (el) ->
+			arr = block.split(opts.splitReg).map (el) ->
 				el.replace(/^[ \t]+\*[ \t]?/mg, '').trim()
 
 			{
 				description: arr[0] or ''
 				tags: arr[1..].map (el) ->
-					parse_tag = (reg) ->
+					parseTag = (reg) ->
 						m = el.match reg
 						if m and m[1]
 							el = el[m[0].length..]
@@ -712,31 +712,31 @@ _.extend kit, {
 
 					tag = {}
 
-					tag.tag_name = parse_tag opts.tag_name_reg
+					tag.tagName = parseTag opts.tagNameReg
 
-					type = parse_tag opts.type_reg
+					type = parseTag opts.typeReg
 					if type
 						tag.type = type
-						if tag.tag_name in opts.name_tags
-							tag.name = parse_tag opts.name_reg
-						tag.description = parse_tag(opts.description_reg) or ''
+						if tag.tagName in opts.nameTags
+							tag.name = parseTag opts.nameReg
+						tag.description = parseTag(opts.descriptionReg) or ''
 					else
-						tag.description = parse_tag(opts.description_reg) or ''
+						tag.description = parseTag(opts.descriptionReg) or ''
 					tag
 			}
 
 		comments = []
 		m = null
-		while (m = opts.comment_reg.exec(code)) != null
-			info = parse_info m[1]
+		while (m = opts.commentReg.exec(code)) != null
+			info = parseInfo m[1]
 			comments.push {
-				module: module_name
+				module: moduleName
 				name: m[2]
 				description: info.description
 				tags: info.tags
 				path
-				index: opts.comment_reg.lastIndex
-				line: _.reduce(code[...opts.comment_reg.lastIndex]
+				index: opts.commentReg.lastIndex
+				line: _.reduce(code[...opts.commentReg.lastIndex]
 				, (count, char) ->
 					count++ if char == '\n'
 					count
@@ -756,7 +756,7 @@ _.extend kit, {
 	 * @param  {Object} opts See the https://github.com/flatiron/prompt
 	 * @return {Promise} Contains the results of prompt.
 	###
-	prompt_get: (opts) ->
+	promptGet: (opts) ->
 		prompt = kit.require 'prompt', (prompt) ->
 			prompt.message = '>> '
 			prompt.delimiter = ''
@@ -777,40 +777,40 @@ _.extend kit, {
 	###*
 	 * Much much faster than the native require of node, but
 	 * you should follow some rules to use it safely.
-	 * @param  {String}   module_name Relative moudle path is not allowed!
+	 * @param  {String}   moduleName Relative moudle path is not allowed!
 	 * Only allow absolute path or module name.
 	 * @param  {Function} done Run only the first time after the module loaded.
 	 * @return {Module} The module that you require.
 	###
-	require: (module_name, done) ->
-		if not kit.require_cache[module_name]
-			if module_name[0] == '.'
-				throw new Error('Relative path is not allowed: ' + module_name)
+	require: (moduleName, done) ->
+		if not kit.requireCache[moduleName]
+			if moduleName[0] == '.'
+				throw new Error('Relative path is not allowed: ' + moduleName)
 
-			names = [module_name]
+			names = [moduleName]
 
 			if process.env.NODE_PATH
 				for p in process.env.NODE_PATH.split(kit.path.delimiter)
-					names.push kit.path.join(p, module_name)
+					names.push kit.path.join(p, moduleName)
 
 			dir = process.cwd()
 			while true
-				names.push kit.path.join(dir, 'node_modules', module_name)
-				p_dir = kit.path.dirname dir
+				names.push kit.path.join(dir, 'node_modules', moduleName)
+				pDir = kit.path.dirname dir
 
-				break if dir == p_dir
-				dir = p_dir
+				break if dir == pDir
+				dir = pDir
 
 			for name in names
 				try
-					kit.require_cache[module_name] = require name
-					done? kit.require_cache[module_name]
+					kit.requireCache[moduleName] = require name
+					done? kit.requireCache[moduleName]
 					break
 
-		if not kit.require_cache[module_name]
-			throw new Error('Module not found: ' + module_name)
+		if not kit.requireCache[moduleName]
+			throw new Error('Module not found: ' + moduleName)
 
-		kit.require_cache[module_name]
+		kit.requireCache[moduleName]
 
 	###*
 	 * A powerful extended combination of `http.request` and `https.request`.
@@ -836,34 +836,34 @@ _.extend kit, {
 	 * 	agent: null
 	 *
 	 * 	# Set null to use buffer, optional.
-	 * 	# It supports GBK, Shift_JIS etc.
+	 * 	# It supports GBK, ShiftJIS etc.
 	 * 	# For more info, see https://github.com/ashtuchkin/iconv-lite
-	 * 	res_encoding: 'auto'
+	 * 	resEncoding: 'auto'
 	 *
 	 * 	# It's string, object or buffer, optional. When it's an object,
 	 * 	# The request will be 'application/x-www-form-urlencoded'.
-	 * 	req_data: null
+	 * 	reqData: null
 	 *
 	 * 	# auto end the request.
-	 * 	auto_end_req: true
+	 * 	autoEndReq: true
 	 *
 	 * 	# Readable stream.
 	 * 	# If this option is set, the `headers['content-length']`
 	 * 	# should also be set.
-	 * 	req_pipe: null
+	 * 	reqPipe: null
 	 *
 	 * 	# Writable stream.
-	 * 	res_pipe: null
+	 * 	resPipe: null
 	 *
 	 * 	# The progress of the request.
-	 * 	req_progress: (complete, total) ->
+	 * 	reqProgress: (complete, total) ->
 	 *
 	 * 	# The progress of the response.
-	 * 	res_progress: (complete, total) ->
+	 * 	resProgress: (complete, total) ->
 	 * }
 	 * ```
 	 * And if set opts as string, it will be treated as the url.
-	 * [http.request]: http://nodejs.org/api/http.html#http_http_request_options_callback
+	 * [http.request]: http://nodejs.org/api/http.html#httpHttpRequestOptionsCallback
 	 * @return {Promise} Contains the http response object,
 	 * it has an extra `body` property.
 	 * You can also get the request object by using `Promise.req`, for example:
@@ -877,7 +877,7 @@ _.extend kit, {
 	 * kit.request {
 	 * 	url: 'https://test.com/a.mp3'
 	 * 	body: false
-	 * 	res_progress: (complete, total) ->
+	 * 	resProgress: (complete, total) ->
 	 * 		kit.log "Progress: #{complete} / #{total}"
 	 * }
 	 * .done (res) ->
@@ -912,32 +912,32 @@ _.extend kit, {
 
 		_.defaults opts, {
 			body: true
-			res_encoding: 'auto'
-			req_data: null
-			auto_end_req: true
-			auto_unzip: true
-			req_progress: null
-			res_progress: null
+			resEncoding: 'auto'
+			reqData: null
+			autoEndReq: true
+			autoUnzip: true
+			reqProgress: null
+			resProgress: null
 		}
 
 		opts.headers ?= {}
-		if Buffer.isBuffer(opts.req_data)
-			req_buf = opts.req_data
-		else if _.isString opts.req_data
-			req_buf = new Buffer(opts.req_data)
-		else if _.isObject opts.req_data
+		if Buffer.isBuffer(opts.reqData)
+			reqBuf = opts.reqData
+		else if _.isString opts.reqData
+			reqBuf = new Buffer(opts.reqData)
+		else if _.isObject opts.reqData
 			opts.headers['content-type'] ?=
 				'application/x-www-form-urlencoded; charset=utf-8'
-			req_buf = new Buffer(
-				_.map opts.req_data, (v, k) ->
+			reqBuf = new Buffer(
+				_.map opts.reqData, (v, k) ->
 					[encodeURIComponent(k), encodeURIComponent(v)].join '='
 				.join '&'
 			)
 		else
-			req_buf = undefined
+			reqBuf = undefined
 
-		if req_buf != undefined
-			opts.headers['content-length'] ?= req_buf.length
+		if reqBuf != undefined
+			opts.headers['content-length'] ?= reqBuf.length
 
 		req = null
 		promise = new Promise (resolve, reject) ->
@@ -951,20 +951,20 @@ _.extend kit, {
 					.done (val) -> resolve val
 					return
 
-				if opts.res_progress
+				if opts.resProgress
 					do ->
 						total = +res.headers['content-length']
 						complete = 0
 						res.on 'data', (chunk) ->
 							complete += chunk.length
-							opts.res_progress complete, total
+							opts.resProgress complete, total
 
-				if opts.res_pipe
-					res_pipe_error = (err) ->
+				if opts.resPipe
+					resPipeError = (err) ->
 						reject err
-						opts.res_pipe.end()
+						opts.resPipe.end()
 
-					if opts.auto_unzip
+					if opts.autoUnzip
 						switch res.headers['content-encoding']
 							when 'gzip'
 								unzip = kit.require('zlib').createGunzip()
@@ -973,15 +973,15 @@ _.extend kit, {
 							else
 								unzip = null
 						if unzip
-							unzip.on 'error', res_pipe_error
-							res.pipe(unzip).pipe(opts.res_pipe)
+							unzip.on 'error', resPipeError
+							res.pipe(unzip).pipe(opts.resPipe)
 						else
-							res.pipe opts.res_pipe
+							res.pipe opts.resPipe
 					else
-						res.pipe opts.res_pipe
+						res.pipe opts.resPipe
 
-					opts.res_pipe.on 'error', res_pipe_error
-					res.on 'error', res_pipe_error
+					opts.resPipe.on 'error', resPipeError
+					res.on 'error', resPipeError
 					res.on 'end', -> resolve res
 				else
 					buf = new Buffer(0)
@@ -996,15 +996,15 @@ _.extend kit, {
 								res.body = body
 								resolve res
 
-						if opts.res_encoding
+						if opts.resEncoding
 							encoding = 'utf8'
-							if opts.res_encoding == 'auto'
-								c_type = res.headers['content-type']
-								if _.isString c_type
-									m = c_type.match(/charset=(.+);?/i)
+							if opts.resEncoding == 'auto'
+								cType = res.headers['content-type']
+								if _.isString cType
+									m = cType.match(/charset=(.+);?/i)
 									if m and m[1]
 										encoding = m[1]
-									if not /^(text)|(application)\//.test(c_type)
+									if not /^(text)|(application)\//.test(cType)
 										encoding = null
 
 							decode = (buf) ->
@@ -1019,7 +1019,7 @@ _.extend kit, {
 								catch err
 									reject err
 
-							if opts.auto_unzip
+							if opts.autoUnzip
 								switch res.headers['content-encoding']
 									when 'gzip'
 										unzip = kit.require('zlib').gunzip
@@ -1039,22 +1039,22 @@ _.extend kit, {
 
 			req.on 'error', (err) ->
 				# Release pipe
-				opts.res_pipe?.end()
+				opts.resPipe?.end()
 				reject err
 
-			if opts.req_pipe
-				if opts.req_progress
+			if opts.reqPipe
+				if opts.reqProgress
 					do ->
 						total = +opts.headers['content-length']
 						complete = 0
-						opts.req_pipe.on 'data', (chunk) ->
+						opts.reqPipe.on 'data', (chunk) ->
 							complete += chunk.length
-							opts.req_progress complete, total
+							opts.reqProgress complete, total
 
-				opts.req_pipe.pipe req
+				opts.reqPipe.pipe req
 			else
-				if opts.auto_end_req
-					req.end req_buf
+				if opts.autoEndReq
+					req.end reqBuf
 
 		promise.req = req
 		promise
@@ -1091,8 +1091,8 @@ _.extend kit, {
 			which = kit.require 'which'
 			cmd = which.sync cmd
 			if cmd.slice(-3).toLowerCase() == 'cmd'
-				cmd_src = kit.fs.readFileSync(cmd, 'utf8')
-				m = cmd_src.match(/node\s+"%~dp0\\(\.\.\\.+)"/)
+				cmdSrc = kit.fs.readFileSync(cmd, 'utf8')
+				m = cmdSrc.match(/node\s+"%~dp0\\(\.\.\\.+)"/)
 				if m and m[1]
 					cmd = kit.path.join cmd, '..', m[1]
 					cmd = kit.path.normalize cmd
@@ -1124,8 +1124,8 @@ _.extend kit, {
 
 	###*
 	 * Watch a file. If the file changes, the handler will be invoked.
-	 * You can change the polling interval by using `process.env.polling_watch`.
-	 * Use `process.env.watch_persistent = 'off'` to disable the persistent.
+	 * You can change the polling interval by using `process.env.pollingWatch`.
+	 * Use `process.env.watchPersistent = 'off'` to disable the persistent.
 	 * For samba server, we have to choose `watchFile` other than `watch`.
 	 * @param  {String}   path    The file path
 	 * @param  {Function} handler Event listener.
@@ -1134,29 +1134,29 @@ _.extend kit, {
 	 * - current `fs.Stats`
 	 * - previous `fs.Stats`
 	 * - if its a deletion
-	 * @param {Boolean} auto_unwatch Auto unwatch the file while file deletion.
+	 * @param {Boolean} autoUnwatch Auto unwatch the file while file deletion.
 	 * Default is true.
 	 * @return {Function} The wrapped watch listeners.
 	 * @example
 	 * ```coffeescript
-	 * process.env.watch_persistent = 'off'
-	 * kit.watch_file 'a.js', (path, curr, prev, is_deletion) ->
+	 * process.env.watchPersistent = 'off'
+	 * kit.watchFile 'a.js', (path, curr, prev, isDeletion) ->
 	 * 	if curr.mtime != prev.mtime
 	 * 		kit.log path
 	 * ```
 	###
-	watch_file: (path, handler, auto_unwatch = true) ->
+	watchFile: (path, handler, autoUnwatch = true) ->
 		listener = (curr, prev) ->
-			is_deletion = curr.mtime.getTime() == 0
-			handler(path, curr, prev, is_deletion)
-			if is_deletion
+			isDeletion = curr.mtime.getTime() == 0
+			handler(path, curr, prev, isDeletion)
+			if isDeletion
 				kit.fs.unwatchFile path, listener
 
 		fs.watchFile(
 			path
 			{
-				persistent: process.env.watch_persistent != 'off'
-				interval: +process.env.polling_watch or 300
+				persistent: process.env.watchPersistent != 'off'
+				interval: +process.env.pollingWatch or 300
 			}
 			listener
 		)
@@ -1164,21 +1164,21 @@ _.extend kit, {
 
 	###*
 	 * Watch files, when file changes, the handler will be invoked.
-	 * It takes the advantage of `kit.watch_file`.
+	 * It takes the advantage of `kit.watchFile`.
 	 * @param  {Array} patterns String array with minimatch syntax.
 	 * Such as `['*\/**.css', 'lib\/**\/*.js']`.
 	 * @param  {Function} handler
 	 * @return {Promise} It contains the wrapped watch listeners.
 	 * @example
 	 * ```coffeescript
-	 * kit.watch_files '*.js', (path, curr, prev, is_deletion) ->
+	 * kit.watchFiles '*.js', (path, curr, prev, isDeletion) ->
 	 * 	kit.log path
 	 * ```
 	###
-	watch_files: (patterns, handler) ->
+	watchFiles: (patterns, handler) ->
 		kit.glob(patterns).then (paths) ->
 			paths.map (path) ->
-				kit.watch_file path, handler
+				kit.watchFile path, handler
 
 	###*
 	 * Watch directory and all the files in it.
@@ -1193,77 +1193,77 @@ _.extend kit, {
 	 * 	dot: false
 	 *
 	 * 	# If the "path" ends with '/' it's a directory, else a file.
-	 * 	handler: (type, path, old_path) ->
+	 * 	handler: (type, path, oldPath) ->
 	 * }
 	 * ```
 	 * @return {Promise}
 	 * @example
 	 * ```coffeescript
 	 * # Only current folder, and only watch js and css file.
-	 * kit.watch_dir {
+	 * kit.watchDir {
 	 * 	dir: 'lib'
 	 * 	pattern: '*.+(js|css)'
 	 * 	handler: (type, path) ->
 	 * 		kit.log type
 	 * 		kit.log path
 	 *
-	 * 	# If you use watch_dir recursively, you need a global watched_list
-	 * 	watched_list: {}
+	 * 	# If you use watchDir recursively, you need a global watchedList
+	 * 	watchedList: {}
 	 * }
 	 * ```
 	###
-	watch_dir: (opts) ->
+	watchDir: (opts) ->
 		_.defaults opts, {
 			dir: '.'
 			pattern: '**'
 			dot: false
-			handler: (type, path, old_path) ->
-			watched_list: {}
-			deleted_list: {}
+			handler: (type, path, oldPath) ->
+			watchedList: {}
+			deletedList: {}
 		}
 
 		if _.isString opts.pattern
 			opts.pattern = [opts.pattern]
 
-		expand_watch_pattern = (root, pattern) ->
+		expandWatchPattern = (root, pattern) ->
 			# Make sure the parent directory is also in the watch list.
-			parent_dirs = []
+			parentDirs = []
 			patterns = pattern.map (el) ->
 				p = kit.path.join(root, el)
-				parent_dirs.push kit.path.dirname(p) + kit.path.sep
+				parentDirs.push kit.path.dirname(p) + kit.path.sep
 				p
-			_.union patterns, parent_dirs
+			_.union patterns, parentDirs
 
-		is_same_file = (stats_a, stats_b) ->
-			stats_a.mtime.getTime() == stats_b.mtime.getTime() and
-			stats_a.ctime.getTime() == stats_b.ctime.getTime() and
-			stats_a.size == stats_b.size
+		isSameFile = (statsA, statsB) ->
+			statsA.mtime.getTime() == statsB.mtime.getTime() and
+			statsA.ctime.getTime() == statsB.ctime.getTime() and
+			statsA.size == statsB.size
 
-		recursive_watch = (path) ->
+		recursiveWatch = (path) ->
 			if path[-1..] == '/'
 				# Recursively watch a newly created directory.
-				kit.watch_dir _.defaults({
+				kit.watchDir _.defaults({
 					dir: path
 				}, opts)
 			else
-				opts.watched_list[path] = kit.watch_file path, file_watcher
+				opts.watchedList[path] = kit.watchFile path, fileWatcher
 
-		file_watcher = (path, curr, prev, is_delete) ->
-			if is_delete
-				opts.deleted_list[path] = prev
+		fileWatcher = (path, curr, prev, isDelete) ->
+			if isDelete
+				opts.deletedList[path] = prev
 			else
 				opts.handler 'modify', path
 
-		main_watch = (path, curr, prev, is_delete) ->
-			if is_delete
-				opts.deleted_list[path] = prev
+		mainWatch = (path, curr, prev, isDelete) ->
+			if isDelete
+				opts.deletedList[path] = prev
 				return
 
 			# Each time a direcotry change happens, it will check all
-			# it children files, if any child is not in the watched_list,
+			# it children files, if any child is not in the watchedList,
 			# a `create` event will be triggered.
 			kit.glob(
-				expand_watch_pattern path, opts.pattern
+				expandWatchPattern path, opts.pattern
 				{
 					mark: true
 					dot: opts.dot
@@ -1271,44 +1271,44 @@ _.extend kit, {
 				}
 			).then (paths) ->
 				for p in paths.sort().reverse()
-					if opts.watched_list[p] != undefined
+					if opts.watchedList[p] != undefined
 						continue
 
 					# Check if the new file is renamed from another file.
-					if not _.any(opts.deleted_list, (stat, dpath) ->
-						if stat == 'parent_moved'
-							delete opts.deleted_list[dpath]
+					if not _.any(opts.deletedList, (stat, dpath) ->
+						if stat == 'parentMoved'
+							delete opts.deletedList[dpath]
 							return true
 
-						if is_same_file(stat, paths.stat_cache[p])
+						if isSameFile(stat, paths.statCache[p])
 							# All children will be deleted, so that
 							# sub-move event won't trigger.
-							for k of opts.deleted_list
+							for k of opts.deletedList
 								if k.indexOf(dpath) == 0
-									opts.deleted_list[k] = 'parent_moved'
-									delete opts.watched_list[k]
-							delete opts.deleted_list[dpath]
-							recursive_watch p
+									opts.deletedList[k] = 'parentMoved'
+									delete opts.watchedList[k]
+							delete opts.deletedList[dpath]
+							recursiveWatch p
 							opts.handler 'move', p, dpath
 							true
 						else
 							false
 					)
-						recursive_watch p
+						recursiveWatch p
 						opts.handler 'create', p
 
-				_.each opts.watched_list, (v, wpath) ->
+				_.each opts.watchedList, (v, wpath) ->
 					if wpath not in paths and
 					wpath.indexOf(path) == 0
-						delete opts.deleted_list[wpath]
-						delete opts.watched_list[wpath]
+						delete opts.deletedList[wpath]
+						delete opts.watchedList[wpath]
 						opts.handler 'delete', wpath
 
 			.catch (err) ->
 				kit.err err
 
 		kit.glob(
-			expand_watch_pattern opts.dir, opts.pattern
+			expandWatchPattern opts.dir, opts.pattern
 			{
 				mark: true
 				dot: opts.dot
@@ -1318,11 +1318,11 @@ _.extend kit, {
 			# The reverse will keep the children event happen at first.
 			for path in paths.sort().reverse()
 				if path[-1..] == '/'
-					w = kit.watch_file path, main_watch
+					w = kit.watchFile path, mainWatch
 				else
-					w = kit.watch_file path, file_watcher
-				opts.watched_list[path] = w
-			opts.watched_list
+					w = kit.watchFile path, fileWatcher
+				opts.watchedList[path] = w
+			opts.watchedList
 
 }
 
@@ -1330,7 +1330,7 @@ _.extend kit, {
 kit.path.delimiter = if process.platform == 'win32' then ';' else ':'
 
 # Some debug options.
-if kit.is_development()
+if kit.isDevelopment()
 	Promise.longStackTraces()
 else
 	colors.mode = 'none'

@@ -5,7 +5,7 @@
   > it will auto open the documentation.
 
   > If you have installed nobone with `npm install nobone` in current
-  > directory, execute `node_modules/.bin/nobone -d`.
+  > directory, execute `nodeModules/.bin/nobone -d`.
 
 0. Why I can't execute the entrance file with nobone cli tool?
 
@@ -14,7 +14,7 @@
 
 0. Why doesn't the auto-reaload work?
 
-  > Check if the `process.env.NODE_ENV` is set to `development`.
+  > Check if the `process.env.NODEENV` is set to `development`.
 
 0. When serving `jade` or `less`, it doesn't work.
 

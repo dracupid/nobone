@@ -10,14 +10,14 @@
 <body>
 
 	<%
-	var format_time = function (t) {
+	var formatTime = function (t) {
 		if (typeof t == 'string')
 			return t;
 
 		return t.toDateString() + ' ' + t.toLocaleTimeString();
 	}
 
-	var format_size = function (s) {
+	var formatSize = function (s) {
 		if (typeof s == 'string')
 			return s;
 
@@ -33,7 +33,7 @@
 		return s;
 	}
 
-	var render_list = function (list) {
+	var renderList = function (list) {
 		_.each(list, function (el) {
 	%>
 
@@ -41,14 +41,14 @@
 			<span class="name">
 				<%= el.path %>
 			</span>
-			<span class="dir_count">
-				<%= el.dir_count == undefined ? '' : el.dir_count %>
+			<span class="dirCount">
+				<%= el.dirCount == undefined ? '' : el.dirCount %>
 			</span>
 			<span class="size">
-				<%= format_size(el.size) %>
+				<%= formatSize(el.size) %>
 			</span>
 			<span class="mtime">
-				<%= format_time(el.mtime) %>
+				<%= formatTime(el.mtime) %>
 			</span>
 		</a>
 
@@ -66,7 +66,7 @@
 			<span class="name">
 				Name
 			</span>
-			<span class="dir_count">
+			<span class="dirCount">
 				Count
 			</span>
 			<span class="size">
@@ -79,11 +79,11 @@
 	</div>
 
 	<div class="dirs">
-		<% render_list(list.dirs) %>
+		<% renderList(list.dirs) %>
 	</div>
 
 	<div class="files">
-		<% render_list(list.files) %>
+		<% renderList(list.files) %>
 	</div>
 
 </body>

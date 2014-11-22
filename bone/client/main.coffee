@@ -1,4 +1,4 @@
-class <%- class_name %> then constructor: ->
+class <%- className %> then constructor: ->
 	self = @
 
 	init = ->
@@ -7,4 +7,4 @@ class <%- class_name %> then constructor: ->
 
 	init()
 
-<%- name %> = new <%- class_name %>
+<%- name %> = new <%- className %>

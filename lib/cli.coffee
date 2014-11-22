@@ -5,31 +5,31 @@ nobone = require './nobone'
 kit = nobone.kit
 
 # These are nobone's dependencies.
-lib_path = kit.path.normalize "#{__dirname}/../node_modules"
+libPath = kit.path.normalize "#{__dirname}/../node_modules"
 
 # These are npm global installed libs.
-node_lib_path = kit.path.normalize "#{__dirname}/../../"
+nodeLibPath = kit.path.normalize "#{__dirname}/../../"
 
-is_action = false
+isAction = false
 
 opts = {
 	port: 8013
 	host: '0.0.0.0'
-	root_dir: './'
+	rootDir: './'
 }
 
 cmder
-	.usage """[action] [options] [root_dir or coffee_file or js_file].\
+	.usage """[action] [options] [rootDir or coffeeFile or jsFile].\
 		\n
-		    Default root_dir is current folder.
+		    Default rootDir is current folder.
 		    For the js or coffee entrance file, you could require any npm lib in
 		    nobone's dependencies, You can use "var _ = require('lodash')"
 		    without "npm install lodash" before.
 
 		    Any package, whether npm installed locally or globally, that is
 		    prefixed with 'nobone-' will be treat as a nobone plugin. You can
-		    use 'nobone <plugin_name> [args]' to run a plugin.
-		    Note that the 'plugin_name' should be without the 'nobone-' prefix.
+		    use 'nobone <pluginName> [args]' to run a plugin.
+		    Note that the 'pluginName' should be without the 'nobone-' prefix.
 	"""
 	.option(
 		'-p, --port <port>', "Server port. Default is #{opts.port}."
@@ -50,23 +50,23 @@ cmder
 	.option '-d, --doc', 'Open the web documentation.'
 
 cmder
-	.command 'bone <dest_dir>'
+	.command 'bone <destDir>'
 	.description 'A guid to create server scaffolding.'
-	.action (dest_dir) ->
-		is_action = true
+	.action (destDir) ->
+		isAction = true
 		bone = require './bone'
-		bone dest_dir
+		bone destDir
 
 cmder
 	.command 'ls'
 	.description 'List all available nobone plugins.'
 	.action ->
-		is_action = true
+		isAction = true
 		paths = []
-		kit.glob kit.path.join(node_lib_path, 'nobone-*')
+		kit.glob kit.path.join(nodeLibPath, 'nobone-*')
 		.then (ps) ->
 			paths = paths.concat ps
-			kit.glob kit.path.join(lib_path, 'nobone-*')
+			kit.glob kit.path.join(libPath, 'nobone-*')
 		.done (ps) ->
 			paths = paths.concat ps
 			list = paths.map (el) ->
@@ -83,15 +83,15 @@ cmder.parse process.argv
 
 init = ->
 	if cmder.args[0]
-		plugin_path = 'nobone-' + cmder.args[0]
+		pluginPath = 'nobone-' + cmder.args[0]
 		if kit.fs.existsSync cmder.args[0]
 			if kit.fs.statSync(cmder.args[0]).isFile()
-				return run_an_app()
+				return runAnApp()
 			else
-				opts.root_dir = cmder.args[0]
-		else if kit.fs.existsSync(kit.path.join(node_lib_path, plugin_path)) or
-		kit.fs.existsSync(kit.path.join(lib_path, plugin_path))
-			run_an_app plugin_path
+				opts.rootDir = cmder.args[0]
+		else if kit.fs.existsSync(kit.path.join(nodeLibPath, pluginPath)) or
+		kit.fs.existsSync(kit.path.join(libPath, pluginPath))
+			runAnApp pluginPath
 			return
 		else
 			kit.err 'Nothing executable: '.red + cmder.args[0]
@@ -120,23 +120,23 @@ init = ->
 		server opts
 		return
 
-	run_a_dir()
+	runA_dir()
 
-run_an_app = (plugin) ->
+runAnApp = (plugin) ->
 	# Add the above dirs to PATH env.
-	if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(lib_path) < 0
-		path_arr = [lib_path, node_lib_path]
+	if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(libPath) < 0
+		pathArr = [libPath, nodeLibPath]
 		if process.env.NODE_PATH
-			path_arr.push process.env.NODE_PATH
-		process.env.NODE_PATH = path_arr.join kit.path.delimiter
+			pathArr.push process.env.NODE_PATH
+		process.env.NODE_PATH = pathArr.join kit.path.delimiter
 
 		args = process.argv[1..]
-		watch_list = args[1..].filter (el) -> kit.fs.existsSync el
+		watchList = args[1..].filter (el) -> kit.fs.existsSync el
 		if cmder.watch
-			watch_list = cmder.watch
-		kit.monitor_app {
+			watchList = cmder.watch
+		kit.monitorApp {
 			args
-			watch_list
+			watchList
 		}
 	else
 		require 'coffee-script/register'
@@ -145,20 +145,20 @@ run_an_app = (plugin) ->
 		else
 			require kit.fs.realpathSync(cmder.args[0])
 
-run_a_dir = ->
+runA_dir = ->
 	opts.port = cmder.port if cmder.port
 
-	kit.monitor_app {
+	kit.monitorApp {
 		args: [
-			__dirname + '/static_server.js'
+			__dirname + '/staticServer.js'
 			opts.host
 			opts.port
-			opts.root_dir
+			opts.rootDir
 			cmder.openDir
 		]
-		watch_list: opts.watch
+		watchList: opts.watch
 	}
 
 
-if not is_action
+if not isAction
 	init()

@@ -13,7 +13,7 @@ service.use (req, res, next) ->
 service.get '/pac', proxy.pac ->
 	switch true
 		when match 'http://www.baidu.com/*'
-			curr_host
+			currHost
 		else
 			direct
 

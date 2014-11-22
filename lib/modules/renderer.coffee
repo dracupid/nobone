@@ -4,7 +4,7 @@
  * This renderer helps nobone to build a **passive compilation architecture**.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project the memory usage is negligible.
- * @extends {events.EventEmitter} [Ref](http://nodejs.org/api/events.html#events_class_events_eventemitter)
+ * @extends {events.EventEmitter} [Ref](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
 ###
 Overview = 'renderer'
 
@@ -14,30 +14,30 @@ express = require 'express'
 { EventEmitter } = require 'events'
 { Promise, fs } = kit
 
-renderer_widgets = require './renderer_widgets'
+rendererWidgets = require './rendererWidgets'
 
 ###*
  * Create a Renderer instance.
  * @param {Object} opts Defaults:
  * ```coffeescript
  * {
- * 	enable_watcher: kit.is_development()
- * 	auto_log: kit.is_development()
+ * 	enableWatcher: kit.isDevelopment()
+ * 	autoLog: kit.isDevelopment()
  *
- * 	# If renderer detects this pattern, it will auto-inject `nobone_client.js`
+ * 	# If renderer detects this pattern, it will auto-inject `noboneClient.js`
  * 	# into the page.
- * 	inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
+ * 	injectClientReg: /<html[^<>]*>[\s\S]*<\/html>/i
  *
- * 	cache_dir: '.nobone/renderer_cache'
- * 	cache_limit: 1024
+ * 	cacheDir: '.nobone/rendererCache'
+ * 	cacheLimit: 1024
 
- * 	file_handlers: {
+ * 	fileHandlers: {
  * 		'.html': {
  * 			default: true
- * 			ext_src: ['.ejs', '.jade']
- * 			extra_watch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
+ * 			extSrc: ['.ejs', '.jade']
+ * 			extraWatch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
- * 			dependency_reg: {
+ * 			dependencyReg: {
  * 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
  * 				'.jade': /^\s*(?:include|extends)\s+([^\r\n]+)/
  * 			}
@@ -46,20 +46,20 @@ renderer_widgets = require './renderer_widgets'
  *
  * 		# Simple coffee compiler
  * 		'.js': {
- * 			ext_src: '.coffee'
+ * 			extSrc: '.coffee'
  * 			compiler: (str, path) -> ...
  * 		}
  *
  * 		# Browserify a main entrance file.
  * 		'.jsb': {
  * 			type: '.js'
- * 			ext_src: '.coffee'
- * 			dependency_reg: /require\s+([^\r\n]+)/
+ * 			extSrc: '.coffee'
+ * 			dependencyReg: /require\s+([^\r\n]+)/
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.css': {
- * 			ext_src: ['.styl', '.less', '.sass', '.scss']
- * 			dependency_reg: {
+ * 			extSrc: ['.styl', '.less', '.sass', '.scss']
+ * 			dependencyReg: {
  *    			'.styl': /@(?:import|require)\s+([^\r\n]+)/
  * 				'.less': /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
  * 				'.sass': /@import\s+([^\r\n]+)/
@@ -69,7 +69,7 @@ renderer_widgets = require './renderer_widgets'
  * 		}
  * 		'.md': {
  * 			type: 'html' # Force type, optional.
- * 			ext_src: ['.md', '.markdown']
+ * 			extSrc: ['.md', '.markdown']
  * 			compiler: (str, path) -> ...
  * 		}
  * 	}
@@ -85,72 +85,72 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	super
 
 	_.defaults opts, {
-		enable_watcher: kit.is_development()
-		auto_log: kit.is_development()
-		inject_client_reg: /<html[^<>]*>[\s\S]*<\/html>/i
-		cache_dir: '.nobone/renderer_cache'
-		cache_limit: 1024
-		file_handlers: renderer_widgets.gen_file_handlers()
+		enableWatcher: kit.isDevelopment()
+		autoLog: kit.isDevelopment()
+		injectClientReg: /<html[^<>]*>[\s\S]*<\/html>/i
+		cacheDir: '.nobone/rendererCache'
+		cacheLimit: 1024
+		fileHandlers: rendererWidgets.genFileHandlers()
 	}
 
 	self = @
 
 	self.opts = opts
 
-	cache_pool = {}
+	cachePool = {}
 
 	# Async lock, make sure one file won't be handled twice.
-	render_queue = {}
+	renderQueue = {}
 
 	###*
-	 * You can access all the file_handlers here.
+	 * You can access all the fileHandlers here.
 	 * Manipulate them at runtime.
 	 * @type {Object}
 	 * @example
 	 * ```coffeescript
 	 * # We return js directly.
-	 * renderer.file_handlers['.js'].compiler = (str) -> str
+	 * renderer.fileHandlers['.js'].compiler = (str) -> str
 	 * ```
 	###
-	self.file_handlers = opts.file_handlers
+	self.fileHandlers = opts.fileHandlers
 
 	###*
-	 * The cache pool of the result of `file_handlers.compiler`
+	 * The cache pool of the result of `fileHandlers.compiler`
 	 * @type {Object} Key is the file path.
 	###
-	self.cache_pool = cache_pool
+	self.cachePool = cachePool
 
 	###*
 	 * Set a service for listing directory content, similar with the `serve-index` project.
-	 * @param  {String | Object} opts If it's a string it represents the root_dir.
+	 * @param  {String | Object} opts If it's a string it represents the rootDir.
 	 * @return {Middleware} Experss.js middleware.
 	###
-	self.dir = renderer_widgets.dir
+	self.dir = rendererWidgets.dir
 
 	###*
 	 * Set a static directory proxy.
 	 * Automatically compile, cache and serve source files for both deveopment and production.
-	 * @param  {String | Object} opts If it's a string it represents the root_dir.
+	 * @param  {String | Object} opts If it's a string it represents the rootDir.
 	 * of this static directory. Defaults:
 	 * ```coffeescript
 	 * {
-	 * 	root_dir: '.'
+	 * 	rootDir: '.'
 	 *
 	 * 	# Whether enable serve direcotry index.
-	 * 	index: kit.is_development()
+	 * 	index: kit.isDevelopment()
 	 *
-	 * 	inject_client: kit.is_development()
+	 * 	injectClient: kit.isDevelopment()
 	 *
 	 * 	# Useful when mapping a normal path to a hashed file.
 	 * 	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
-	 * 	req_path_handler: (path) ->
+	 * 	reqPathHandler: (path) ->
 	 * 		decodeURIComponent path
 	 * }
 	 * ```
 	 * @return {Middleware} Experss.js middleware.
 	###
 	self.static = (opts) ->
-		renderer_widgets.static self, opts
+		rendererWidgets.static self, opts
 
 	###*
 	 * Render a file. It will auto-detect the file extension and
@@ -160,9 +160,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * any number of following params.
 	 * @param  {String} ext Force the extension. Optional.
 	 * @param  {Object} data Extra data you want to send to the compiler. Optional.
-	 * @param  {Boolean} is_cache Whether to cache the result,
+	 * @param  {Boolean} isCache Whether to cache the result,
 	 * default is true. Optional.
-	 * @param {String} req_path The http request path. Support it will make auto-reload
+	 * @param {String} reqPath The http request path. Support it will make auto-reload
 	 * more efficient.
 	 * @return {Promise} Contains the compiled content.
 	 * @example
@@ -176,66 +176,66 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
 	 * ```
 	###
-	self.render = (path, ext, data, is_cache, req_path) ->
+	self.render = (path, ext, data, isCache, reqPath) ->
 		if _.isObject path
-			{ path, ext, data, is_cache, req_path } = path
+			{ path, ext, data, isCache, reqPath } = path
 
 		if _.isString ext
-			path = force_ext path, ext
+			path = forceExt path, ext
 		else if _.isBoolean ext
-			req_path = data
-			is_cache = ext
+			reqPath = data
+			isCache = ext
 			data = undefined
 		else
-			[data, is_cache, req_path] = [ext, data, is_cache]
+			[data, isCache, reqPath] = [ext, data, isCache]
 
-		is_cache ?= true
+		isCache ?= true
 
-		handler = gen_handler path
+		handler = genHandler path
 
 		if handler
 			# If current path is under processing, wait for it.
-			if render_queue[handler.key]
-				return render_queue[handler.key]
+			if renderQueue[handler.key]
+				return renderQueue[handler.key]
 
 			handler.data = data
-			handler.req_path = req_path
-			p = if is_cache
-				get_cache(handler)
+			handler.reqPath = reqPath
+			p = if isCache
+				getCache(handler)
 			else
-				get_src handler
+				getSrc handler
 
 			p = p.then (cache) ->
-				get_compiled handler.ext_bin, cache, is_cache
+				getCompiled handler.extBin, cache, isCache
 			p.handler = handler
 
 			# Release the lock when the compilation is done.
-			p.catch(->).then -> delete render_queue[handler.key]
+			p.catch(->).then -> delete renderQueue[handler.key]
 
-			render_queue[handler.key] = p
+			renderQueue[handler.key] = p
 		else
 			err = new Error('No matched content handler for:' + path)
-			err.name = 'no_matched_handler'
+			err.name = 'noMatchedHandler'
 			Promise.reject err
 
 	###*
 	 * Release the resources.
 	###
 	self.close = ->
-		for path of cache_pool
-			self.release_cache path
+		for path of cachePool
+			self.releaseCache path
 
 	###*
 	 * Release memory cache of a file.
 	 * @param  {String} path
 	###
-	self.release_cache = (path) ->
-		handler = cache_pool[path]
+	self.releaseCache = (path) ->
+		handler = cachePool[path]
 		handler.deleted = true
-		if handler.watched_list
-			for wpath, watcher of handler.watched_list
+		if handler.watchedList
+			for wpath, watcher of handler.watchedList
 				fs.unwatchFile(wpath, watcher)
-		delete cache_pool[path]
+		delete cachePool[path]
 
 	self.e = {}
 
@@ -243,36 +243,36 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @event {compiled}
 	 * @param {String} path The compiled file.
 	 * @param {String} content Compiled content.
-	 * @param {File_handler} handler The current file handler.
+	 * @param {FileHandler} handler The current file handler.
 	###
 	self.e.compiled = 'compiled'
 
 	###*
-	 * @event {compile_error}
+	 * @event {compileError}
 	 * @param {String} path The error file.
 	 * @param {Error} err The error info.
 	###
-	self.e.compile_error = 'compile_error'
+	self.e.compileError = 'compileError'
 
 	###*
-	 * @event {watch_file}
+	 * @event {watchFile}
 	 * @param {String} path The path of the file.
 	 * @param {fs.Stats} curr Current state.
 	 * @param {fs.Stats} prev Previous state.
 	###
-	self.e.watch_file = 'watch_file'
+	self.e.watchFile = 'watchFile'
 
 	###*
-	 * @event {file_deleted}
+	 * @event {fileDeleted}
 	 * @param {String} path The path of the file.
 	###
-	self.e.file_deleted = 'file_deleted'
+	self.e.fileDeleted = 'fileDeleted'
 
 	###*
-	 * @event {file_modified}
+	 * @event {fileModified}
 	 * @param {String} path The path of the file.
 	###
-	self.e.file_modified = 'file_modified'
+	self.e.fileModified = 'fileModified'
 
 	jhash = new kit.jhash.constructor
 
@@ -286,33 +286,33 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			rp
 
 	emit = (args...) ->
-		if opts.auto_log
-			if args[0] == 'compile_error'
+		if opts.autoLog
+			if args[0] == 'compileError'
 				kit.err args[1].yellow + '\n' + (args[2] + '').red
 			else
 				kit.log [args[0].cyan].concat(args[1..]).join(' | '.grey)
 
 		self.emit.apply self, args
 
-	set_source_map = (handler) ->
-		if _.isObject(handler.source_map)
-			handler.source_map = JSON.stringify(handler.source_map)
+	setSourceMap = (handler) ->
+		if _.isObject(handler.sourceMap)
+			handler.sourceMap = JSON.stringify(handler.sourceMap)
 
-		handler.source_map = (new Buffer(handler.source_map)).toString('base64')
+		handler.sourceMap = (new Buffer(handler.sourceMap)).toString('base64')
 
 		flag = 'sourceMappingURL=data:application/json;base64,'
-		handler.source_map = if handler.ext_bin == '.js'
-			"\n//# #{flag}#{handler.source_map}\n"
+		handler.sourceMap = if handler.extBin == '.js'
+			"\n//# #{flag}#{handler.sourceMap}\n"
 		else
-			"\n/*# #{flag}#{handler.source_map} */\n"
+			"\n/*# #{flag}#{handler.sourceMap} */\n"
 
 	###*
 	 * Set the handler's source property.
 	 * @private
-	 * @param  {file_handler} handler
+	 * @param  {fileHandler} handler
 	 * @return {Promise} Contains handler
 	###
-	get_src = (handler) ->
+	getSrc = (handler) ->
 		readfile = (path) ->
 			handler.path = kit.path.resolve path
 			handler.ext = kit.path.extname path
@@ -323,8 +323,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				delete handler.content
 				handler
 
-		paths = handler.ext_src.map (el) -> handler.no_ext_path + el
-		check_src = ->
+		paths = handler.extSrc.map (el) -> handler.noExtPath + el
+		checkSrc = ->
 			path = paths.shift()
 			return Promise.resolve() if not path
 			kit.fileExists path
@@ -332,36 +332,36 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if exists
 					readfile path
 				else
-					check_src()
+					checkSrc()
 
-		check_src().then (ret) ->
+		checkSrc().then (ret) ->
 			return ret if ret
 
-			path = handler.no_ext_path + handler.ext_bin
+			path = handler.noExtPath + handler.extBin
 			kit.fileExists path
 			.then (exists) ->
 				if exists
 					readfile path
 				else
-					err = new Error('File not exists: ' + handler.no_ext_path)
-					err.name = 'file_not_exists'
+					err = new Error('File not exists: ' + handler.noExtPath)
+					err.name = 'fileNotExists'
 					Promise.reject err
 
 	###*
 	 * Get the compiled code
 	 * @private
-	 * @param  {String}  ext_bin
-	 * @param  {File_handler}  cache
-	 * @param  {Boolean} is_cache
+	 * @param  {String}  extBin
+	 * @param  {FileHandler}  cache
+	 * @param  {Boolean} isCache
 	 * @return {Promise} Contains the compiled content.
 	###
-	get_compiled = (ext_bin, cache, is_cache = true) ->
-		cache.last_ext_bin = ext_bin
+	getCompiled = (extBin, cache, isCache = true) ->
+		cache.lastExtBin = extBin
 
 		# Direct return source file without compilation. Such as plain html or js.
-		if ext_bin == cache.ext and not cache.force_compile
-			if opts.enable_watcher and is_cache and not cache.deleted
-				watch_src cache
+		if extBin == cache.ext and not cache.forceCompile
+			if opts.enableWatcher and isCache and not cache.deleted
+				watchSrc cache
 			Promise.resolve cache.source
 
 		# If cached, return cache directly.
@@ -370,9 +370,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 		# Recompile.
 		else
-			cache_from_file(cache).then (content_cache) ->
-				if content_cache != undefined
-					return content_cache
+			cacheFromFile(cache).then (contentCache) ->
+				if contentCache != undefined
+					return contentCache
 
 				try
 					cache.compiler cache.source, cache.path, cache.data
@@ -381,19 +381,19 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.then (content) ->
 				cache.content = content
 
-				if cache.source_map
-					set_source_map cache
+				if cache.sourceMap
+					setSourceMap cache
 
 				delete cache.error
 			.catch (err) ->
 				if _.isString err
 					err = new Error(err)
-				emit self.e.compile_error, relate(cache.path), err
-				err.name = self.e.compile_error
+				emit self.e.compileError, relate(cache.path), err
+				err.name = self.e.compileError
 				cache.error = err
 			.then ->
-				if opts.enable_watcher and is_cache and not cache.deleted
-					watch_src cache
+				if opts.enableWatcher and isCache and not cache.deleted
+					watchSrc cache
 
 				if cache.error
 					Promise.reject cache.error
@@ -405,50 +405,50 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Get the compiled source code from file system.
 	 * For a better restart performance.
 	 * @private
-	 * @param  {File_handler} handler
+	 * @param  {FileHandler} handler
 	 * @return {Promise}
 	###
-	cache_from_file = (handler) ->
-		return Promise.resolve() if not handler.enable_file_cache
+	cacheFromFile = (handler) ->
+		return Promise.resolve() if not handler.enableFileCache
 
-		handler.file_cache_path = kit.path.join(
-			self.opts.cache_dir
+		handler.fileCachePath = kit.path.join(
+			self.opts.cacheDir
 			jhash.hash(handler.path, true) + '-' + kit.path.basename(handler.path)
 		)
 
-		kit.readJSON handler.file_cache_path + '.json'
+		kit.readJSON handler.fileCachePath + '.json'
 		.catch (err) ->
-			Promise.reject new Error('cannot_read')
+			Promise.reject new Error('cannotRead')
 		.then (info) ->
-			handler.cache_info = info
+			handler.cacheInfo = info
 			Promise.all _(info.dependencies).keys().map(
 				(path) ->
 					kit.stat(path).then (stats) ->
 						info.dependencies[path] >= stats.mtime.getTime()
 			).value()
-		.then (latest_list) ->
-			if _.all(latest_list)
-				handler.deps_list = _.keys handler.cache_info.dependencies
-				switch handler.cache_info.type
+		.then (latestList) ->
+			if _.all(latestList)
+				handler.depsList = _.keys handler.cacheInfo.dependencies
+				switch handler.cacheInfo.type
 					when 'String'
-						kit.readFile handler.file_cache_path, 'utf8'
+						kit.readFile handler.fileCachePath, 'utf8'
 					when 'Buffer'
-						kit.readFile handler.file_cache_path
+						kit.readFile handler.fileCachePath
 					else
 						return
 		.catch (err) ->
-			return if err.message == 'cannot_read'
+			return if err.message == 'cannotRead'
 			kit.err err
 
 	###*
 	 * Save the compiled source code to file system.
 	 * For a better restart performance.
 	 * @private
-	 * @param  {File_handler} handler
+	 * @param  {FileHandler} handler
 	 * @return {Promise}
 	###
-	cache_to_file = (handler) ->
-		return if not handler.enable_file_cache
+	cacheToFile = (handler) ->
+		return if not handler.enableFileCache
 
 		switch handler.content.constructor.name
 			when 'String', 'Buffer'
@@ -456,40 +456,40 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			else
 				return
 
-		cache_info = {
+		cacheInfo = {
 			type: content.constructor.name
 			dependencies: {}
 		}
 		Promise.all [
-			kit.outputFile handler.file_cache_path, content
-			Promise.all(_.map(handler.watched_list, (v, path) ->
+			kit.outputFile handler.fileCachePath, content
+			Promise.all(_.map(handler.watchedList, (v, path) ->
 				kit.stat(path).then (stats) ->
-					cache_info.dependencies[path] = stats.mtime.getTime()
+					cacheInfo.dependencies[path] = stats.mtime.getTime()
 			)).then ->
-				kit.outputJson handler.file_cache_path + '.json', cache_info
+				kit.outputJson handler.fileCachePath + '.json', cacheInfo
 		]
 
 	###*
 	 * Set handler cache.
-	 * @param  {File_handler} handler
+	 * @param  {FileHandler} handler
 	 * @return {Promise}
 	###
-	get_cache = (handler) ->
+	getCache = (handler) ->
 		handler.compiler ?= (bin) -> bin
 
-		cache = _.find cache_pool, (v, k) ->
-			for ext in handler.ext_src.concat(handler.ext_bin)
-				if handler.no_ext_path + ext == k
+		cache = _.find cachePool, (v, k) ->
+			for ext in handler.extSrc.concat(handler.extBin)
+				if handler.noExtPath + ext == k
 					return true
 			return false
 
 		if cache == undefined
-			get_src(handler).then (cache) ->
-				cache_pool[cache.path] = cache
-				if _.keys(cache_pool).length > opts.cache_limit
-					min_handler = _(cache_pool).values().min('ctime').value()
-					if min_handler
-						self.release_cache min_handler.path
+			getSrc(handler).then (cache) ->
+				cachePool[cache.path] = cache
+				if _.keys(cachePool).length > opts.cacheLimit
+					minHandler = _(cachePool).values().min('ctime').value()
+					if minHandler
+						self.releaseCache minHandler.path
 				cache
 		else
 			if cache.error
@@ -500,44 +500,44 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * Generate a file handler.
 	 * @param  {String} path
-	 * @return {File_handler}
+	 * @return {FileHandler}
 	###
-	gen_handler = (path) ->
+	genHandler = (path) ->
 		# TODO: This part is somehow too complex.
 
-		ext_bin = kit.path.extname path
+		extBin = kit.path.extname path
 
-		if ext_bin == ''
-			handler = _.find self.file_handlers, (el) -> el.default
-		else if self.file_handlers[ext_bin]
-			handler = self.file_handlers[ext_bin]
-			if self.file_handlers[ext_bin].ext_src and
-			ext_bin in self.file_handlers[ext_bin].ext_src
-				handler.force_compile = true
+		if extBin == ''
+			handler = _.find self.fileHandlers, (el) -> el.default
+		else if self.fileHandlers[extBin]
+			handler = self.fileHandlers[extBin]
+			if self.fileHandlers[extBin].extSrc and
+			extBin in self.fileHandlers[extBin].extSrc
+				handler.forceCompile = true
 		else
-			handler = _.find self.file_handlers, (el) ->
-				el.ext_src and ext_bin in el.ext_src
+			handler = _.find self.fileHandlers, (el) ->
+				el.extSrc and extBin in el.extSrc
 
 		if handler
 			handler = _.cloneDeep(handler)
 			handler.key = kit.path.resolve path
-			handler.ctime = Date.now() # Used for cache_limit
-			handler.cache_info = {}
-			handler.deps_list ?= []
-			handler.watched_list = {}
-			handler.ext_src ?= ext_bin
-			handler.ext_src = [handler.ext_src] if _.isString(handler.ext_src)
-			handler.ext_bin = ext_bin
+			handler.ctime = Date.now() # Used for cacheLimit
+			handler.cacheInfo = {}
+			handler.depsList ?= []
+			handler.watchedList = {}
+			handler.extSrc ?= extBin
+			handler.extSrc = [handler.extSrc] if _.isString(handler.extSrc)
+			handler.extBin = extBin
 			handler.encoding =
 				if handler.encoding == undefined
 					'utf8'
 				else
 					handler.encoding
 			handler.dirname = kit.path.dirname(handler.key)
-			handler.no_ext_path = remove_ext handler.key
-			handler.enable_file_cache ?= true
+			handler.noExtPath = removeExt handler.key
+			handler.enableFileCache ?= true
 			if _.isString handler.compiler
-				handler.compiler = self.file_handlers[handler.compiler].compiler
+				handler.compiler = self.fileHandlers[handler.compiler].compiler
 
 			handler.opts = self.opts
 
@@ -546,48 +546,48 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * Watch the source file.
 	 * @private
-	 * @param  {file_handler} handler
+	 * @param  {fileHandler} handler
 	###
-	watch_src = (handler) ->
-		watcher = (path, curr, prev, is_deletion) ->
+	watchSrc = (handler) ->
+		watcher = (path, curr, prev, isDeletion) ->
 			# If moved or deleted
-			if is_deletion
-				self.release_cache path
+			if isDeletion
+				self.releaseCache path
 				emit(
-					self.e.file_deleted
+					self.e.fileDeleted
 					relate(path) + ' -> '.cyan + relate(handler.path)
 				)
 
 			else if curr.mtime != prev.mtime
-				get_src(handler)
+				getSrc(handler)
 				.then ->
-					get_compiled handler.last_ext_bin, handler
+					getCompiled handler.lastExtBin, handler
 				.catch(->)
 				.then ->
 					emit(
-						self.e.file_modified
+						self.e.fileModified
 						relate(path)
-						handler.type or handler.ext_bin
-						handler.req_path
+						handler.type or handler.extBin
+						handler.reqPath
 					)
 
-		gen_watch_list(handler)
+		genWatchList(handler)
 		.then ->
-			return if _.keys(handler.new_watch_list).length == 0
+			return if _.keys(handler.newWatchList).length == 0
 
-			for path of handler.new_watch_list
-				continue if _.isFunction(handler.watched_list[path])
-				handler.watched_list[path] = kit.watch_file path, watcher
-				emit self.e.watch_file, relate(path), handler.req_path
+			for path of handler.newWatchList
+				continue if _.isFunction(handler.watchedList[path])
+				handler.watchedList[path] = kit.watchFile path, watcher
+				emit self.e.watchFile, relate(path), handler.reqPath
 
-			delete handler.new_watch_list
+			delete handler.newWatchList
 
 			# Save the cached files.
 			if handler.content
-				cache_to_file handler
+				cacheToFile handler
 
 	# Parse the dependencies.
-	get_dependencies = (handler, curr_paths) ->
+	getDependencies = (handler, currPaths) ->
 		###
 			Trim cases:
 				"name"\s\s
@@ -598,71 +598,71 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			.replace /^[\s'"]+/, ''
 			.replace /[\s'";]+$/, ''
 
-		gen_dep_paths = (matches) ->
+		genDepPaths = (matches) ->
 			Promise.all matches.map (m) ->
-				path = trim m.match(handler.dependency_reg)[1]
+				path = trim m.match(handler.dependencyReg)[1]
 				unless kit.path.extname(path)
 					path = path + handler.ext
 
-				dep_paths = handler.dependency_roots.map (root) ->
+				depPaths = handler.dependencyRoots.map (root) ->
 					kit.path.join root, path
 
-				get_dependencies handler, dep_paths
+				getDependencies handler, depPaths
 
-		reg = new RegExp(handler.dependency_reg.source, 'g')
-		if curr_paths
-			kit.glob curr_paths
+		reg = new RegExp(handler.dependencyReg.source, 'g')
+		if currPaths
+			kit.glob currPaths
 			.then (paths) ->
 				Promise.all paths.map (path) ->
 					# Prevent the recycle dependencies.
-					return if handler.new_watch_list[path]
+					return if handler.newWatchList[path]
 
 					kit.readFile(path, 'utf8')
 					.then (str) ->
 						# The point to add path to watch list.
-						handler.new_watch_list[path] = null
+						handler.newWatchList[path] = null
 
 						matches = str.match reg
 						return if not matches
-						gen_dep_paths matches
+						genDepPaths matches
 			.catch(->)
 		else
 			return Promise.resolve() if not handler.source
 			matches = handler.source.match reg
 			return Promise.resolve() if not matches
-			gen_dep_paths matches
+			genDepPaths matches
 
-	gen_watch_list = (handler) ->
+	genWatchList = (handler) ->
 		path = handler.path
 
 		# Add the src file to watch list.
-		if not _.isFunction(handler.watched_list[path])
-			handler.watched_list[path] = null
+		if not _.isFunction(handler.watchedList[path])
+			handler.watchedList[path] = null
 
-		# Make sure the dependency_roots is string.
-		handler.dependency_roots ?= []
-		if handler.dependency_roots.indexOf(handler.dirname) < 0
-			handler.dependency_roots.push handler.dirname
+		# Make sure the dependencyRoots is string.
+		handler.dependencyRoots ?= []
+		if handler.dependencyRoots.indexOf(handler.dirname) < 0
+			handler.dependencyRoots.push handler.dirname
 
-		handler.new_watch_list = {}
-		_.extend handler.new_watch_list, handler.extra_watch
-		handler.new_watch_list[path] = handler.watched_list[path]
+		handler.newWatchList = {}
+		_.extend handler.newWatchList, handler.extraWatch
+		handler.newWatchList[path] = handler.watchedList[path]
 
-		for p in handler.deps_list
-			handler.new_watch_list[p] = handler.watched_list[p]
+		for p in handler.depsList
+			handler.newWatchList[p] = handler.watchedList[p]
 
-		if handler.dependency_reg and not _.isRegExp(handler.dependency_reg)
-			handler.dependency_reg = handler.dependency_reg[handler.ext]
+		if handler.dependencyReg and not _.isRegExp(handler.dependencyReg)
+			handler.dependencyReg = handler.dependencyReg[handler.ext]
 
-		if handler.dependency_reg
-			get_dependencies handler
+		if handler.dependencyReg
+			getDependencies handler
 		else
 			Promise.resolve()
 
-	force_ext = (path, ext) ->
-		remove_ext(path) + ext
+	forceExt = (path, ext) ->
+		removeExt(path) + ext
 
-	remove_ext = (path) ->
+	removeExt = (path) ->
 		path.replace /\.\w+$/, ''
 
 module.exports = renderer

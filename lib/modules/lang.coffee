@@ -9,13 +9,13 @@ _ = require 'lodash'
 module.exports = (opts = {}) ->
 
 	_.defaults opts, {
-		lang_path: null
-		lang_set: {}
+		langPath: null
+		langSet: {}
 		current: 'en'
 	}
 
 	###*
-	 * It will find the right `key/value` pair in your defined `lang_set`.
+	 * It will find the right `key/value` pair in your defined `langSet`.
 	 * If it cannot find the one, it will output the key directly.
 	 * @param  {String} cmd The original text.
 	 * @param  {Array} args The arguments for string format. Optional.
@@ -24,7 +24,7 @@ module.exports = (opts = {}) ->
 	 * @example
 	 * ```coffeescript
 	 * { lang } = require('nobone')(lang: {})
-	 * lang.lang_set =
+	 * lang.langSet =
 	 * 	human:
 	 * 		cn: '人类'
 	 * 		jp: '人間'
@@ -36,14 +36,14 @@ module.exports = (opts = {}) ->
 	 *
 	 * 	'find %s men': '%s人が見付かる'
 	 *
-	 * lang('human', 'cn', lang_set) # -> '人类'
-	 * lang('open|casual', 'cn', lang_set) # -> '打开'
-	 * lang('find %s men', [10], 'jp', lang_set) # -> '10人が見付かる'
+	 * lang('human', 'cn', langSet) # -> '人类'
+	 * lang('open|casual', 'cn', langSet) # -> '打开'
+	 * lang('find %s men', [10], 'jp', langSet) # -> '10人が見付かる'
 	 * ```
 	 * @example
 	 * ```coffeescript
 	 * { lang } = require('nobone')(
-	 * 	lang: { lang_path: 'lang.coffee' }
+	 * 	lang: { langPath: 'lang.coffee' }
 	 * 	current: 'cn'
 	 * )
 	 *
@@ -55,14 +55,14 @@ module.exports = (opts = {}) ->
 	 * 'Good weather.'.lang('jp') # 'Good weather.'
 	 * ```
 	###
-	self = (cmd, args = [], name, lang_set) ->
+	self = (cmd, args = [], name, langSet) ->
 		if _.isString args
-			lang_set = name
+			langSet = name
 			name = args
 			args = []
 
 		name ?= self.current
-		lang_set ?= self.lang_set
+		langSet ?= self.langSet
 
 		i = cmd.lastIndexOf '|'
 		if i > -1
@@ -71,7 +71,7 @@ module.exports = (opts = {}) ->
 		else
 			key = cmd
 
-		set = lang_set[key]
+		set = langSet[key]
 
 		out = if _.isObject set
 			if set[name] == undefined
@@ -101,12 +101,12 @@ module.exports = (opts = {}) ->
 	 * @example
 	 * ```coffeescript
 	 * { lang } = require('nobone')(lang: {})
-	 * lang.lang_set = {
+	 * lang.langSet = {
 	 * 	'cn': { 'human': '人类' }
 	 * }
 	 * ```
 	###
-	self.lang_set = opts.lang_set
+	self.langSet = opts.langSet
 
 	###*
 	 * Current default language.
@@ -116,9 +116,9 @@ module.exports = (opts = {}) ->
 	self.current = opts.current
 
 	###*
-	 * Load language set and save them into the `lang_set`.
+	 * Load language set and save them into the `langSet`.
 	 * Besides, it will also add properties `l` and `lang` to `String.prototype`.
-	 * @param  {String} file_path
+	 * @param  {String} filePath
 	 * js or coffee files.
 	 * @example
 	 * ```coffeescript
@@ -129,13 +129,13 @@ module.exports = (opts = {}) ->
 	 * log '%s persons'.lang([10]) # -> '10 persons'
 	 * ```
 	###
-	self.load = (lang_path) ->
-		switch typeof lang_path
+	self.load = (langPath) ->
+		switch typeof langPath
 			when 'string'
-				lang_path = kit.path.resolve lang_path
-				self.lang_set = require lang_path
+				langPath = kit.path.resolve langPath
+				self.langSet = require langPath
 			when 'object'
-				self.lang_set = lang_path
+				self.langSet = langPath
 			else
 				return
 
@@ -147,7 +147,7 @@ module.exports = (opts = {}) ->
 			args.unshift @ + ''
 			self.apply null, args
 
-	if opts.lang_path
-		self.load opts.lang_path
+	if opts.langPath
+		self.load opts.langPath
 
 	self

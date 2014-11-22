@@ -2,32 +2,32 @@
 nobone = require './nobone'
 { kit, renderer } = nobone()
 conf = null
-package_path = null
+packagePath = null
 
-module.exports = (dest_dir) ->
-	kit.mkdirs dest_dir
+module.exports = (destDir) ->
+	kit.mkdirs destDir
 	.then ->
-		dest_dir = kit.fs.realpathSync dest_dir
-		package_path = kit.path.join(dest_dir, 'package.json')
-		kit.outputFile package_path, '{"main": "app.coffee"}'
+		destDir = kit.fs.realpathSync destDir
+		packagePath = kit.path.join(destDir, 'package.json')
+		kit.outputFile packagePath, '{"main": "app.coffee"}'
 	.then ->
 		kit.spawn 'npm', ['init'], {
-			cwd: dest_dir
+			cwd: destDir
 		}
 	.then ->
-		kit.readFile package_path
+		kit.readFile packagePath
 	.then (str) ->
 		conf = JSON.parse str
 		conf.scripts = {
 			test: "cake test"
 			install: "cake setup"
 		}
-		kit.outputFile package_path, JSON.stringify(conf, null, 2)
+		kit.outputFile packagePath, JSON.stringify(conf, null, 2)
 	.then ->
-		conf.class_name = conf.name[0].toUpperCase() + conf.name[1..]
-		kit.generate_bone {
-			src_dir: kit.path.normalize(__dirname + '/../bone')
-			dest_dir
+		conf.className = conf.name[0].toUpperCase() + conf.name[1..]
+		kit.generateBone {
+			srcDir: kit.path.normalize(__dirname + '/../bone')
+			destDir
 			data: conf
 		}
 	.then ->
@@ -35,37 +35,37 @@ module.exports = (dest_dir) ->
 		kit.spawn 'npm', [
 			'install', '-S', 'q', 'coffee-script', 'lodash', 'bower', 'nobone'
 		], {
-			cwd: dest_dir
+			cwd: destDir
 		}
 	.then ->
 		kit.spawn 'npm', ['install', '--save-dev', 'mocha', 'benchmark'], {
-			cwd: dest_dir
+			cwd: destDir
 		}
 	.then ->
-		kit.spawn dest_dir + '/node_modules/.bin/bower', ['init'], {
-			cwd: dest_dir
+		kit.spawn destDir + '/nodeModules/.bin/bower', ['init'], {
+			cwd: destDir
 		}
 	.then ->
 		kit.log 'bower install...'.cyan
-		kit.spawn dest_dir + '/node_modules/.bin/bower', [
+		kit.spawn destDir + '/nodeModules/.bin/bower', [
 			'install', '-S', 'lodash'
 		], {
-			cwd: dest_dir
+			cwd: destDir
 		}
 	.then ->
 		kit.spawn 'npm', ['run-script', 'install'], {
-			cwd: dest_dir
+			cwd: destDir
 		}
 	.then ->
-		kit.rename dest_dir + '/npmignore', dest_dir + '/.npmignore'
+		kit.rename destDir + '/npmignore', destDir + '/.npmignore'
 	.then ->
-		kit.rename dest_dir + '/gitignore', dest_dir + '/.gitignore'
+		kit.rename destDir + '/gitignore', destDir + '/.gitignore'
 	.then ->
-		kit.spawn 'git', ['init'], { cwd: dest_dir }
+		kit.spawn 'git', ['init'], { cwd: destDir }
 	.then ->
-		kit.spawn 'git', ['add', '--all'], { cwd: dest_dir }
+		kit.spawn 'git', ['add', '--all'], { cwd: destDir }
 	.then ->
-		kit.spawn 'git', ['commit', '-m', 'init'], { cwd: dest_dir }
+		kit.spawn 'git', ['commit', '-m', 'init'], { cwd: destDir }
 	.catch (err) ->
 		if err.message.indexOf('ENOENT') == 0
 			kit.log 'Canceled'.yellow

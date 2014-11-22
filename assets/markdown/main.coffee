@@ -2,7 +2,7 @@
 $ = (qs, self = document) ->
 	self.querySelectorAll qs
 
-create_div = (str) ->
+createDiv = (str) ->
 	div = document.createElement 'div'
 	div.innerHTML = str
 	div
@@ -14,8 +14,8 @@ space = (n) ->
 
 format = (h) ->
 	tag = h.tagName
-	n = +tag.match(/\d+/) - min_h
-	div = create_div """
+	n = +tag.match(/\d+/) - minH
+	div = createDiv """
 		#{space(n)}
 		<#{tag}>
 			#{h.textContent.trim()}
@@ -27,7 +27,7 @@ format = (h) ->
 
 	div
 
-find_pos = (obj) ->
+findPos = (obj) ->
 	curtop = 0
 	if obj.offsetParent
 		while obj = obj.offsetParent
@@ -35,36 +35,36 @@ find_pos = (obj) ->
 		curtop += obj.offsetTop
 	return curtop
 
-h_list = []
+hList = []
 
-all_h = $('h1, h2, h3, h4, h5, h6', $('#main')[0])
-min_h = [].slice.apply(all_h).reduce((m, el) ->
+allH = $('h1, h2, h3, h4, h5, h6', $('#main')[0])
+minH = [].slice.apply(allH).reduce((m, el) ->
 	n = +el.tagName.match(/h(\d)/i)[1]
 	if m < n then m else n
 , 100)
 
-for el in all_h
+for el in allH
 	if (m = el.tagName.match /h\d+/i)
-		h_list.push(format el)
+		hList.push(format el)
 
 	if (m = el.tagName.match /ul/i)
 		for el in $('h4', el)
-			h_list.push(format el)
+			hList.push(format el)
 
 toc = $('#toc')[0]
 content = $('.content', toc)[0]
 
-h_list.forEach (el) -> content.appendChild el
+hList.forEach (el) -> content.appendChild el
 
 document.body.appendChild toc
 
 # If toc title clicked, toggle the visibility of toc.
-toc_title = $('#toc > h1')[0]
+tocTitle = $('#toc > h1')[0]
 
 if localStorage.getItem('toc') == 'hide'
 	toc.style.height = '60px'
 
-toc_title.addEventListener 'click', ->
+tocTitle.addEventListener 'click', ->
 	if toc.style.height == '60px'
 		toc.style.height = null
 		localStorage.setItem 'toc', 'show'

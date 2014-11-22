@@ -1,10 +1,11 @@
 - v0.9.6
 
   - Auto check new version of nobone.
+  - Use camelized API.
 
 - v0.9.5
 
-  - Now the `dependency_roots` can only be an array.
+  - Now the `dependencyRoots` can only be an array.
   - Better language api.
   - Fix a `less` compiler bug.
   - Add 'compiled' event to renderer.
@@ -22,21 +23,21 @@
 - v0.8.6
 
   - `renderer.static` add `brwoserify` support. Use `.jsb` extension to take advantage of this bundle helper.
-  - More friendly `kit.monitor_app` info.
+  - More friendly `kit.monitorApp` info.
 
 - v0.8.5
 
   - Better language API.
-  - Add `req_path_handler` option to `renderer.static`.
+  - Add `reqPathHandler` option to `renderer.static`.
 
 - v0.8.4
 
-  - Fix `kit.monitor_app` a restart ended process bug.
+  - Fix `kit.monitorApp` a restart ended process bug.
   - Add auto-compiled code file system cache, better restart performance.
   - Update dependencies.
   - Fix a `kit.log` trace and regex conflict bug.
   - Update the source map API.
-  - The `kit.watch_dir` now automatically watches file's parent folder.
+  - The `kit.watchDir` now automatically watches file's parent folder.
 
 - v0.8.2
 
@@ -60,7 +61,7 @@
 - v0.7.8
 
   - Fix a less dependency pattern bug.
-  - Add dependency roots option for `File_handler`.
+  - Add dependency roots option for `FileHandler`.
   - Fix a cake path issue.
   - Update stylus.
 
@@ -141,7 +142,7 @@
 
   - Delete the `html-minifier` module.
   - Add the `kit.encrypt` and `kit.decrypt`.
-  - Add `kit.watch_dir`.
+  - Add `kit.watchDir`.
   - Better renderer memory management.
 
 - v0.5.4
@@ -210,7 +211,7 @@
 
   - Fix a node v0.8 path delimiter bug.
   - Now `kit.request` will auto handle `application/x-www-form-urlencoded`
-    when `req_data` is an object.
+    when `reqData` is an object.
   - Optimize `proxy.pac` helper.
 
 - v0.3.7
@@ -218,7 +219,7 @@
   - Add `proxy.pac` helper.
   - Fix a `serve-index` bug.
   - `kit.request` auto-redirect support.
-  - A better API for `noboen_client.js` injection.
+  - A better API for `noboenClient.js` injection.
 
 - v0.3.6
 
@@ -232,12 +233,12 @@
 
 - v0.3.3
 
-  - Optimize the nobone_client handler. Make it more smart.
+  - Optimize the noboneClient handler. Make it more smart.
   - Add renderer context to the compiler function.
 
 - v0.3.2
 
-  - Fix a auto_reload bug.
+  - Fix a autoReload bug.
   - Update jdb.
 
 - v0.3.1
@@ -273,7 +274,7 @@
 - v0.2.6
 
   - Add a remote log helper.
-  - Refactor `renderer.auto_reload()` to `nobone.client()`.
+  - Refactor `renderer.autoReload()` to `nobone.client()`.
 
 - v0.2.4 - v0.2.5
 
@@ -295,7 +296,7 @@
 - v0.2.0
 
   - Decouple Socket.io, use EventSource instead.
-  - Refactor `code_handlers` to `file_handlers`.
+  - Refactor `codeHandlers` to `fileHandlers`.
   - Optimize style and some default values.
 
 - v0.1.9
@@ -311,11 +312,11 @@
 - v0.1.7
 
   - Add support for less.
-  - Add extra code_handler watch list. (solve compile dependency issue)
+  - Add extra codeHandler watch list. (solve compile dependency issue)
 
 - v0.1.6
 
-  - Optimize `kit.parse_comment`.
+  - Optimize `kit.parseComment`.
 
 - v0.1.5
 

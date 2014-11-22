@@ -1,1 +1,1 @@
-# <%- class_name %>
+# <%- className %>

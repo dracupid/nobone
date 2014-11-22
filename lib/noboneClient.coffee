@@ -6,8 +6,8 @@ class Nobone then constructor: (opts) ->
 	self = @
 
 	init = ->
-		if opts.auto_reload
-			init_auto_reload()
+		if opts.autoReload
+			initAutoReload()
 
 	self.log = (msg, action = 'log') ->
 		console[action] msg
@@ -16,37 +16,37 @@ class Nobone then constructor: (opts) ->
 		req.setRequestHeader 'Content-Type', 'application/json'
 		req.send JSON.stringify(msg)
 
-	init_auto_reload = ->
-		es = new EventSource(opts.host + '/nobone-sse/auto_reload')
+	initAutoReload = ->
+		es = new EventSource(opts.host + '/nobone-sse/autoReload')
 
-		is_connected = false
+		isConnected = false
 
 		es.addEventListener 'connect', (e) ->
 			# If already connected, reload the page.
-			if is_connected
+			if isConnected
 				location.reload()
 
 			data = JSON.parse e.data
 			if data == 'ok'
-				is_connected = true
+				isConnected = true
 
-		es.addEventListener 'file_modified', (e) ->
+		es.addEventListener 'fileModified', (e) ->
 			msg = JSON.parse(e.data)
 
-			console.log(">> file_modified: " + msg.req_path)
+			console.log(">> fileModified: " + msg.reqPath)
 
-			reload_elem = (el, key) ->
+			reloadElem = (el, key) ->
 				if el[key].indexOf('?') == -1
-					el[key] += '?nb_auto_reload=0'
+					el[key] += '?nbAutoReload=0'
 				else
-					if el[key].indexOf('nb_auto_reload') > -1
+					if el[key].indexOf('nbAutoReload') > -1
 						el[key] = el[key].replace(
-							/nb_auto_reload=(\d+)/
+							/nbAutoReload=(\d+)/
 							(m, p) ->
-								'nb_auto_reload=' + (+p + 1)
+								'nbAutoReload=' + (+p + 1)
 						)
 					else
-						el[key] += '&nb_auto_reload=0'
+						el[key] += '&nbAutoReload=0'
 
 				# Fix the Chrome renderer bug.
 				body = document.body
@@ -61,27 +61,27 @@ class Nobone then constructor: (opts) ->
 				elems = document.querySelectorAll(qs)
 				[].slice.apply(elems).forEach(handler)
 
-			if not msg.req_path
+			if not msg.reqPath
 				location.reload()
 				return
 
-			switch msg.ext_bin
+			switch msg.extBin
 				when '.js'
 					each 'script', (el) ->
 						# Only reload the page if the page has included
 						# the href.
-						if el.src.indexOf(msg.req_path) > -1
+						if el.src.indexOf(msg.reqPath) > -1
 							location.reload()
 
 				when '.css'
 					each 'link', (el) ->
-						if el.href.indexOf(msg.req_path) > -1
-							reload_elem el, 'href'
+						if el.href.indexOf(msg.reqPath) > -1
+							reloadElem el, 'href'
 
 				when '.jpg', '.gif', '.png'
 					each 'img', (el) ->
-						if el.src.indexOf(msg.req_path) > -1
-							reload_elem el, 'src'
+						if el.src.indexOf(msg.reqPath) > -1
+							reloadElem el, 'src'
 
 				else
 					location.reload()

@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'development'
+process.env.NODEENV = 'development'
 
 nobone = require 'nobone'
 
@@ -11,12 +11,12 @@ port = 8219
 # 	}
 # By default it only loads two modules: `service` and `renderer`.
 nb = nobone {
-	db: { db_path: './test.db' }
+	db: { dbPath: './test.db' }
 	proxy: {}
 	renderer: {}
 	service: {}
 	lang: {
-		lang_path: 'examples/fixtures/lang'
+		langPath: 'examples/fixtures/lang'
 		current: 'cn'
 	}
 }
@@ -28,8 +28,8 @@ nb.service.get '/', (req, res) ->
 	# You can also render jade, coffee, stylus, less, sass, markdown, or define custom handlers.
 	# When you modify the `examples/fixtures/index.ejs`, the page will auto-reload.
 	nb.renderer.render('examples/fixtures/index.html')
-	.done (tpl_fn) ->
-		res.send tpl_fn({ name: 'nobone' })
+	.done (tplFn) ->
+		res.send tplFn({ name: 'nobone' })
 
 # Launch express.js
 nb.service.listen port, ->

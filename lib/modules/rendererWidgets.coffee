@@ -1,7 +1,7 @@
 ###*
  * It use the renderer module to create some handy functions.
 ###
-Overview = 'renderer_widgets'
+Overview = 'rendererWidgets'
 
 _ = require 'lodash'
 nobone = require '../nobone'
@@ -11,39 +11,39 @@ kit = require '../kit'
 express = require 'express'
 
 module.exports =
-	gen_file_handlers: ->
+	genFileHandlers: ->
 		'.html':
 			# Whether it is a default handler, optional.
 			default: true
-			ext_src: ['.ejs', '.jade']
-			enable_file_cache: false
-			dependency_reg: {
+			extSrc: ['.ejs', '.jade']
+			enableFileCache: false
+			dependencyReg: {
 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
 			}
 			###*
 			 * The compiler can handle any type of file.
-			 * @context {File_handler} Properties:
+			 * @context {FileHandler} Properties:
 			 * ```coffeescript
 			 * {
 			 * 	ext: String # The current file's extension.
 			 * 	opts: Object # The current options of renderer.
 			 *
 			 * 	# The file dependencies of current file.
-			 * 	# If you set it in the `compiler`, the `dependency_reg`
-			 * 	# and `dependency_roots` should be left undefined.
-			 * 	deps_list: Array
+			 * 	# If you set it in the `compiler`, the `dependencyReg`
+			 * 	# and `dependencyRoots` should be left undefined.
+			 * 	depsList: Array
 			 *
 			 * 	# The regex to match dependency path. Regex or Table.
-			 * 	dependency_reg: RegExp
+			 * 	dependencyReg: RegExp
 			 *
 			 * 	# The root directories for searching dependencies.
-			 * 	dependency_roots: Array
+			 * 	dependencyRoots: Array
 			 *
 			 * 	# The source map informantion.
-			 * 	# If you need source map support, the `source_map`property
+			 * 	# If you need source map support, the `sourceMap`property
 			 * 	# must be set during the compile process.
 			 * 	# If you use inline source map, this property shouldn't be set.
-			 * 	source_map: String or Object
+			 * 	sourceMap: String or Object
 			 * }
 			 * ```
 			 * @param  {String} str Source content.
@@ -53,7 +53,7 @@ module.exports =
 			 * ```coffeescript
 			 * {
 			 * 	_: lodash
-			 * 	inject_client: kit.is_development()
+			 * 	injectClient: kit.isDevelopment()
 			 * }
 			 * ```
 			 * @return {Promise} Promise that contains the compiled content.
@@ -63,12 +63,12 @@ module.exports =
 				switch @ext
 					when '.ejs'
 						compiler = kit.require 'ejs'
-						tpl_fn = compiler.compile str, { filename: path }
+						tplFn = compiler.compile str, { filename: path }
 					when '.jade'
 						try
 							compiler = kit.require 'jade'
-							tpl_fn = compiler.compile str, { filename: path }
-							@deps_list = tpl_fn.dependencies
+							tplFn = compiler.compile str, { filename: path }
+							@depsList = tplFn.dependencies
 						catch e
 							kit.err '"npm install jade" first.'.red
 							process.exit()
@@ -76,11 +76,11 @@ module.exports =
 				render = (data) ->
 					_.defaults data, {
 						_
-						inject_client: kit.is_development()
+						injectClient: kit.isDevelopment()
 					}
-					html = tpl_fn data
-					if data.inject_client and
-					self.opts.inject_client_reg.test html
+					html = tplFn data
+					if data.injectClient and
+					self.opts.injectClientReg.test html
 						html += nobone.client()
 					html
 
@@ -93,24 +93,24 @@ module.exports =
 					func
 
 		'.js':
-			ext_src: '.coffee'
+			extSrc: '.coffee'
 			compiler: (str, path, data = {}) ->
 				coffee = kit.require 'coffee-script'
 				code = coffee.compile str, _.defaults(data, {
 					bare: true
-					compress: kit.is_production()
-					compress_opts: { fromString: true }
+					compress: kit.isProduction()
+					compressOpts: { fromString: true }
 				})
 				if data.compress
 					ug = kit.require 'uglify-js'
-					ug.minify(code, data.compress_opts).code
+					ug.minify(code, data.compressOpts).code
 				else
 					code
 
 		'.jsb':
 			type: '.js'
-			dependency_reg: /require\s+([^\r\n]+)/
-			ext_src: '.coffee'
+			dependencyReg: /require\s+([^\r\n]+)/
+			extSrc: '.coffee'
 			compiler: (nil, path, data = {}) ->
 				try
 					browserify = kit.require 'browserify'
@@ -123,11 +123,11 @@ module.exports =
 
 				_.defaults(data, {
 					bare: true
-					compress: kit.is_production()
-					compress_opts: { fromString: true }
+					compress: kit.isProduction()
+					compressOpts: { fromString: true }
 					browserify:
 						extensions: '.coffee'
-						debug: kit.is_development()
+						debug: kit.isDevelopment()
 				})
 
 				b = browserify data.browserify
@@ -143,13 +143,13 @@ module.exports =
 				Promise.promisify(b.bundle, b)().then (code) ->
 					if data.compress
 						ug = kit.require 'uglify-js'
-						ug.minify(code, data.compress_opts).code
+						ug.minify(code, data.compressOpts).code
 					else
 						code
 
 		'.css':
-			ext_src: ['.styl', '.less', '.sass', '.scss']
-			dependency_reg: {
+			extSrc: ['.styl', '.less', '.sass', '.scss']
+			dependencyReg: {
 				'.sass': /@import\s+([^\r\n]+)/
 				'.scss': /@import\s+([^\r\n]+)/
 			}
@@ -163,10 +163,10 @@ module.exports =
 						stylus = kit.require 'stylus'
 						_.defaults data, {
 							sourcemap:
-								inline: kit.is_development()
+								inline: kit.isDevelopment()
 						}
 						styl = stylus(str, data)
-						@deps_list = styl.deps()
+						@depsList = styl.deps()
 						Promise.promisify(styl.render, styl)()
 
 					when '.less'
@@ -177,8 +177,8 @@ module.exports =
 							process.exit()
 
 						parser = new less.Parser(_.defaults data, {
-							sourceMapFileInline: kit.is_development()
-							sourceMap: kit.is_development()
+							sourceMapFileInline: kit.isDevelopment()
+							sourceMap: kit.isDevelopment()
 						})
 						new Promise (resolve, reject) ->
 							parser.parse str, (err, tree) ->
@@ -190,7 +190,7 @@ module.exports =
 										err.message
 									reject err
 								else
-									self.deps_list = _.keys(
+									self.depsList = _.keys(
 										parser.imports.files
 									)
 									resolve tree.toCSS(data)
@@ -203,7 +203,7 @@ module.exports =
 							process.exit()
 						sass.renderSync _.defaults data, {
 							outputStyle:
-								if kit.is_production()
+								if kit.isProduction()
 									'compressed'
 								else
 									'nested'
@@ -214,28 +214,28 @@ module.exports =
 
 		'.md':
 			type: '.html'
-			ext_src: ['.md','.markdown']
+			extSrc: ['.md','.markdown']
 			compiler: (str, path, data = {}) ->
 				marked = kit.require 'marked'
 				marked str, data
 
 	dir: (opts = {}) ->
 		if _.isString opts
-			opts = { root_dir: opts }
+			opts = { rootDir: opts }
 
 		_.defaults opts, {
 			renderer: {
-				enable_watcher: false
-				auto_log: false
-				cache_dir: kit.path.join __dirname, '/../.nobone/renderer_cache'
+				enableWatcher: false
+				autoLog: false
+				cacheDir: kit.path.join __dirname, '/../.nobone/rendererCache'
 			}
-			root_dir: '.'
+			rootDir: '.'
 		}
 
 		renderer = require('./renderer')(opts.renderer)
 
 		return (req, res, next) ->
-			path = kit.path.join(opts.root_dir, req.path)
+			path = kit.path.join(opts.rootDir, req.path)
 			kit.dirExists path
 			.then (exists) ->
 				if exists
@@ -251,10 +251,10 @@ module.exports =
 					list.unshift '..'
 
 				kit.async list.map (p) ->
-					fp = kit.path.join opts.root_dir, req.path, p
+					fp = kit.path.join opts.rootDir, req.path, p
 					kit.stat(fp).then (stats) ->
-						stats.is_dir = stats.isDirectory()
-						if stats.is_dir
+						stats.isDir = stats.isDirectory()
+						if stats.isDir
 							stats.path = p + '/'
 						else
 							stats.path = p
@@ -262,9 +262,9 @@ module.exports =
 						stats.size = stats.size
 						stats
 					.then (stats) ->
-						if stats.is_dir
+						if stats.isDir
 							kit.readdir(fp).then (list) ->
-								stats.dir_count = list.length
+								stats.dirCount = list.length
 								stats
 						else
 							stats
@@ -272,7 +272,7 @@ module.exports =
 				list.sort (a, b) -> a.path.localeCompare b.path
 
 				list = _.groupBy list, (el) ->
-					if el.is_dir
+					if el.isDir
 						'dirs'
 					else
 						'files'
@@ -300,37 +300,37 @@ module.exports =
 
 	static: (renderer, opts = {}) ->
 		if _.isString opts
-			opts = { root_dir: opts }
+			opts = { rootDir: opts }
 
 		_.defaults opts, {
-			root_dir: '.'
-			index: kit.is_development()
-			inject_client: kit.is_development()
-			req_path_handler: (path) -> decodeURIComponent path
+			rootDir: '.'
+			index: kit.isDevelopment()
+			injectClient: kit.isDevelopment()
+			reqPathHandler: (path) -> decodeURIComponent path
 		}
 
-		static_handler = express.static opts.root_dir
+		staticHandler = express.static opts.rootDir
 		if opts.index
-			dir_handler = renderer.dir {
-				root_dir: opts.root_dir
+			dirHandler = renderer.dir {
+				rootDir: opts.rootDir
 			}
 
 		return (req, res, next) ->
-			req_path = opts.req_path_handler req.path
-			path = kit.path.join opts.root_dir, req_path
+			reqPath = opts.reqPathHandler req.path
+			path = kit.path.join opts.rootDir, reqPath
 
 			rnext = ->
-				if dir_handler
-					dir_handler req, res, ->
-						static_handler req, res, next
+				if dirHandler
+					dirHandler req, res, ->
+						staticHandler req, res, next
 				else
-					static_handler req, res, next
+					staticHandler req, res, next
 
-			p = renderer.render path, true, req_path
+			p = renderer.render path, true, reqPath
 
 			p.then (content) ->
 				handler = p.handler
-				res.type handler.type or handler.ext_bin
+				res.type handler.type or handler.extBin
 
 				switch content and content.constructor.name
 					when 'Number'
@@ -344,24 +344,24 @@ module.exports =
 							string, buffer or function: '.red +
 							path.cyan + '\n' + kit.inspect(content).yellow
 						err = new Error(body)
-						err.name = 'unknown_type'
+						err.name = 'unknownType'
 						Promise.reject err
 
-				if opts.inject_client and
+				if opts.injectClient and
 				res.get('Content-Type').indexOf('text/html;') == 0 and
-				renderer.opts.inject_client_reg.test(body) and
+				renderer.opts.injectClientReg.test(body) and
 				body.indexOf(nobone.client()) == -1
 					body += nobone.client()
 
-				if handler.source_map
-					body += handler.source_map
+				if handler.sourceMap
+					body += handler.sourceMap
 
 				res.send body
 			.catch (err) ->
 				switch err.name
-					when renderer.e.compile_error
-						res.status(500).end renderer.e.compile_error
-					when 'file_not_exists', 'no_matched_handler'
+					when renderer.e.compileError
+						res.status(500).end renderer.e.compileError
+					when 'fileNotExists', 'noMatchedHandler'
 						rnext()
 					else
 						Promise.reject err

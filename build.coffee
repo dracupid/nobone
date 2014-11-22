@@ -2,17 +2,17 @@ kit = require './lib/kit'
 { Promise, _ } = kit
 
 module.exports = (opts) ->
-	compile_coffee()
+	compileCoffee()
 
 	if opts.bare
 		return
 
 	kit.compose(
-		lint_coffee
-		build_docs
+		lintCoffee
+		buildDocs
 	)()
 
-compile_coffee = ->
+compileCoffee = ->
 	kit.log "Compile coffee..."
 
 	kit.spawn 'coffee', [
@@ -20,7 +20,7 @@ compile_coffee = ->
 		'-cb', 'lib'
 	]
 
-lint_coffee = ->
+lintCoffee = ->
 	kit.compose(
 		kit.glob([
 			'lib/**/*.coffee'
@@ -34,7 +34,7 @@ lint_coffee = ->
 				process.exit()
 	)()
 
-build_docs = ->
+buildDocs = ->
 	kit.log 'Make readme...'
 	Promise.all([
 		kit.readFile 'doc/faq.md', 'utf8'
@@ -54,20 +54,20 @@ build_docs = ->
 				'lib/nobone.coffee'
 				'lib/modules/service.coffee'
 				'lib/modules/renderer.coffee'
-				'lib/modules/renderer_widgets.coffee'
+				'lib/modules/rendererWidgets.coffee'
 				'lib/modules/db.coffee'
 				'lib/modules/proxy.coffee'
 				'lib/modules/lang.coffee'
 				'lib/kit.coffee'
 			]
-			benchmark: kit.parse_comment 'benchmark', rets[3] + rets[4]
+			benchmark: kit.parseComment 'benchmark', rets[3] + rets[4]
 		}
 
 		Promise.all data.mods.map (path) ->
 			name = kit.path.basename path, '.coffee'
 			kit.readFile path, 'utf8'
 			.then (code) ->
-				kit.parse_comment name, code, path
+				kit.parseComment name, code, path
 		.then (rets) ->
 			data.mods = _.groupBy _.flatten(rets, true), (el) -> el.module
 			data
@@ -79,35 +79,35 @@ build_docs = ->
 			s = _.range(num).reduce ((s) -> s + ' '), ''
 			s + str.trim().replace(/\n/g, '\n' + s)
 
-		data.mods_api = ''
+		data.modsApi = ''
 
-		for mod_name, mod of data.mods
-			data.mods_api += """### #{mod_name}\n\n"""
+		for modName, mod of data.mods
+			data.modsApi += """### #{modName}\n\n"""
 			for method in mod
 				method.name = method.name.replace 'self.', ''
-				method_str = indent """
+				methodStr = indent """
 					- #### <a href="#{method.path}#L#{method.line}" target="_blank"><b>#{method.name}</b></a>
 				"""
-				method_str += '\n\n'
+				methodStr += '\n\n'
 				if method.description
-					method_str += indent method.description, 1
-					method_str += '\n\n'
+					methodStr += indent method.description, 1
+					methodStr += '\n\n'
 
-				if _.any(method.tags, { tag_name: 'private' })
+				if _.any(method.tags, { tagName: 'private' })
 					continue
 
 				for tag in method.tags
 					tname = if tag.name then "`#{tag.name}`" else ''
 					ttype = if tag.type then "{ _#{tag.type}_ }" else ''
-					method_str += indent """
-						- **<u>#{tag.tag_name}</u>**: #{tname} #{ttype}
+					methodStr += indent """
+						- **<u>#{tag.tagName}</u>**: #{tname} #{ttype}
 					""", 1
-					method_str += '\n\n'
+					methodStr += '\n\n'
 					if tag.description
-						method_str += indent tag.description, 4
-						method_str += '\n\n'
+						methodStr += indent tag.description, 4
+						methodStr += '\n\n'
 
-				data.mods_api += method_str
+				data.modsApi += methodStr
 
 		out = ejs.render data.tpl, data
 

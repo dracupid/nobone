@@ -11,14 +11,14 @@ _ = require 'lodash'
  * @param  {Object} opts Defaults:
  * ```coffeescript
  * {
- * 	db_path: './nobone.db'
+ * 	dbPath: './nobone.db'
  * }
  * ```
  * @return {Jdb}
 ###
 db = (opts = {}) ->
 	_.defaults opts, {
-		db_path: './nobone.db'
+		dbPath: './nobone.db'
 	}
 
 	jdb = new (require 'jdb')

@@ -1,9 +1,9 @@
 _ = require 'lodash'
-app_info = require '../package'
+appInfo = require '../package'
 
 conf = _.defaults {
 	port: 8013
-}, app_info
+}, appInfo
 
 _.defaults require('../conf'), conf
 

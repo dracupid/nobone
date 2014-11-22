@@ -11,7 +11,7 @@ service.get '/', (req, res) ->
 		res.send tpl()
 
 service.use renderer.static('client')
-service.use renderer.static('bower_components')
+service.use renderer.static('bowerComponents')
 
 service.listen conf.port, ->
 	kit.log "App: #{conf.name} v#{conf.version}".cyan

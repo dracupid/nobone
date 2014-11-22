@@ -11,7 +11,7 @@ service.use (req, res) ->
 	# Limit the global bandwidth to 100KB/s.
 	proxy.url req, res, {
 		bps: 100 * 1024
-		global_bps: true
+		globalBps: true
 	}
 
 service.listen 8123

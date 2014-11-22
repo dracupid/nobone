@@ -10,7 +10,7 @@ nobone = require '../lib/nobone'
 	renderer: {}
 	service: {}
 	lang: {
-		lang_path: 'test/fixtures/lang'
+		langPath: 'test/fixtures/lang'
 		current: 'cn'
 	}
 })
@@ -19,8 +19,8 @@ nobone = require '../lib/nobone'
 
 srv.get '/', (req, res) ->
 	rr.render 'test/fixtures/index.html'
-	.done (tpl_fn) ->
-		res.send tpl_fn({ name: 'test'.l })
+	.done (tplFn) ->
+		res.send tplFn({ name: 'test'.l })
 
 srv.use rr.static('test/fixtures')
 

@@ -14,9 +14,9 @@ kit = require '../kit'
  * @param  {Object} opts Defaults:
  * ```coffeescript
  * {
- * 	auto_log: kit.is_development()
- * 	enable_remote_log: kit.is_development()
- * 	enable_sse: kit.is_development()
+ * 	autoLog: kit.isDevelopment()
+ * 	enableRemoteLog: kit.isDevelopment()
+ * 	enableSse: kit.isDevelopment()
  * 	express: {}
  * }
  * ```
@@ -24,10 +24,10 @@ kit = require '../kit'
 ###
 service = (opts = {}) ->
 	_.defaults opts, {
-		auto_log: kit.is_development()
-		enable_remote_log: kit.is_development()
-		enable_sse: kit.is_development()
-		allow_origin: if kit.is_development() then '*' else null
+		autoLog: kit.isDevelopment()
+		enableRemoteLog: kit.isDevelopment()
+		enableSse: kit.isDevelopment()
+		allowOrigin: if kit.isDevelopment() then '*' else null
 		express: {}
 	}
 
@@ -36,16 +36,16 @@ service = (opts = {}) ->
 
 	###*
 	 * The server object of the express object.
-	 * @type {http.Server} [Ref](http://nodejs.org/api/http.html#http_class_http_server)
+	 * @type {http.Server} [Ref](http://nodejs.org/api/http.html#httpClassHttpServer)
 	###
 	server = http.Server self
 
 	self.e = {}
 
 	self._emit = (args...) ->
-		if opts.auto_log
+		if opts.autoLog
 			switch args[0]
-				when self.e.sse_connected
+				when self.e.sseConnected
 					kit.log [
 						args[0].cyan
 						args[1].req.path
@@ -73,21 +73,21 @@ service = (opts = {}) ->
 		len = body.length.toString(36)
 		"W/\"#{len}-#{hash}\""
 
-	if opts.allow_origin
+	if opts.allowOrigin
 		self.use (req, res, next) ->
-			res.set 'Access-Control-Allow-Origin', opts.allow_origin
+			res.set 'Access-Control-Allow-Origin', opts.allowOrigin
 			next()
 
-	if opts.enable_remote_log
-		init_remote_log self
+	if opts.enableRemoteLog
+		initRemoteLog self
 
-	if opts.enable_sse
-		init_sse self
+	if opts.enableSse
+		initSse self
 
 	self
 
 
-init_remote_log = (self) ->
+initRemoteLog = (self) ->
 	self.post '/nobone-log', (req, res) ->
 		data = ''
 
@@ -102,13 +102,13 @@ init_remote_log = (self) ->
 				res.status(500).end()
 
 
-init_sse = (self) ->
+initSse = (self) ->
 	###*
 	 * A Server-Sent Event Manager.
 	 * The namespace of nobone sse is `/nobone-sse`.
 	 * For more info see [Using server-sent events][Using server-sent events].
 	 * NoBone use it to implement the live-reload of web assets.
-	 * [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
+	 * [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sentEvents/UsingServer-sentEvents
 	 * @type {SSE}
 	 * @property {Array} sessions The sessions of connected clients.
 	 * @property {Integer} retry The reconnection time to use when attempting to send the event, unit is ms.
@@ -123,7 +123,7 @@ init_sse = (self) ->
 	 * @example You browser code should be something like this:
 	 * ```coffeescript
 	 * es = new EventSource('/nobone-sse')
-	 * es.addEventListener('event_name', (e) ->
+	 * es.addEventListener('eventName', (e) ->
 	 * 	msg = JSON.parse(e.data)
 	 * 	console.log(msg)
 	 * ```
@@ -135,25 +135,25 @@ init_sse = (self) ->
 
 	###*
 	 * This event will be triggered when a sse connection started.
-	 * The event name is a combination of sse_connected and req.path,
-	 * for example: "sse_connected/test"
-	 * @event {sse_connected}
-	 * @param {SSE_session} session The session object of current connection.
+	 * The event name is a combination of sseConnected and req.path,
+	 * for example: "sseConnected/test"
+	 * @event {sseConnected}
+	 * @param {SSESession} session The session object of current connection.
 	###
-	self.e.sse_connected = 'sse_connected'
+	self.e.sseConnected = 'sseConnected'
 
 	###*
 	 * This event will be triggered when a sse connection closed.
-	 * @event {sse_close}
-	 * @param {SSE_session} session The session object of current connection.
+	 * @event {sseClose}
+	 * @param {SSESession} session The session object of current connection.
 	###
-	self.e.sse_close = 'sse_close'
+	self.e.sseClose = 'sseClose'
 
 	###*
 	 * Create a sse session.
 	 * @param  {Express.req} req
 	 * @param  {Express.res} res
-	 * @return {SSE_session}
+	 * @return {SSESession}
 	###
 	self.sse.create = (req, res) ->
 		session = { req, res }
@@ -188,7 +188,7 @@ init_sse = (self) ->
 	self.use '/nobone-sse', (req, res) ->
 		session = self.sse.create req, res
 		self.sse.sessions.push session
-		self._emit self.e.sse_connected, session
+		self._emit self.e.sseConnected, session
 
 	###*
 	 * Broadcast a event to clients.

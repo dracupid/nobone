@@ -24,7 +24,7 @@ kit = require './kit'
  * 	proxy: null
  * 	lang: null
  *
- * 	lang_path: null # language set directory
+ * 	langPath: null # language set directory
  * }
  * ```
  * @return {Object} A nobone instance.
@@ -49,11 +49,11 @@ nobone = (modules) ->
 			nb[k] = mod v
 
 	if nb.service and nb.service.sse and nb.renderer
-		nb.renderer.on 'file_modified', (path, ext_bin, req_path) ->
+		nb.renderer.on 'fileModified', (path, extBin, reqPath) ->
 			nb.service.sse.emit(
-				'file_modified'
-				{ path, ext_bin, req_path }
-				'/auto_reload'
+				'fileModified'
+				{ path, extBin, reqPath }
+				'/autoReload'
 			)
 
 	###*
@@ -88,7 +88,7 @@ _.extend nobone, {
 	 * Check if nobone need to be upgraded.
 	 * @return {Promise}
 	###
-	check_upgrade: ->
+	checkUpgrade: ->
 		kit.request 'https://registry.npmjs.org/nobone/latest'
 		.done (data) ->
 			{ version: ver } = JSON.parse data
@@ -102,31 +102,31 @@ _.extend nobone, {
 	 * @param {Object} opts The options of the client, defaults:
 	 * ```coffeescript
 	 * {
-	 * 	auto_reload: kit.is_development()
+	 * 	autoReload: kit.isDevelopment()
 	 * 	host: '' # The host of the event source.
 	 * }
 	 * ```
-	 * @param {Boolean} use_js By default use html. Default is false.
+	 * @param {Boolean} useJs By default use html. Default is false.
 	 * @return {String} The code of client helper.
 	###
-	client: (opts = {}, use_js = false) ->
-		if nobone.client_js_cache
-			js = nobone.client_js_cache
+	client: (opts = {}, useJs = false) ->
+		if nobone.clientJsCache
+			js = nobone.clientJsCache
 		else
-			js = kit.fs.readFileSync(__dirname + '/../dist/nobone_client.js')
-			nobone.client_js_cache = js
+			js = kit.fs.readFileSync(__dirname + '/../dist/noboneClient.js')
+			nobone.clientJsCache = js
 
-		opts_str = JSON.stringify _.defaults(opts, {
-			auto_reload: kit.is_development()
+		optsStr = JSON.stringify _.defaults(opts, {
+			autoReload: kit.isDevelopment()
 			host: ''
 		})
 
 		js = """
 			\n#{js}
-			window.nb = new Nobone(#{opts_str});\n
+			window.nb = new Nobone(#{optsStr});\n
 		"""
 
-		if use_js
+		if useJs
 			js
 		else
 			"""
@@ -138,7 +138,7 @@ _.extend nobone, {
 
 }
 
-if kit.is_development()
-	nobone.check_upgrade()
+if kit.isDevelopment()
+	nobone.checkUpgrade()
 
 module.exports = nobone

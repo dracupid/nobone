@@ -33,7 +33,7 @@ Install as an dependency:
 npm install nobone
 
 # View a better nobone documentation than Github readme.
-node_modules/.bin/nobone --doc
+nodeModules/.bin/nobone --doc
 ```
 
 Or you can install it globally:
@@ -81,11 +81,11 @@ nobone
 
 # Use regex to filter the log info.
 # Print out all the log if it contains '.ejs'
-log_reg='.ejs' nobone
+logReg='.ejs' nobone
 
 # Use custom logic to start up.
 nobone app.js
-watch_persistent=off nobone app.js
+watchPersistent=off nobone app.js
 
 # Scaffolding helper
 nobone bone -h
@@ -138,7 +138,7 @@ You can use `nobone ls` to list all installed plugins.
 
 _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
-<%- mods_api %>
+<%- modsApi %>
 
 ## Changelog
 

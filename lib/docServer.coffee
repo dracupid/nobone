@@ -5,20 +5,20 @@ nobone = require './nobone'
 { Promise } = kit
 marked = require 'marked'
 
-nobone_dir = kit.path.normalize __dirname + '/../'
-marked_html = kit.path.normalize __dirname + '/../assets/markdown/index.html'
-source_html = kit.path.normalize __dirname + '/../assets/markdown/source.html'
-nobone_readme = kit.path.normalize __dirname + '/../readme.md'
-nobone_favicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
+noboneDir = kit.path.normalize __dirname + '/../'
+markedHtml = kit.path.normalize __dirname + '/../assets/markdown/index.html'
+sourceHtml = kit.path.normalize __dirname + '/../assets/markdown/source.html'
+noboneReadme = kit.path.normalize __dirname + '/../readme.md'
+noboneFavicon = kit.path.normalize __dirname + '/../assets/img/nobone.png'
 
-doc_cache = null
+docCache = null
 service.get '/', (req, res) ->
-	if doc_cache != null
-		return res.send doc_cache
+	if docCache != null
+		return res.send docCache
 
 	Promise.all([
-		renderer.render marked_html
-		kit.readFile nobone_readme, 'utf8'
+		renderer.render markedHtml
+		kit.readFile noboneReadme, 'utf8'
 	])
 	.done (rets) ->
 		[tpl, md] = rets
@@ -28,15 +28,15 @@ service.get '/', (req, res) ->
 			links.push p
 			return ''
 		md += '\n' + links.join('')
-		doc_cache = tpl({
+		docCache = tpl({
 			body: marked md
 		})
-		res.send doc_cache
+		res.send docCache
 
 service.get '/*.coffee', (req, res, next) ->
 	path = kit.path.normalize __dirname + '/../' + req.path[1..]
 	Promise.all([
-		renderer.render source_html
+		renderer.render sourceHtml
 		kit.readFile path, 'utf8'
 	])
 	.then (rets) ->
@@ -49,11 +49,11 @@ service.get '/*.coffee', (req, res, next) ->
 		next()
 
 service.use renderer.static({
-	root_dir: nobone_dir
+	rootDir: noboneDir
 	index: true
 })
 service.get '/favicon.ico', (req, res) ->
-	res.sendFile nobone_favicon
+	res.sendFile noboneFavicon
 
 module.exports = (opts) ->
 	service.listen opts.port, ->

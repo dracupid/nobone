@@ -35,8 +35,8 @@ proxy = (opts = {}) ->
 	 * ```coffeescript
 	 * {
 	 * 	bps: null # Limit the bandwidth byte per second.
-	 * 	global_bps: false # if the bps is the global bps.
-	 * 	agent: custom_http_agent
+	 * 	globalBps: false # if the bps is the global bps.
+	 * 	agent: customHttpAgent
 	 * }
 	 * ```
 	 * @param {Function} err Custom error handler.
@@ -49,7 +49,7 @@ proxy = (opts = {}) ->
 
 		_.defaults opts, {
 			bps: null
-			global_bps: false
+			globalBps: false
 			agent: self.agent
 		}
 
@@ -59,8 +59,8 @@ proxy = (opts = {}) ->
 		if _.isObject url
 			url = kit.url.format url
 		else
-			sep_index = url.indexOf('/')
-			switch sep_index
+			sepIndex = url.indexOf('/')
+			switch sepIndex
 				when 0
 					url = req.headers.host + url
 				when -1
@@ -78,9 +78,9 @@ proxy = (opts = {}) ->
 		stream = if opts.bps == null
 			res
 		else
-			if opts.global_bps
-				sock_num = _.keys(opts.agent.sockets).length
-				bps = opts.bps / (sock_num + 1)
+			if opts.globalBps
+				sockNum = _.keys(opts.agent.sockets).length
+				bps = opts.bps / (sockNum + 1)
 			else
 				bps = opts.bps
 			throttle = new kit.require('throttle')(bps)
@@ -91,14 +91,14 @@ proxy = (opts = {}) ->
 			method: req.method
 			url
 			headers
-			req_pipe: req
-			res_pipe: stream
-			auto_unzip: false
+			reqPipe: req
+			resPipe: stream
+			autoUnzip: false
 			agent: opts.agent
 		}
 
-		p.req.on 'response', (proxy_res) ->
-			res.writeHead proxy_res.statusCode, proxy_res.headers
+		p.req.on 'response', (proxyRes) ->
+			res.writeHead proxyRes.statusCode, proxyRes.headers
 
 		p.catch error
 
@@ -146,36 +146,36 @@ proxy = (opts = {}) ->
 
 	###*
 	 * A pac helper.
-	 * @param {String} curr_host The current host for proxy server. It's optional.
-	 * @param  {Function} rule_handler Your custom pac rules.
+	 * @param {String} currHost The current host for proxy server. It's optional.
+	 * @param  {Function} ruleHandler Your custom pac rules.
 	 * It gives you three helpers.
 	 * ```coffeescript
 	 * url # The current client request url.
 	 * host # The host name derived from the url.
-	 * curr_host = 'PROXY host:port;' # Nobone server host address.
+	 * currHost = 'PROXY host:port;' # Nobone server host address.
 	 * direct =  "DIRECT;"
 	 * match = (pattern) -> # A function use shExpMatch to match your url.
 	 * proxy = (target) -> # return 'PROXY target;'.
 	 * ```
 	 * @return {Function} Express Middleware.
 	###
-	self.pac = (curr_host, rule_handler) ->
-		if _.isFunction curr_host
-			rule_handler = curr_host
-			curr_host = null
+	self.pac = (currHost, ruleHandler) ->
+		if _.isFunction currHost
+			ruleHandler = currHost
+			currHost = null
 
 		(req, res, next) ->
 			addr = req.socket.address()
-			curr_host ?= "#{addr.address}:#{addr.port}"
+			currHost ?= "#{addr.address}:#{addr.port}"
 			url = kit.url.parse(req.url)
 			url.host ?= req.headers.host
 			kit.log url
-			if url.host != curr_host
+			if url.host != currHost
 				return next()
 
-			pac_str = """
+			pacStr = """
 				FindProxyForURL = function (url, host) {
-					var curr_host = "PROXY #{curr_host};";
+					var currHost = "PROXY #{currHost};";
 					var direct = "DIRECT;";
 					var match = function (pattern) {
 						return shExpMatch(url, pattern);
@@ -184,12 +184,12 @@ proxy = (opts = {}) ->
 						return 'PROXY ' + target + ';';
 					};
 
-					return (#{rule_handler.toString()})();
+					return (#{ruleHandler.toString()})();
 				}
 			"""
 
 			res.set 'Content-Type', 'application/x-ns-proxy-autoconfig'
-			res.send pac_str
+			res.send pacStr
 
 	return self
 
