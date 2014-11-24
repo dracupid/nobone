@@ -115,12 +115,12 @@ init = ->
 		return
 
 	if cmder.doc
-		server = require './doc_server'
+		server = require './docServer'
 		opts.port = if cmder.port then cmder.port else 8963
 		server opts
 		return
 
-	runA_dir()
+	runAndir()
 
 runAnApp = (plugin) ->
 	# Add the above dirs to PATH env.
@@ -145,7 +145,7 @@ runAnApp = (plugin) ->
 		else
 			require kit.fs.realpathSync(cmder.args[0])
 
-runA_dir = ->
+runAndir = ->
 	opts.port = cmder.port if cmder.port
 
 	kit.monitorApp {
