@@ -4,3 +4,4 @@ dist
 *.sublime-*
 .nobone
 .coffee
+.cake_task_cache
