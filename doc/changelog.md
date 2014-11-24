@@ -1,4 +1,4 @@
-- v0.9.6
+- v0.9.7
 
   - Auto check new version of nobone.
   - Use camelized API.
