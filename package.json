@@ -28,7 +28,7 @@
     "colors": "1.0.3",
     "commander": "2.5.0",
     "ejs": "1.0.0",
-    "express": "4.10.2",
+    "express": "4.10.3",
     "fs-more": "0.0.7",
     "glob": "4.2.1",
     "iconv-lite": "0.4.5",
