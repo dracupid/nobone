@@ -1,3 +1,7 @@
+- v0.9.9
+
+  - Fixed a empty static file bug.
+
 - v0.9.8
 
   - Auto check new version of nobone.

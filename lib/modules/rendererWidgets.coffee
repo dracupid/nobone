@@ -332,7 +332,7 @@ module.exports =
 				handler = p.handler
 				res.type handler.type or handler.extBin
 
-				switch content and content.constructor.name
+				switch content? and content.constructor.name
 					when 'Number'
 						body = content.toString()
 					when 'String', 'Buffer'
