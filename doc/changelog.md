@@ -1,7 +1,8 @@
-- v0.9.7
+- v0.9.8
 
   - Auto check new version of nobone.
   - Use camelized API.
+  - Fixed a `kit.watchDir` bug.
 
 - v0.9.5
 
