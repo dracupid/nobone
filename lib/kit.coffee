@@ -1225,14 +1225,18 @@ _.extend kit, {
 		if _.isString opts.pattern
 			opts.pattern = [opts.pattern]
 
-		expandWatchPattern = (root, pattern) ->
-			# Make sure the parent directory is also in the watch list.
-			parentDirs = []
-			patterns = pattern.map (el) ->
-				p = kit.path.join(root, el)
-				parentDirs.push kit.path.dirname(p) + kit.path.sep
-				p
-			_.union patterns, parentDirs
+		expandPatterns = opts.pattern.map (pattern) ->
+			kit.path.join opts.dir, pattern
+
+		# Make sure the parent directories are also in the watch list.
+		push_parent_dirs = (paths) ->
+			paths = paths.concat paths.map (p) ->
+				kit.path.dirname(p) + kit.path.sep
+
+			paths.push opts.dir
+
+			# The reverse will keep the children event happen at first.
+			_.uniq(paths.sort(), true).reverse()
 
 		isSameFile = (statsA, statsB) ->
 			statsA.mtime.getTime() == statsB.mtime.getTime() and
@@ -1263,14 +1267,16 @@ _.extend kit, {
 			# it children files, if any child is not in the watchedList,
 			# a `create` event will be triggered.
 			kit.glob(
-				expandWatchPattern path, opts.pattern
+				expandPatterns
 				{
 					mark: true
 					dot: opts.dot
 					nosort: true
 				}
 			).then (paths) ->
-				for p in paths.sort().reverse()
+				paths = push_parent_dirs paths
+
+				for p in paths
 					if opts.watchedList[p] != undefined
 						continue
 
@@ -1308,15 +1314,16 @@ _.extend kit, {
 				kit.err err
 
 		kit.glob(
-			expandWatchPattern opts.dir, opts.pattern
+			expandPatterns
 			{
 				mark: true
 				dot: opts.dot
 				nosort: true
 			}
 		).then (paths) ->
-			# The reverse will keep the children event happen at first.
-			for path in paths.sort().reverse()
+			paths = push_parent_dirs paths
+
+			for path in paths
 				if path[-1..] == '/'
 					w = kit.watchFile path, mainWatch
 				else
