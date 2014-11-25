@@ -1224,16 +1224,15 @@ _.extend kit, {
 
 		if _.isString opts.pattern
 			opts.pattern = [opts.pattern]
+			opts.pattern = _.uniq opts.pattern
 
+		opts.pattern.push '**/'
 		expandPatterns = opts.pattern.map (pattern) ->
 			kit.path.join opts.dir, pattern
 
-		# Make sure the parent directories are also in the watch list.
-		push_parent_dirs = (paths) ->
-			paths = paths.concat paths.map (p) ->
-				kit.path.dirname(p) + kit.path.sep
-
-			paths.push opts.dir
+		expandPaths = (paths) ->
+			# Make sure the parent directories are also in the watch list.
+			paths.push kit.path.join(opts.dir, kit.path.sep)
 
 			# The reverse will keep the children event happen at first.
 			_.uniq(paths.sort(), true).reverse()
@@ -1274,7 +1273,7 @@ _.extend kit, {
 					nosort: true
 				}
 			).then (paths) ->
-				paths = push_parent_dirs paths
+				paths = expandPaths paths
 
 				for p in paths
 					if opts.watchedList[p] != undefined
@@ -1321,7 +1320,7 @@ _.extend kit, {
 				nosort: true
 			}
 		).then (paths) ->
-			paths = push_parent_dirs paths
+			paths = expandPaths paths
 
 			for path in paths
 				if path[-1..] == '/'
