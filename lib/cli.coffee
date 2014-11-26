@@ -1,8 +1,6 @@
-process.env.NODE_ENV = 'development'
-
 cmder = require 'commander'
 nobone = require './nobone'
-kit = nobone.kit
+{ kit } = nobone
 
 # These are nobone's dependencies.
 libPath = kit.path.normalize "#{__dirname}/../node_modules"

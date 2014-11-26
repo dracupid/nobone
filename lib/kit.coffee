@@ -260,20 +260,6 @@ _.extend kit, {
 			Buffer.concat [cipher.update(data), cipher.final()]
 
 	###*
-	 * A shortcut to set process option with specific mode,
-	 * and keep the current env variables.
-	 * @param  {String} mode 'development', 'production', etc.
-	 * @return {Object} `process.env` object.
-	###
-	envMode: (mode) ->
-		{
-			env: _.defaults(
-				{ NODE_ENV: mode }
-				process.env
-			)
-		}
-
-	###*
 	 * A log error shortcut for `kit.log(msg, 'error', opts)`
 	 * @param  {Any} msg
 	 * @param  {Object} opts
@@ -521,7 +507,7 @@ _.extend kit, {
 	 * 	bin: 'node'
 	 * 	args: ['app.js']
 	 * 	watchList: ['app.js']
-	 * 	mode: 'development'
+	 * 	opts: {} # Such as 'cwd', 'stdio', 'env'
 	 * }
 	 * ```
 	 * @return {Process} The child process.
@@ -531,7 +517,7 @@ _.extend kit, {
 			bin: 'node'
 			args: ['app.js']
 			watchList: ['app.js']
-			mode: 'development'
+			opts: {}
 		}
 
 		sepLine = ->
@@ -544,7 +530,7 @@ _.extend kit, {
 			childPs = kit.spawn(
 				opts.bin
 				opts.args
-				kit.envMode opts.mode
+				opts.opts
 			).process
 
 			childPs.on 'close', (code, sig) ->

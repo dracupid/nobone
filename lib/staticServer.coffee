@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'development'
+
 nobone = require './nobone'
 marked = require 'marked'
 
