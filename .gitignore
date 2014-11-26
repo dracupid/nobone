@@ -5,3 +5,4 @@ dist
 .nobone
 .coffee
 .cake_task_cache
+assets/**/*.css
