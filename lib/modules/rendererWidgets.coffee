@@ -102,7 +102,12 @@ module.exports =
 					compressOpts: { fromString: true }
 				})
 				if data.compress
-					ug = kit.require 'uglify-js'
+					try
+						ug = kit.require 'uglify-js'
+					catch
+						kit.err '"npm install uglify-js" first.'.red
+						process.exit()
+
 					ug.minify(code, data.compressOpts).code
 				else
 					code
@@ -142,7 +147,12 @@ module.exports =
 					)
 				Promise.promisify(b.bundle, b)().then (code) ->
 					if data.compress
-						ug = kit.require 'uglify-js'
+						try
+							ug = kit.require 'uglify-js'
+						catch
+							kit.err '"npm install uglify-js" first.'.red
+							process.exit()
+
 						ug.minify(code, data.compressOpts).code
 					else
 						code
