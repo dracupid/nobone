@@ -46,7 +46,12 @@ task 'build', 'Compile coffee and Docs', (opts) ->
 	build opts
 
 task 'clean', 'Clean js', ->
-	kit.log ">> Clean js..."
+	kit.log ">> Clean js & css..."
+
+	kit.glob('assets/**/*.css')
+	.then (list) ->
+		for path in list
+			kit.remove path
 
 	kit.remove('dist').done()
 

@@ -96,21 +96,11 @@ module.exports =
 			extSrc: '.coffee'
 			compiler: (str, path, data = {}) ->
 				coffee = kit.require 'coffee-script'
-				code = coffee.compile str, _.defaults(data, {
+				coffee.compile str, _.defaults(data, {
 					bare: true
 					compress: kit.isProduction()
 					compressOpts: { fromString: true }
 				})
-				if data.compress
-					try
-						ug = kit.require 'uglify-js'
-					catch
-						kit.err '"npm install uglify-js" first.'.red
-						process.exit()
-
-					ug.minify(code, data.compressOpts).code
-				else
-					code
 
 		'.jsb':
 			type: '.js'
@@ -145,17 +135,7 @@ module.exports =
 							this.queue coffee.compile(str, data)
 							this.queue null
 					)
-				Promise.promisify(b.bundle, b)().then (code) ->
-					if data.compress
-						try
-							ug = kit.require 'uglify-js'
-						catch
-							kit.err '"npm install uglify-js" first.'.red
-							process.exit()
-
-						ug.minify(code, data.compressOpts).code
-					else
-						code
+				Promise.promisify(b.bundle, b)()
 
 		'.css':
 			extSrc: ['.styl', '.less', '.sass', '.scss']
@@ -170,7 +150,12 @@ module.exports =
 				}
 				switch @ext
 					when '.styl'
-						stylus = kit.require 'stylus'
+						try
+							stylus = kit.require 'stylus'
+						catch e
+							kit.err '"npm install stylus" first.'.red
+							process.exit()
+
 						_.defaults data, {
 							sourcemap:
 								inline: kit.isDevelopment()

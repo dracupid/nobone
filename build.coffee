@@ -3,6 +3,7 @@ kit = require './lib/kit'
 
 module.exports = (opts) ->
 	compileCoffee()
+	compileStylus()
 
 	if opts.bare
 		return
@@ -19,6 +20,13 @@ compileCoffee = ->
 		'-o', 'dist'
 		'-cb', 'lib'
 	]
+
+compileStylus = ->
+	kit.log 'Compile stylus...'
+
+	kit.glob 'assets/**/*.styl'
+	.then (list) ->
+		kit.spawn 'stylus', list
 
 lintCoffee = ->
 	kit.compose(

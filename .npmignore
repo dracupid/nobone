@@ -1,10 +1,13 @@
 *.db
-prj.sublime-project
-prj.sublime-workspace
+*.sublime-*
 appveyor.yml
 .travis.yml
 .nobone
 .coffee
+.cake_task_cache
+.npmignore
+.coffeelint.json
 
 benchmark
 test/*
+assets/**/*.styl
