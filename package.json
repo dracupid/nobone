@@ -1,6 +1,6 @@
 {
   "name": "nobone",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A server library tries to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
@@ -32,7 +32,7 @@
     "fs-more": "0.0.7",
     "glob": "4.2.1",
     "iconv-lite": "0.4.5",
-    "jdb": "0.3.6",
+    "jdb": "0.3.7",
     "jhash": "0.1.6",
     "lodash": "2.4.1",
     "marked": "0.3.2",

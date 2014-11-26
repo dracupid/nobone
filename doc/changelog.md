@@ -1,8 +1,8 @@
-- v1.0.1
+- v1.0.2
 
   - Fixed a empty static file bug.
   - Removed the `stylus` and `uglify-js` deps.
-  - Update deps: `express`, `which`.
+  - Update deps: `express`, `which`, `jdb`.
 
 - v0.9.8
 
