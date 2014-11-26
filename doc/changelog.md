@@ -1,6 +1,7 @@
-- v0.9.9
+- v1.0.0
 
   - Fixed a empty static file bug.
+  - Removed the `stylus` and `uglify-js` deps.
 
 - v0.9.8
 
