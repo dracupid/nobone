@@ -154,7 +154,7 @@ runAndir = ->
 			opts.rootDir
 			cmder.openDir
 		]
-		watchList: opts.watch
+		watchList: opts.watch or 'off'
 	}
 
 
