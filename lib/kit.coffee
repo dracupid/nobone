@@ -598,7 +598,7 @@ _.extend kit, {
 				try
 					cmds = [which.sync('xdg-open')]
 				catch
-					cmds = []
+					return Promise.resolve()
 
 		cmds.push cmd
 
