@@ -6,7 +6,7 @@ html
 
 body
 	position relative
-	margin 30px
+	margin 1em
 	font-family "Helvetica Neue", Helvetica, Arial, freesans, sans-serif
 
 .path
@@ -14,8 +14,9 @@ body
 	font-size 30px
 
 .item
-	display block
-	padding 6px 2px 2px 2px
+	display flex
+	flex-wrap wrap
+	padding 6px 2px
 	clear both
 	border-radius 4px
 	font-size 14px
@@ -25,24 +26,22 @@ body
 	transition-property color background
 	transition-duration 0.2s
 
-	span
-		display inline-block
+	div
 		overflow hidden
-		text-overflow ellipsis
 		line-height 120%
 		text-indent: 10px
 
 .name
 	color #222
-	width 65%
+	flex-grow 1
 
 .dirCount, .size
-	width 8%
 	text-align right
+	min-width 6em
 
 .mtime
-	width 15%
 	text-align right
+	min-width 14em
 
 .titles
 	margin-bottom 10px
@@ -57,6 +56,9 @@ body
 	margin-bottom 10px
 	border 1px dashed #aaa
 	border-radius 4px
+
+	.name
+		color #07357B
 
 .dirs, .files
 	.item

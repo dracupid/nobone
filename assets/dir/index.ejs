@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
 	<title>List Directory - <%- path %></title>
 
 	<style type="text/css">
@@ -38,18 +40,18 @@
 	%>
 
 		<a class='item' href="<%= el.path %>">
-			<span class="name">
+			<div class="name">
 				<%= el.path %>
-			</span>
-			<span class="dirCount">
+			</div>
+			<div class="dirCount">
 				<%= el.dirCount == undefined ? '' : el.dirCount %>
-			</span>
-			<span class="size">
+			</div>
+			<div class="size">
 				<%= formatSize(el.size) %>
-			</span>
-			<span class="mtime">
+			</div>
+			<div class="mtime">
 				<%= formatTime(el.mtime) %>
-			</span>
+			</div>
 		</a>
 
 	<%
