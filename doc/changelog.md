@@ -1,9 +1,10 @@
-- v1.0.4
+- v1.0.5
 
   - Fixed a empty static file bug.
   - Removed the `stylus` and `uglify-js` deps.
   - Update deps: `express`, `which`, `jdb`, `glob`.
   - Optimize the `kit.monitorApp`, `kit.open`.
+  - Optimize the static server style.
 
 - v0.9.8
 
