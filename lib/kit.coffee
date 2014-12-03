@@ -368,6 +368,22 @@ _.extend kit, {
 						Promise.reject err
 
 	###*
+	 * Generate a list of module paths from a name and a directory.
+	 * @param  {String} moduleName The module name.
+	 * @param  {String} dir        The root path. Default is current working dir.
+	 * @return {Array} Paths
+	###
+	generateNodeModulePaths: (moduleName, dir = process.cwd()) ->
+		names = [moduleName]
+		while true
+			names.push kit.path.join(dir, 'node_modules', moduleName)
+			pDir = kit.path.dirname dir
+
+			break if dir == pDir
+			dir = pDir
+		names
+
+	###*
 	 * See the https://github.com/isaacs/node-glob
 	 * @param {String | Array} patterns Minimatch pattern.
 	 * @param {Object} opts The glob options.
@@ -773,19 +789,11 @@ _.extend kit, {
 			if moduleName[0] == '.'
 				throw new Error('Relative path is not allowed: ' + moduleName)
 
-			names = [moduleName]
+			names = kit.generateNodeModulePaths moduleName, process.cwd()
 
 			if process.env.NODE_PATH
 				for p in process.env.NODE_PATH.split(kit.path.delimiter)
 					names.push kit.path.join(p, moduleName)
-
-			dir = process.cwd()
-			while true
-				names.push kit.path.join(dir, 'node_modules', moduleName)
-				pDir = kit.path.dirname dir
-
-				break if dir == pDir
-				dir = pDir
 
 			for name in names
 				try
