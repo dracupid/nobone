@@ -1,5 +1,6 @@
 cmder = require 'commander'
 nobone = require './nobone'
+glob = require 'glob'
 { kit } = nobone
 
 # These are nobone's dependencies.
@@ -15,6 +16,20 @@ opts = {
 	host: '0.0.0.0'
 	rootDir: './'
 }
+
+
+findPlugin = (name) ->
+	searchDirs = kit.generateNodeModulePaths(name)[1..]
+
+	searchDirs = searchDirs.concat [
+		kit.path.join(nodeLibPath, name)
+		kit.path.join(libPath, name)
+	]
+
+	paths = []
+	for dir in searchDirs
+		paths = paths.concat glob.sync(dir)
+	paths
 
 cmder
 	.usage """[action] [options] [rootDir or coffeeFile or jsFile].\
@@ -60,22 +75,17 @@ cmder
 	.description 'List all available nobone plugins.'
 	.action ->
 		isAction = true
-		paths = []
-		kit.glob kit.path.join(nodeLibPath, 'nobone-*')
-		.then (ps) ->
-			paths = paths.concat ps
-			kit.glob kit.path.join(libPath, 'nobone-*')
-		.done (ps) ->
-			paths = paths.concat ps
-			list = paths.map (el) ->
-				conf = require el + '/package'
-				name = kit.path.basename(el).replace('nobone-', '').cyan
-				ver = ('@' + conf.version).grey
-				"#{name}#{ver} " + conf.description
-			console.log """
-			#{'Available Plugins:'.grey}
-			#{list.join('\n')}
-			"""
+
+		list = findPlugin('nobone-*').map (path) ->
+			conf = require path + '/package'
+			name = kit.path.basename(path).replace('nobone-', '').cyan
+			ver = ('@' + conf.version).green
+			"#{name}#{ver} #{conf.description} [#{path.grey}]"
+		console.log """
+		\n#{'Available Plugins:'.grey}
+
+		#{list.join('\n\n')}
+		"""
 
 cmder.parse process.argv
 
@@ -87,8 +97,7 @@ init = ->
 				return runAnApp()
 			else
 				opts.rootDir = cmder.args[0]
-		else if kit.fs.existsSync(kit.path.join(nodeLibPath, pluginPath)) or
-		kit.fs.existsSync(kit.path.join(libPath, pluginPath))
+		else if findPlugin(pluginPath).length > 0
 			runAnApp pluginPath
 			return
 		else
