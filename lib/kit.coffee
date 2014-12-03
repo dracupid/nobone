@@ -1267,6 +1267,7 @@ _.extend kit, {
 					nosort: true
 				}
 			).then (paths) ->
+				statCache = paths.statCache
 				paths = expandPaths paths
 
 				for p in paths
@@ -1279,7 +1280,7 @@ _.extend kit, {
 							delete opts.deletedList[dpath]
 							return true
 
-						if isSameFile(stat, paths.statCache[p])
+						if isSameFile(stat, statCache[p])
 							# All children will be deleted, so that
 							# sub-move event won't trigger.
 							for k of opts.deletedList
