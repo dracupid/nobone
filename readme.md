@@ -49,6 +49,10 @@ nobone -d
 
 ## FAQ
 
+0. Why the compiler doesn't work properly?
+
+  > Please delete the `.nobone` cache directory, and try again.
+
 0. How to view the documentation with TOC (table of contents) or offline?
 
   > If you have installed nobone globally,
@@ -71,8 +75,6 @@ nobone -d
 
   > These are optinal packages, you have to install them first.
   > For example, if you want nobone to support `jade`: `npm install -g jade`.
-
-
 
 
 *****************************************************************************
