@@ -1,4 +1,4 @@
-- v1.0.6
+- v1.0.7
 
   - Fixed a empty static file bug.
   - Removed the `stylus` and `uglify-js` deps.
@@ -6,6 +6,7 @@
   - Optimize the `kit.monitorApp`, `kit.open`.
   - Optimize the static server style.
   - Fix a plugin path bug.
+  - Fix a watch dir bug.
 
 - v0.9.8
 
