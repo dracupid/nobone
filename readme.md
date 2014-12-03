@@ -292,7 +292,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/nobone.coffee#L112" target="_blank"><b>client</b></a>
+- #### <a href="lib/nobone.coffee#L114" target="_blank"><b>client</b></a>
 
  The NoBone client helper.
 

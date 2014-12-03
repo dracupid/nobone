@@ -27,15 +27,26 @@ kit = require './kit'
  * 	langPath: null # language set directory
  * }
  * ```
+ * @param {Object} opts Defaults:
+ * ```coffeescript
+ * {
+ * 	# Whether to auto-check the version of nobone.
+ * 	checkUpgrade: true
+ * }
+ * ```
  * @return {Object} A nobone instance.
 ###
-nobone = (modules) ->
+nobone = (modules, opts = {}) ->
 	modules ?= {
 		service: {}
 		renderer: {}
 		db: null
 		proxy: null
 		lang: null
+	}
+
+	_.defaults opts, {
+		checkUpgrade: true
 	}
 
 	nb = {
@@ -55,6 +66,9 @@ nobone = (modules) ->
 				{ path, extBin, reqPath }
 				'/autoReload'
 			)
+
+	if opts.checkUpgrade
+		nobone.checkUpgrade()
 
 	###*
 	 * Release the resources.
@@ -92,9 +106,13 @@ _.extend nobone, {
 		kit.request 'https://registry.npmjs.org/nobone/latest'
 		.done (data) ->
 			{ version: ver } = JSON.parse data
-			if ver > nobone.version()
-				info = "nobone@#{ver}".yellow
-				console.warn "[ A new version of ".green + info + " is available. ]".green
+			curr_ver = nobone.version()
+			if ver > curr_ver
+				path = kit.path.normalize kit.path.join(__dirname, '..')
+				info = "nobone@#{ver}".green
+				console.warn "[ A new version of ".grey +
+					info + " is available. ".grey +
+					"Current is v#{curr_ver} (#{path})]".grey
 
 	###*
 	 * The NoBone client helper.
@@ -137,8 +155,5 @@ _.extend nobone, {
 			"""
 
 }
-
-if kit.isDevelopment()
-	nobone.checkUpgrade()
 
 module.exports = nobone
