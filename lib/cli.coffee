@@ -29,7 +29,7 @@ findPlugin = (name) ->
 	paths = []
 	for dir in searchDirs
 		paths = paths.concat glob.sync(dir)
-	paths
+	kit._.uniq paths
 
 cmder
 	.usage """[action] [options] [rootDir or coffeeFile or jsFile].\
