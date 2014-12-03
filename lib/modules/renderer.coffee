@@ -343,7 +343,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				if exists
 					readfile path
 				else
-					err = new Error('File not exists: ' + handler.noExtPath)
+					err = new Error('File not exists: ' + path)
 					err.name = 'fileNotExists'
 					Promise.reject err
 
