@@ -32,6 +32,9 @@ kit = require './kit'
  * {
  * 	# Whether to auto-check the version of nobone.
  * 	checkUpgrade: true
+ *
+ *	# Whether to enable the sse live reload.
+ * 	autoReload: true
  * }
  * ```
  * @return {Object} A nobone instance.
@@ -47,6 +50,7 @@ nobone = (modules, opts = {}) ->
 
 	_.defaults opts, {
 		checkUpgrade: true
+		autoReload: true
 	}
 
 	nb = {
@@ -59,9 +63,9 @@ nobone = (modules, opts = {}) ->
 			nobone[k] = mod
 			nb[k] = mod v
 
-	if nb.service and nb.service.sse and nb.renderer
+	if opts.autoReload and nb.renderer
 		nb.renderer.on 'fileModified', (path, extBin, reqPath) ->
-			nb.service.sse.emit(
+			nb.service?.sse?.emit(
 				'fileModified'
 				{ path, extBin, reqPath }
 				'/autoReload'
@@ -153,7 +157,6 @@ _.extend nobone, {
 				#{js}
 				</script>\n\n
 			"""
-
 }
 
 module.exports = nobone
