@@ -250,7 +250,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  Most of the async functions are implemented with [Promise][Promise].
  [Promise]: https://github.com/petkaantonov/bluebird
 
-- #### <a href="lib/nobone.coffee#L39" target="_blank"><b>nobone</b></a>
+- #### <a href="lib/nobone.coffee#L42" target="_blank"><b>nobone</b></a>
 
  Main constructor.
 
@@ -277,6 +277,9 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     {
     	# Whether to auto-check the version of nobone.
     	checkUpgrade: true
+    
+    # Whether to enable the sse live reload.
+    	autoReload: true
     }
     ```
 
@@ -284,25 +287,25 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     A nobone instance.
 
-- #### <a href="lib/nobone.coffee#L77" target="_blank"><b>close</b></a>
+- #### <a href="lib/nobone.coffee#L81" target="_blank"><b>close</b></a>
 
  Release the resources.
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/nobone.coffee#L98" target="_blank"><b>version</b></a>
+- #### <a href="lib/nobone.coffee#L102" target="_blank"><b>version</b></a>
 
  Get current nobone version string.
 
  - **<u>return</u>**:  { _String_ }
 
-- #### <a href="lib/nobone.coffee#L105" target="_blank"><b>checkUpgrade</b></a>
+- #### <a href="lib/nobone.coffee#L109" target="_blank"><b>checkUpgrade</b></a>
 
  Check if nobone need to be upgraded.
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/nobone.coffee#L130" target="_blank"><b>client</b></a>
+- #### <a href="lib/nobone.coffee#L134" target="_blank"><b>client</b></a>
 
  The NoBone client helper.
 

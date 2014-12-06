@@ -1,4 +1,8 @@
-- v1.0.7
+- v1.0.9
+
+  - Optimize the static service.
+
+- v1.0.8
 
   - Fixed a empty static file bug.
   - Removed the `stylus` and `uglify-js` deps.
