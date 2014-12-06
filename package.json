@@ -38,7 +38,7 @@
     "marked": "0.3.2",
     "prompt": "0.2.14",
     "throttle": "1.0.3",
-    "which": "1.0.7"
+    "which": "1.0.8"
   },
   "devDependencies": {
     "benchmark": "*",

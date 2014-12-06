@@ -1,6 +1,7 @@
 - v1.0.9
 
   - Optimize the static service.
+  - Update `which`.
 
 - v1.0.8
 
