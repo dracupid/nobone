@@ -61,10 +61,14 @@ proxy = (opts = {}) ->
 		else
 			sepIndex = url.indexOf('/')
 			switch sepIndex
+				# such as url is '/get/page'
 				when 0
-					url = req.headers.host + url
+					url = 'http://' + req.headers.host + url
+				# such as url is 'test.com'
 				when -1
-					url = 'http://' + url + req.url
+					{ path } = kit.url.parse(req.path)
+
+					url = 'http://' + url + path
 
 		error = err or (e) ->
 			kit.log e.toString() + ' -> ' + req.url.red
