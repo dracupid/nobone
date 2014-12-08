@@ -721,7 +721,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee#L477" target="_blank"><b>getCache</b></a>
+- #### <a href="lib/modules/renderer.coffee#L483" target="_blank"><b>getCache</b></a>
 
  Set handler cache.
 
@@ -729,7 +729,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/renderer.coffee#L505" target="_blank"><b>genHandler</b></a>
+- #### <a href="lib/modules/renderer.coffee#L511" target="_blank"><b>genHandler</b></a>
 
  Generate a file handler.
 
@@ -881,7 +881,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/proxy.coffee#L123" target="_blank"><b>connect</b></a>
+- #### <a href="lib/modules/proxy.coffee#L127" target="_blank"><b>connect</b></a>
 
  Http CONNECT method tunneling proxy helper.
  Most times used with https proxing.
@@ -914,7 +914,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     service.server.on 'connect', proxy.connect
     ```
 
-- #### <a href="lib/modules/proxy.coffee#L162" target="_blank"><b>pac</b></a>
+- #### <a href="lib/modules/proxy.coffee#L166" target="_blank"><b>pac</b></a>
 
  A pac helper.
 

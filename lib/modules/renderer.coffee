@@ -205,8 +205,8 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			else
 				getSrc handler
 
-			p = p.then (cache) ->
-				getCompiled handler.extBin, cache, isCache
+			p = p.then (handler) ->
+				getCompiled handler.extBin, handler, isCache
 			p.handler = handler
 
 			# Release the lock when the compilation is done.
@@ -355,51 +355,57 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param  {Boolean} isCache
 	 * @return {Promise} Contains the compiled content.
 	###
-	getCompiled = (extBin, cache, isCache = true) ->
-		cache.lastExtBin = extBin
+	getCompiled = (extBin, handler, isCache = true) ->
+		handler.lastExtBin = extBin
 
 		# Direct return source file without compilation. Such as plain html or js.
-		if extBin == cache.ext and not cache.forceCompile
-			if opts.enableWatcher and isCache and not cache.deleted
-				watchSrc cache
-			Promise.resolve cache.source
+		if extBin == handler.ext and not handler.forceCompile
+			if opts.enableWatcher and isCache and not handler.deleted
+				watchSrc handler
+			Promise.resolve handler.source
 
 		# If cached, return cache directly.
-		else if cache.content
-			Promise.resolve cache.content
+		else if handler.content
+			Promise.resolve handler.content
 
 		# Recompile.
 		else
-			cacheFromFile(cache).then (contentCache) ->
+			cacheFromFile(handler).then (contentCache) ->
 				if contentCache != undefined
 					return contentCache
 
 				try
-					cache.compiler cache.source, cache.path, cache.data
+					handler.compiler handler.source, handler.path, handler.data
 				catch err
 					Promise.reject err
 			.then (content) ->
-				cache.content = content
+				handler.content = content
 
-				if cache.sourceMap
-					setSourceMap cache
+				if handler.sourceMap
+					setSourceMap handler
 
-				delete cache.error
+				delete handler.error
 			.catch (err) ->
 				if _.isString err
 					err = new Error(err)
-				emit self.e.compileError, relate(cache.path), err
+				emit self.e.compileError, relate(handler.path), err
 				err.name = self.e.compileError
-				cache.error = err
+				handler.error = err
 			.then ->
-				if opts.enableWatcher and isCache and not cache.deleted
-					watchSrc cache
+				if opts.enableWatcher and isCache and not handler.deleted
+					watchSrc handler
 
-				if cache.error
-					Promise.reject cache.error
+				if handler.error
+					Promise.reject handler.error
 				else
-					self.emit.call self, self.e.compiled, cache.path, cache.content, cache
-					Promise.resolve cache.content
+					self.emit.call(
+						self
+						self.e.compiled
+						handler.path
+						handler.content
+						handler
+					)
+					Promise.resolve handler.content
 
 	###*
 	 * Get the compiled source code from file system.
@@ -477,25 +483,25 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	getCache = (handler) ->
 		handler.compiler ?= (bin) -> bin
 
-		cache = _.find cachePool, (v, k) ->
+		cachedHandler = _.find cachePool, (v, k) ->
 			for ext in handler.extSrc.concat(handler.extBin)
 				if handler.noExtPath + ext == k
 					return true
 			return false
 
-		if cache == undefined
-			getSrc(handler).then (cache) ->
-				cachePool[cache.path] = cache
+		if cachedHandler == undefined
+			getSrc(handler).then (cachedHandler) ->
+				cachePool[cachedHandler.path] = cachedHandler
 				if _.keys(cachePool).length > opts.cacheLimit
 					minHandler = _(cachePool).values().min('ctime').value()
 					if minHandler
 						self.releaseCache minHandler.path
-				cache
+				cachedHandler
 		else
-			if cache.error
-				Promise.reject cache.error
+			if cachedHandler.error
+				Promise.reject cachedHandler.error
 			else
-				Promise.resolve cache
+				Promise.resolve cachedHandler
 
 	###*
 	 * Generate a file handler.
