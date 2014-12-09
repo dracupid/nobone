@@ -164,6 +164,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * default is true. Optional.
 	 * @param {String} reqPath The http request path. Support it will make auto-reload
 	 * more efficient.
+	 * @param {FileHandler} handler A custom file handler.
 	 * @return {Promise} Contains the compiled content.
 	 * @example
 	 * ```coffeescript
@@ -176,22 +177,23 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
 	 * ```
 	###
-	self.render = (path, ext, data, isCache, reqPath) ->
+	self.render = (path, ext, data, isCache, reqPath, handler) ->
 		if _.isObject path
-			{ path, ext, data, isCache, reqPath } = path
+			{ path, ext, data, isCache, reqPath, handler } = path
 
 		if _.isString ext
 			path = forceExt path, ext
 		else if _.isBoolean ext
+			handler = reqPath
 			reqPath = data
 			isCache = ext
 			data = undefined
 		else
-			[data, isCache, reqPath] = [ext, data, isCache]
+			[data, isCache, reqPath, handler] = [ext, data, isCache, reqPath]
 
 		isCache ?= true
 
-		handler = genHandler path
+		handler = genHandler path, handler
 
 		if handler
 			# If current path is under processing, wait for it.
@@ -506,23 +508,25 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###*
 	 * Generate a file handler.
 	 * @param  {String} path
+	 * @param  {FileHandler} handler
 	 * @return {FileHandler}
 	###
-	genHandler = (path) ->
+	genHandler = (path, handler) ->
 		# TODO: This part is somehow too complex.
 
 		extBin = kit.path.extname path
 
-		if extBin == ''
-			handler = _.find self.fileHandlers, (el) -> el.default
-		else if self.fileHandlers[extBin]
-			handler = self.fileHandlers[extBin]
-			if self.fileHandlers[extBin].extSrc and
-			extBin in self.fileHandlers[extBin].extSrc
-				handler.forceCompile = true
-		else
-			handler = _.find self.fileHandlers, (el) ->
-				el.extSrc and extBin in el.extSrc
+		if not handler
+			if extBin == ''
+				handler = _.find self.fileHandlers, (el) -> el.default
+			else if self.fileHandlers[extBin]
+				handler = self.fileHandlers[extBin]
+				if self.fileHandlers[extBin].extSrc and
+				extBin in self.fileHandlers[extBin].extSrc
+					handler.forceCompile = true
+			else
+				handler = _.find self.fileHandlers, (el) ->
+					el.extSrc and extBin in el.extSrc
 
 		if handler
 			handler = _.cloneDeep(handler)
