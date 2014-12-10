@@ -396,9 +396,10 @@ module.exports = rendererWidgets =
 		(req, res, next) ->
 			if req.query.source?
 				path = kit.path.join opts.rootDir, req.path
+				type = req.query.source or kit.path.extname(req.path)[1..]
 				kit.readFile path, 'utf8'
 				.then (str) ->
-					md = "`````````#{req.query.source}\n#{str}\n`````````"
+					md = "`````````#{type}\n#{str}\n`````````"
 					renderer.fileHandlers['.md'].compiler md, req.path
 				.then (html) ->
 					res.send html

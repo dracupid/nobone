@@ -86,8 +86,9 @@ Such as `nobone /home/`, it will open a web server for you to browse the folder 
 reload the content for you. For css or image file change, it won't refresh the whole page, only js file change will trigger the page reload.
 
 You can use url query `?source` and url hash `#L` to view a source file.
-Such as `http://127.0.0.1:8013/app.js?source=javascript#L10`,
+Such as `http://127.0.0.1:8013/app.js?source#L10`,
 it will open a html page with syntax highlight.
+Or full version `http://127.0.0.1:8013/app.js?source=javascript#L10`
 
 *****************************************************************************
 
