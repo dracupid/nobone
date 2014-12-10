@@ -35,14 +35,20 @@
 		return s;
 	}
 
-	var renderList = function (list) {
+	var renderList = function (list, source) {
 		_.each(list, function (el) {
 	%>
 
-		<a class='item' href="<%= el.path %>">
-			<div class="name">
+		<div class='item'>
+			<% if (source) { %>
+				<a class='source' title='view source code' href="<%= el.path %>?source" target="_blank">
+					&lt;s&gt;&nbsp;
+				</a>
+			<% } %>
+
+			<a class="name" href="<%= el.path %>">
 				<%= el.path %>
-			</div>
+			</a>
 			<div class="dirCount">
 				<%= el.dirCount == undefined ? '' : el.dirCount %>
 			</div>
@@ -52,7 +58,7 @@
 			<div class="mtime">
 				<%= formatTime(el.mtime) %>
 			</div>
-		</a>
+		</div>
 
 	<%
 		});
@@ -85,7 +91,7 @@
 	</div>
 
 	<div class="files">
-		<% renderList(list.files) %>
+		<% renderList(list.files, true) %>
 	</div>
 
 </body>

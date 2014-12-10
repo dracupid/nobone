@@ -190,7 +190,7 @@
 	}
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
-	Brush.aliases	= ['bash', 'shell'];
+	Brush.aliases	= ['.bash_profile', '.bashrc', 'sh', '.zshrc', 'bash', 'shell'];
 
 	SyntaxHighlighter.brushes.Bash = Brush;
 
@@ -338,7 +338,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 
   Brush.prototype = new this.SyntaxHighlighter.Highlighter();
 
-  Brush.aliases = ['coffeescript', 'CoffeeScript', 'coffee'];
+  Brush.aliases = ['coffeescript', 'CoffeeScript', 'coffee', 'Cakefile', 'cakefile'];
 
   this.SyntaxHighlighter.brushes.CoffeeScript = Brush;
 
@@ -911,7 +911,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	};
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
-	Brush.aliases	= ['js', 'jscript', 'javascript'];
+	Brush.aliases	= ['js', 'jscript', 'javascript', 'json'];
 
 	SyntaxHighlighter.brushes.JScript = Brush;
 

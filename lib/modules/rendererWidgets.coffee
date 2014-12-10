@@ -396,7 +396,9 @@ module.exports = rendererWidgets =
 		(req, res, next) ->
 			if req.query.source?
 				path = kit.path.join opts.rootDir, req.path
-				type = req.query.source or kit.path.extname(req.path)[1..]
+				type = req.query.source or
+					kit.path.extname(req.path)[1..] or
+					kit.path.basename(req.path)
 				kit.readFile path, 'utf8'
 				.then (str) ->
 					md = "`````````#{type}\n#{str}\n`````````"
