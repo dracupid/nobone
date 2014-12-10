@@ -1,4 +1,4 @@
-- v1.0.9
+- v1.1.0
 
   - Optimize the static service.
   - Update `which`.
