@@ -24,3 +24,4 @@ service.listen port, host, ->
 
 	if JSON.parse openDir
 		kit.open 'http://127.0.0.1:' + port
+		.catch(->)

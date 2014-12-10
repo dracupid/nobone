@@ -63,7 +63,31 @@ nobone -d
 
 ## Tutorials
 
+### Code Examples
+
 See the [examples](examples).
+
+### CLI Usage
+
+You can use nobone as an alternative of `node` bin or `coffee`, it will auto detect file type and run it properly.
+
+#### Run Script
+
+Such as `nobone app.js`, `nobone app.coffee`. It will run the script and if
+the script changed, it will automatically restart it.
+
+You can use `nobone -w off app.js` to turn off the watcher.
+You can pass a json to the watch list `nobone -w '["a.js", "b.js"]' app.js`.
+Any of watched file changed, the program will be restarted.
+
+#### Static Folder Server
+
+Such as `nobone /home/`, it will open a web server for you to browse the folder content. As you edit the html file in the folder, nobone will live
+reload the content for you. For css or image file change, it won't refresh the whole page, only js file change will trigger the page reload.
+
+You can use url query `?source` and url hash `#L` to view a source file.
+Such as `http://127.0.0.1:8013/app.js?source=javascript#L10`,
+it will open a html page with syntax highlight.
 
 *****************************************************************************
 

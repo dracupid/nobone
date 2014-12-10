@@ -398,7 +398,7 @@ module.exports = rendererWidgets =
 				path = kit.path.join opts.rootDir, req.path
 				kit.readFile path, 'utf8'
 				.then (str) ->
-					md = "`````````coffee\n#{str}\n`````````"
+					md = "`````````#{req.query.source}\n#{str}\n`````````"
 					renderer.fileHandlers['.md'].compiler md, req.path
 				.then (html) ->
 					res.send html

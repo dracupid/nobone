@@ -6,7 +6,14 @@ nobone = require './nobone'
 noboneDir = kit.path.join __dirname, '..'
 
 service.get '/', (req, res) ->
-	res.redirect '/readme.md?offline'
+	path = kit.path.join __dirname, '../readme.md'
+	kit.readFile path, 'utf8'
+	.then (md) ->
+		# Remove the online images. Image loading may stuck the page.
+		md = md.replace /\[\!\[NPM.+\)/, ''
+		renderer.fileHandlers['.md'].compiler md, req.path
+	.then (html) ->
+		res.send html
 
 service.use renderer.staticEx({
 	rootDir: noboneDir
@@ -14,6 +21,7 @@ service.use renderer.staticEx({
 })
 
 service.get '/favicon.ico', (req, res) ->
+	noboneFavicon = kit.path.join __dirname, '/../assets/img/nobone.png'
 	res.sendFile noboneFavicon
 
 module.exports = (opts) ->
@@ -21,3 +29,4 @@ module.exports = (opts) ->
 		port = service.server.address().port
 		kit.log "Listen: " + "#{opts.host}:#{port}".cyan
 		kit.open 'http://127.0.0.1:' + port
+		.catch(->)

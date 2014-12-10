@@ -56,6 +56,10 @@ do ->
 		toc = $('#toc')[0]
 		content = $('.content', toc)[0]
 
+		if hList.length == 0
+			toc.style.display = 'none'
+			return
+
 		hList.forEach (el) -> content.appendChild el
 
 		document.body.appendChild toc
