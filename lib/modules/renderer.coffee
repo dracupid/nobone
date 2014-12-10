@@ -153,6 +153,31 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		rendererWidgets.static self, opts
 
 	###*
+	 * An extra version of `renderer.static`.
+	 * Better support for markdown and source file.
+	 * @param  {String | Object} opts If it's a string it represents the rootDir.
+	 * of this static directory. Defaults:
+	 * ```coffeescript
+	 * {
+	 * 	rootDir: '.'
+	 *
+	 * 	# Whether enable serve direcotry index.
+	 * 	index: kit.isDevelopment()
+	 *
+	 * 	injectClient: kit.isDevelopment()
+	 *
+	 * 	# Useful when mapping a normal path to a hashed file.
+	 * 	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
+	 * 	reqPathHandler: (path) ->
+	 * 		decodeURIComponent path
+	 * }
+	 * ```
+	 * @return {Middleware} Experss.js middleware.
+	###
+	self.staticEx = (opts) ->
+		rendererWidgets.staticEx self, opts
+
+	###*
 	 * Render a file. It will auto-detect the file extension and
 	 * choose the right compiler to handle the content.
 	 * @param  {String | Object} path The file path. The path extension should be

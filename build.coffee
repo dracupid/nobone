@@ -93,8 +93,9 @@ buildDocs = ->
 			data.modsApi += """### #{modName}\n\n"""
 			for method in mod
 				method.name = method.name.replace 'self.', ''
+				sourceLink = "#{method.path}?source#L#{method.line}"
 				methodStr = indent """
-					- #### <a href="#{method.path}#L#{method.line}" target="_blank"><b>#{method.name}</b></a>
+					- #### <a href="#{sourceLink}" target="_blank"><b>#{method.name}</b></a>
 				"""
 				methodStr += '\n\n'
 				if method.description

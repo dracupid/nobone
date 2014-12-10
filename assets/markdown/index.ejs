@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="/assets/markdown/sh/shCore.js"></script>
-	<script src="/assets/markdown/sh/brushes.js"></script>
-	<link rel="stylesheet" href="/assets/markdown/sh/shCoreDefault.css">
+	<style type="text/css">
+		<%- css %>
+	</style>
 
-	<link rel="stylesheet" href="/assets/markdown/default.css">
-	<title>Nobone Documentation</title>
+	<title>Nobone - <%= path %></title>
 </head>
 <body>
 
@@ -19,16 +18,8 @@
 	<div class="content"></div>
 </div>
 
-<script type="text/javascript" src="/assets/markdown/main.js"></script>
-
 <script type="text/javascript">
-	[].slice.apply(document.querySelectorAll('pre code[class]')).forEach(function (el) {
-		var lang = el.getAttribute('class').replace('lang-', '');
-		el.parentElement.setAttribute('class', 'brush: ' + lang + ';');
-		el.parentElement.innerHTML = el.innerHTML
-	});
-	SyntaxHighlighter.defaults['toolbar'] = false;
-	SyntaxHighlighter.all();
+	<%- js %>
 </script>
 
 </body>

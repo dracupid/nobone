@@ -10,7 +10,7 @@ kit = require '../kit'
 
 express = require 'express'
 
-module.exports =
+module.exports = rendererWidgets =
 	genFileHandlers: ->
 		'.html':
 			# Whether it is a default handler, optional.
@@ -310,7 +310,7 @@ module.exports =
 				rootDir: opts.rootDir
 			}
 
-		return (req, res, next) ->
+		(req, res, next) ->
 			reqPath = opts.reqPathHandler req.path
 			path = kit.path.join opts.rootDir, reqPath
 
@@ -361,3 +361,47 @@ module.exports =
 					else
 						Promise.reject err
 			.done()
+
+	staticEx: (renderer, opts = {}) ->
+		if _.isString opts
+			opts = { rootDir: opts }
+
+		renderer.fileHandlers['.md'].compiler = (str, path) ->
+			marked = kit.require 'marked'
+
+			try
+				md = marked str
+			catch err
+				return Promise.reject err
+
+			Promise.all([
+				'index.html'
+
+				'sh/shCore.js'
+				'sh/brushes.js'
+				'main.js'
+
+				'sh/shCoreDefault.css'
+				'default.css'
+			].map (path) ->
+				path = kit.path.join __dirname, '../../assets/markdown', path
+				renderer.render path, false
+			).then ([tpl, shCore, shBrush, main, shStyle, style]) ->
+				js = [shCore, shBrush, main].join('\n\n')
+				css = [shStyle, style].join('\n\n')
+				tpl { path, body: md, js, css }
+
+		staticMiddleware = rendererWidgets.static renderer, opts
+
+		(req, res, next) ->
+			if req.query.source?
+				path = kit.path.join opts.rootDir, req.path
+				kit.readFile path, 'utf8'
+				.then (str) ->
+					md = "`````````coffee\n#{str}\n`````````"
+					renderer.fileHandlers['.md'].compiler md, req.path
+				.then (html) ->
+					res.send html
+			else
+				staticMiddleware req, res, next
+
