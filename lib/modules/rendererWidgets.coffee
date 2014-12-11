@@ -394,7 +394,23 @@ module.exports = rendererWidgets =
 		staticMiddleware = rendererWidgets.static renderer, opts
 
 		(req, res, next) ->
-			if req.query.source?
+			if req.query.offlineMarkdown?
+				path = kit.path.join opts.rootDir, req.path
+				kit.readFile path, 'utf8'
+				.then (md) ->
+					# Remove the online images. Image loading may stuck the page.
+					md = md.replace /\[\!\[NPM.+\)/, ''
+					renderer.fileHandlers['.md'].compiler md, req.path
+				.then (html) ->
+					res.send html
+				.catch (err) ->
+					if err.code == 'ENOENT'
+						next()
+					else
+						kit.err err
+						res.send err.toString()
+
+			else if req.query.source?
 				path = kit.path.join opts.rootDir, req.path
 				type = req.query.source or
 					kit.path.extname(req.path)[1..] or
@@ -411,6 +427,7 @@ module.exports = rendererWidgets =
 					else
 						kit.err err
 						res.send err.toString()
+
 			else
 				staticMiddleware req, res, ->
 					if req.path.indexOf('/assets/fonts/Roboto-') == 0

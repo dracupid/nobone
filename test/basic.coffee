@@ -180,6 +180,14 @@ describe 'Basic:', ->
 			tdone err.stack
 		.done()
 
+	it 'lang', ->
+		str = nb.lang 'test', 'cn'
+		assert.equal str, '测试'
+		assert.equal 'test|0'.l, 'test'
+		assert.equal 'find %s men'.lang([10], 'cn'), '找到 10 个人'
+		assert.equal 'plain'.l, '平面'
+		assert.equal 'open|casual'.lang('cn'), '打开'
+
 describe 'Proxy: ', ->
 
 	it 'url', (tdone) ->
@@ -198,53 +206,3 @@ describe 'Proxy: ', ->
 
 				nb3.close()
 				tdone()
-
-describe 'Kit:', ->
-
-	it 'kit.parseComment', (tdone) ->
-		path = 'lib/nobone.coffee'
-		nb.kit.readFile path, 'utf8'
-		.done (str) ->
-			comments = nb.kit.parseComment 'nobone', str, path
-			assert.equal comments[1].path, path
-			assert.equal comments[1].tags[0].type, 'Object'
-			assert.equal comments[1].tags[0].name, 'modules'
-			tdone()
-
-	it 'async progress', (tdone) ->
-		len = nb.kit.fs.readFileSync(__filename).length
-		iter = (i) ->
-			if i == 10
-				return
-			nb.kit.readFile __filename
-
-		nb.kit.async 3, iter, false, (ret) ->
-			assert.equal ret.length, len
-		.done (rets) ->
-			assert.equal rets, undefined
-			tdone()
-
-	it 'async results', (tdone) ->
-		len = nb.kit.fs.readFileSync(__filename).length
-
-		nb.kit.async(3, _.times 10, ->
-			(i) ->
-				assert.equal typeof i, 'number'
-				nb.kit.readFile __filename
-		, (ret) ->
-			assert.equal ret.length, len
-		).done (rets) ->
-			assert.equal rets.length, 10
-			tdone()
-
-	it 'lang', ->
-		str = nb.lang 'test', 'cn'
-		assert.equal str, '测试'
-		assert.equal 'test|0'.l, 'test'
-		assert.equal 'find %s men'.lang([10], 'cn'), '找到 10 个人'
-		assert.equal 'plain'.l, '平面'
-		assert.equal 'open|casual'.lang('cn'), '打开'
-
-	it 'crypto', ->
-		en = nb.kit.encrypt '123', 'test'
-		assert.equal nb.kit.decrypt(en, 'test').toString(), '123'

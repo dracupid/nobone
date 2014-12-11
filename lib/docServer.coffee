@@ -6,14 +6,22 @@ nobone = require './nobone'
 noboneDir = kit.path.join __dirname, '..'
 
 service.get '/', (req, res) ->
-	path = kit.path.join __dirname, '../readme.md'
-	kit.readFile path, 'utf8'
-	.then (md) ->
-		# Remove the online images. Image loading may stuck the page.
-		md = md.replace /\[\!\[NPM.+\)/, ''
-		renderer.fileHandlers['.md'].compiler md, req.path
-	.then (html) ->
-		res.send html
+	res.redirect '/readme.md?offlineMarkdown'
+
+service.get '/nobone-doc/*', (req, res, next) ->
+	paths = kit.generateNodeModulePaths(
+		req.params[0].replace('/', kit.path.sep)
+		noboneDir
+	)
+
+	for path in paths
+		if kit.fs.existsSync path
+			url = kit.path
+				.relative(noboneDir, path)
+				.replace(kit.path.sep, '/')
+			res.redirect '/' + url
+			return
+	next()
 
 service.use renderer.staticEx({
 	rootDir: noboneDir
