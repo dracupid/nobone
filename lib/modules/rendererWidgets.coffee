@@ -405,6 +405,12 @@ module.exports = rendererWidgets =
 					renderer.fileHandlers['.md'].compiler md, req.path
 				.then (html) ->
 					res.send html
+				.catch (err) ->
+					if err.code == 'ENOENT'
+						next()
+					else
+						kit.err err
+						res.send err.toString()
 			else
 				staticMiddleware req, res, next
 
