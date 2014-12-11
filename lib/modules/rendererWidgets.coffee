@@ -230,11 +230,12 @@ module.exports = rendererWidgets =
 		renderer = require('./renderer')(opts.renderer)
 
 		return (req, res, next) ->
-			path = kit.path.join(opts.rootDir, req.path)
+			reqPath = req.path
+			path = kit.path.join(opts.rootDir, reqPath)
 			kit.dirExists path
 			.then (exists) ->
 				if exists
-					if req.path.slice(-1) == '/'
+					if reqPath.slice(-1) == '/'
 						kit.readdir path
 					else
 						Promise.reject 'not strict dir path'
@@ -242,11 +243,11 @@ module.exports = rendererWidgets =
 					Promise.reject 'no dir found'
 			.then (list) ->
 				list.unshift '.'
-				if req.path != '/'
+				if reqPath != '/'
 					list.unshift '..'
 
 				kit.async list.map (p) ->
-					fp = kit.path.join opts.rootDir, req.path, p
+					fp = kit.path.join opts.rootDir, reqPath, p
 					kit.stat(fp).then (stats) ->
 						stats.isDir = stats.isDirectory()
 						if stats.isDir
@@ -283,10 +284,10 @@ module.exports = rendererWidgets =
 					renderer.render assets('default.css')
 				]
 				.then ([fn, css]) ->
-					res.send fn({ list, css, path: req.path })
+					res.send fn({ list, css, path: reqPath })
 			.catch (err) ->
 				if err == 'not strict dir path'
-					return res.redirect req.path + '/'
+					return res.redirect reqPath + '/'
 
 				if err != 'no dir found'
 					kit.err err
@@ -366,6 +367,13 @@ module.exports = rendererWidgets =
 		if _.isString opts
 			opts = { rootDir: opts }
 
+		_.defaults opts, {
+			rootDir: '.'
+			index: kit.isDevelopment()
+			injectClient: kit.isDevelopment()
+			reqPathHandler: (path) -> decodeURIComponent path
+		}
+
 		renderer.fileHandlers['.md'].compiler = (str, path) ->
 			marked = kit.require 'marked'
 
@@ -394,13 +402,15 @@ module.exports = rendererWidgets =
 		staticMiddleware = rendererWidgets.static renderer, opts
 
 		(req, res, next) ->
+			reqPath = opts.reqPathHandler req.path
+
 			if req.query.offlineMarkdown?
-				path = kit.path.join opts.rootDir, req.path
+				path = kit.path.join opts.rootDir, reqPath
 				kit.readFile path, 'utf8'
 				.then (md) ->
 					# Remove the online images. Image loading may stuck the page.
 					md = md.replace /\[\!\[NPM.+\)/, ''
-					renderer.fileHandlers['.md'].compiler md, req.path
+					renderer.fileHandlers['.md'].compiler md, reqPath
 				.then (html) ->
 					res.send html
 				.catch (err) ->
@@ -411,14 +421,14 @@ module.exports = rendererWidgets =
 						res.send err.toString()
 
 			else if req.query.source?
-				path = kit.path.join opts.rootDir, req.path
+				path = kit.path.join opts.rootDir, reqPath
 				type = req.query.source or
-					kit.path.extname(req.path)[1..] or
-					kit.path.basename(req.path)
+					kit.path.extname(reqPath)[1..] or
+					kit.path.basename(reqPath)
 				kit.readFile path, 'utf8'
 				.then (str) ->
 					md = "`````````#{type}\n#{str}\n`````````"
-					renderer.fileHandlers['.md'].compiler md, req.path
+					renderer.fileHandlers['.md'].compiler md, reqPath
 				.then (html) ->
 					res.send html
 				.catch (err) ->
@@ -430,8 +440,8 @@ module.exports = rendererWidgets =
 
 			else
 				staticMiddleware req, res, ->
-					if req.path.indexOf('/assets/fonts/Roboto-') == 0
-						res.sendFile req.path, {
+					if reqPath.indexOf('/assets/fonts/Roboto-') == 0
+						res.sendFile reqPath, {
 							root: kit.path.join __dirname, '..', '..'
 						}, (err) ->
 							if err
