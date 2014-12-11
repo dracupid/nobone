@@ -225,12 +225,13 @@ module.exports = rendererWidgets =
 				cacheDir: kit.path.join __dirname, '/../.nobone/rendererCache'
 			}
 			rootDir: '.'
+			reqPathHandler: (path) -> decodeURIComponent path
 		}
 
 		renderer = require('./renderer')(opts.renderer)
 
 		return (req, res, next) ->
-			reqPath = req.path
+			reqPath = opts.reqPathHandler req.path
 			path = kit.path.join(opts.rootDir, reqPath)
 			kit.dirExists path
 			.then (exists) ->
@@ -425,6 +426,7 @@ module.exports = rendererWidgets =
 				type = req.query.source or
 					kit.path.extname(reqPath)[1..] or
 					kit.path.basename(reqPath)
+				type = encodeURIComponent type
 				kit.readFile path, 'utf8'
 				.then (str) ->
 					md = "`````````#{type}\n#{str}\n`````````"
