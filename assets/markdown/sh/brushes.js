@@ -9,7 +9,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -24,18 +24,18 @@
 	function Brush()
 	{
 		// Created by Peter Atoria @ http://iAtoria.com
-
+	
 		var inits 	 =  'class interface function package';
-
-		var keywords =	'-Infinity ...rest Array as AS3 Boolean break case catch const continue Date decodeURI ' +
-						'decodeURIComponent default delete do dynamic each else encodeURI encodeURIComponent escape ' +
-						'extends false final finally flash_proxy for get if implements import in include Infinity ' +
-						'instanceof int internal is isFinite isNaN isXMLName label namespace NaN native new null ' +
-						'Null Number Object object_proxy override parseFloat parseInt private protected public ' +
-						'return set static String super switch this throw true try typeof uint undefined unescape ' +
+	
+		var keywords =	'-Infinity ...rest Array as AS3 Boolean break case catch const continue Date decodeURI ' + 
+						'decodeURIComponent default delete do dynamic each else encodeURI encodeURIComponent escape ' + 
+						'extends false final finally flash_proxy for get if implements import in include Infinity ' + 
+						'instanceof int internal is isFinite isNaN isXMLName label namespace NaN native new null ' + 
+						'Null Number Object object_proxy override parseFloat parseInt private protected public ' + 
+						'return set static String super switch this throw true try typeof uint undefined unescape ' + 
 						'use void while with'
 						;
-
+	
 		this.regexList = [
 			{ regex: SyntaxHighlighter.regexLib.singleLineCComments,	css: 'comments' },		// one line comments
 			{ regex: SyntaxHighlighter.regexLib.multiLineCComments,		css: 'comments' },		// multiline comments
@@ -47,7 +47,7 @@
 			{ regex: new RegExp('var', 'gm'),							css: 'variable' },		// variable
 			{ regex: new RegExp('trace', 'gm'),							css: 'color1' }			// trace
 			];
-
+	
 		this.forHtmlScript(SyntaxHighlighter.regexLib.scriptScriptTags);
 	};
 
@@ -70,7 +70,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -147,7 +147,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -190,7 +190,7 @@
 	}
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
-	Brush.aliases	= ['.bash_profile', '.bashrc', 'sh', '.zshrc', 'bash', 'shell'];
+	Brush.aliases	= ['bash', 'shell'];
 
 	SyntaxHighlighter.brushes.Bash = Brush;
 
@@ -208,7 +208,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -236,7 +236,7 @@
 				? 'color1'
 				: 'comments'
 				;
-
+			
 			return [new SyntaxHighlighter.Match(match[0], match.index, css)];
 		}
 
@@ -251,7 +251,7 @@
 			{ regex: /\bpartial(?=\s+(?:class|interface|struct)\b)/g,	css: 'keyword' },			// contextual keyword: 'partial'
 			{ regex: /\byield(?=\s+(?:return|break)\b)/g,				css: 'keyword' }			// contextual keyword: 'yield'
 			];
-
+		
 		this.forHtmlScript(SyntaxHighlighter.regexLib.aspScriptTags);
 	};
 
@@ -338,7 +338,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 
   Brush.prototype = new this.SyntaxHighlighter.Highlighter();
 
-  Brush.aliases = ['coffeescript', 'CoffeeScript', 'coffee', 'Cakefile', 'cakefile'];
+  Brush.aliases = ['coffeescript', 'CoffeeScript', 'coffee'];
 
   this.SyntaxHighlighter.brushes.CoffeeScript = Brush;
 
@@ -358,7 +358,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -374,58 +374,58 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	{
 		// Contributed by Jen
 		// http://www.jensbits.com/2009/05/14/coldfusion-brush-for-syntaxhighlighter-plus
-
-		var funcs	=	'Abs ACos AddSOAPRequestHeader AddSOAPResponseHeader AjaxLink AjaxOnLoad ArrayAppend ArrayAvg ArrayClear ArrayDeleteAt ' +
-						'ArrayInsertAt ArrayIsDefined ArrayIsEmpty ArrayLen ArrayMax ArrayMin ArraySet ArraySort ArraySum ArraySwap ArrayToList ' +
-						'Asc ASin Atn BinaryDecode BinaryEncode BitAnd BitMaskClear BitMaskRead BitMaskSet BitNot BitOr BitSHLN BitSHRN BitXor ' +
-						'Ceiling CharsetDecode CharsetEncode Chr CJustify Compare CompareNoCase Cos CreateDate CreateDateTime CreateObject ' +
-						'CreateODBCDate CreateODBCDateTime CreateODBCTime CreateTime CreateTimeSpan CreateUUID DateAdd DateCompare DateConvert ' +
-						'DateDiff DateFormat DatePart Day DayOfWeek DayOfWeekAsString DayOfYear DaysInMonth DaysInYear DE DecimalFormat DecrementValue ' +
-						'Decrypt DecryptBinary DeleteClientVariable DeserializeJSON DirectoryExists DollarFormat DotNetToCFType Duplicate Encrypt ' +
-						'EncryptBinary Evaluate Exp ExpandPath FileClose FileCopy FileDelete FileExists FileIsEOF FileMove FileOpen FileRead ' +
-						'FileReadBinary FileReadLine FileSetAccessMode FileSetAttribute FileSetLastModified FileWrite Find FindNoCase FindOneOf ' +
-						'FirstDayOfMonth Fix FormatBaseN GenerateSecretKey GetAuthUser GetBaseTagData GetBaseTagList GetBaseTemplatePath ' +
-						'GetClientVariablesList GetComponentMetaData GetContextRoot GetCurrentTemplatePath GetDirectoryFromPath GetEncoding ' +
-						'GetException GetFileFromPath GetFileInfo GetFunctionList GetGatewayHelper GetHttpRequestData GetHttpTimeString ' +
-						'GetK2ServerDocCount GetK2ServerDocCountLimit GetLocale GetLocaleDisplayName GetLocalHostIP GetMetaData GetMetricData ' +
-						'GetPageContext GetPrinterInfo GetProfileSections GetProfileString GetReadableImageFormats GetSOAPRequest GetSOAPRequestHeader ' +
-						'GetSOAPResponse GetSOAPResponseHeader GetTempDirectory GetTempFile GetTemplatePath GetTickCount GetTimeZoneInfo GetToken ' +
-						'GetUserRoles GetWriteableImageFormats Hash Hour HTMLCodeFormat HTMLEditFormat IIf ImageAddBorder ImageBlur ImageClearRect ' +
-						'ImageCopy ImageCrop ImageDrawArc ImageDrawBeveledRect ImageDrawCubicCurve ImageDrawLine ImageDrawLines ImageDrawOval ' +
-						'ImageDrawPoint ImageDrawQuadraticCurve ImageDrawRect ImageDrawRoundRect ImageDrawText ImageFlip ImageGetBlob ImageGetBufferedImage ' +
-						'ImageGetEXIFTag ImageGetHeight ImageGetIPTCTag ImageGetWidth ImageGrayscale ImageInfo ImageNegative ImageNew ImageOverlay ImagePaste ' +
-						'ImageRead ImageReadBase64 ImageResize ImageRotate ImageRotateDrawingAxis ImageScaleToFit ImageSetAntialiasing ImageSetBackgroundColor ' +
-						'ImageSetDrawingColor ImageSetDrawingStroke ImageSetDrawingTransparency ImageSharpen ImageShear ImageShearDrawingAxis ImageTranslate ' +
-						'ImageTranslateDrawingAxis ImageWrite ImageWriteBase64 ImageXORDrawingMode IncrementValue InputBaseN Insert Int IsArray IsBinary ' +
-						'IsBoolean IsCustomFunction IsDate IsDDX IsDebugMode IsDefined IsImage IsImageFile IsInstanceOf IsJSON IsLeapYear IsLocalHost ' +
-						'IsNumeric IsNumericDate IsObject IsPDFFile IsPDFObject IsQuery IsSimpleValue IsSOAPRequest IsStruct IsUserInAnyRole IsUserInRole ' +
-						'IsUserLoggedIn IsValid IsWDDX IsXML IsXmlAttribute IsXmlDoc IsXmlElem IsXmlNode IsXmlRoot JavaCast JSStringFormat LCase Left Len ' +
-						'ListAppend ListChangeDelims ListContains ListContainsNoCase ListDeleteAt ListFind ListFindNoCase ListFirst ListGetAt ListInsertAt ' +
-						'ListLast ListLen ListPrepend ListQualify ListRest ListSetAt ListSort ListToArray ListValueCount ListValueCountNoCase LJustify Log ' +
-						'Log10 LSCurrencyFormat LSDateFormat LSEuroCurrencyFormat LSIsCurrency LSIsDate LSIsNumeric LSNumberFormat LSParseCurrency LSParseDateTime ' +
-						'LSParseEuroCurrency LSParseNumber LSTimeFormat LTrim Max Mid Min Minute Month MonthAsString Now NumberFormat ParagraphFormat ParseDateTime ' +
-						'Pi PrecisionEvaluate PreserveSingleQuotes Quarter QueryAddColumn QueryAddRow QueryConvertForGrid QueryNew QuerySetCell QuotedValueList Rand ' +
-						'Randomize RandRange REFind REFindNoCase ReleaseComObject REMatch REMatchNoCase RemoveChars RepeatString Replace ReplaceList ReplaceNoCase ' +
-						'REReplace REReplaceNoCase Reverse Right RJustify Round RTrim Second SendGatewayMessage SerializeJSON SetEncoding SetLocale SetProfileString ' +
-						'SetVariable Sgn Sin Sleep SpanExcluding SpanIncluding Sqr StripCR StructAppend StructClear StructCopy StructCount StructDelete StructFind ' +
-						'StructFindKey StructFindValue StructGet StructInsert StructIsEmpty StructKeyArray StructKeyExists StructKeyList StructKeyList StructNew ' +
-						'StructSort StructUpdate Tan TimeFormat ToBase64 ToBinary ToScript ToString Trim UCase URLDecode URLEncodedFormat URLSessionFormat Val ' +
-						'ValueList VerifyClient Week Wrap Wrap WriteOutput XmlChildPos XmlElemNew XmlFormat XmlGetNodeType XmlNew XmlParse XmlSearch XmlTransform ' +
+	
+		var funcs	=	'Abs ACos AddSOAPRequestHeader AddSOAPResponseHeader AjaxLink AjaxOnLoad ArrayAppend ArrayAvg ArrayClear ArrayDeleteAt ' + 
+						'ArrayInsertAt ArrayIsDefined ArrayIsEmpty ArrayLen ArrayMax ArrayMin ArraySet ArraySort ArraySum ArraySwap ArrayToList ' + 
+						'Asc ASin Atn BinaryDecode BinaryEncode BitAnd BitMaskClear BitMaskRead BitMaskSet BitNot BitOr BitSHLN BitSHRN BitXor ' + 
+						'Ceiling CharsetDecode CharsetEncode Chr CJustify Compare CompareNoCase Cos CreateDate CreateDateTime CreateObject ' + 
+						'CreateODBCDate CreateODBCDateTime CreateODBCTime CreateTime CreateTimeSpan CreateUUID DateAdd DateCompare DateConvert ' + 
+						'DateDiff DateFormat DatePart Day DayOfWeek DayOfWeekAsString DayOfYear DaysInMonth DaysInYear DE DecimalFormat DecrementValue ' + 
+						'Decrypt DecryptBinary DeleteClientVariable DeserializeJSON DirectoryExists DollarFormat DotNetToCFType Duplicate Encrypt ' + 
+						'EncryptBinary Evaluate Exp ExpandPath FileClose FileCopy FileDelete FileExists FileIsEOF FileMove FileOpen FileRead ' + 
+						'FileReadBinary FileReadLine FileSetAccessMode FileSetAttribute FileSetLastModified FileWrite Find FindNoCase FindOneOf ' + 
+						'FirstDayOfMonth Fix FormatBaseN GenerateSecretKey GetAuthUser GetBaseTagData GetBaseTagList GetBaseTemplatePath ' + 
+						'GetClientVariablesList GetComponentMetaData GetContextRoot GetCurrentTemplatePath GetDirectoryFromPath GetEncoding ' + 
+						'GetException GetFileFromPath GetFileInfo GetFunctionList GetGatewayHelper GetHttpRequestData GetHttpTimeString ' + 
+						'GetK2ServerDocCount GetK2ServerDocCountLimit GetLocale GetLocaleDisplayName GetLocalHostIP GetMetaData GetMetricData ' + 
+						'GetPageContext GetPrinterInfo GetProfileSections GetProfileString GetReadableImageFormats GetSOAPRequest GetSOAPRequestHeader ' + 
+						'GetSOAPResponse GetSOAPResponseHeader GetTempDirectory GetTempFile GetTemplatePath GetTickCount GetTimeZoneInfo GetToken ' + 
+						'GetUserRoles GetWriteableImageFormats Hash Hour HTMLCodeFormat HTMLEditFormat IIf ImageAddBorder ImageBlur ImageClearRect ' + 
+						'ImageCopy ImageCrop ImageDrawArc ImageDrawBeveledRect ImageDrawCubicCurve ImageDrawLine ImageDrawLines ImageDrawOval ' + 
+						'ImageDrawPoint ImageDrawQuadraticCurve ImageDrawRect ImageDrawRoundRect ImageDrawText ImageFlip ImageGetBlob ImageGetBufferedImage ' + 
+						'ImageGetEXIFTag ImageGetHeight ImageGetIPTCTag ImageGetWidth ImageGrayscale ImageInfo ImageNegative ImageNew ImageOverlay ImagePaste ' + 
+						'ImageRead ImageReadBase64 ImageResize ImageRotate ImageRotateDrawingAxis ImageScaleToFit ImageSetAntialiasing ImageSetBackgroundColor ' + 
+						'ImageSetDrawingColor ImageSetDrawingStroke ImageSetDrawingTransparency ImageSharpen ImageShear ImageShearDrawingAxis ImageTranslate ' + 
+						'ImageTranslateDrawingAxis ImageWrite ImageWriteBase64 ImageXORDrawingMode IncrementValue InputBaseN Insert Int IsArray IsBinary ' + 
+						'IsBoolean IsCustomFunction IsDate IsDDX IsDebugMode IsDefined IsImage IsImageFile IsInstanceOf IsJSON IsLeapYear IsLocalHost ' + 
+						'IsNumeric IsNumericDate IsObject IsPDFFile IsPDFObject IsQuery IsSimpleValue IsSOAPRequest IsStruct IsUserInAnyRole IsUserInRole ' + 
+						'IsUserLoggedIn IsValid IsWDDX IsXML IsXmlAttribute IsXmlDoc IsXmlElem IsXmlNode IsXmlRoot JavaCast JSStringFormat LCase Left Len ' + 
+						'ListAppend ListChangeDelims ListContains ListContainsNoCase ListDeleteAt ListFind ListFindNoCase ListFirst ListGetAt ListInsertAt ' + 
+						'ListLast ListLen ListPrepend ListQualify ListRest ListSetAt ListSort ListToArray ListValueCount ListValueCountNoCase LJustify Log ' + 
+						'Log10 LSCurrencyFormat LSDateFormat LSEuroCurrencyFormat LSIsCurrency LSIsDate LSIsNumeric LSNumberFormat LSParseCurrency LSParseDateTime ' + 
+						'LSParseEuroCurrency LSParseNumber LSTimeFormat LTrim Max Mid Min Minute Month MonthAsString Now NumberFormat ParagraphFormat ParseDateTime ' + 
+						'Pi PrecisionEvaluate PreserveSingleQuotes Quarter QueryAddColumn QueryAddRow QueryConvertForGrid QueryNew QuerySetCell QuotedValueList Rand ' + 
+						'Randomize RandRange REFind REFindNoCase ReleaseComObject REMatch REMatchNoCase RemoveChars RepeatString Replace ReplaceList ReplaceNoCase ' + 
+						'REReplace REReplaceNoCase Reverse Right RJustify Round RTrim Second SendGatewayMessage SerializeJSON SetEncoding SetLocale SetProfileString ' + 
+						'SetVariable Sgn Sin Sleep SpanExcluding SpanIncluding Sqr StripCR StructAppend StructClear StructCopy StructCount StructDelete StructFind ' + 
+						'StructFindKey StructFindValue StructGet StructInsert StructIsEmpty StructKeyArray StructKeyExists StructKeyList StructKeyList StructNew ' + 
+						'StructSort StructUpdate Tan TimeFormat ToBase64 ToBinary ToScript ToString Trim UCase URLDecode URLEncodedFormat URLSessionFormat Val ' + 
+						'ValueList VerifyClient Week Wrap Wrap WriteOutput XmlChildPos XmlElemNew XmlFormat XmlGetNodeType XmlNew XmlParse XmlSearch XmlTransform ' + 
 						'XmlValidate Year YesNoFormat';
 
-		var keywords =	'cfabort cfajaximport cfajaxproxy cfapplet cfapplication cfargument cfassociate cfbreak cfcache cfcalendar ' +
-						'cfcase cfcatch cfchart cfchartdata cfchartseries cfcol cfcollection cfcomponent cfcontent cfcookie cfdbinfo ' +
-						'cfdefaultcase cfdirectory cfdiv cfdocument cfdocumentitem cfdocumentsection cfdump cfelse cfelseif cferror ' +
-						'cfexchangecalendar cfexchangeconnection cfexchangecontact cfexchangefilter cfexchangemail cfexchangetask ' +
-						'cfexecute cfexit cffeed cffile cfflush cfform cfformgroup cfformitem cfftp cffunction cfgrid cfgridcolumn ' +
-						'cfgridrow cfgridupdate cfheader cfhtmlhead cfhttp cfhttpparam cfif cfimage cfimport cfinclude cfindex ' +
-						'cfinput cfinsert cfinterface cfinvoke cfinvokeargument cflayout cflayoutarea cfldap cflocation cflock cflog ' +
-						'cflogin cfloginuser cflogout cfloop cfmail cfmailparam cfmailpart cfmenu cfmenuitem cfmodule cfNTauthenticate ' +
-						'cfobject cfobjectcache cfoutput cfparam cfpdf cfpdfform cfpdfformparam cfpdfparam cfpdfsubform cfpod cfpop ' +
-						'cfpresentation cfpresentationslide cfpresenter cfprint cfprocessingdirective cfprocparam cfprocresult ' +
-						'cfproperty cfquery cfqueryparam cfregistry cfreport cfreportparam cfrethrow cfreturn cfsavecontent cfschedule ' +
-						'cfscript cfsearch cfselect cfset cfsetting cfsilent cfslider cfsprydataset cfstoredproc cfswitch cftable ' +
-						'cftextarea cfthread cfthrow cftimer cftooltip cftrace cftransaction cftree cftreeitem cftry cfupdate cfwddx ' +
+		var keywords =	'cfabort cfajaximport cfajaxproxy cfapplet cfapplication cfargument cfassociate cfbreak cfcache cfcalendar ' + 
+						'cfcase cfcatch cfchart cfchartdata cfchartseries cfcol cfcollection cfcomponent cfcontent cfcookie cfdbinfo ' + 
+						'cfdefaultcase cfdirectory cfdiv cfdocument cfdocumentitem cfdocumentsection cfdump cfelse cfelseif cferror ' + 
+						'cfexchangecalendar cfexchangeconnection cfexchangecontact cfexchangefilter cfexchangemail cfexchangetask ' + 
+						'cfexecute cfexit cffeed cffile cfflush cfform cfformgroup cfformitem cfftp cffunction cfgrid cfgridcolumn ' + 
+						'cfgridrow cfgridupdate cfheader cfhtmlhead cfhttp cfhttpparam cfif cfimage cfimport cfinclude cfindex ' + 
+						'cfinput cfinsert cfinterface cfinvoke cfinvokeargument cflayout cflayoutarea cfldap cflocation cflock cflog ' + 
+						'cflogin cfloginuser cflogout cfloop cfmail cfmailparam cfmailpart cfmenu cfmenuitem cfmodule cfNTauthenticate ' + 
+						'cfobject cfobjectcache cfoutput cfparam cfpdf cfpdfform cfpdfformparam cfpdfparam cfpdfsubform cfpod cfpop ' + 
+						'cfpresentation cfpresentationslide cfpresenter cfprint cfprocessingdirective cfprocparam cfprocresult ' + 
+						'cfproperty cfquery cfqueryparam cfregistry cfreport cfreportparam cfrethrow cfreturn cfsavecontent cfschedule ' + 
+						'cfscript cfsearch cfselect cfset cfsetting cfsilent cfslider cfsprydataset cfstoredproc cfswitch cftable ' + 
+						'cftextarea cfthread cfthrow cftimer cftooltip cftrace cftransaction cftree cftreeitem cftry cfupdate cfwddx ' + 
 						'cfwindow cfxml cfzip cfzipparam';
 
 		var operators =	'all and any between cross in join like not null or outer some';
@@ -443,7 +443,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
 	Brush.aliases	= ['coldfusion','cf'];
-
+	
 	SyntaxHighlighter.brushes.ColdFusion = Brush;
 
 	// CommonJS
@@ -460,7 +460,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -475,7 +475,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	function Brush()
 	{
 		// Copyright 2006 Shin, YoungJin
-
+	
 		var datatypes =	'ATOM BOOL BOOLEAN BYTE CHAR COLORREF DWORD DWORDLONG DWORD_PTR ' +
 						'DWORD32 DWORD64 FLOAT HACCEL HALF_PTR HANDLE HBITMAP HBRUSH ' +
 						'HCOLORSPACE HCONV HCONVLIST HCURSOR HDC HDDEDATA HDESK HDROP HDWP ' +
@@ -510,7 +510,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 						'sizeof static static_cast struct switch template this ' +
 						'thread throw true false try typedef typeid typename union ' +
 						'using uuid virtual void volatile whcar_t while';
-
+					
 		var functions =	'assert isalnum isalpha iscntrl isdigit isgraph islower isprint' +
 						'ispunct isspace isupper isxdigit tolower toupper errno localeconv ' +
 						'setlocale acos asin atan atan2 ceil cos cosh exp fabs floor fmod ' +
@@ -559,7 +559,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -577,7 +577,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 		{
 			return '\\b([a-z_]|)' + str.replace(/ /g, '(?=:)\\b|\\b([a-z_\\*]|\\*|)') + '(?=:)\\b';
 		};
-
+	
 		function getValuesCSS(str)
 		{
 			return '\\b' + str.replace(/ /g, '(?!-)(?!:)\\b|\\b()') + '\:\\b';
@@ -614,7 +614,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 						'upper-roman url visible wait white wider w-resize x-fast x-high x-large x-loud x-low x-slow x-small x-soft xx-large xx-small yellow';
 
 		var fonts =		'[mM]onospace [tT]ahoma [vV]erdana [aA]rial [hH]elvetica [sS]ans-serif [sS]erif [cC]ourier mono sans serif';
-
+	
 		this.regexList = [
 			{ regex: SyntaxHighlighter.regexLib.multiLineCComments,		css: 'comments' },	// multiline comments
 			{ regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' },	// double quoted strings
@@ -627,9 +627,9 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 			{ regex: new RegExp(this.getKeywords(fonts), 'g'),			css: 'color1' }		// fonts
 			];
 
-		this.forHtmlScript({
-			left: /(&lt;|<)\s*style.*?(&gt;|>)/gi,
-			right: /(&lt;|<)\/\s*style\s*(&gt;|>)/gi
+		this.forHtmlScript({ 
+			left: /(&lt;|<)\s*style.*?(&gt;|>)/gi, 
+			right: /(&lt;|<)\/\s*style\s*(&gt;|>)/gi 
 			});
 	};
 
@@ -652,7 +652,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -709,7 +709,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -752,7 +752,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -767,7 +767,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	function Brush()
 	{
 		// Contributed by Jean-Lou Dupont
-		// http://jldupont.blogspot.com/2009/06/erlang-syntax-highlighter.html
+		// http://jldupont.blogspot.com/2009/06/erlang-syntax-highlighter.html  
 
 		// According to: http://erlang.org/doc/reference_manual/introduction.html#1.5
 		var keywords = 'after and andalso band begin bnot bor bsl bsr bxor '+
@@ -806,7 +806,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -875,7 +875,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -897,7 +897,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 						;
 
 		var r = SyntaxHighlighter.regexLib;
-
+		
 		this.regexList = [
 			{ regex: r.multiLineDoubleQuotedString,					css: 'string' },			// double quoted strings
 			{ regex: r.multiLineSingleQuotedString,					css: 'string' },			// single quoted strings
@@ -906,12 +906,12 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 			{ regex: /\s*#.*/gm,									css: 'preprocessor' },		// preprocessor tags like #region and #endregion
 			{ regex: new RegExp(this.getKeywords(keywords), 'gm'),	css: 'keyword' }			// keywords
 			];
-
+	
 		this.forHtmlScript(r.scriptScriptTags);
 	};
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
-	Brush.aliases	= ['js', 'jscript', 'javascript', 'json'];
+	Brush.aliases	= ['js', 'jscript', 'javascript'];
 
 	SyntaxHighlighter.brushes.JScript = Brush;
 
@@ -929,7 +929,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -964,8 +964,8 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 			];
 
 		this.forHtmlScript({
-			left	: /(&lt;|<)%[@!=]?/g,
-			right	: /%(&gt;|>)/g
+			left	: /(&lt;|<)%[@!=]?/g, 
+			right	: /%(&gt;|>)/g 
 		});
 	};
 
@@ -988,7 +988,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1048,7 +1048,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1063,33 +1063,33 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	function Brush()
 	{
 		// Contributed by David Simmons-Duffin and Marty Kube
-
-		var funcs =
-			'abs accept alarm atan2 bind binmode chdir chmod chomp chop chown chr ' +
-			'chroot close closedir connect cos crypt defined delete each endgrent ' +
-			'endhostent endnetent endprotoent endpwent endservent eof exec exists ' +
-			'exp fcntl fileno flock fork format formline getc getgrent getgrgid ' +
-			'getgrnam gethostbyaddr gethostbyname gethostent getlogin getnetbyaddr ' +
-			'getnetbyname getnetent getpeername getpgrp getppid getpriority ' +
-			'getprotobyname getprotobynumber getprotoent getpwent getpwnam getpwuid ' +
-			'getservbyname getservbyport getservent getsockname getsockopt glob ' +
-			'gmtime grep hex index int ioctl join keys kill lc lcfirst length link ' +
-			'listen localtime lock log lstat map mkdir msgctl msgget msgrcv msgsnd ' +
-			'oct open opendir ord pack pipe pop pos print printf prototype push ' +
-			'quotemeta rand read readdir readline readlink readpipe recv rename ' +
-			'reset reverse rewinddir rindex rmdir scalar seek seekdir select semctl ' +
-			'semget semop send setgrent sethostent setnetent setpgrp setpriority ' +
-			'setprotoent setpwent setservent setsockopt shift shmctl shmget shmread ' +
-			'shmwrite shutdown sin sleep socket socketpair sort splice split sprintf ' +
-			'sqrt srand stat study substr symlink syscall sysopen sysread sysseek ' +
-			'system syswrite tell telldir time times tr truncate uc ucfirst umask ' +
+	
+		var funcs = 
+			'abs accept alarm atan2 bind binmode chdir chmod chomp chop chown chr ' + 
+			'chroot close closedir connect cos crypt defined delete each endgrent ' + 
+			'endhostent endnetent endprotoent endpwent endservent eof exec exists ' + 
+			'exp fcntl fileno flock fork format formline getc getgrent getgrgid ' + 
+			'getgrnam gethostbyaddr gethostbyname gethostent getlogin getnetbyaddr ' + 
+			'getnetbyname getnetent getpeername getpgrp getppid getpriority ' + 
+			'getprotobyname getprotobynumber getprotoent getpwent getpwnam getpwuid ' + 
+			'getservbyname getservbyport getservent getsockname getsockopt glob ' + 
+			'gmtime grep hex index int ioctl join keys kill lc lcfirst length link ' + 
+			'listen localtime lock log lstat map mkdir msgctl msgget msgrcv msgsnd ' + 
+			'oct open opendir ord pack pipe pop pos print printf prototype push ' + 
+			'quotemeta rand read readdir readline readlink readpipe recv rename ' + 
+			'reset reverse rewinddir rindex rmdir scalar seek seekdir select semctl ' + 
+			'semget semop send setgrent sethostent setnetent setpgrp setpriority ' + 
+			'setprotoent setpwent setservent setsockopt shift shmctl shmget shmread ' + 
+			'shmwrite shutdown sin sleep socket socketpair sort splice split sprintf ' + 
+			'sqrt srand stat study substr symlink syscall sysopen sysread sysseek ' + 
+			'system syswrite tell telldir time times tr truncate uc ucfirst umask ' + 
 			'undef unlink unpack unshift utime values vec wait waitpid warn write';
-
-		var keywords =
+    
+		var keywords =  
 			'bless caller continue dbmclose dbmopen die do dump else elsif eval exit ' +
-			'for foreach goto if import last local my next no our package redo ref ' +
+			'for foreach goto if import last local my next no our package redo ref ' + 
 			'require return sub tie tied unless untie until use wantarray while';
-
+    
 		this.regexList = [
 			{ regex: new RegExp('#[^!].*$', 'gm'),					css: 'comments' },
 			{ regex: new RegExp('^\\s*#!.*$', 'gm'),				css: 'preprocessor' }, // shebang
@@ -1122,7 +1122,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1176,7 +1176,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 						'function include include_once global goto if implements interface instanceof namespace new ' +
 						'old_function or private protected public return require require_once static switch ' +
 						'throw try use var while xor ';
-
+		
 		var constants	= '__FILE__ __LINE__ __METHOD__ __FUNCTION__ __CLASS__';
 
 		this.regexList = [
@@ -1212,7 +1212,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1288,7 +1288,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1323,7 +1323,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1341,7 +1341,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 		{
 			return '\\b([a-z_]|)' + str.replace(/ /g, '(?=:)\\b|\\b([a-z_\\*]|\\*|)') + '(?=:)\\b';
 		};
-
+	
 		function getValuesCSS(str)
 		{
 			return '\\b' + str.replace(/ /g, '(?!-)(?!:)\\b|\\b()') + '\:\\b';
@@ -1361,7 +1361,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 						'quotes right richness size slope src speak-header speak-numeral speak-punctuation speak speech-rate stemh stemv stress ' +
 						'table-layout text-align top text-decoration text-indent text-shadow text-transform unicode-bidi unicode-range units-per-em ' +
 						'vertical-align visibility voice-family volume white-space widows width widths word-spacing x-height z-index';
-
+		
 		var values =	'above absolute all always aqua armenian attr aural auto avoid baseline behind below bidi-override black blink block blue bold bolder '+
 						'both bottom braille capitalize caption center center-left center-right circle close-quote code collapse compact condensed '+
 						'continuous counter counters crop cross crosshair cursive dashed decimal decimal-leading-zero digits disc dotted double '+
@@ -1376,14 +1376,14 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 						'table-caption table-cell table-column table-column-group table-footer-group table-header-group table-row table-row-group teal '+
 						'text-bottom text-top thick thin top transparent tty tv ultra-condensed ultra-expanded underline upper-alpha uppercase upper-latin '+
 						'upper-roman url visible wait white wider w-resize x-fast x-high x-large x-loud x-low x-slow x-small x-soft xx-large xx-small yellow';
-
+		
 		var fonts =		'[mM]onospace [tT]ahoma [vV]erdana [aA]rial [hH]elvetica [sS]ans-serif [sS]erif [cC]ourier mono sans serif';
-
+		
 		var statements		= '!important !default';
 		var preprocessor	= '@import @extend @debug @warn @if @for @while @mixin @include';
-
+		
 		var r = SyntaxHighlighter.regexLib;
-
+		
 		this.regexList = [
 			{ regex: r.multiLineCComments,								css: 'comments' },		// multiline comments
 			{ regex: r.singleLineCComments,								css: 'comments' },		// singleline comments
@@ -1401,7 +1401,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	};
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
-	Brush.aliases	= ['styl', 'stylus', 'sass', 'scss'];
+	Brush.aliases	= ['sass', 'scss'];
 
 	SyntaxHighlighter.brushes.Sass = Brush;
 
@@ -1419,7 +1419,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1434,7 +1434,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	function Brush()
 	{
 		// Contributed by Gheorghe Milas and Ahmad Sherif
-
+	
 		var keywords =  'and assert break class continue def del elif else ' +
 						'except exec finally for from global if import in is ' +
 						'lambda not or pass print raise return try yield while';
@@ -1462,7 +1462,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 				{ regex: new RegExp(this.getKeywords(keywords), 'gm'), 		css: 'keyword' },
 				{ regex: new RegExp(this.getKeywords(special), 'gm'), 		css: 'color1' }
 				];
-
+			
 		this.forHtmlScript(SyntaxHighlighter.regexLib.aspScriptTags);
 	};
 
@@ -1485,7 +1485,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1500,7 +1500,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	function Brush()
 	{
 		// Contributed by Yegor Jbanov and David Bernard.
-
+	
 		var keywords =	'val sealed case def true trait implicit forSome import match object null finally super ' +
 						'override try lazy for var catch throw type extends class while with new final yield abstract ' +
 						'else do if return protected private this package false';
@@ -1538,7 +1538,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1553,7 +1553,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 	function Brush()
 	{
 		// Contributed by Erik Peterson.
-
+	
 		var keywords =	'alias and BEGIN begin break case class def define_method defined do each else elsif ' +
 						'END end ensure false for if in module new next nil not or raise redo rescue retry return ' +
 						'self super then throw true undef unless until when while yield';
@@ -1595,7 +1595,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1663,7 +1663,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1721,7 +1721,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
  *
  * @version
  * 3.0.83 (July 02 2010)
- *
+ * 
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -1742,8 +1742,8 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 				tag = new XRegExp('(&lt;|<)[\\s\\/\\?]*(?<name>[:\\w-\\.]+)', 'xg').exec(code),
 				result = []
 				;
-
-			if (match.attributes != null)
+		
+			if (match.attributes != null) 
 			{
 				var attributes,
 					regex = new XRegExp('(?<name> [\\w:\\-\\.]+)' +
@@ -1751,7 +1751,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 										'(?<value> ".*?"|\'.*?\'|\\w+)',
 										'xg');
 
-				while ((attributes = regex.exec(code)) != null)
+				while ((attributes = regex.exec(code)) != null) 
 				{
 					result.push(new constructor(attributes.name, match.index + attributes.index, 'color1'));
 					result.push(new constructor(attributes.value, match.index + attributes.index + attributes[0].indexOf(attributes.value), 'string'));
@@ -1765,7 +1765,7 @@ Compiled from CoffeeScript, see http://rod.vagg.org/2011/02/coffeescript-brush-f
 
 			return result;
 		}
-
+	
 		this.regexList = [
 			{ regex: new XRegExp('(\\&lt;|<)\\!\\[[\\w\\s]*?\\[(.|\\s)*?\\]\\](\\&gt;|>)', 'gm'),			css: 'color2' },	// <![ ... [ ... ]]>
 			{ regex: SyntaxHighlighter.regexLib.xmlComments,												css: 'comments' },	// <!-- ... -->
