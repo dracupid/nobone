@@ -412,5 +412,12 @@ module.exports = rendererWidgets =
 						kit.err err
 						res.send err.toString()
 			else
-				staticMiddleware req, res, next
-
+				staticMiddleware req, res, ->
+					if req.path.indexOf('/assets/fonts/Roboto-') == 0
+						res.sendFile req.path, {
+							root: kit.path.join __dirname, '..', '..'
+						}, (err) ->
+							if err
+								next()
+					else
+						next()
