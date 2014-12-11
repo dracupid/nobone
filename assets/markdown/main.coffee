@@ -86,6 +86,20 @@ do ->
 			el.parentElement.innerHTML = el.innerHTML
 		)
 		SyntaxHighlighter.defaults['toolbar'] = false
+
+		extraAlias = {
+			CoffeeScript: ['Cakefile', 'cakefile', 'jade']
+			Sass: ['styl', 'stylus']
+			Bash: ['conf', 'sh', 'yml', '.bashrc', '.bash_profile', '.zshrc', '.vimrc', '.gitignore']
+			JScript: ['json']
+			Xml: ['ejs']
+			CSS: ['less', 'scss']
+		}
+
+		for k, v of extraAlias
+			alias = SyntaxHighlighter.brushes[k].aliases
+			SyntaxHighlighter.brushes[k].aliases = alias.concat v
+
 		SyntaxHighlighter.all()
 
 		window.addEventListener('load', ->
