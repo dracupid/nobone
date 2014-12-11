@@ -1,3 +1,7 @@
+- v1.1.1
+
+  - Update `express@4.10.5`.
+
 - v1.1.0
 
   - Optimize the static service.
