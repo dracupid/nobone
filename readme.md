@@ -81,7 +81,7 @@ nobone -d
 
 ## Quick Start
 
-```coffeescript
+```coffee
 process.env.NODE_ENV = 'development'
 
 nobone = require 'nobone'
@@ -243,7 +243,7 @@ The `name` of the plugin should prefixed with `nobone-`.
 
 The `main.coffee` file may looks like:
 
-```coffeescript
+```coffee
 { kit } = require 'nobone'
 kit.log 'sample plugin'
 ```
@@ -283,7 +283,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     By default, it only load two modules,
     `service` and `renderer`:
-    ```coffeescript
+    ```coffee
     {
     	service: {}
     	renderer: {}
@@ -298,7 +298,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Defaults:
-    ```coffeescript
+    ```coffee
     {
     	# Whether to auto-check the version of nobone.
     	checkUpgrade: true
@@ -339,7 +339,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     The options of the client, defaults:
-    ```coffeescript
+    ```coffee
     {
     	autoReload: kit.isDevelopment()
     	host: '' # The host of the event source.
@@ -372,7 +372,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Defaults:
-    ```coffeescript
+    ```coffee
     {
     	autoLog: kit.isDevelopment()
     	enableRemoteLog: kit.isDevelopment()
@@ -410,7 +410,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     The reconnection time to use when attempting to send the event, unit is ms.
     Default is 1000ms.
     A session object is something like:
-    ```coffeescript
+    ```coffee
     {
     	req  # The express.js req object.
     	res  # The express.js res object.
@@ -420,7 +420,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>example</u>**:
 
     You browser code should be something like this:
-    ```coffeescript
+    ```coffee
     es = new EventSource('/nobone-sse')
     es.addEventListener('eventName', (e) ->
     	msg = JSON.parse(e.data)
@@ -509,7 +509,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Defaults:
-    ```coffeescript
+    ```coffee
     {
     	enableWatcher: kit.isDevelopment()
     	autoLog: kit.isDevelopment()
@@ -577,7 +577,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     # We return js directly.
     renderer.fileHandlers['.js'].compiler = (str) -> str
     ```
@@ -611,7 +611,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     If it's a string it represents the rootDir.
     of this static directory. Defaults:
-    ```coffeescript
+    ```coffee
     {
     	rootDir: '.'
     
@@ -640,7 +640,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     If it's a string it represents the rootDir.
     of this static directory. Defaults:
-    ```coffeescript
+    ```coffee
     {
     	rootDir: '.'
     
@@ -699,7 +699,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     # The 'a.ejs' file may not exists, it will auto-compile
     # the 'a.ejs' or 'a.html' to html.
     renderer.render('a.html').done (html) -> kit.log(html)
@@ -810,7 +810,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>context</u>**:  { _FileHandler_ }
 
     Properties:
-    ```coffeescript
+    ```coffee
     {
     	ext: String # The current file's extension.
     	opts: Object # The current options of renderer.
@@ -846,7 +846,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The data sent from the `render` function.
     when you call the `render` directly. Default is an object:
-    ```coffeescript
+    ```coffee
     {
     	_: lodash
     	injectClient: kit.isDevelopment()
@@ -871,7 +871,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Defaults:
-    ```coffeescript
+    ```coffee
     {
     	dbPath: './nobone.db'
     }
@@ -927,7 +927,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Other options. Default:
-    ```coffeescript
+    ```coffee
     {
     	bps: null # Limit the bandwidth byte per second.
     	globalBps: false # if the bps is the global bps.
@@ -966,7 +966,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     nobone = require 'nobone'
     { proxy, service } = nobone { proxy:{}, service: {} }
     
@@ -986,7 +986,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Your custom pac rules.
     It gives you three helpers.
-    ```coffeescript
+    ```coffee
     url # The current client request url.
     host # The host name derived from the url.
     currHost = 'PROXY host:port;' # Nobone server host address.
@@ -1026,7 +1026,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     { lang } = require('nobone')(lang: {})
     lang.langSet =
     	human:
@@ -1047,7 +1047,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     { lang } = require('nobone')(
     	lang: { langPath: 'lang.coffee' }
     	current: 'cn'
@@ -1069,7 +1069,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     { lang } = require('nobone')(lang: {})
     lang.langSet = {
     	'cn': { 'human': '人类' }
@@ -1097,7 +1097,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     { lang } = require('nobone')(lang: {})
     lang.load 'assets/lang'
     lang.current = 'cn'
@@ -1121,7 +1121,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     kit.readFile('test.txt').done (str) ->
     	console.log str
     
@@ -1165,7 +1165,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     urls = [
     	'http://a.com'
     	'http://b.com'
@@ -1211,7 +1211,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     # It helps to decouple sequential pipeline code logic.
     
     createUrl = (name) ->
@@ -1303,7 +1303,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     kit.exec """
     a=10
     echo $a
@@ -1328,7 +1328,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Defaults:
-    ```coffeescript
+    ```coffee
     {
     	srcDir: null
     	patterns: '**'
@@ -1441,7 +1441,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Defaults:
-    ```coffeescript
+    ```coffee
     {
     	bin: 'node'
     	args: ['app.js']
@@ -1480,7 +1480,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     # Open a webpage with the default browser.
     kit.open 'http://ysmood.org'
     ```
@@ -1501,7 +1501,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     kit.pad '1', 3 # '001'
     ```
 
@@ -1526,7 +1526,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Parser options:
-    ```coffeescript
+    ```coffee
     {
     	commentReg: RegExp
     	splitReg: RegExp
@@ -1541,7 +1541,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>return</u>**:  { _Array_ }
 
     The parsed comments. Each item is something like:
-    ```coffeescript
+    ```coffee
     {
     	module: 'nobone'
     	name: 'parseComment'
@@ -1609,7 +1609,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The same as the [http.request][http.request],
     but with some extra options:
-    ```coffeescript
+    ```coffee
     {
     	url: 'It is not optional, String or Url Object.'
     
@@ -1663,7 +1663,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     Contains the http response object,
     it has an extra `body` property.
     You can also get the request object by using `Promise.req`, for example:
-    ```coffeescript
+    ```coffee
     p = kit.request 'http://test.com'
     p.req.on 'response', (res) ->
     	kit.log res.headers['content-length']
@@ -1742,7 +1742,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     process.env.watchPersistent = 'off'
     kit.watchFile 'a.js', (path, curr, prev, isDeletion) ->
     	if curr.mtime != prev.mtime
@@ -1767,7 +1767,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     kit.watchFiles '*.js', (path, curr, prev, isDeletion) ->
     	kit.log path
     ```
@@ -1780,7 +1780,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>param</u>**: `opts` { _Object_ }
 
     Defaults:
-    ```coffeescript
+    ```coffee
     {
     	dir: '.'
     	pattern: '**' # minimatch, string or array
@@ -1797,7 +1797,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>example</u>**:
 
-    ```coffeescript
+    ```coffee
     # Only current folder, and only watch js and css file.
     kit.watchDir {
     	dir: 'lib'

@@ -19,7 +19,7 @@ rendererWidgets = require './rendererWidgets'
 ###*
  * Create a Renderer instance.
  * @param {Object} opts Defaults:
- * ```coffeescript
+ * ```coffee
  * {
  * 	enableWatcher: kit.isDevelopment()
  * 	autoLog: kit.isDevelopment()
@@ -107,7 +107,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Manipulate them at runtime.
 	 * @type {Object}
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * # We return js directly.
 	 * renderer.fileHandlers['.js'].compiler = (str) -> str
 	 * ```
@@ -132,7 +132,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Automatically compile, cache and serve source files for both deveopment and production.
 	 * @param  {String | Object} opts If it's a string it represents the rootDir.
 	 * of this static directory. Defaults:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	rootDir: '.'
 	 *
@@ -157,7 +157,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * Better support for markdown and source file.
 	 * @param  {String | Object} opts If it's a string it represents the rootDir.
 	 * of this static directory. Defaults:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	rootDir: '.'
 	 *
@@ -192,7 +192,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @param {FileHandler} handler A custom file handler.
 	 * @return {Promise} Contains the compiled content.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * # The 'a.ejs' file may not exists, it will auto-compile
 	 * # the 'a.ejs' or 'a.html' to html.
 	 * renderer.render('a.html').done (html) -> kit.log(html)

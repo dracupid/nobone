@@ -22,7 +22,7 @@ module.exports = (opts = {}) ->
 	 * @param  {String} name The target language name. Optional.
 	 * @return {String}
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * { lang } = require('nobone')(lang: {})
 	 * lang.langSet =
 	 * 	human:
@@ -41,7 +41,7 @@ module.exports = (opts = {}) ->
 	 * lang('find %s men', [10], 'jp', langSet) # -> '10人が見付かる'
 	 * ```
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * { lang } = require('nobone')(
 	 * 	lang: { langPath: 'lang.coffee' }
 	 * 	current: 'cn'
@@ -99,7 +99,7 @@ module.exports = (opts = {}) ->
 	 * Language collections.
 	 * @type {Object}
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * { lang } = require('nobone')(lang: {})
 	 * lang.langSet = {
 	 * 	'cn': { 'human': '人类' }
@@ -121,7 +121,7 @@ module.exports = (opts = {}) ->
 	 * @param  {String} filePath
 	 * js or coffee files.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * { lang } = require('nobone')(lang: {})
 	 * lang.load 'assets/lang'
 	 * lang.current = 'cn'

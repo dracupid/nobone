@@ -12,7 +12,7 @@ kit = require '../kit'
 ###*
  * Create a Service instance.
  * @param  {Object} opts Defaults:
- * ```coffeescript
+ * ```coffee
  * {
  * 	autoLog: kit.isDevelopment()
  * 	enableRemoteLog: kit.isDevelopment()
@@ -114,14 +114,14 @@ initSse = (self) ->
 	 * @property {Integer} retry The reconnection time to use when attempting to send the event, unit is ms.
 	 * Default is 1000ms.
 	 * A session object is something like:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	req  # The express.js req object.
 	 * 	res  # The express.js res object.
 	 * }
 	 * ```
 	 * @example You browser code should be something like this:
-	 * ```coffeescript
+	 * ```coffee
 	 * es = new EventSource('/nobone-sse')
 	 * es.addEventListener('eventName', (e) ->
 	 * 	msg = JSON.parse(e.data)

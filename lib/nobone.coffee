@@ -16,7 +16,7 @@ kit = require './kit'
  * Main constructor.
  * @param  {Object} modules By default, it only load two modules,
  * `service` and `renderer`:
- * ```coffeescript
+ * ```coffee
  * {
  * 	service: {}
  * 	renderer: {}
@@ -28,7 +28,7 @@ kit = require './kit'
  * }
  * ```
  * @param {Object} opts Defaults:
- * ```coffeescript
+ * ```coffee
  * {
  * 	# Whether to auto-check the version of nobone.
  * 	checkUpgrade: true
@@ -122,7 +122,7 @@ _.extend nobone, {
 	 * The NoBone client helper.
 	 * @static
 	 * @param {Object} opts The options of the client, defaults:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	autoReload: kit.isDevelopment()
 	 * 	host: '' # The host of the event source.

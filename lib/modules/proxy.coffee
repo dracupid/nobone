@@ -32,7 +32,7 @@ proxy = (opts = {}) ->
 	 * force 'http://test.com/a' to 'http://other.com/a',
 	 * force 'http://test.com' to 'other.com'.
 	 * @param {Object} opts Other options. Default:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	bps: null # Limit the bandwidth byte per second.
 	 * 	globalBps: false # if the bps is the global bps.
@@ -116,7 +116,7 @@ proxy = (opts = {}) ->
 	 * @param {Int} port The port force to. It's optional.
 	 * @param {Function} err Custom error handler.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * nobone = require 'nobone'
 	 * { proxy, service } = nobone { proxy:{}, service: {} }
 	 *
@@ -153,7 +153,7 @@ proxy = (opts = {}) ->
 	 * @param {String} currHost The current host for proxy server. It's optional.
 	 * @param  {Function} ruleHandler Your custom pac rules.
 	 * It gives you three helpers.
-	 * ```coffeescript
+	 * ```coffee
 	 * url # The current client request url.
 	 * host # The host name derived from the url.
 	 * currHost = 'PROXY host:port;' # Nobone server host address.

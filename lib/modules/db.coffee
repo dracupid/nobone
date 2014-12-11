@@ -9,7 +9,7 @@ _ = require 'lodash'
 ###*
  * Create a JDB instance.
  * @param  {Object} opts Defaults:
- * ```coffeescript
+ * ```coffee
  * {
  * 	dbPath: './nobone.db'
  * }

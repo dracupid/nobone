@@ -55,7 +55,7 @@ nobone -d
 
 ## Quick Start
 
-```coffeescript
+```coffee
 <%- basic %>
 ```
 
@@ -142,7 +142,7 @@ The `name` of the plugin should prefixed with `nobone-`.
 
 The `main.coffee` file may looks like:
 
-```coffeescript
+```coffee
 { kit } = require 'nobone'
 kit.log 'sample plugin'
 ```

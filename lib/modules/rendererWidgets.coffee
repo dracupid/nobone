@@ -23,7 +23,7 @@ module.exports = rendererWidgets =
 			###*
 			 * The compiler can handle any type of file.
 			 * @context {FileHandler} Properties:
-			 * ```coffeescript
+			 * ```coffee
 			 * {
 			 * 	ext: String # The current file's extension.
 			 * 	opts: Object # The current options of renderer.
@@ -50,7 +50,7 @@ module.exports = rendererWidgets =
 			 * @param  {String} path For debug info.
 			 * @param  {Any} data The data sent from the `render` function.
 			 * when you call the `render` directly. Default is an object:
-			 * ```coffeescript
+			 * ```coffee
 			 * {
 			 * 	_: lodash
 			 * 	injectClient: kit.isDevelopment()

@@ -14,7 +14,7 @@ kit = {}
  * kit extends all the promise functions of [fs-more][fs-more].
  * [fs-more]: https://github.com/ysmood/fs-more
  * @example
- * ```coffeescript
+ * ```coffee
  * kit.readFile('test.txt').done (str) ->
  * 	console.log str
  *
@@ -52,7 +52,7 @@ _.extend kit, {
 	 * passed to this function.
 	 * @return {Promise}
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * urls = [
 	 * 	'http://a.com'
 	 * 	'http://b.com'
@@ -153,7 +153,7 @@ _.extend kit, {
 	 * And the array can also contains promises.
 	 * @return {Function} A composed function that will return a promise.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * # It helps to decouple sequential pipeline code logic.
 	 *
 	 * createUrl = (name) ->
@@ -273,7 +273,7 @@ _.extend kit, {
 	 * @param  {String} shell Shell name. Such as `bash`, `zsh`. Optinal.
 	 * @return {Promise} Resolves when the process's stdio is drained.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * kit.exec """
 	 * a=10
 	 * echo $a
@@ -326,7 +326,7 @@ _.extend kit, {
 	 * A scaffolding helper to generate template project.
 	 * The `lib/cli.coffee` used it as an example.
 	 * @param  {Object} opts Defaults:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	srcDir: null
 	 * 	patterns: '**'
@@ -518,7 +518,7 @@ _.extend kit, {
 	 * the monitor itself will also exit.
 	 * It will make sure your app crash properly.
 	 * @param  {Object} opts Defaults:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	bin: 'node'
 	 * 	args: ['app.js']
@@ -596,7 +596,7 @@ _.extend kit, {
 	 * `child_process.exec`.
 	 * @return {Promise} When the child process exits.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * # Open a webpage with the default browser.
 	 * kit.open 'http://ysmood.org'
 	 * ```
@@ -632,7 +632,7 @@ _.extend kit, {
 	 * @param  {String} char Padding char. Default is '0'.
 	 * @return {String}
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * kit.pad '1', 3 # '001'
 	 * ```
 	###
@@ -651,7 +651,7 @@ _.extend kit, {
 	 * @param  {String} code Coffee source code.
 	 * @param  {String} path The path of the source code.
 	 * @param  {Object} opts Parser options:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	commentReg: RegExp
 	 * 	splitReg: RegExp
@@ -663,7 +663,7 @@ _.extend kit, {
 	 * }
 	 * ```
 	 * @return {Array} The parsed comments. Each item is something like:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	module: 'nobone'
 	 * 	name: 'parseComment'
@@ -810,7 +810,7 @@ _.extend kit, {
 	 * A powerful extended combination of `http.request` and `https.request`.
 	 * @param  {Object} opts The same as the [http.request][http.request],
 	 * but with some extra options:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	url: 'It is not optional, String or Url Object.'
 	 *
@@ -861,7 +861,7 @@ _.extend kit, {
 	 * @return {Promise} Contains the http response object,
 	 * it has an extra `body` property.
 	 * You can also get the request object by using `Promise.req`, for example:
-	 * ```coffeescript
+	 * ```coffee
 	 * p = kit.request 'http://test.com'
 	 * p.req.on 'response', (res) ->
 	 * 	kit.log res.headers['content-length']
@@ -1132,7 +1132,7 @@ _.extend kit, {
 	 * Default is true.
 	 * @return {Function} The wrapped watch listeners.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * process.env.watchPersistent = 'off'
 	 * kit.watchFile 'a.js', (path, curr, prev, isDeletion) ->
 	 * 	if curr.mtime != prev.mtime
@@ -1164,7 +1164,7 @@ _.extend kit, {
 	 * @param  {Function} handler
 	 * @return {Promise} It contains the wrapped watch listeners.
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * kit.watchFiles '*.js', (path, curr, prev, isDeletion) ->
 	 * 	kit.log path
 	 * ```
@@ -1178,7 +1178,7 @@ _.extend kit, {
 	 * Watch directory and all the files in it.
 	 * It supports three types of change: create, modify, move, delete.
 	 * @param  {Object} opts Defaults:
-	 * ```coffeescript
+	 * ```coffee
 	 * {
 	 * 	dir: '.'
 	 * 	pattern: '**' # minimatch, string or array
@@ -1192,7 +1192,7 @@ _.extend kit, {
 	 * ```
 	 * @return {Promise}
 	 * @example
-	 * ```coffeescript
+	 * ```coffee
 	 * # Only current folder, and only watch js and css file.
 	 * kit.watchDir {
 	 * 	dir: 'lib'
