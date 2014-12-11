@@ -753,6 +753,30 @@ _.extend kit, {
 	path: require 'path'
 
 	###*
+	 * The promise lib.
+	 * @type {Object}
+	###
+	Promise: Promise
+
+	###*
+	 * Convert a callback style function to a promise function.
+	 * @param  {Function} fn
+	 * @param  {Any}      this `this` object of the function.
+	 * @return {Function} The function will return a promise object.
+	###
+	promisify: (fn, self) ->
+		# We should avoid use Bluebird's promisify.
+		# This one should be faster.
+		(args...) ->
+			new Promise (resolve, reject) ->
+				args.push ->
+					if arguments[0]?
+						reject arguments[0]
+					else
+						resolve arguments[1]
+				fn.apply self, args
+
+	###*
 	 * Block terminal and wait for user inputs. Useful when you need
 	 * in-terminal user interaction.
 	 * @param  {Object} opts See the https://github.com/flatiron/prompt
@@ -769,12 +793,6 @@ _.extend kit, {
 					reject err
 				else
 					resolve res
-
-	###*
-	 * The promise lib.
-	 * @type {Object}
-	###
-	Promise: Promise
 
 	###*
 	 * Much much faster than the native require of node, but

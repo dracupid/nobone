@@ -1,6 +1,7 @@
 - v1.1.1
 
   - Update `express@4.10.5`.
+  - Add the `kit.promisify` API.
 
 - v1.1.0
 

@@ -135,7 +135,7 @@ module.exports = rendererWidgets =
 							this.queue coffee.compile(str, data)
 							this.queue null
 					)
-				Promise.promisify(b.bundle, b)()
+				kit.promisify(b.bundle, b)()
 
 		'.css':
 			extSrc: ['.styl', '.less', '.sass', '.scss']
@@ -162,7 +162,7 @@ module.exports = rendererWidgets =
 						}
 						styl = stylus(str, data)
 						@depsList = styl.deps()
-						Promise.promisify(styl.render, styl)()
+						kit.promisify(styl.render, styl)()
 
 					when '.less'
 						try

@@ -1564,7 +1564,27 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  Node native module
 
-- #### <a href="lib/kit.coffee?source#L761" target="_blank"><b>promptGet</b></a>
+- #### <a href="lib/kit.coffee?source#L759" target="_blank"><b>Promise</b></a>
+
+ The promise lib.
+
+ - **<u>type</u>**:  { _Object_ }
+
+- #### <a href="lib/kit.coffee?source#L767" target="_blank"><b>promisify</b></a>
+
+ Convert a callback style function to a promise function.
+
+ - **<u>param</u>**: `fn` { _Function_ }
+
+ - **<u>param</u>**: `this` { _Any_ }
+
+    `this` object of the function.
+
+ - **<u>return</u>**:  { _Function_ }
+
+    The function will return a promise object.
+
+- #### <a href="lib/kit.coffee?source#L785" target="_blank"><b>promptGet</b></a>
 
  Block terminal and wait for user inputs. Useful when you need
  in-terminal user interaction.
@@ -1577,13 +1597,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Contains the results of prompt.
 
-- #### <a href="lib/kit.coffee?source#L777" target="_blank"><b>Promise</b></a>
-
- The promise lib.
-
- - **<u>type</u>**:  { _Object_ }
-
-- #### <a href="lib/kit.coffee?source#L787" target="_blank"><b>require</b></a>
+- #### <a href="lib/kit.coffee?source#L805" target="_blank"><b>require</b></a>
 
  Much much faster than the native require of node, but
  you should follow some rules to use it safely.
@@ -1601,7 +1615,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The module that you require.
 
-- #### <a href="lib/kit.coffee?source#L882" target="_blank"><b>request</b></a>
+- #### <a href="lib/kit.coffee?source#L900" target="_blank"><b>request</b></a>
 
  A powerful extended combination of `http.request` and `https.request`.
 
@@ -1681,7 +1695,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log res.headers
     ```
 
-- #### <a href="lib/kit.coffee?source#L1069" target="_blank"><b>spawn</b></a>
+- #### <a href="lib/kit.coffee?source#L1087" target="_blank"><b>spawn</b></a>
 
  A safer version of `child_process.spawn` to run a process on
  Windows or Linux.
@@ -1707,11 +1721,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     The `promise.process` is the child process object.
     When the child process ends, it will resolve.
 
-- #### <a href="lib/kit.coffee?source#L1117" target="_blank"><b>url</b></a>
+- #### <a href="lib/kit.coffee?source#L1135" target="_blank"><b>url</b></a>
 
  Node native module
 
-- #### <a href="lib/kit.coffee?source#L1142" target="_blank"><b>watchFile</b></a>
+- #### <a href="lib/kit.coffee?source#L1160" target="_blank"><b>watchFile</b></a>
 
  Watch a file. If the file changes, the handler will be invoked.
  You can change the polling interval by using `process.env.pollingWatch`.
@@ -1749,7 +1763,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     		kit.log path
     ```
 
-- #### <a href="lib/kit.coffee?source#L1172" target="_blank"><b>watchFiles</b></a>
+- #### <a href="lib/kit.coffee?source#L1190" target="_blank"><b>watchFiles</b></a>
 
  Watch files, when file changes, the handler will be invoked.
  It takes the advantage of `kit.watchFile`.
@@ -1772,7 +1786,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	kit.log path
     ```
 
-- #### <a href="lib/kit.coffee?source#L1209" target="_blank"><b>watchDir</b></a>
+- #### <a href="lib/kit.coffee?source#L1227" target="_blank"><b>watchDir</b></a>
 
  Watch directory and all the files in it.
  It supports three types of change: create, modify, move, delete.

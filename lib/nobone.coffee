@@ -83,7 +83,7 @@ nobone = (modules, opts = {}) ->
 			mod = nb[k]
 			if v and mod.close
 				if mod.close.length > 0
-					Promise.promisify(mod.close, mod)()
+					kit.promisify(mod.close, mod)()
 				else
 					Promise.resolve mod.close()
 		)
