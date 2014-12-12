@@ -54,17 +54,18 @@ describe 'Basic:', ->
 				get '/less.css', port
 			])
 			.then (results) ->
-				kit.log 'ok'
-				# assert.equal results[0].indexOf("document.body.appendChild(elem);"), 77
-				# assert.equal results[1].indexOf("color: #319;"), 94
-				# assert.equal results[2], 'compileError'
-				# assert.equal results[3].indexOf('sourceMappingURL'), 812
+				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 77
+				assert.equal results[1].indexOf("color: #319;"), 94
+				assert.equal results[2], 'compileError'
+				assert.equal results[3].indexOf('sourceMappingURL'), 812
 
-				# assert.equal results[4].indexOf('Nobone'), 44
-				# assert.equal results[5].indexOf('color: red;'), 58
+				assert.equal results[4].indexOf('Nobone'), 44
+				assert.equal results[5].indexOf('color: red;'), 58
 			.then ->
+				kit.log 'ys 0'
 				nb.kit.readFile 'test/fixtures/depsRoot/mixin3.styl'
 			.then (str) ->
+				kit.log 'ys 1'
 				# Test the watcher
 				watcherFileCache = str
 
@@ -77,13 +78,17 @@ describe 'Basic:', ->
 						color #990
 				""").then -> compileP
 			.then ->
+				kit.log 'ys 2'
 				get '/default.css', port
 			.then (code) ->
+				kit.log 'ys 3'
 				assert.equal code.indexOf("color: #990;"), 94
 				tdone()
 			.then ->
+				kit.log 'ys 4'
 				nb.kit.outputFile 'test/fixtures/depsRoot/mixin3.styl', watcherFileCache
 			.catch (err) ->
+				kit.log 'ys 5'
 				tdone err.stack or err
 			.done ->
 				server.close()
