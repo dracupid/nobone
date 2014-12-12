@@ -64,20 +64,6 @@ do ->
 
 		document.body.appendChild toc
 
-		# If toc title clicked, toggle the visibility of toc.
-		tocTitle = $('#toc > h1')[0]
-
-		if localStorage.getItem('toc') == 'hide'
-			toc.style.height = '60px'
-
-		tocTitle.addEventListener 'click', ->
-			if toc.style.height == '60px'
-				toc.style.height = null
-				localStorage.setItem 'toc', 'show'
-			else
-				localStorage.setItem 'toc', 'hide'
-				toc.style.height = '60px'
-
 	initSyntaxHighlight = ->
 		[].slice.apply(document.querySelectorAll('pre code[class]')).forEach((el) ->
 			lang = el.getAttribute('class').replace('lang-', '')

@@ -1,9 +1,10 @@
-- v1.1.1
+- v1.1.2
 
   - Update `express@4.10.5`.
   - Add the `kit.promisify` API.
   - Fixed a path encoding bug.
   - Decouple the `kit` module. Now use `nokit` as `kit`.
+  - Optimize the doc style.
 
 - v1.1.0
 
