@@ -44,6 +44,8 @@ describe 'Basic:', ->
 		port = 8022
 		watcherFileCache = null
 
+		return tdone()
+
 		server = nb.service.listen port, ->
 			Promise.all([
 				get '/main.js', port
