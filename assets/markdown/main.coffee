@@ -16,8 +16,8 @@ do ->
 		tag = h.tagName
 		n = +tag.match(/\d+/) - minH
 		div = createDiv """
-			#{space(n)}
 			<#{tag}>
+				#{space(n)}
 				#{h.textContent.trim()}
 			</#{tag}>
 		"""

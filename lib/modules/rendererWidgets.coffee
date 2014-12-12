@@ -406,11 +406,7 @@ module.exports = rendererWidgets =
 			reqPath = opts.reqPathHandler req.path
 
 			if req.query.gotoDoc?
-				currModulePath = '/'
-				if reqPath
-					currModulePath = kit.url
-						.parse(reqPath).pathname
-						.replace(/\/[^\/]+$/, '/')
+				currModulePath = reqPath.replace(/\/[^\/]+$/, '/')
 
 				paths = kit.generateNodeModulePaths(
 					req.query.gotoDoc.replace('/', kit.path.sep)

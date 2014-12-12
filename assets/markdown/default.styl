@@ -386,6 +386,13 @@ body
 	tt, code, pre
 		font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 
+prefix(name, args...)
+	-webkit-{name} args
+	-moz-{name} args
+	-ms-{name} args
+	-o-{name} args
+	{name} args
+
 #toc
 	box-sizing border-box
 	font-family n
@@ -394,7 +401,7 @@ body
 	right 0
 	top 0
 	max-height 100%
-	padding 0 20px
+	padding 0 15px
 	overflow auto
 
 	h1
@@ -405,17 +412,21 @@ body
 		overflow: auto;
 
 		h1, h2, h3, h4
+			box-sizing border-box
 			display inline-block
-			margin 5px 0
-			color #2080df
+			padding 5px
+			margin 0
+			color #2C76BE
 			text-decoration none
 			font-weight normal
 			cursor pointer
-			border-bottom 1px solid rgba(0, 0, 0, 0)
-			transition all 0.2s
+			width 100%
+			border-radius 3px
+
+			background-color #fff
+			transition background-color 0.2s
 			&:hover
-				border-bottom 1px solid
-				color #0e5eb6
+				background-color rgba(86, 191, 255, 0.1)
 
 		h2
 			font-size 16px
