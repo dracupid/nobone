@@ -44,8 +44,6 @@ describe 'Basic:', ->
 		port = 8022
 		watcherFileCache = null
 
-		return tdone()
-
 		server = nb.service.listen port, ->
 			Promise.all([
 				get '/main.js', port
@@ -56,6 +54,7 @@ describe 'Basic:', ->
 				get '/less.css', port
 			])
 			.then (results) ->
+				kit.log results
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 77
 				assert.equal results[1].indexOf("color: #319;"), 94
 				assert.equal results[2], 'compileError'
@@ -63,27 +62,27 @@ describe 'Basic:', ->
 
 				assert.equal results[4].indexOf('Nobone'), 44
 				assert.equal results[5].indexOf('color: red;'), 58
-			# .then ->
-			# 	nb.kit.readFile 'test/fixtures/depsRoot/mixin3.styl'
-			# .then (str) ->
-			# 	# Test the watcher
-			# 	watcherFileCache = str
+			.then ->
+				nb.kit.readFile 'test/fixtures/depsRoot/mixin3.styl'
+			.then (str) ->
+				# Test the watcher
+				watcherFileCache = str
 
-			# 	compileP = new Promise (resolve) ->
-			# 		nb.renderer.once 'compiled', resolve
+				compileP = new Promise (resolve) ->
+					nb.renderer.once 'compiled', resolve
 
-			# 	nb.kit.outputFile('test/fixtures/depsRoot/mixin3.styl', """
-			# 	cor()
-			# 		.input3
-			# 			color #990
-			# 	""").then -> compileP
-			# .then ->
-			# 	get '/default.css', port
-			# .then (code) ->
-			# 	assert.equal code.indexOf("color: #990;"), 94
-			# 	tdone()
-			# .then ->
-			# 	nb.kit.outputFile 'test/fixtures/depsRoot/mixin3.styl', watcherFileCache
+				nb.kit.outputFile('test/fixtures/depsRoot/mixin3.styl', """
+				cor()
+					.input3
+						color #990
+				""").then -> compileP
+			.then ->
+				get '/default.css', port
+			.then (code) ->
+				assert.equal code.indexOf("color: #990;"), 94
+				tdone()
+			.then ->
+				nb.kit.outputFile 'test/fixtures/depsRoot/mixin3.styl', watcherFileCache
 			.catch (err) ->
 				tdone err.stack or err
 			.done ->
