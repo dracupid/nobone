@@ -90,6 +90,8 @@ Such as `http://127.0.0.1:8013/app.js?source#L10`,
 it will open a html page with syntax highlight.
 Or full version `http://127.0.0.1:8013/app.js?source=javascript#L10`
 
+You can use `/nobone-doc/:moduleName/:path` to open a dependencies' markdown file. Such as `/nobone-doc/jdb/readme.md`.
+
 *****************************************************************************
 
 ## CLI

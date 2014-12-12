@@ -1,5 +1,7 @@
 ###*
  * See my [jdb][jdb] project.
+ *
+ * [Offline Documentation](/nobone-doc/jdb/readme.md)
  * [jdb]: https://github.com/ysmood/jdb
 ###
 Overview = 'db'

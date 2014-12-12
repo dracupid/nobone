@@ -191,6 +191,8 @@ Such as `http://127.0.0.1:8013/app.js?source#L10`,
 it will open a html page with syntax highlight.
 Or full version `http://127.0.0.1:8013/app.js?source=javascript#L10`
 
+You can use `/nobone-doc/:moduleName/:path` to open a dependencies' markdown file. Such as `/nobone-doc/jdb/readme.md`.
+
 *****************************************************************************
 
 ## CLI
@@ -859,12 +861,14 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
 ### db
 
-- #### <a href="lib/modules/db.coffee?source#L5" target="_blank"><b>Overview</b></a>
+- #### <a href="lib/modules/db.coffee?source#L7" target="_blank"><b>Overview</b></a>
 
  See my [jdb][jdb] project.
+ 
+ [Offline Documentation](/nobone-doc/jdb/readme.md)
  [jdb]: https://github.com/ysmood/jdb
 
-- #### <a href="lib/modules/db.coffee?source#L19" target="_blank"><b>db</b></a>
+- #### <a href="lib/modules/db.coffee?source#L21" target="_blank"><b>db</b></a>
 
  Create a JDB instance.
 
@@ -879,7 +883,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Jdb_ }
 
-- #### <a href="lib/modules/db.coffee?source#L31" target="_blank"><b>jdb.loaded</b></a>
+- #### <a href="lib/modules/db.coffee?source#L33" target="_blank"><b>jdb.loaded</b></a>
 
  A promise object that help you to detect when
  the db is totally loaded.
