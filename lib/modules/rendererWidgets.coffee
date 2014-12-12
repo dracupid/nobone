@@ -410,7 +410,7 @@ module.exports = rendererWidgets =
 				kit.readFile path, 'utf8'
 				.then (md) ->
 					# Remove the online images. Image loading may stuck the page.
-					md = md.replace /\[\!\[NPM.+\)/, ''
+					md = md.replace /!\[([^\[\]]+?)\]\(http.+?\)/g, (m, p) -> p
 					renderer.fileHandlers['.md'].compiler md, reqPath
 				.then (html) ->
 					res.send html

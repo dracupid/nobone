@@ -9,9 +9,15 @@ service.get '/', (req, res) ->
 	res.redirect '/readme.md?offlineMarkdown'
 
 service.get '/nobone-doc/*', (req, res, next) ->
+	reqPath = '/'
+	if req.headers.referer
+		reqPath = kit.url
+			.parse(req.headers.referer).pathname
+			.replace(/\/[^\/]+$/, '/')
+
 	paths = kit.generateNodeModulePaths(
 		req.params[0].replace('/', kit.path.sep)
-		noboneDir
+		kit.path.join noboneDir, reqPath
 	)
 
 	for path in paths
@@ -19,7 +25,7 @@ service.get '/nobone-doc/*', (req, res, next) ->
 			url = kit.path
 				.relative(noboneDir, path)
 				.replace(kit.path.sep, '/')
-			res.redirect '/' + url
+			res.redirect '/' + url + '?offlineMarkdown'
 			return
 	next()
 
