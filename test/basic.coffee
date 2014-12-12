@@ -80,10 +80,10 @@ describe 'Basic:', ->
 			.then (code) ->
 				assert.equal code.indexOf("color: #990;"), 94
 				tdone()
-			.catch (err) ->
-				tdone err.stack
 			.then ->
 				nb.kit.outputFile 'test/fixtures/depsRoot/mixin3.styl', watcherFileCache
+			.catch (err) ->
+				tdone err.stack or err
 			.done ->
 				server.close()
 
