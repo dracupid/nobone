@@ -8,27 +8,6 @@ noboneDir = kit.path.join __dirname, '..'
 service.get '/', (req, res) ->
 	res.redirect '/readme.md?offlineMarkdown'
 
-service.get '/nobone-doc/*', (req, res, next) ->
-	reqPath = '/'
-	if req.headers.referer
-		reqPath = kit.url
-			.parse(req.headers.referer).pathname
-			.replace(/\/[^\/]+$/, '/')
-
-	paths = kit.generateNodeModulePaths(
-		req.params[0].replace('/', kit.path.sep)
-		kit.path.join noboneDir, reqPath
-	)
-
-	for path in paths
-		if kit.fs.existsSync path
-			url = kit.path
-				.relative(noboneDir, path)
-				.replace(kit.path.sep, '/')
-			res.redirect '/' + url + '?offlineMarkdown'
-			return
-	next()
-
 service.use renderer.staticEx({
 	rootDir: noboneDir
 	index: true

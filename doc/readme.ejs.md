@@ -175,7 +175,9 @@ See the [doc/changelog.md](doc/changelog.md) file.
 
 ## Unit Test
 
-  npm test
+```shell
+npm test
+```
 
 *****************************************************************************
 

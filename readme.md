@@ -356,6 +356,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The code of client helper.
 
+### kit
+
+- #### <a href="lib/kit.coffee?source#L8" target="_blank"><b>Overview</b></a>
+
+ A collection of commonly used functions.
+ 
+ - [API Documentation](https://github.com/ysmood/nokit)
+ - [Offline Documentation](?gotoDoc=nokit/readme.md)
+
 ### service
 
 - #### <a href="lib/modules/service.coffee?source#L6" target="_blank"><b>Overview</b></a>
@@ -865,7 +874,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  See my [jdb][jdb] project.
  
- [Offline Documentation](/nobone-doc/jdb/readme.md)
+ [Offline Documentation](?gotoDoc=jdb/readme.md)
  [jdb]: https://github.com/ysmood/jdb
 
 - #### <a href="lib/modules/db.coffee?source#L21" target="_blank"><b>db</b></a>
@@ -1109,15 +1118,6 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     log '%s persons'.lang([10]) # -> '10 persons'
     ```
 
-### kit
-
-- #### <a href="lib/kit.coffee?source#L8" target="_blank"><b>Overview</b></a>
-
- A collection of commonly used functions.
- 
- - [API Documentation](https://github.com/ysmood/nokit)
- - [Offline Documentation](/nobone-doc/nokit/readme.md)
-
 
 
 ## Changelog
@@ -1128,7 +1128,9 @@ See the [doc/changelog.md](doc/changelog.md) file.
 
 ## Unit Test
 
-  npm test
+```shell
+npm test
+```
 
 *****************************************************************************
 

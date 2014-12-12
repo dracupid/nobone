@@ -405,7 +405,28 @@ module.exports = rendererWidgets =
 		(req, res, next) ->
 			reqPath = opts.reqPathHandler req.path
 
-			if req.query.offlineMarkdown?
+			if req.query.gotoDoc?
+				currModulePath = '/'
+				if reqPath
+					currModulePath = kit.url
+						.parse(reqPath).pathname
+						.replace(/\/[^\/]+$/, '/')
+
+				paths = kit.generateNodeModulePaths(
+					req.query.gotoDoc.replace('/', kit.path.sep)
+					kit.path.join opts.rootDir, currModulePath
+				)
+
+				for path in paths
+					if kit.fs.existsSync path
+						url = kit.path
+							.relative(opts.rootDir, path)
+							.replace(kit.path.sep, '/')
+						res.redirect '/' + url + '?offlineMarkdown'
+						return
+				next()
+
+			else if req.query.offlineMarkdown?
 				path = kit.path.join opts.rootDir, reqPath
 				kit.readFile path, 'utf8'
 				.then (md) ->

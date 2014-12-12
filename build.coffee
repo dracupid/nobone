@@ -60,13 +60,13 @@ buildDocs = ->
 			faq
 			mods: [
 				'lib/nobone.coffee'
+				'lib/kit.coffee'
 				'lib/modules/service.coffee'
 				'lib/modules/renderer.coffee'
 				'lib/modules/rendererWidgets.coffee'
 				'lib/modules/db.coffee'
 				'lib/modules/proxy.coffee'
 				'lib/modules/lang.coffee'
-				'lib/kit.coffee'
 			]
 			benchmark: kit.parseComment 'benchmark', rets[3] + rets[4]
 		}
