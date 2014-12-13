@@ -27,9 +27,20 @@ get = (path, port, headers) ->
 		else
 			Promise.reject err
 
+freePort = ->
+	net = kit.require 'net'
+	server = net.createServer()
+
+	new Promise (resolve) ->
+		server.listen 0, ->
+			{ port } = server.address()
+
+			server.close ->
+				resolve port
+
 describe 'Basic:', ->
 
-	it 'compiler', (tdone) ->
+	it 'static renderer', (tdone) ->
 		{ service, renderer } = nobone { service: {}, renderer: {} }
 
 		service.use renderer.static('test/fixtures')
@@ -110,11 +121,12 @@ describe 'Basic:', ->
 		kit.glob 'test/fixtures/inde*.ejs'
 		.then ([path]) ->
 			renderer.render(path, '.html')
-		.done (tpl) ->
+		.then (tpl) ->
 			assert.equal(
 				tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
 			)
 			tdone()
+		.catch tdone
 
 	it 'render raw', (tdone) ->
 		{ renderer } = nobone { renderer: {} }
@@ -122,18 +134,20 @@ describe 'Basic:', ->
 		kit.glob 'test/fixtures/include.ejs'
 		.then ([path]) ->
 			renderer.render(path)
-		.done (func) ->
+		.then (func) ->
 			str = func.toString().replace /\r\n/g, '\n'
 			assert.equal str.indexOf('include-content'), 77
 			tdone()
+		.catch tdone
 
 	it 'render js directly', (tdone) ->
 		{ renderer } = nobone { renderer: {} }
 
 		renderer.render('test/fixtures/test.js')
-		.done (str) ->
+		.then (str) ->
 			assert.equal str, 'var a = 10;'
 			tdone()
+		.catch tdone
 
 	it 'renderer with data', (tdone) ->
 		{ renderer: rr } = nobone()
@@ -141,11 +155,12 @@ describe 'Basic:', ->
 		rr.render(
 			'test/fixtures/index.html'
 			{ name: 'nobone' }
-		).done (page) ->
+		).then (page) ->
 			assert.equal(
 				page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
 			)
 			tdone()
+		.catch tdone
 
 	it 'database', (tdone) ->
 		{ db } = nobone { db: { dbPath: '.nobone/db_test.db' } }
@@ -162,7 +177,6 @@ describe 'Basic:', ->
 				}).then (d) ->
 					assert.equal d, 1
 					tdone()
-		.done()
 
 	it 'custom codeHandler', (tdone) ->
 		{ renderer: rr } = nobone {
@@ -175,37 +189,38 @@ describe 'Basic:', ->
 			str[0..3]
 
 		rr.render 'test/fixtures/main.js'
-		.done (str) ->
+		.then (str) ->
 			assert.equal str, 'elem'
 			tdone()
+		.catch tdone
 
 	it 'nobone.close', (tdone) ->
-		port = 8398
 		nbInstance = nobone { service: {} }
 		{ service } = nbInstance
-		service.listen port, ->
-			nbInstance.close().done ->
+		service.listen 0, ->
+			nbInstance.close()
+			.then ->
 				tdone()
+			.catch tdone
 
 	it 'cli', (tdone) ->
-		port = 8223
-		ps = kit.spawn('node', [
-			'bin/nobone.js'
-			'-p', port
-			'--no-open-dir'
-			'test/fixtures'
-		]).process
+		freePort().then (port) ->
+			ps = kit.spawn('node', [
+				'bin/nobone.js'
+				'-p', port
+				'--no-open-dir'
+				'test/fixtures'
+			]).process
 
-		get '/main.js', port
-		.then (res) ->
-			assert.equal res.indexOf("document.body.appendChild(elem);"), 77
-			setTimeout ->
-				ps.kill 'SIGINT'
-				tdone()
-			, 200
-		.catch (err) ->
-			tdone err.stack
-		.done()
+			get '/main.js', port
+			.then (res) ->
+				assert.equal res.indexOf("document.body.appendChild(elem);"), 77
+				setTimeout ->
+					ps.kill 'SIGINT'
+					tdone()
+				, 200
+			.catch (err) ->
+				tdone err.stack
 
 	it 'lang', ->
 		{ lang } = nobone { lang: { langPath: 'test/fixtures/lang' } }

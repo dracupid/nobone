@@ -33,7 +33,7 @@ task 'test', 'Basic test', (opts) ->
 			'test/basic.coffee'
 		].forEach (file) ->
 			kit.spawn('mocha', [
-				'-t', 3000
+				'-t', 5000
 				'-r', 'coffee-script/register'
 				'-R', 'spec'
 				file
