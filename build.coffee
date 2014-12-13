@@ -21,6 +21,10 @@ compileCoffee = ->
 		'-cb', 'lib'
 	]
 
+	kit.spawn 'coffee', [
+		'-cb', 'assets'
+	]
+
 compileStylus = ->
 	kit.log 'Compile stylus...'
 

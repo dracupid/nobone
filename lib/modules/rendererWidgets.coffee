@@ -8,8 +8,6 @@ nobone = require '../nobone'
 kit = require '../kit'
 { Promise, fs } = kit
 
-express = require 'express'
-
 module.exports = rendererWidgets =
 	genFileHandlers: ->
 		'.html':
@@ -296,6 +294,8 @@ module.exports = rendererWidgets =
 				next()
 
 	static: (renderer, opts = {}) ->
+		express = kit.require 'express'
+
 		if _.isString opts
 			opts = { rootDir: opts }
 
@@ -365,6 +365,8 @@ module.exports = rendererWidgets =
 			.done()
 
 	staticEx: (renderer, opts = {}) ->
+		ejs = require 'ejs'
+
 		if _.isString opts
 			opts = { rootDir: opts }
 
@@ -375,6 +377,9 @@ module.exports = rendererWidgets =
 			reqPathHandler: (path) -> decodeURIComponent path
 		}
 
+		noboneRoot = kit.path.join __dirname, '../..'
+		assetsRoot = kit.path.join noboneRoot, 'assets'
+
 		renderer.fileHandlers['.md'].compiler = (str, path) ->
 			marked = kit.require 'marked'
 
@@ -383,29 +388,26 @@ module.exports = rendererWidgets =
 			catch err
 				return Promise.reject err
 
-			Promise.all([
-				'index.html'
-
-				'sh/shCore.js'
-				'sh/brushes.js'
-				'main.js'
-
-				'sh/shCoreDefault.css'
-				'default.css'
-			].map (path) ->
-				path = kit.path.join __dirname, '../../assets/markdown', path
-				renderer.render path, false
-			).then ([tpl, shCore, shBrush, main, shStyle, style]) ->
-				js = [shCore, shBrush, main].join('\n\n')
-				css = [shStyle, style].join('\n\n')
-				tpl { path, body: md, js, css }
+			tplPath = kit.path.join assetsRoot, 'markdown/index.ejs'
+			kit.readFile tplPath, 'utf8'
+			.then (str) ->
+				try
+					tplFn = ejs.compile str, { filename: tplPath }
+					tplFn { path, body: md }
+				catch err
+					Promise.reject err
 
 		staticMiddleware = rendererWidgets.static renderer, opts
 
 		(req, res, next) ->
 			reqPath = opts.reqPathHandler req.path
 
-			if req.query.gotoDoc?
+			if req.query.noboneAssets?
+				path = req.path.replace /.*assets/, ''
+				res.sendFile path, { root: assetsRoot }, (err) ->
+					next() if err
+
+			else if req.query.gotoDoc?
 				currModulePath = reqPath.replace(/\/[^\/]+$/, '/')
 
 				paths = kit.generateNodeModulePaths(
@@ -458,12 +460,4 @@ module.exports = rendererWidgets =
 						res.send err.toString()
 
 			else
-				staticMiddleware req, res, ->
-					if reqPath.indexOf('/assets/fonts/Roboto-') == 0
-						res.sendFile reqPath, {
-							root: kit.path.join __dirname, '..', '..'
-						}, (err) ->
-							if err
-								next()
-					else
-						next()
+				staticMiddleware req, res, next

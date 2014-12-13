@@ -1,4 +1,4 @@
-[![nobone](assets/img/nobone.png)](https://github.com/ysmood/nobone)
+[![nobone](assets/img/nobone.png?noboneAssets)](https://github.com/ysmood/nobone)
 
 
 ## Overview
@@ -814,7 +814,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  It use the renderer module to create some handy functions.
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L61" target="_blank"><b>compiler</b></a>
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L59" target="_blank"><b>compiler</b></a>
 
  The compiler can handle any type of file.
 
