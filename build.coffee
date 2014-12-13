@@ -75,7 +75,7 @@ buildDocs = ->
 			]
 			benchmark: kit.parseComment 'benchmark', rets[3] + rets[4]
 			examples: rets[5].map(
-					(l) -> "- [#{kit.path.basename(l, '.coffee')}](#{l})"
+					(l) -> "- [#{kit.path.basename(l, '.coffee')}](#{l}?source)"
 				).join('\n')
 		}
 

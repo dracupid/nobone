@@ -168,12 +168,12 @@ close = ->
 
 See the [examples](examples).
 
-- [basic](examples/basic.coffee)
-- [customCompiler](examples/customCompiler.coffee)
-- [pac](examples/pac.coffee)
-- [proxy](examples/proxy.coffee)
-- [proxyGlobalBandwidth](examples/proxyGlobalBandwidth.coffee)
-- [threadPool](examples/threadPool.coffee)
+- [basic](examples/basic.coffee?source)
+- [customCompiler](examples/customCompiler.coffee?source)
+- [pac](examples/pac.coffee?source)
+- [proxy](examples/proxy.coffee?source)
+- [proxyGlobalBandwidth](examples/proxyGlobalBandwidth.coffee?source)
+- [threadPool](examples/threadPool.coffee?source)
 
 ### CLI Usage
 

@@ -75,6 +75,8 @@
     if (hList.length === 0) {
       toc.style.display = 'none';
       return;
+    } else {
+      $('#main')[0].classList.add('toc');
     }
     hList.forEach(function(el) {
       return content.appendChild(el);

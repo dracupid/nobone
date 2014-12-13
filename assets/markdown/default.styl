@@ -366,10 +366,7 @@ body
 
 #main
 	box-sizing border-box
-	width 75%
-	float left
 	padding 30px
-	border-right 1px dashed #818181
 
 	hr
 		background: transparent url('/assets/markdown/img/hr-line.png?noboneAssets') repeat-x 0 0;
@@ -385,6 +382,11 @@ body
 
 	tt, code, pre
 		font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+	&.toc
+		width 75%
+		float left
+		border-right 1px dashed #818181
 
 prefix(name, args...)
 	-webkit-{name} args
