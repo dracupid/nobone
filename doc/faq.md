@@ -24,3 +24,7 @@
 
   > These are optinal packages, you have to install them first.
   > For example, if you want nobone to support `jade`: `npm install -g jade`.
+
+0. How to disable that annoying nobone update warn?
+
+  > There's an option to do this: `nb = nobone { checkUpgrade: false }`.
