@@ -7,14 +7,6 @@ nobone = require '../lib/nobone'
 { kit } = nobone
 { Promise, _ } = kit
 
-nb = nobone {
-	db: {}
-	renderer: {}
-	service: {}
-	lang:
-		langPath: 'test/fixtures/lang'
-}
-
 get = (path, port, headers) ->
 	wait = (span = 100) ->
 		new Promise (resolve) ->
@@ -37,17 +29,16 @@ get = (path, port, headers) ->
 
 describe 'Basic:', ->
 
-	nb.service.use nb.renderer.static('test/fixtures')
-	nb.service.use '/test', nb.renderer.static('test')
-
 	it 'compiler', (tdone) ->
-		port = 8022
-		watcherFileCache = null
+		{ service, renderer } = nobone { service: {}, renderer: {} }
 
-		server = nb.service.listen port, ->
+		service.use renderer.static('test/fixtures')
+		service.use '/test', renderer.static('test')
+
+		server = service.listen 0, ->
+			{ port } = server.address()
 			Promise.all([
 				get '/main.js', port
-				get '/default.css', port
 				get '/errSample.css', port
 				get '/' + encodeURIComponent('打包.jsb'), port
 				get '/jade.html', port
@@ -55,43 +46,22 @@ describe 'Basic:', ->
 			])
 			.then (results) ->
 				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 77
-				assert.equal results[1].indexOf("color: #319;"), 94
-				assert.equal results[2], 'compileError'
-				assert.equal results[3].indexOf('sourceMappingURL'), 812
-
-				assert.equal results[4].indexOf('Nobone'), 44
-				assert.equal results[5].indexOf('color: red;'), 58
-			.then ->
-				nb.kit.readFile 'test/fixtures/depsRoot/mixin3.styl'
-			.then (str) ->
-				# Test the watcher
-				watcherFileCache = str
-
-				compileP = new Promise (resolve) ->
-					nb.renderer.once 'compiled', resolve
-
-				nb.kit.outputFile('test/fixtures/depsRoot/mixin3.styl', """
-				cor()
-					.input3
-						color #990
-				""").then -> compileP
-			.then ->
-				get '/default.css', port
-			.then (code) ->
-				assert.equal code.indexOf("color: #990;"), 94
+				assert.equal results[1], 'compileError'
+				assert.equal results[2].indexOf('sourceMappingURL'), 812
+				assert.equal results[3].indexOf('Nobone'), 44
+				assert.equal results[4].indexOf('color: red;'), 58
 				tdone()
-			.then ->
-				nb.kit.outputFile 'test/fixtures/depsRoot/mixin3.styl', watcherFileCache
 			.catch (err) ->
 				tdone err.stack or err
-			.done ->
-				kit.log 'ys 0'
+			.then ->
 				server.close()
 
 	it 'render force html', (tdone) ->
-		nb.kit.glob 'test/fixtures/inde*.ejs'
+		{ renderer } = nobone { renderer: {} }
+
+		kit.glob 'test/fixtures/inde*.ejs'
 		.then ([path]) ->
-			nb.renderer.render(path, '.html')
+			renderer.render(path, '.html')
 		.done (tpl) ->
 			assert.equal(
 				tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
@@ -99,22 +69,27 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'render raw', (tdone) ->
-		nb.kit.glob 'test/fixtures/include.ejs'
+		{ renderer } = nobone { renderer: {} }
+
+		kit.glob 'test/fixtures/include.ejs'
 		.then ([path]) ->
-			nb.renderer.render(path)
+			renderer.render(path)
 		.done (func) ->
 			str = func.toString().replace /\r\n/g, '\n'
 			assert.equal str.indexOf('include-content'), 77
 			tdone()
 
 	it 'render js directly', (tdone) ->
-		nb.renderer.render('test/fixtures/test.js')
+		{ renderer } = nobone { renderer: {} }
+
+		renderer.render('test/fixtures/test.js')
 		.done (str) ->
 			assert.equal str, 'var a = 10;'
 			tdone()
 
 	it 'renderer with data', (tdone) ->
 		{ renderer: rr } = nobone()
+
 		rr.render(
 			'test/fixtures/index.html'
 			{ name: 'nobone' }
@@ -125,13 +100,15 @@ describe 'Basic:', ->
 			tdone()
 
 	it 'database', (tdone) ->
-		nb.db.loaded.then ->
-			nb.db.exec({
+		{ db } = nobone { db: { dbPath: '.nobone/db_test.db' } }
+
+		db.loaded.then ->
+			db.exec({
 				command: (jdb) ->
 					jdb.doc.a = 1
 					jdb.save()
 			}).then ->
-				nb.db.exec({
+				db.exec({
 					command: (jdb) ->
 						jdb.send jdb.doc.a
 				}).then (d) ->
@@ -156,14 +133,15 @@ describe 'Basic:', ->
 
 	it 'nobone.close', (tdone) ->
 		port = 8398
-		nb2 = nobone()
-		nb2.service.listen port, ->
-			nb2.close().done ->
+		nbInstance = nobone { service: {} }
+		{ service } = nbInstance
+		service.listen port, ->
+			nbInstance.close().done ->
 				tdone()
 
 	it 'cli', (tdone) ->
 		port = 8223
-		ps = nb.kit.spawn('node', [
+		ps = kit.spawn('node', [
 			'bin/nobone.js'
 			'-p', port
 			'--no-open-dir'
@@ -182,7 +160,9 @@ describe 'Basic:', ->
 		.done()
 
 	it 'lang', ->
-		str = nb.lang 'test', 'cn'
+		{ lang } = nobone { lang: { langPath: 'test/fixtures/lang' } }
+
+		str = lang 'test', 'cn'
 		assert.equal str, '测试'
 		assert.equal 'test|0'.l, 'test'
 		assert.equal 'find %s men'.lang([10], 'cn'), '找到 10 个人'
