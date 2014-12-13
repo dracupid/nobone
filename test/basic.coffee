@@ -50,11 +50,59 @@ describe 'Basic:', ->
 				assert.equal results[2].indexOf('sourceMappingURL'), 812
 				assert.equal results[3].indexOf('Nobone'), 44
 				assert.equal results[4].indexOf('color: red;'), 58
+
+				server.close ->
+					tdone()
+			.catch (err) ->
+				server.close ->
+					tdone err.stack or err
+
+	it 'renderer watch', (tdone) ->
+		{ service, renderer } = nobone { service: {}, renderer: {} }
+
+		service.use renderer.static('test/fixtures')
+
+		watcherFileCache = null
+
+		server = service.listen 0, ->
+			{ port } = server.address()
+
+			final = ->
+				kit.outputFile 'test/fixtures/depsRoot/mixin3.styl', watcherFileCache
+				.then ->
+					kit.promisify(server.close, server)()
+
+			watched = new Promise (resolve) ->
+				renderer.once 'watchFile', resolve
+
+			get '/default.css', port
+			.then ->
+				kit.readFile 'test/fixtures/depsRoot/mixin3.styl'
+			.then (str) ->
+				# Test the watcher
+				watcherFileCache = str
+				watched
+			.then ->
+				compiled = new Promise (resolve) ->
+					renderer.once 'compiled', resolve
+
+				kit.outputFile('test/fixtures/depsRoot/mixin3.styl', """
+				cor()
+					.input3
+						color #990
+				""")
+
+				compiled
+			.then ->
+				get '/default.css', port
+			.then (code) ->
+				assert.equal code.indexOf("color: #990;"), 94
+				final()
+			.then ->
 				tdone()
 			.catch (err) ->
-				tdone err.stack or err
-			.then ->
-				server.close()
+				final().then ->
+					tdone err.stack or err
 
 	it 'render force html', (tdone) ->
 		{ renderer } = nobone { renderer: {} }
@@ -172,18 +220,18 @@ describe 'Basic:', ->
 describe 'Proxy: ', ->
 
 	it 'url', (tdone) ->
-		nb3 = nobone { service: {}, proxy: {} }
-		nb3.service.get '/proxyOrigin', (req, res) ->
+		nbInstance = nobone { service: {}, proxy: {} }
+		nbInstance.service.get '/proxyOrigin', (req, res) ->
 			res.send req.headers
 
-		nb3.service.use '/proxy', (req, res) ->
-			nb3.proxy.url req, res, '/proxyOrigin'
+		nbInstance.service.use '/proxy', (req, res) ->
+			nbInstance.proxy.url req, res, '/proxyOrigin'
 
-		nb3.service.listen 8291, ->
+		nbInstance.service.listen 8291, ->
 			p = get '/proxy', 8291, { client: 'ok' }
 			.then (body) ->
 				data = JSON.parse body
 				assert.equal data.client, 'ok'
 
-				nb3.close()
+				nbInstance.close()
 				tdone()
