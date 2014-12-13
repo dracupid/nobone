@@ -40,27 +40,84 @@ freePort = ->
 
 describe 'Basic:', ->
 
-	it 'static renderer', (tdone) ->
+	it 'render main.coffee', (tdone) ->
 		{ service, renderer } = nobone { service: {}, renderer: {} }
 
 		service.use renderer.static('test/fixtures')
-		service.use '/test', renderer.static('test')
 
 		server = service.listen 0, ->
 			{ port } = server.address()
-			Promise.all([
-				get '/main.js', port
-				get '/errSample.css', port
-				get '/' + encodeURIComponent('打包.jsb'), port
-				get '/jade.html', port
-				get '/less.css', port
-			])
-			.then (results) ->
-				assert.equal results[0].indexOf("document.body.appendChild(elem);"), 77
-				assert.equal results[1], 'compileError'
-				assert.equal results[2].indexOf('sourceMappingURL'), 812
-				assert.equal results[3].indexOf('Nobone'), 44
-				assert.equal results[4].indexOf('color: red;'), 58
+			get '/main.js', port
+			.then (body) ->
+				assert.equal body.indexOf("document.body.appendChild(elem);"), 77
+
+				server.close ->
+					tdone()
+			.catch (err) ->
+				server.close ->
+					tdone err.stack or err
+
+	it 'render errSample.styl', (tdone) ->
+		{ service, renderer } = nobone { service: {}, renderer: {} }
+
+		service.use renderer.static('test/fixtures')
+
+		server = service.listen 0, ->
+			{ port } = server.address()
+			get '/errSample.css', port
+			.then (body) ->
+				assert.equal body, 'compileError'
+
+				server.close ->
+					tdone()
+			.catch (err) ->
+				server.close ->
+					tdone err.stack or err
+
+	it 'render 打包.coffee', (tdone) ->
+		{ service, renderer } = nobone { service: {}, renderer: {} }
+
+		service.use renderer.static('test/fixtures')
+
+		server = service.listen 0, ->
+			{ port } = server.address()
+			get '/' + encodeURIComponent('打包.jsb'), port
+			.then (body) ->
+				assert.equal body.indexOf('sourceMappingURL'), 812
+
+				server.close ->
+					tdone()
+			.catch (err) ->
+				server.close ->
+					tdone err.stack or err
+
+	it 'render jade.jade', (tdone) ->
+		{ service, renderer } = nobone { service: {}, renderer: {} }
+
+		service.use renderer.static('test/fixtures')
+
+		server = service.listen 0, ->
+			{ port } = server.address()
+			get '/jade.html', port
+			.then (body) ->
+				assert.equal body.indexOf('Nobone'), 44
+
+				server.close ->
+					tdone()
+			.catch (err) ->
+				server.close ->
+					tdone err.stack or err
+
+	it 'render less.less', (tdone) ->
+		{ service, renderer } = nobone { service: {}, renderer: {} }
+
+		service.use renderer.static('test/fixtures')
+
+		server = service.listen 0, ->
+			{ port } = server.address()
+			get '/less.css', port
+			.then (body) ->
+				assert.equal body.indexOf('color: red;'), 58
 
 				server.close ->
 					tdone()
