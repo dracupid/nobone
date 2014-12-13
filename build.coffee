@@ -54,6 +54,7 @@ buildDocs = ->
 		kit.readFile 'examples/basic.coffee', 'utf8'
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
 		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
+		kit.glob 'examples/*.coffee'
 	]).then (rets) ->
 		faq = rets[0]
 		basic = rets[2]
@@ -73,6 +74,9 @@ buildDocs = ->
 				'lib/modules/lang.coffee'
 			]
 			benchmark: kit.parseComment 'benchmark', rets[3] + rets[4]
+			examples: rets[5].map(
+					(l) -> "- [#{kit.path.basename(l, '.coffee')}](#{l})"
+				).join('\n')
 		}
 
 		Promise.all data.mods.map (path) ->

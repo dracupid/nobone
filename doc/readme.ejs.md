@@ -67,6 +67,8 @@ nobone -d
 
 See the [examples](examples).
 
+<%- examples %>
+
 ### CLI Usage
 
 You can use nobone as an alternative of `node` bin or `coffee`, it will auto detect file type and run it properly.
@@ -90,7 +92,7 @@ Such as `http://127.0.0.1:8013/app.js?source#L10`,
 it will open a html page with syntax highlight.
 Or full version `http://127.0.0.1:8013/app.js?source=javascript#L10`
 
-You can use `/nobone-doc/:moduleName/:path` to open a dependencies' markdown file. Such as `/nobone-doc/jdb/readme.md`.
+You can use `?gotoDoc` to open a dependencies' markdown file. Such as `jdb/readme.md?gotoDoc`. Nobone will use the node require's algorithm to search for the module recursively.
 
 *****************************************************************************
 
