@@ -21,5 +21,7 @@ module.exports = (opts) ->
 	service.listen opts.port, ->
 		port = service.server.address().port
 		kit.log "Listen: " + "#{opts.host}:#{port}".cyan
-		kit.open 'http://127.0.0.1:' + port
-		.catch(->)
+
+		if opts.openDir
+			kit.open 'http://127.0.0.1:' + port
+			.catch(->)

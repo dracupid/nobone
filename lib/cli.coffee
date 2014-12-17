@@ -55,7 +55,7 @@ cmder
 		String or JSON array. If 'off', nothing will be watched."
 		(list) ->
 			try
-				return JSON.parse list
+				return eval list
 			catch
 				return [list]
 	).option '--no-open-dir', "Disable auto-open the static file site."
@@ -86,11 +86,11 @@ init = ->
 		pluginPath = 'nobone-' + cmder.args[0]
 		if kit.fs.existsSync cmder.args[0]
 			if kit.fs.statSync(cmder.args[0]).isFile()
-				return runAnApp()
+				return runApp()
 			else
 				opts.rootDir = cmder.args[0]
 		else if findPlugin(pluginPath).length > 0
-			runAnApp pluginPath
+			runApp pluginPath
 			return
 		else
 			kit.err 'Nothing executable: '.red + cmder.args[0]
@@ -116,12 +116,13 @@ init = ->
 	if cmder.doc
 		server = require './docServer'
 		opts.port = if cmder.port then cmder.port else 8963
+		opts.openDir = cmder.openDir
 		server opts
 		return
 
-	runAndir()
+	runDir()
 
-runAnApp = (plugin) ->
+runApp = (plugin) ->
 	# Add the above dirs to PATH env.
 	if not process.env.NODE_PATH or process.env.NODE_PATH.indexOf(libPath) < 0
 		pathArr = [libPath, nodeLibPath]
@@ -144,7 +145,7 @@ runAnApp = (plugin) ->
 		else
 			require kit.fs.realpathSync(cmder.args[0])
 
-runAndir = ->
+runDir = ->
 	opts.port = cmder.port if cmder.port
 
 	kit.monitorApp {
