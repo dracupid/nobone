@@ -50,7 +50,7 @@ buildDocs = ->
 	kit.log 'Make readme...'
 	Promise.all([
 		kit.readFile 'doc/faq.md', 'utf8'
-		kit.readFile 'doc/readme.ejs.md', 'utf8'
+		kit.readFile 'doc/readme.tpl.md', 'utf8'
 		kit.readFile 'examples/basic.coffee', 'utf8'
 		kit.readFile 'benchmark/mem_vs_stream.coffee', 'utf8'
 		kit.readFile 'benchmark/crc_vs_jhash.coffee', 'utf8'
@@ -88,7 +88,6 @@ buildDocs = ->
 			data.mods = _.groupBy _.flatten(rets, true), (el) -> el.module
 			data
 	.then (data) ->
-		ejs = require 'ejs'
 		data._ = _
 
 		indent = (str, num = 0) ->
@@ -126,6 +125,6 @@ buildDocs = ->
 
 				data.modsApi += methodStr
 
-		out = ejs.render data.tpl, data
+		out = _.template data.tpl, data
 
 		kit.outputFile 'readme.md', out

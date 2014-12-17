@@ -13,7 +13,7 @@ module.exports = rendererWidgets =
 		'.html':
 			# Whether it is a default handler, optional.
 			default: true
-			extSrc: ['.ejs', '.jade']
+			extSrc: ['.tpl', '.ejs', '.jade']
 			enableFileCache: false
 			dependencyReg: {
 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
@@ -59,17 +59,32 @@ module.exports = rendererWidgets =
 			compiler: (str, path, data) ->
 				self = @
 				switch @ext
+					when '.tpl'
+						tplFn = (str, data) ->
+							_.tempalte str, {
+								escape: /<%=([\s\S]+?)%>/g
+								interpolate: /<%-([\s\S]+?)%>/g
+								sourceURL: path
+							}
+
 					when '.ejs'
-						compiler = kit.require 'ejs'
+						try
+							compiler = kit.require 'ejs'
+						catch e
+							kit.err '"npm install jade" first.'.red
+							process.exit()
+
 						tplFn = compiler.compile str, { filename: path }
 					when '.jade'
 						try
 							compiler = kit.require 'jade'
-							tplFn = compiler.compile str, { filename: path }
-							@depsList = tplFn.dependencies
 						catch e
+							kit.log e
 							kit.err '"npm install jade" first.'.red
 							process.exit()
+
+						tplFn = compiler.compile str, { filename: path }
+						@depsList = tplFn.dependencies
 
 				render = (data) ->
 					_.defaults data, {
@@ -82,13 +97,16 @@ module.exports = rendererWidgets =
 						html += nobone.client()
 					html
 
-				if _.isObject data
-					render data
-				else
-					func = (data = {}) ->
+				try
+					if _.isObject data
 						render data
-					func.toString = -> str
-					func
+					else
+						func = (data = {}) ->
+							render data
+						func.toString = -> str
+						func
+				catch err
+					Promise.reject err
 
 		'.js':
 			extSrc: '.coffee'
@@ -365,8 +383,6 @@ module.exports = rendererWidgets =
 			.done()
 
 	staticEx: (renderer, opts = {}) ->
-		ejs = require 'ejs'
-
 		if _.isString opts
 			opts = { rootDir: opts }
 
@@ -388,11 +404,11 @@ module.exports = rendererWidgets =
 			catch err
 				return Promise.reject err
 
-			tplPath = kit.path.join assetsRoot, 'markdown/index.ejs'
+			tplPath = kit.path.join assetsRoot, 'markdown/index.tpl'
 			kit.readFile tplPath, 'utf8'
 			.then (str) ->
 				try
-					tplFn = ejs.compile str, { filename: tplPath }
+					tplFn = _.template str, { filename: tplPath }
 					tplFn { path, body: md }
 				catch err
 					Promise.reject err

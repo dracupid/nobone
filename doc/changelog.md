@@ -1,3 +1,7 @@
+- v1.1.4
+
+  - Remove the dependency of `ejs`.
+
 - v1.1.3
 
   - Update `express@4.10.5`.
