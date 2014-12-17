@@ -1,5 +1,6 @@
 - v1.1.4
 
+  - Support the lastest `less`.
   - Remove the dependency of `ejs`.
 
 - v1.1.3
