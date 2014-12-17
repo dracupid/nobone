@@ -42,7 +42,7 @@
     "coffee-cache": "*",
     "coffeelint": "*",
     "jade": "*",
-    "less": "1.7.5",
+    "less": "*",
     "mocha": "*",
     "npm": "*",
     "stylus": "0.49.3",
