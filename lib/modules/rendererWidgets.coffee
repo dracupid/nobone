@@ -184,27 +184,45 @@ module.exports = rendererWidgets =
 						try
 							less = kit.require('less')
 						catch e
-							kit.err '"npm install less@1.7.5" first.'.red
+							kit.err '"npm install less" first.'.red
 							process.exit()
+						if less.version[0] < 2 # old API for less < 2.0.0
+							parser = new less.Parser(_.defaults data, {
+								sourceMapFileInline: kit.isDevelopment()
+								sourceMap: kit.isDevelopment()
+							})
+							new Promise (resolve, reject) ->
+								parser.parse str, (err, tree) ->
+									if err
+										kit.log err.stack
+										# The error message of less is the worst.
+										err.message = err.filename +
+											":#{err.line}:#{err.column}\n" +
+											err.message
+										reject err
+									else
+										self.depsList = _.keys(
+											parser.imports.files
+										)
+										resolve tree.toCSS(data)
+						else
+							opts = {}
+							if kit.isDevelopment()
+								opts =
+									sourceMap:
+										sourceMapFileInline: true
 
-						parser = new less.Parser(_.defaults data, {
-							sourceMapFileInline: kit.isDevelopment()
-							sourceMap: kit.isDevelopment()
-						})
-						new Promise (resolve, reject) ->
-							parser.parse str, (err, tree) ->
-								if err
-									kit.log err.stack
-									# The error message of less is the worst.
-									err.message = err.filename +
-										":#{err.line}:#{err.column}\n" +
-										err.message
-									reject err
-								else
-									self.depsList = _.keys(
-										parser.imports.files
-									)
-									resolve tree.toCSS(data)
+							less.render str, _.defaults data, opts
+							.then (output) ->
+								self.depsList = output.imports
+								output.css
+							, (err) ->
+								kit.log err.stack
+								# The error message of less is the worst.
+								err.message = err.filename +
+									":#{err.line}:#{err.column}\n" +
+									err.message
+								Promise.reject err
 
 					when '.sass', '.scss'
 						try
