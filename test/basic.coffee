@@ -18,6 +18,7 @@ get = (path, port, headers) ->
 		url: '127.0.0.1'
 		port: port
 		path: path
+		redirect: 3
 		headers
 	}
 	.catch (err) ->
@@ -277,7 +278,34 @@ describe 'Basic:', ->
 					tdone()
 				, 200
 			.catch (err) ->
+				ps.kill 'SIGINT'
 				tdone err.stack
+
+	it 'cli doc', (tdone) ->
+		os = require 'os'
+		freePort().then (port) ->
+			ps = kit.spawn('node', [
+				kit.path.join __dirname, '..', 'bin', 'nobone.js'
+				'-p', port
+				'--no-open-dir'
+				'--doc'
+			], {
+				cwd: os.tmpdir()
+			}).process
+
+			get '/', port
+			.then (res) ->
+				assert.equal res.indexOf("<body>") > 0, true
+				setTimeout ->
+					ps.kill 'SIGINT'
+					tdone()
+				, 200
+			.catch (err) ->
+				ps.kill 'SIGINT'
+				setTimeout ->
+					ps.kill 'SIGINT'
+					tdone err.stack
+				, 200
 
 	it 'lang', ->
 		{ lang } = nobone { lang: { langPath: 'test/fixtures/lang' } }
