@@ -63,14 +63,6 @@ cmder
 	.option '-d, --doc', 'Open the web documentation.'
 
 cmder
-	.command 'bone <destDir>'
-	.description 'A guid to create server scaffolding.'
-	.action (destDir) ->
-		isAction = true
-		bone = require './bone'
-		bone destDir
-
-cmder
 	.command 'ls'
 	.description 'List all available nobone plugins.'
 	.action ->

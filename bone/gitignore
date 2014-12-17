@@ -1,5 +1,0 @@
-.nobone
-node_modules
-bower_components
-conf.coffee
-*.db

@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'development'
 
 nobone = require './nobone'
 { kit, service, renderer } = nobone()

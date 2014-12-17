@@ -61,7 +61,7 @@ module.exports = rendererWidgets =
 				switch @ext
 					when '.tpl'
 						tplFn = (str, data) ->
-							_.tempalte str, {
+							_.tempalte str, data, {
 								escape: /<%=([\s\S]+?)%>/g
 								interpolate: /<%-([\s\S]+?)%>/g
 								sourceURL: path
@@ -423,11 +423,11 @@ module.exports = rendererWidgets =
 				return Promise.reject err
 
 			tplPath = kit.path.join assetsRoot, 'markdown/index.tpl'
+
 			kit.readFile tplPath, 'utf8'
 			.then (str) ->
 				try
-					tplFn = _.template str, { filename: tplPath }
-					tplFn { path, body: md }
+					_.template str, { path, body: md, sourceURL: tplPath }
 				catch err
 					Promise.reject err
 

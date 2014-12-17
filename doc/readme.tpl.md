@@ -49,14 +49,14 @@ nobone -d
 
 ## FAQ
 
-<%- faq %>
+<%= faq %>
 
 *****************************************************************************
 
 ## Quick Start
 
 ```coffee
-<%- basic %>
+<%= basic %>
 ```
 
 *****************************************************************************
@@ -67,7 +67,7 @@ nobone -d
 
 See the [examples](examples).
 
-<%- examples %>
+<%= examples %>
 
 ### CLI Usage
 
@@ -167,7 +167,7 @@ You can use `nobone ls` to list all installed plugins.
 
 _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
-<%- modsApi %>
+<%= modsApi %>
 
 ## Changelog
 
@@ -186,7 +186,7 @@ npm test
 ## Benchmark
 
 <% benchmark.forEach(function (el) { %>
-<%- el.description %>
+<%= el.description %>
 <% }) %>
 
 *****************************************************************************

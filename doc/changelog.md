@@ -1,5 +1,6 @@
 - v1.1.4
 
+  - Remove the `bone` helper.
   - Support the lastest `less`.
   - Remove the dependency of `ejs`.
 

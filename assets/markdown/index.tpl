@@ -4,13 +4,13 @@
 	<link rel="stylesheet" type="text/css" href="assets/markdown/sh/shCoreDefault.css?noboneAssets">
 	<link rel="stylesheet" type="text/css" href="assets/markdown/default.css?noboneAssets">
 
-	<title>Nobone - <%= path %></title>
+	<title>Nobone - <%- path %></title>
 </head>
 <body>
 
 <div id="main">
 	<div>
-		<%- body %>
+		<%= body %>
 	</div>
 </div>
 
