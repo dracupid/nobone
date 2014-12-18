@@ -186,6 +186,17 @@ describe 'Basic:', ->
 			tdone()
 		.catch tdone
 
+	it 'render tpl', (tdone) ->
+		{ renderer } = nobone { renderer: {} }
+
+		renderer.render 'test/fixtures/tpl.html'
+		.then (fn) ->
+			assert.equal(
+				fn({ name: 'nobone' }).indexOf('nobone') > 0, true
+			)
+			tdone()
+		.catch tdone
+
 	it 'render raw', (tdone) ->
 		{ renderer } = nobone { renderer: {} }
 
@@ -273,6 +284,26 @@ describe 'Basic:', ->
 			get '/main.js', port
 			.then (res) ->
 				assert.equal res.indexOf("document.body.appendChild(elem);"), 77
+				setTimeout ->
+					ps.kill 'SIGINT'
+					tdone()
+				, 200
+			.catch (err) ->
+				ps.kill 'SIGINT'
+				tdone err.stack
+
+	it 'cli dir', (tdone) ->
+		freePort().then (port) ->
+			ps = kit.spawn('node', [
+				'bin/nobone.js'
+				'-p', port
+				'--no-open-dir'
+				'test/fixtures'
+			]).process
+
+			get '/', port
+			.then (res) ->
+				assert.equal res.indexOf("<body>") > 0, true
 				setTimeout ->
 					ps.kill 'SIGINT'
 					tdone()

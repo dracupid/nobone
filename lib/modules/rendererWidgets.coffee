@@ -60,12 +60,7 @@ module.exports = rendererWidgets =
 				self = @
 				switch @ext
 					when '.tpl'
-						tplFn = (str, data) ->
-							_.tempalte str, data, {
-								escape: /<%=([\s\S]+?)%>/g
-								interpolate: /<%-([\s\S]+?)%>/g
-								sourceURL: path
-							}
+						tplFn = _.template str, null, { sourceURL: path }
 
 					when '.ejs'
 						try
@@ -471,7 +466,7 @@ module.exports = rendererWidgets =
 					if err.code == 'ENOENT'
 						next()
 					else
-						kit.err err
+						kit.err err.stack or err
 						res.send err.toString()
 
 			else if req.query.source?
@@ -490,7 +485,7 @@ module.exports = rendererWidgets =
 					if err.code == 'ENOENT'
 						next()
 					else
-						kit.err err
+						kit.err err.stack or err
 						res.send err.toString()
 
 			else

@@ -3,10 +3,10 @@
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
-	<title>List Directory - <%- path %></title>
+	<title>List Directory - <%= path %></title>
 
 	<style type="text/css">
-		<%- css %>
+		<%= css %>
 	</style>
 </head>
 <body>
@@ -41,22 +41,22 @@
 
 		<div class='item'>
 			<% if (source) { %>
-				<a class='source' title='view source code' href="<%- el.path %>?source" target="_blank">
+				<a class='source' title='view source code' href="<%= el.path %>?source" target="_blank">
 					&lt;&gt;&nbsp;
 				</a>
 			<% } %>
 
-			<a class="name" href="<%- el.path %>">
-				<%- el.path %>
+			<a class="name" href="<%= el.path %>">
+				<%= el.path %>
 			</a>
 			<div class="dirCount">
-				<%- el.dirCount == undefined ? '' : el.dirCount %>
+				<%= el.dirCount == undefined ? '' : el.dirCount %>
 			</div>
 			<div class="size">
-				<%- formatSize(el.size) %>
+				<%= formatSize(el.size) %>
 			</div>
 			<div class="mtime">
-				<%- formatTime(el.mtime) %>
+				<%= formatTime(el.mtime) %>
 			</div>
 		</div>
 
@@ -66,7 +66,7 @@
 	%>
 
 	<h1 class="path">
-		<%- path %>
+		<%= path %>
 	</h1>
 
 	<div class="titles">
