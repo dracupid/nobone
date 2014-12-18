@@ -6,6 +6,7 @@ Overview = 'rendererWidgets'
 _ = require 'lodash'
 nobone = require '../nobone'
 kit = require '../kit'
+http = require 'http'
 { Promise, fs } = kit
 
 module.exports = rendererWidgets =
@@ -334,7 +335,10 @@ module.exports = rendererWidgets =
 			rootDir: '.'
 			index: kit.isDevelopment()
 			injectClient: kit.isDevelopment()
-			reqPathHandler: (path) -> decodeURIComponent path
+			reqPathHandler: decodeURIComponent
+			isMalicious: (path) ->
+				# TODO: check path such as '../../../../etc/passwd'
+				false
 		}
 
 		staticHandler = express.static opts.rootDir
@@ -346,6 +350,9 @@ module.exports = rendererWidgets =
 		(req, res, next) ->
 			reqPath = opts.reqPathHandler req.path
 			path = kit.path.join opts.rootDir, reqPath
+
+			if opts.isMalicious path
+				return res.status(403).end http.STATUS_CODES[403]
 
 			rnext = ->
 				if dirHandler
@@ -393,7 +400,6 @@ module.exports = rendererWidgets =
 						rnext()
 					else
 						Promise.reject err
-			.done()
 
 	staticEx: (renderer, opts = {}) ->
 		if _.isString opts
