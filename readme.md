@@ -624,7 +624,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee?source#L152" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L154" target="_blank"><b>static</b></a>
 
  Set a static directory proxy.
  Automatically compile, cache and serve source files for both deveopment and production.
@@ -644,8 +644,10 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     
     	# Useful when mapping a normal path to a hashed file.
     	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
-    	reqPathHandler: (path) ->
-    		decodeURIComponent path
+    	reqPathHandler: decodeURIComponent
+    
+    	# Check path such as '../../../../etc/passwd'.
+    	isMalicious: ->
     }
     ```
 
@@ -653,7 +655,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee?source#L177" target="_blank"><b>staticEx</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L178" target="_blank"><b>staticEx</b></a>
 
  An extra version of `renderer.static`.
  Better support for markdown and source file.
@@ -673,8 +675,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     
     	# Useful when mapping a normal path to a hashed file.
     	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
-    	reqPathHandler: (path) ->
-    		decodeURIComponent path
+    	reqPathHandler: decodeURIComponent
     }
     ```
 
@@ -682,7 +683,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee?source#L205" target="_blank"><b>render</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L206" target="_blank"><b>render</b></a>
 
  Render a file. It will auto-detect the file extension and
  choose the right compiler to handle the content.
@@ -731,17 +732,17 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
     ```
 
-- #### <a href="lib/modules/renderer.coffee?source#L251" target="_blank"><b>close</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L252" target="_blank"><b>close</b></a>
 
  Release the resources.
 
-- #### <a href="lib/modules/renderer.coffee?source#L259" target="_blank"><b>releaseCache</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L260" target="_blank"><b>releaseCache</b></a>
 
  Release memory cache of a file.
 
  - **<u>param</u>**: `path` { _String_ }
 
-- #### <a href="lib/modules/renderer.coffee?source#L275" target="_blank"><b>e.compiled</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L276" target="_blank"><b>e.compiled</b></a>
 
  - **<u>event</u>**:  { _compiled_ }
 
@@ -757,7 +758,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The current file handler.
 
-- #### <a href="lib/modules/renderer.coffee?source#L282" target="_blank"><b>e.compileError</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L283" target="_blank"><b>e.compileError</b></a>
 
  - **<u>event</u>**:  { _compileError_ }
 
@@ -769,7 +770,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The error info.
 
-- #### <a href="lib/modules/renderer.coffee?source#L290" target="_blank"><b>e.watchFile</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L291" target="_blank"><b>e.watchFile</b></a>
 
  - **<u>event</u>**:  { _watchFile_ }
 
@@ -785,7 +786,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Previous state.
 
-- #### <a href="lib/modules/renderer.coffee?source#L296" target="_blank"><b>e.fileDeleted</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L297" target="_blank"><b>e.fileDeleted</b></a>
 
  - **<u>event</u>**:  { _fileDeleted_ }
 
@@ -793,7 +794,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee?source#L302" target="_blank"><b>e.fileModified</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L303" target="_blank"><b>e.fileModified</b></a>
 
  - **<u>event</u>**:  { _fileModified_ }
 
@@ -801,7 +802,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The path of the file.
 
-- #### <a href="lib/modules/renderer.coffee?source#L510" target="_blank"><b>getCache</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L511" target="_blank"><b>getCache</b></a>
 
  Set handler cache.
 
@@ -809,7 +810,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Promise_ }
 
-- #### <a href="lib/modules/renderer.coffee?source#L539" target="_blank"><b>genHandler</b></a>
+- #### <a href="lib/modules/renderer.coffee?source#L540" target="_blank"><b>genHandler</b></a>
 
  Generate a file handler.
 
@@ -878,6 +879,34 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
  - **<u>return</u>**:  { _Promise_ }
 
     Promise that contains the compiled content.
+
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L252" target="_blank"><b>dir</b></a>
+
+ Folder middleware.
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+ - **<u>return</u>**:  { _Function_ }
+
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L339" target="_blank"><b>static</b></a>
+
+ Static middleware.
+
+ - **<u>param</u>**: `renderer` { _Renderer_ }
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+ - **<u>return</u>**:  { _Function_ }
+
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L422" target="_blank"><b>staticEx</b></a>
+
+ Static middleware. Don't use it in production.
+
+ - **<u>param</u>**: `renderer` { _Renderer_ }
+
+ - **<u>param</u>**: `opts` { _Object_ }
+
+ - **<u>return</u>**:  { _Function_ }
 
 ### db
 

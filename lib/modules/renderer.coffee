@@ -143,8 +143,10 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 *
 	 * 	# Useful when mapping a normal path to a hashed file.
 	 * 	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
-	 * 	reqPathHandler: (path) ->
-	 * 		decodeURIComponent path
+	 * 	reqPathHandler: decodeURIComponent
+	 *
+	 * 	# Check path such as '../../../../etc/passwd'.
+	 * 	isMalicious: ->
 	 * }
 	 * ```
 	 * @return {Middleware} Experss.js middleware.
@@ -168,8 +170,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 *
 	 * 	# Useful when mapping a normal path to a hashed file.
 	 * 	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
-	 * 	reqPathHandler: (path) ->
-	 * 		decodeURIComponent path
+	 * 	reqPathHandler: decodeURIComponent
 	 * }
 	 * ```
 	 * @return {Middleware} Experss.js middleware.

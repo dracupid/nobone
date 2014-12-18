@@ -244,6 +244,11 @@ module.exports = rendererWidgets =
 				marked = kit.require 'marked'
 				marked str, data
 
+	###*
+	 * Folder middleware.
+	 * @param  {Object} opts
+	 * @return {Function}
+	###
 	dir: (opts = {}) ->
 		if _.isString opts
 			opts = { rootDir: opts }
@@ -325,6 +330,12 @@ module.exports = rendererWidgets =
 
 				next()
 
+	###*
+	 * Static middleware.
+	 * @param  {Renderer} renderer
+	 * @param  {Object} opts
+	 * @return {Function}
+	###
 	static: (renderer, opts = {}) ->
 		express = kit.require 'express'
 
@@ -332,14 +343,15 @@ module.exports = rendererWidgets =
 			opts = { rootDir: opts }
 
 		_.defaults opts, {
-			rootDir: '.'
+			rootDir: process.cwd()
 			index: kit.isDevelopment()
 			injectClient: kit.isDevelopment()
 			reqPathHandler: decodeURIComponent
 			isMalicious: (path) ->
-				# TODO: check path such as '../../../../etc/passwd'
-				false
+				kit.path.normalize(path).indexOf(@rootDir) != 0
 		}
+
+		opts.rootDir = kit.path.resolve opts.rootDir
 
 		staticHandler = express.static opts.rootDir
 		if opts.index
@@ -401,6 +413,12 @@ module.exports = rendererWidgets =
 					else
 						Promise.reject err
 
+	###*
+	 * Static middleware. Don't use it in production.
+	 * @param  {Renderer} renderer
+	 * @param  {Object} opts
+	 * @return {Function}
+	###
 	staticEx: (renderer, opts = {}) ->
 		if _.isString opts
 			opts = { rootDir: opts }
@@ -409,7 +427,7 @@ module.exports = rendererWidgets =
 			rootDir: '.'
 			index: kit.isDevelopment()
 			injectClient: kit.isDevelopment()
-			reqPathHandler: (path) -> decodeURIComponent path
+			reqPathHandler: decodeURIComponent
 		}
 
 		noboneRoot = kit.path.join __dirname, '../..'

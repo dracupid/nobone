@@ -3,6 +3,7 @@
   - Remove the `bone` helper.
   - Support the lastest `less`.
   - Remove the dependency of `ejs`.
+  - Fix a malicious path issue of static service.
 
 - v1.1.3
 
