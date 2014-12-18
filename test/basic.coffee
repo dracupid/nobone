@@ -321,7 +321,7 @@ describe 'Basic:', ->
 				'--no-open-dir'
 				'--doc'
 			], {
-				cwd: os.tmpdir()
+				cwd: os.tmpDir()
 			}).process
 
 			get '/', port
