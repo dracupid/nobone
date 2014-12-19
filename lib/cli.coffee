@@ -1,6 +1,5 @@
 cmder = require 'commander'
 nobone = require './nobone'
-glob = require 'glob'
 { kit } = nobone
 
 # These are nobone's dependencies.
@@ -28,7 +27,17 @@ findPlugin = (name) ->
 
 	paths = []
 	for dir in searchDirs
-		paths = paths.concat glob.sync(dir)
+		if dir[-1..] == '*'
+			prefix = kit.path.basename(dir)[0...-1]
+			dirname = kit.path.dirname dir
+			try
+				ps = kit.fs.readdirSync(dirname)
+					.filter (p) ->
+						p.indexOf(prefix) == 0
+				paths = paths.concat ps.map((p) -> kit.path.join(dirname, p))
+		else
+			if kit.fs.existsSync dir
+				paths = paths.push dir
 	kit._.uniq paths
 
 cmder
