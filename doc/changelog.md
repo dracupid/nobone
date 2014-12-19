@@ -4,6 +4,7 @@
   - Support the lastest `less`.
   - Remove the dependency of `ejs`.
   - Fix a malicious path issue of static service.
+  - Remove the `kit.promptGet` api.
 
 - v1.1.3
 
