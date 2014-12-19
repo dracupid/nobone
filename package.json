@@ -31,7 +31,7 @@
     "jdb": "0.3.8",
     "lodash": "2.4.1",
     "marked": "0.3.2",
-    "nokit": "0.0.6",
+    "nokit": "0.0.8",
     "throttle": "1.0.3"
   },
   "devDependencies": {
