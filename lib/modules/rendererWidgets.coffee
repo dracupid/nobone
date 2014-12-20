@@ -67,7 +67,7 @@ module.exports = rendererWidgets =
 						try
 							compiler = kit.require 'ejs'
 						catch e
-							kit.err '"npm install jade" first.'.red
+							kit.err '"npm install ejs" first.'.red
 							process.exit()
 
 						tplFn = compiler.compile str, { filename: path }
