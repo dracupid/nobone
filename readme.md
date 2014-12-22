@@ -378,16 +378,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
 ### service
 
-- #### <a href="lib/modules/service.coffee?source#L6" target="_blank"><b>Overview</b></a>
+- #### <a href="lib/modules/service.coffee?source#L5" target="_blank"><b>Overview</b></a>
 
  It is just a Express.js wrap.
 
  - **<u>extends</u>**:  { _Express_ }
 
-    [Ref][express]
-    [express]: http://expressjs.com/4x/api.html
+    [Documentation][http://expressjs.com/4x/api.html]
 
-- #### <a href="lib/modules/service.coffee?source#L25" target="_blank"><b>service</b></a>
+- #### <a href="lib/modules/service.coffee?source#L24" target="_blank"><b>service</b></a>
 
  Create a Service instance.
 
@@ -405,15 +404,15 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Service_ }
 
-- #### <a href="lib/modules/service.coffee?source#L41" target="_blank"><b>server</b></a>
+- #### <a href="lib/modules/service.coffee?source#L40" target="_blank"><b>server</b></a>
 
  The server object of the express object.
 
  - **<u>type</u>**:  { _http.Server_ }
 
-    [Ref](http://nodejs.org/api/http.html#httpClassHttpServer)
+    [Documentation](http://nodejs.org/api/http.html#httpClassHttpServer)
 
-- #### <a href="lib/modules/service.coffee?source#L131" target="_blank"><b>sse</b></a>
+- #### <a href="lib/modules/service.coffee?source#L130" target="_blank"><b>sse</b></a>
 
  A Server-Sent Event Manager.
  The namespace of nobone sse is `/nobone-sse`.
@@ -449,7 +448,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     	console.log(msg)
     ```
 
-- #### <a href="lib/modules/service.coffee?source#L143" target="_blank"><b>e.sseConnected</b></a>
+- #### <a href="lib/modules/service.coffee?source#L142" target="_blank"><b>e.sseConnected</b></a>
 
  This event will be triggered when a sse connection started.
  The event name is a combination of sseConnected and req.path,
@@ -461,7 +460,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee?source#L150" target="_blank"><b>e.sseClose</b></a>
+- #### <a href="lib/modules/service.coffee?source#L149" target="_blank"><b>e.sseClose</b></a>
 
  This event will be triggered when a sse connection closed.
 
@@ -471,7 +470,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The session object of current connection.
 
-- #### <a href="lib/modules/service.coffee?source#L158" target="_blank"><b>sse.create</b></a>
+- #### <a href="lib/modules/service.coffee?source#L157" target="_blank"><b>sse.create</b></a>
 
  Create a sse session.
 
@@ -481,7 +480,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _SSESession_ }
 
-- #### <a href="lib/modules/service.coffee?source#L173" target="_blank"><b>session.emit</b></a>
+- #### <a href="lib/modules/service.coffee?source#L172" target="_blank"><b>session.emit</b></a>
 
  Emit message to client.
 
@@ -493,7 +492,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     The message to send to the client.
 
-- #### <a href="lib/modules/service.coffee?source#L200" target="_blank"><b>sse.emit</b></a>
+- #### <a href="lib/modules/service.coffee?source#L199" target="_blank"><b>sse.emit</b></a>
 
  Broadcast a event to clients.
 
@@ -522,7 +521,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>extends</u>**:  { _events.EventEmitter_ }
 
-    [Ref](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
+    [Documentation](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
 
 - #### <a href="lib/modules/renderer.coffee?source#L80" target="_blank"><b>renderer</b></a>
 

@@ -5,9 +5,6 @@ nobone = require './nobone'
 
 noboneDir = kit.path.join __dirname, '..'
 
-service.get '/', (req, res) ->
-	res.redirect '/readme.md?offlineMarkdown'
-
 service.use renderer.staticEx({
 	rootDir: noboneDir
 	index: true
@@ -20,8 +17,11 @@ service.get '/favicon.ico', (req, res) ->
 module.exports = (opts) ->
 	service.listen opts.port, ->
 		port = service.server.address().port
-		kit.log "Listen: " + "#{opts.host}:#{port}".cyan
+
+		url = "http://127.0.0.1:#{port}/readme.md?offlineMarkdown"
+
+		console.log "Please Visit: ".cyan + url
 
 		if opts.openDir
-			kit.open 'http://127.0.0.1:' + port
+			kit.open url
 			.catch(->)

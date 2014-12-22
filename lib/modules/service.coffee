@@ -1,7 +1,6 @@
 ###*
  * It is just a Express.js wrap.
- * @extends {Express} [Ref][express]
- * [express]: http://expressjs.com/4x/api.html
+ * @extends {Express} [Documentation][http://expressjs.com/4x/api.html]
 ###
 Overview = 'service'
 
@@ -36,7 +35,7 @@ service = (opts = {}) ->
 
 	###*
 	 * The server object of the express object.
-	 * @type {http.Server} [Ref](http://nodejs.org/api/http.html#httpClassHttpServer)
+	 * @type {http.Server} [Documentation](http://nodejs.org/api/http.html#httpClassHttpServer)
 	###
 	server = http.Server self
 

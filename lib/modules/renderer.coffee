@@ -4,7 +4,7 @@
  * This renderer helps nobone to build a **passive compilation architecture**.
  * You can run the benchmark to see the what differences it makes.
  * Even for huge project the memory usage is negligible.
- * @extends {events.EventEmitter} [Ref](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
+ * @extends {events.EventEmitter} [Documentation](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
 ###
 Overview = 'renderer'
 
