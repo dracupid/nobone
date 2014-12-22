@@ -119,7 +119,8 @@ init = ->
 		return
 
 	if cmder.ver
-		console.log require('../package').version
+		path = require.resolve('./nobone')
+		console.log "#{nobone.version()} ".green + "(#{path})".grey
 		return
 
 	if cmder.doc
