@@ -9,7 +9,7 @@ do ->
 
 	space = (n) ->
 		[0...n]
-		.map -> '<b class="space">·</b>'
+		.map -> '<b class="space">-</b>'
 		.join ''
 
 	format = (minH, h) ->
