@@ -6,3 +6,4 @@ dist
 .coffee
 .cake_task_cache
 assets/**/*.css
+assets/**/*.js
