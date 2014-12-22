@@ -98,8 +98,8 @@ init = ->
 				return runApp()
 			else
 				opts.rootDir = cmder.args[0]
-		else if findPlugin(pluginPath).length > 0
-			runApp pluginPath
+		else if (paths = findPlugin(pluginPath); paths.length > 0)
+			runApp paths[0]
 			return
 		else
 			kit.err 'Nothing executable: '.red + cmder.args[0]
