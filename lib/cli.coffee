@@ -37,7 +37,7 @@ findPlugin = (name) ->
 				paths = paths.concat ps.map((p) -> kit.path.join(dirname, p))
 		else
 			if kit.fs.existsSync dir
-				paths = paths.push dir
+				paths.push dir
 	kit._.uniq paths
 
 cmder

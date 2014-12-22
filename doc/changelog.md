@@ -1,3 +1,7 @@
+- v1.1.5
+
+  - Fix a nobone cli path bug.
+
 - v1.1.4
 
   - Remove the `bone` helper.
