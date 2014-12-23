@@ -1,4 +1,4 @@
-- v1.1.8
+- v1.1.9
 
   - Fix a nobone cli path bug.
   - Add version path for `nobone -v`.
