@@ -30,7 +30,7 @@ module.exports = rendererWidgets =
 			 * 	# The file dependencies of current file.
 			 * 	# If you set it in the `compiler`, the `dependencyReg`
 			 * 	# and `dependencyRoots` should be left undefined.
-			 * 	depsList: Array
+			 * 	dependencyPaths: Array
 			 *
 			 * 	# The regex to match dependency path. Regex or Table.
 			 * 	dependencyReg: RegExp
@@ -80,7 +80,7 @@ module.exports = rendererWidgets =
 							process.exit()
 
 						tplFn = compiler.compile str, { filename: path }
-						@depsList = tplFn.dependencies
+						@dependencyPaths = tplFn.dependencies
 
 				render = (data) ->
 					_.defaults data, {
@@ -173,7 +173,7 @@ module.exports = rendererWidgets =
 								inline: kit.isDevelopment()
 						}
 						styl = stylus(str, data)
-						@depsList = styl.deps()
+						@dependencyPaths = styl.deps()
 						kit.promisify(styl.render, styl)()
 
 					when '.less'
@@ -197,7 +197,7 @@ module.exports = rendererWidgets =
 											err.message
 										reject err
 									else
-										self.depsList = _.keys(
+										self.dependencyPaths = _.keys(
 											parser.imports.files
 										)
 										resolve tree.toCSS(data)
@@ -210,7 +210,7 @@ module.exports = rendererWidgets =
 
 							less.render str, _.defaults data, opts
 							.then (output) ->
-								self.depsList = output.imports
+								self.dependencyPaths = output.imports
 								output.css
 							, (err) ->
 								kit.log err.stack

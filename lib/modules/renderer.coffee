@@ -39,7 +39,6 @@ rendererWidgets = require './rendererWidgets'
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			dependencyReg: {
  * 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
- * 				'.jade': /^\s*(?:include|extends)\s+([^\r\n]+)/
  * 			}
  * 			compiler: (str, path, data) -> ...
  * 		}
@@ -59,12 +58,6 @@ rendererWidgets = require './rendererWidgets'
  * 		}
  * 		'.css': {
  * 			extSrc: ['.styl', '.less', '.sass', '.scss']
- * 			dependencyReg: {
- *    			'.styl': /@(?:import|require)\s+([^\r\n]+)/
- * 				'.less': /@import\s*(?:\(\w+\))?\s*([^\r\n]+)/
- * 				'.sass': /@import\s+([^\r\n]+)/
- * 				'.scss': /@import\s+([^\r\n]+)/
- * 			}
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.md': {
@@ -462,7 +455,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			).value()
 		.then (latestList) ->
 			if _.all(latestList)
-				handler.depsList = _.keys handler.cacheInfo.dependencies
+				handler.dependencyPaths = _.keys handler.cacheInfo.dependencies
 				switch handler.cacheInfo.type
 					when 'String'
 						kit.readFile handler.fileCachePath, 'utf8'
@@ -559,7 +552,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handler.key = kit.path.resolve path
 			handler.ctime = Date.now() # Used for cacheLimit
 			handler.cacheInfo = {}
-			handler.depsList ?= []
+			handler.dependencyPaths ?= []
 			handler.watchedList = {}
 			handler.extSrc ?= extBin
 			handler.extSrc = [handler.extSrc] if _.isString(handler.extSrc)
@@ -684,7 +677,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		_.extend handler.newWatchList, handler.extraWatch
 		handler.newWatchList[path] = handler.watchedList[path]
 
-		for p in handler.depsList
+		for p in handler.dependencyPaths
 			handler.newWatchList[p] = handler.watchedList[p]
 
 		if handler.dependencyReg and not _.isRegExp(handler.dependencyReg)
