@@ -4,7 +4,7 @@
 Overview = 'lang'
 
 kit = require '../kit'
-_ = require 'lodash'
+{ _ } = kit
 
 module.exports = (opts = {}) ->
 

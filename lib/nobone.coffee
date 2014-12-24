@@ -8,9 +8,8 @@
 ###
 Overview = 'nobone'
 
-_ = require 'lodash'
 kit = require './kit'
-{ Promise } = kit
+{ _, Promise } = kit
 
 ###*
  * Main constructor.

@@ -6,7 +6,7 @@
 ###
 Overview = 'db'
 
-_ = require 'lodash'
+{ _ } = require '../kit'
 
 ###*
  * Create a JDB instance.

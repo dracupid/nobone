@@ -8,11 +8,10 @@
 ###
 Overview = 'renderer'
 
-_ = require 'lodash'
 kit = require '../kit'
 express = require 'express'
 { EventEmitter } = require 'events'
-{ Promise, fs } = kit
+{ _, Promise, fs } = kit
 
 rendererWidgets = require './rendererWidgets'
 

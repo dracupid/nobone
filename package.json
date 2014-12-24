@@ -12,8 +12,10 @@
     "prepublish": "cake build"
   },
   "keywords": [
+    "server",
     "web",
     "lib",
+    "kit",
     "tool"
   ],
   "author": "http://ysmood.org",
@@ -27,7 +29,6 @@
     "commander": "2.5.1",
     "express": "4.10.6",
     "jdb": "0.3.9",
-    "lodash": "2.4.1",
     "marked": "0.3.2",
     "nokit": "0.1.2",
     "throttle": "1.0.3"

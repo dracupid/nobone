@@ -16,15 +16,14 @@
  * crc32  | 10.001s | 0.004445855827246745% (14 / 314900)
 ###
 
-_ = require 'lodash'
+kit = require 'nokit'
+{ fs, _, jhash } = kit
 Benchmark = require('benchmark')
 crypto = require 'crypto'
 suite = new Benchmark.Suite
 Benchmark.support.timeout = false
-fs = require 'fs'
 
 crc32 = require '../node_modules/express/node_modules/buffer-crc32'
-jhash = require 'jhash'
 
 file = fs.readFileSync 'assets/img/nobone.png'
 str = fs.readFileSync 'readme.md', 'utf8'

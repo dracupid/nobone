@@ -1,20 +1,17 @@
 ###*
  * For test, page injection development.
- * A cross platform Fiddler alternative.
- * Most time used with SwitchySharp.
- * @extends {http-proxy.ProxyServer}
+ * A cross-platform programmable Fiddler alternative.
 ###
 Overview = 'proxy'
 
-_ = require 'lodash'
 kit = require '../kit'
+{ _ } = kit
 http = require 'http'
 
 ###*
  * Create a Proxy instance.
  * @param  {Object} opts Defaults: `{ }`
- * @return {Proxy} For more, see [node-http-proxy][node-http-proxy]
- * [node-http-proxy]: https://github.com/nodejitsu/node-http-proxy
+ * @return {Proxy}
 ###
 proxy = (opts = {}) ->
 	_.defaults opts, {}
@@ -41,6 +38,24 @@ proxy = (opts = {}) ->
 	 * ```
 	 * @param {Function} err Custom error handler.
 	 * @return {Promise}
+	 * @example
+	 * ```coffee
+	 * nobone = require 'nobone'
+	 * { proxy, service } = nobone { proxy:{}, service: {} }
+	 *
+	 * service.post '/a', (req, res) ->
+	 * 	proxy.url req, res, 'a.com', (err) ->
+	 * 		kit.log err
+	 *
+	 * service.get '/b', (req, res) ->
+	 * 	proxy.url req, res, '/c'
+	 *
+	 * service.get '/a.js', (req, res) ->
+	 * 	proxy.url req, res, 'http://b.com/c.js'
+	 *
+	 * # Transparent proxy.
+	 * service.use proxy.url
+	 * ```
 	###
 	self.url = (req, res, url, opts = {}, err) ->
 		if _.isObject url
@@ -162,6 +177,18 @@ proxy = (opts = {}) ->
 	 * proxy = (target) -> # return 'PROXY target;'.
 	 * ```
 	 * @return {Function} Express Middleware.
+	 * ```coffee
+	 * nobone = require 'nobone'
+	 * { proxy, service } = nobone { proxy:{}, service: {} }
+	 *
+	 * service.get '/pac', proxy.pac ->
+	 * 	if match 'http://a.com/*'
+	 * 		currHost
+	 * 	else if url == 'http://c.com'
+	 * 		proxy 'd.com:8123'
+	 * 	else
+	 * 		direct
+	 * ```
 	###
 	self.pac = (currHost, ruleHandler) ->
 		if _.isFunction currHost

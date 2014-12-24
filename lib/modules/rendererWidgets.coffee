@@ -3,11 +3,10 @@
 ###
 Overview = 'rendererWidgets'
 
-_ = require 'lodash'
 nobone = require '../nobone'
 kit = require '../kit'
 http = require 'http'
-{ Promise, fs } = kit
+{ _, Promise, fs } = kit
 
 module.exports = rendererWidgets =
 	genFileHandlers: ->

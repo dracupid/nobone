@@ -4,9 +4,9 @@
 ###
 Overview = 'service'
 
-_ = require 'lodash'
 http = require 'http'
 kit = require '../kit'
+{ _ } = kit
 
 ###*
  * Create a Service instance.
