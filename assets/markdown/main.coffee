@@ -13,14 +13,17 @@ do ->
 		.join ''
 
 	format = (minH, h) ->
-		tag = h.tagName
-		n = +tag.match(/\d+/) - minH
+		n = +h.tagName.match(/\d+/) - minH
+		tag = 'h' + (n + 1)
 		div = createDiv """
-			<#{tag}>
+			<#{tag} data-n="#{n}" class="">
 				#{space(n)}
 				#{h.textContent.trim()}
 			</#{tag}>
 		"""
+
+		if n == 0
+			$(tag, div)[0].classList.add 'bold'
 
 		$(tag, div)[0].addEventListener 'click', ->
 			h.scrollIntoView()
@@ -48,10 +51,6 @@ do ->
 		for el in allH
 			if (m = el.tagName.match /h\d+/i)
 				hList.push(format minH, el)
-
-			if (m = el.tagName.match /ul/i)
-				for el in $('h4', el)
-					hList.push(format minH, el)
 
 		toc = $('#toc')[0]
 		content = $('.content', toc)[0]
