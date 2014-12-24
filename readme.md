@@ -872,7 +872,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Promise that contains the compiled content.
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L251" target="_blank"><b>dir</b></a>
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L255" target="_blank"><b>dir</b></a>
 
  Folder middleware.
 
@@ -880,7 +880,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Function_ }
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L338" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L342" target="_blank"><b>static</b></a>
 
  Static middleware.
 
@@ -890,7 +890,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Function_ }
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L421" target="_blank"><b>staticEx</b></a>
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L425" target="_blank"><b>staticEx</b></a>
 
  Static middleware. Don't use it in production.
 

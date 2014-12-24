@@ -176,6 +176,8 @@ module.exports = rendererWidgets =
 						kit.promisify(styl.render, styl)()
 
 					when '.less'
+						return '' if str == ''
+
 						try
 							less = kit.require('less')
 						catch e
@@ -212,10 +214,12 @@ module.exports = rendererWidgets =
 								self.dependencyPaths = output.imports
 								output.css
 							, (err) ->
-								kit.log err.stack
+								if not err.line?
+									return Promise.reject err
 								# The error message of less is the worst.
 								err.message = err.filename +
 									":#{err.line}:#{err.column}\n" +
+									err.extract?.join('\n') + '\n--------\n' +
 									err.message
 								Promise.reject err
 
