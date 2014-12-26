@@ -10,7 +10,7 @@ telling developers what they should do. All the default behaviors are
 just examples of how to use NoBone. All the APIs should work together
 without pain.
 
-[![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956)
+[![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956) [![Deps Up to Date](https://david-dm.org/ysmood/nobone.svg?style=flat)](https://david-dm.org/ysmood/nobone)
 
 *****************************************************************************
 

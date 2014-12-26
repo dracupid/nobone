@@ -1,10 +1,11 @@
-- v1.2.1
+- v1.2.2
 
   - Fix a nobone cli path bug.
   - Add version path for `nobone -v`.
   - Fix a cli path order bug.
   - Fix a less error info issue.
   - Update doc.
+  - Update deps.
 
 - v1.1.4
 
