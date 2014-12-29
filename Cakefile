@@ -24,6 +24,7 @@ task 'dev', 'Dev Server', (opts) ->
 		watchList: ['test/lab.coffee', 'lib/**/*.coffee']
 	}
 
+option '-g', '--grep [grep]', 'Test pattern'
 task 'test', 'Basic test', (opts) ->
 	build opts
 	.then ->
@@ -36,6 +37,7 @@ task 'test', 'Basic test', (opts) ->
 				'-t', 10000
 				'-r', 'coffee-script/register'
 				'-R', 'spec'
+				'-g', opts.grep or ''
 				file
 			]).process.on 'exit', (code) ->
 				if code != 0
