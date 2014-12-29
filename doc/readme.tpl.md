@@ -33,7 +33,7 @@ Install as an dependency:
 npm install nobone
 
 # View a better nobone documentation than Github readme.
-nodeModules/.bin/nobone --doc
+node_modules/.bin/nobone --doc
 ```
 
 Or you can install it globally:
