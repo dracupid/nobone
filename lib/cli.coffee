@@ -138,7 +138,7 @@ runApp = (plugin) ->
 		process.env.NODE_PATH = pathArr.join kit.path.delimiter
 
 		args = process.argv[1..]
-		watchList = args[1..].filter (el) -> kit.fs.existsSync el
+		watchList = cmder.args.filter (el) -> kit.fs.fileExistsSync el
 		if cmder.watch
 			watchList = cmder.watch
 		kit.monitorApp {
