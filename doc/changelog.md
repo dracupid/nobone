@@ -1,3 +1,7 @@
+- v1.2.5
+
+  - Fix a proxy native `http` compatibility issue.
+
 - v1.2.4
 
   - Fix a nobone cli path bug.
