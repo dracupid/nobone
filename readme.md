@@ -956,7 +956,11 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>param</u>**: `req` { _http.IncomingMessage_ }
 
+    Also supports Express.js.
+
  - **<u>param</u>**: `res` { _http.ServerResponse_ }
+
+    Also supports Express.js.
 
  - **<u>param</u>**: `url` { _String_ }
 

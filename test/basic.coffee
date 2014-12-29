@@ -4,6 +4,7 @@
 
 assert = require 'assert'
 nobone = require '../lib/nobone'
+http = require 'http'
 { kit } = nobone
 { Promise, _ } = kit
 
@@ -351,18 +352,21 @@ describe 'Basic:', ->
 describe 'Proxy: ', ->
 
 	it 'url', (tdone) ->
-		nbInstance = nobone { service: {}, proxy: {} }
-		nbInstance.service.get '/proxyOrigin', (req, res) ->
-			res.send req.headers
+		nbInstance = nobone { proxy: {} }
 
-		nbInstance.service.use '/proxy', (req, res) ->
-			nbInstance.proxy.url req, res, '/proxyOrigin'
+		server = http.createServer (req, res) ->
+			{ path } = kit.url.parse(req.url)
+			if path == '/proxyOrigin'
+				res.end JSON.stringify(req.headers)
 
-		nbInstance.service.listen 8291, ->
-			p = get '/proxy', 8291, { client: 'ok' }
+			if path == '/proxy'
+				nbInstance.proxy.url req, res, '/proxyOrigin'
+
+		server.listen 0, ->
+			{ port } = server.address()
+			get '/proxy', port, { client: 'ok' }
 			.then (body) ->
 				data = JSON.parse body
 				assert.equal data.client, 'ok'
-
-				nbInstance.close()
 				tdone()
+			.catch tdone

@@ -22,8 +22,8 @@ proxy = (opts = {}) ->
 
 	###*
 	 * Use it to proxy one url to another.
-	 * @param {http.IncomingMessage} req
-	 * @param {http.ServerResponse} res
+	 * @param {http.IncomingMessage} req Also supports Express.js.
+	 * @param {http.ServerResponse} res Also supports Express.js.
 	 * @param {String} url The target url forced to. Optional.
 	 * Such as force 'http://test.com/a' to 'http://test.com/b',
 	 * force 'http://test.com/a' to 'http://other.com/a',
@@ -81,7 +81,7 @@ proxy = (opts = {}) ->
 					url = 'http://' + req.headers.host + url
 				# such as url is 'test.com'
 				when -1
-					{ path } = kit.url.parse(req.path)
+					{ path } = kit.url.parse(req.url)
 
 					url = 'http://' + url + path
 
