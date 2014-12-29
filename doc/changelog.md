@@ -6,6 +6,7 @@
   - Fix a less error info issue.
   - Update doc.
   - Update deps.
+  - Fix a cli watch issue.
 
 - v1.1.4
 
