@@ -1,6 +1,6 @@
 {
   "name": "nobone",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A server library tries to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
@@ -26,11 +26,11 @@
   "license": "BSD",
   "dependencies": {
     "coffee-script": "1.8.0",
-    "commander": "2.5.1",
+    "commander": "2.6.0",
     "express": "4.10.6",
     "jdb": "0.3.9",
     "marked": "0.3.2",
-    "nokit": "0.1.6",
+    "nokit": "0.1.7",
     "throttle": "1.0.3"
   },
   "devDependencies": {

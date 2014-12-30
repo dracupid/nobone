@@ -1,6 +1,7 @@
 - v1.2.5
 
   - Fix a proxy native `http` compatibility issue.
+  - Update `commander` and `nokit`.
 
 - v1.2.4
 
