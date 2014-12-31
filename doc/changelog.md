@@ -1,3 +1,8 @@
+- v1.2.7
+
+  - Now `throttle` is an optional dependency.
+  - Use `nokit` v0.2.1, `spawn` api changed.
+
 - v1.2.6
 
   - Fix a proxy native `http` compatibility issue.

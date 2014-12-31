@@ -1006,7 +1006,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     service.use proxy.url
     ```
 
-- #### <a href="lib/modules/proxy.coffee?source#L142" target="_blank"><b>connect</b></a>
+- #### <a href="lib/modules/proxy.coffee?source#L147" target="_blank"><b>connect</b></a>
 
  Http CONNECT method tunneling proxy helper.
  Most times used with https proxing.
@@ -1039,7 +1039,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     service.server.on 'connect', proxy.connect
     ```
 
-- #### <a href="lib/modules/proxy.coffee?source#L193" target="_blank"><b>pac</b></a>
+- #### <a href="lib/modules/proxy.coffee?source#L198" target="_blank"><b>pac</b></a>
 
  A pac helper.
 

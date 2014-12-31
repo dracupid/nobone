@@ -360,7 +360,9 @@ describe 'Proxy: ', ->
 				res.end JSON.stringify(req.headers)
 
 			if path == '/proxy'
-				nbInstance.proxy.url req, res, '/proxyOrigin'
+				nbInstance.proxy.url req, res, '/proxyOrigin', {
+					bps: 30 * 1024
+				}
 
 		server.listen 0, ->
 			{ port } = server.address()

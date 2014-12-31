@@ -39,10 +39,11 @@ task 'test', 'Basic test', (opts) ->
 				'-R', 'spec'
 				'-g', opts.grep or ''
 				file
-			]).process.on 'exit', (code) ->
-				if code != 0
-					process.exit code
-	.done()
+			]).catch ({ code }) ->
+				process.exit code
+	.catch (err) ->
+		kit.err err.stack
+		process.exit 1
 
 task 'build', 'Compile coffee and Docs', (opts) ->
 	build opts
@@ -55,17 +56,17 @@ task 'clean', 'Clean js', ->
 		for path in list
 			kit.remove path
 
-	kit.remove('dist').done()
+	kit.remove('dist')
 
 task 'hotfix', 'Hotfix third dependencies\' bugs', ->
 	# ys: Node break again and again.
 
 task 'benchmark', 'Some basic benchmarks', ->
-	server = kit.spawn('coffee', ['benchmark/load_test_server.coffee'])
+	{ process: server } = kit.spawn 'coffee', ['benchmark/load_test_server.coffee']
 
 	setTimeout ->
-		tester = kit.spawn('coffee', ['benchmark/mem_vs_stream.coffee'])
-		tester.done ->
+		kit.spawn 'coffee', ['benchmark/mem_vs_stream.coffee']
+		.catch(->).then ->
 			server.process.kill "SIGINT"
 	, 500
 

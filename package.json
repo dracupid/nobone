@@ -8,7 +8,6 @@
   },
   "scripts": {
     "test": "cake test",
-    "install": "cake hotfix",
     "prepublish": "cake build"
   },
   "keywords": [
@@ -30,8 +29,7 @@
     "express": "4.10.6",
     "jdb": "0.4.0",
     "marked": "0.3.2",
-    "nokit": "0.1.9",
-    "throttle": "1.0.3"
+    "nokit": "0.2.2"
   },
   "devDependencies": {
     "benchmark": "*",
@@ -44,6 +42,7 @@
     "less": "*",
     "mocha": "*",
     "stylus": "*",
+    "throttle": "1.0.3",
     "uglify-js": "*"
   }
 }
