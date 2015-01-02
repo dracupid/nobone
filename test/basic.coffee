@@ -304,7 +304,10 @@ describe 'Basic:', ->
 
 			get '/', port
 			.then (res) ->
-				assert.equal res.indexOf("<body>") > 0, true
+				pos = res.indexOf("<body>")
+				if pos < 0
+					kit.log res
+				assert.equal pos > 0, true
 				setTimeout ->
 					ps.kill 'SIGINT'
 					tdone()
