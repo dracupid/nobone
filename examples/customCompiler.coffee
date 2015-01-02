@@ -9,9 +9,10 @@ delete renderer.fileHandlers['.jpg']
 # When browser visit 'http://127.0.0.1:8293/default.css'
 # The css with extra comment will be sent back.
 renderer
-.fileHandlers['.css'].compiler = (str, args...) ->
+.fileHandlers['.css'].compiler = (str) ->
 	stylus = kit.require 'stylus'
-	kit.Promise.promisify('render', stylus)(str)
+	compile = stylus(str)
+	kit.promisify(compile.render, compile)()
 	.then (str) ->
 		'/* nobone */' + str
 

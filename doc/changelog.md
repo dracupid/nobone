@@ -1,3 +1,13 @@
+- v1.2.8
+
+  - **API CHANGE** Now the `dependencyReg` of custom file handler should add
+    `g` flag manually. Such as `/require\s+([^\r\n]+)/` should be `/require\s+([^\r\n]+)/g` now.
+    Besides, it's recommended to use the `dependencyPaths` api, and take advantage of the AST feature of the language.
+  - `nokit@0.2.3`
+    - New api for parse dependencies.
+    - Fix some minor bugs of `monitorApp`
+    - Now `monitorApp` automatically watch the require js and coffee files.
+
 - v1.2.7
 
   - Now `throttle` is an optional dependency.

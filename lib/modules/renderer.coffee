@@ -100,8 +100,14 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * @type {Object}
 	 * @example
 	 * ```coffee
-	 * # We return js directly.
-	 * renderer.fileHandlers['.js'].compiler = (str) -> str
+	 * { renderer } = nobone()
+	 * renderer.fileHandlers['.css'].compiler = (str, path) ->
+	 * 	stylus = kit.requireOptional 'stylus'
+	 *
+	 * 	compile = stylus(str, data).set 'filename', path
+	 * 	# Take advantage of the syntax parser.
+	 * 	this.dependencyPaths = compile.deps()
+	 * 	kit.promisify(compile.render, compile)()
 	 * ```
 	###
 	self.fileHandlers = opts.fileHandlers
@@ -623,7 +629,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			handle: (path) ->
 				path.replace(/^[\s'"]+/, '').replace(/[\s'";]+$/, '')
 		}
-			.then (paths) ->
+		.then (paths) ->
 			for p in paths
 				handler.newWatchList[p] = null
 			handler
