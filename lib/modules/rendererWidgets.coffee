@@ -16,7 +16,7 @@ module.exports = rendererWidgets =
 			extSrc: ['.tpl', '.ejs', '.jade']
 			enableFileCache: false
 			dependencyReg: {
-				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
+				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/g
 			}
 			###*
 			 * The compiler can handle any type of file.
@@ -106,7 +106,7 @@ module.exports = rendererWidgets =
 
 		'.jsb':
 			type: '.js'
-			dependencyReg: /require\s+([^\r\n]+)/
+			dependencyReg: /require\s+([^\r\n]+)/g
 			extSrc: '.coffee'
 			compiler: (nil, path, data = {}) ->
 				browserify = kit.requireOptional 'browserify'
@@ -138,8 +138,8 @@ module.exports = rendererWidgets =
 		'.css':
 			extSrc: ['.styl', '.less', '.sass', '.scss']
 			dependencyReg: {
-				'.sass': /@import\s+([^\r\n]+)/
-				'.scss': /@import\s+([^\r\n]+)/
+				'.sass': /@import\s+([^\r\n]+)/g
+				'.scss': /@import\s+([^\r\n]+)/g
 			}
 			compiler: (str, path, data = {}) ->
 				self = @

@@ -29,7 +29,7 @@
     "express": "4.10.6",
     "jdb": "0.4.0",
     "marked": "0.3.2",
-    "nokit": "0.2.2"
+    "nokit": "0.2.3"
   },
   "devDependencies": {
     "benchmark": "*",

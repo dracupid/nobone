@@ -58,6 +58,7 @@ nobone = (modules, opts = {}) ->
 
 	for k, v of modules
 		if modules[k]
+			# Let monitor work: require './modules/*.coffee'
 			mod = require './modules/' + k
 			nobone[k] = mod
 			nb[k] = mod v

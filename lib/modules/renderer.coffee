@@ -37,7 +37,7 @@ rendererWidgets = require './rendererWidgets'
  * 			extraWatch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			dependencyReg: {
- * 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/
+ * 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/g
  * 			}
  * 			compiler: (str, path, data) -> ...
  * 		}
@@ -52,7 +52,7 @@ rendererWidgets = require './rendererWidgets'
  * 		'.jsb': {
  * 			type: '.js'
  * 			extSrc: '.coffee'
- * 			dependencyReg: /require\s+([^\r\n]+)/
+ * 			dependencyReg: /require\s+([^\r\n]+)/g
  * 			compiler: (str, path) -> ...
  * 		}
  * 		'.css': {
@@ -616,49 +616,17 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	# Parse the dependencies.
 	getDependencies = (handler, currPaths) ->
-		###
-			Trim cases:
-				"name"\s\s
-				"name";\s\s
-		###
-		trim = (path) ->
-			path
-			.replace /^[\s'"]+/, ''
-			.replace /[\s'";]+$/, ''
-
-		genDepPaths = (matches) ->
-			Promise.all matches.map (m) ->
-				path = trim m.match(handler.dependencyReg)[1]
-				unless kit.path.extname(path)
-					path = path + handler.ext
-
-				depPaths = handler.dependencyRoots.map (root) ->
-					kit.path.join root, path
-
-				getDependencies handler, depPaths
-
-		reg = new RegExp(handler.dependencyReg.source, 'g')
-		if currPaths
-			kit.glob currPaths
+		kit.parseDependency handler.path, {
+			depReg: handler.dependencyReg
+			depRoots: handler.dependencyRoots
+			extensions: [handler.ext]
+			handle: (path) ->
+				path.replace(/^[\s'"]+/, '').replace(/[\s'";]+$/, '')
+		}
 			.then (paths) ->
-				Promise.all paths.map (path) ->
-					# Prevent the recycle dependencies.
-					return if handler.newWatchList[path]
-
-					kit.readFile(path, 'utf8')
-					.then (str) ->
-						# The point to add path to watch list.
-						handler.newWatchList[path] = null
-
-						matches = str.match reg
-						return if not matches
-						genDepPaths matches
-			.catch(->)
-		else
-			return Promise.resolve() if not handler.source
-			matches = handler.source.match reg
-			return Promise.resolve() if not matches
-			genDepPaths matches
+			for p in paths
+				handler.newWatchList[p] = null
+			handler
 
 	genWatchList = (handler) ->
 		path = handler.path

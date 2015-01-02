@@ -21,7 +21,6 @@ task 'dev', 'Dev Server', (opts) ->
 	kit.monitorApp {
 		bin: 'coffee'
 		args
-		watchList: ['test/lab.coffee', 'lib/**/*.coffee']
 	}
 
 option '-g', '--grep [grep]', 'Test pattern'
