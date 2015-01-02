@@ -1,4 +1,4 @@
-- v1.2.8
+- v1.2.9
 
   - **API CHANGE** Now the `dependencyReg` of custom file handler should add
     `g` flag manually. Such as `/require\s+([^\r\n]+)/` should be `/require\s+([^\r\n]+)/g` now.
