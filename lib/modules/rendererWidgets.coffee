@@ -63,20 +63,11 @@ module.exports = rendererWidgets =
 						tplFn = _.template str, null, { sourceURL: path }
 
 					when '.ejs'
-						try
-							compiler = kit.require 'ejs'
-						catch e
-							kit.err '"npm install ejs" first.'.red
-							process.exit()
+						compiler = kit.requireOptional 'ejs'
 
 						tplFn = compiler.compile str, { filename: path }
 					when '.jade'
-						try
-							compiler = kit.require 'jade'
-						catch e
-							kit.log e
-							kit.err '"npm install jade" first.'.red
-							process.exit()
+						compiler = kit.requireOptional 'jade'
 
 						tplFn = compiler.compile str, { filename: path }
 						@dependencyPaths = tplFn.dependencies
@@ -118,12 +109,8 @@ module.exports = rendererWidgets =
 			dependencyReg: /require\s+([^\r\n]+)/
 			extSrc: '.coffee'
 			compiler: (nil, path, data = {}) ->
-				try
-					browserify = kit.require 'browserify'
-					through = kit.require 'through'
-				catch
-					kit.err '"npm install browserify through" first.'.red
-					process.exit()
+				browserify = kit.requireOptional 'browserify'
+				through = kit.requireOptional 'through'
 
 				coffee = kit.require 'coffee-script'
 
@@ -161,11 +148,7 @@ module.exports = rendererWidgets =
 				}
 				switch @ext
 					when '.styl'
-						try
-							stylus = kit.require 'stylus'
-						catch e
-							kit.err '"npm install stylus" first.'.red
-							process.exit()
+						stylus = kit.requireOptional 'stylus'
 
 						_.defaults data, {
 							sourcemap:
@@ -178,11 +161,8 @@ module.exports = rendererWidgets =
 					when '.less'
 						return '' if str == ''
 
-						try
-							less = kit.require('less')
-						catch e
-							kit.err '"npm install less" first.'.red
-							process.exit()
+						less = kit.requireOptional 'less'
+
 						if less.version[0] < 2 # old API for less < 2.0.0
 							parser = new less.Parser(_.defaults data, {
 								sourceMapFileInline: kit.isDevelopment()
@@ -224,11 +204,7 @@ module.exports = rendererWidgets =
 								Promise.reject err
 
 					when '.sass', '.scss'
-						try
-							sass = kit.require 'node-sass'
-						catch e
-							kit.err '"npm install node-sass" first.'.red
-							process.exit()
+						sass = kit.requireOptional 'node-sass'
 						sass.renderSync _.defaults data, {
 							outputStyle:
 								if kit.isProduction()

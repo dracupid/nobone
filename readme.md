@@ -874,7 +874,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
     Promise that contains the compiled content.
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L255" target="_blank"><b>dir</b></a>
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L231" target="_blank"><b>dir</b></a>
 
  Folder middleware.
 
@@ -882,7 +882,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Function_ }
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L342" target="_blank"><b>static</b></a>
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L318" target="_blank"><b>static</b></a>
 
  Static middleware.
 
@@ -892,7 +892,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
 
  - **<u>return</u>**:  { _Function_ }
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L425" target="_blank"><b>staticEx</b></a>
+- #### <a href="lib/modules/rendererWidgets.coffee?source#L401" target="_blank"><b>staticEx</b></a>
 
  Static middleware. Don't use it in production.
 
@@ -1006,7 +1006,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     service.use proxy.url
     ```
 
-- #### <a href="lib/modules/proxy.coffee?source#L147" target="_blank"><b>connect</b></a>
+- #### <a href="lib/modules/proxy.coffee?source#L144" target="_blank"><b>connect</b></a>
 
  Http CONNECT method tunneling proxy helper.
  Most times used with https proxing.
@@ -1039,7 +1039,7 @@ _It's highly recommended reading the API doc locally by command `nobone --doc`_
     service.server.on 'connect', proxy.connect
     ```
 
-- #### <a href="lib/modules/proxy.coffee?source#L198" target="_blank"><b>pac</b></a>
+- #### <a href="lib/modules/proxy.coffee?source#L195" target="_blank"><b>pac</b></a>
 
  A pac helper.
 

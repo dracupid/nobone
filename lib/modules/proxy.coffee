@@ -102,11 +102,8 @@ proxy = (opts = {}) ->
 				bps = opts.bps / (sockNum + 1)
 			else
 				bps = opts.bps
-			try
-				throttle = new kit.require('throttle')(bps)
-			catch
-				console.log 'Please "npm install throttle" first.'.red
-				process.exit()
+
+			throttle = new kit.requireOptional('throttle')(bps)
 
 			throttle.pipe res
 			throttle
