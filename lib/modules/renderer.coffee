@@ -34,7 +34,8 @@ rendererWidgets = require './rendererWidgets'
  * 		'.html': {
  * 			default: true
  * 			extSrc: ['.tpl','.ejs', '.jade']
- * 			extraWatch: { path1: 'comment1', path2: 'comment2', ... } # Extra files to watch.
+ * 			# Extra files to watch.
+ * 			extraWatch: { path1: 'comment1', path2: 'comment2', ... }
  * 			encoding: 'utf8' # optional, default is 'utf8'
  * 			dependencyReg: {
  * 				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/g

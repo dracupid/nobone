@@ -25,7 +25,8 @@ nb = nobone {
 nb.service.get '/', (req, res) ->
 	# Renderer
 	# It will auto-find the 'examples/fixtures/index.tpl', and render it to html.
-	# You can also render jade, coffee, stylus, less, sass, markdown, or define custom handlers.
+	# You can also render jade, coffee, stylus, less, sass,markdown,
+	# or define custom handlers.
 	# When you modify the `examples/fixtures/index.tpl`, the page will auto-reload.
 	nb.renderer.render('examples/fixtures/index.html')
 	.done (tplFn) ->
