@@ -4,7 +4,8 @@
   "description": "A server library tries to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
-    "nobone": "bin/nobone.js"
+    "nobone": "bin/nobone.js",
+    "nb": "bin/nobone.js"
   },
   "scripts": {
     "test": "cake test",

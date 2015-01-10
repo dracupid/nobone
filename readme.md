@@ -42,7 +42,7 @@ Or you can install it globally:
 npm i -g nobone
 
 # View a better nobone documentation than Github readme.
-nobone -d
+nb -d
 ```
 
 *****************************************************************************
@@ -188,16 +188,16 @@ You can use nobone as an alternative of `node` bin or `coffee`, it will auto det
 
 #### Run Script
 
-Such as `nobone app.js`, `nobone app.coffee`. It will run the script and if
+Such as `nb app.js`, `nb app.coffee`. It will run the script and if
 the script changed, it will automatically restart it.
 
-You can use `nobone -w off app.js` to turn off the watcher.
-You can pass a json to the watch list `nobone -w '["a.js", "b.js"]' app.js`.
+You can use `nb -w off app.js` to turn off the watcher.
+You can pass a json to the watch list `nb -w '["a.js", "b.js"]' app.js`.
 Any of watched file changed, the program will be restarted.
 
 #### Static Folder Server
 
-Such as `nobone /home/`, it will open a web server for you to browse the folder content. As you edit the html file in the folder, nobone will live
+Such as `nb /home/`, it will open a web server for you to browse the folder content. As you edit the html file in the folder, nobone will live
 reload the content for you. For css or image file change, it won't refresh the whole page, only js file change will trigger the page reload.
 
 You can use url query `?source` and url hash `#L` to view a source file.
@@ -215,22 +215,22 @@ Install nobone globally: `npm install -g nobone`
 
 ```bash
 # Help info
-nobone -h
+nb -h
 
 # Use it as a static file server for current directory.
 # Visit 'http://127.0.0.1/nobone' to see a better nobone documentation.
-nobone
+nb
 
 # Use regex to filter the log info.
 # Print out all the log if it contains '.ejs'
-logReg='.ejs' nobone
+logReg='.ejs' nb
 
 # Use custom logic to start up.
-nobone app.js
-watchPersistent=off nobone app.js
+nb app.js
+watchPersistent=off nb app.js
 
 # Scaffolding helper
-nobone bone -h
+nb bone -h
 
 ```
 
@@ -272,13 +272,13 @@ Other people can use the plugin after installing it with either `npm install nob
 
 To run the plugin simply use `nobone sample`.
 
-You can use `nobone ls` to list all installed plugins.
+You can use `nb ls` to list all installed plugins.
 
 *****************************************************************************
 
 ## Modules API
 
-_It's highly recommended reading the API doc locally by command `nobone --doc`_
+_It's highly recommended reading the API doc locally by command `nb --doc`_
 
 ### nobone
 
