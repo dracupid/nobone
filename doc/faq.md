@@ -29,4 +29,4 @@
 
 0. How to disable that annoying nobone update warn?
 
-  > There's an option to do this: `nb = nobone { checkUpgrade: false }`.
+  > There's an option to do this: `nb = nobone, { checkUpgrade: false }`.
