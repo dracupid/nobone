@@ -31,9 +31,16 @@ proxy = (opts = {}) ->
 	 * @param {Object} opts Other options. Default:
 	 * ```coffee
 	 * {
-	 * 	bps: null # Limit the bandwidth byte per second.
-	 * 	globalBps: false # if the bps is the global bps.
+	 * 	# Limit the bandwidth byte per second.
+	 * 	bps: null
+	 *
+	 * 	# if the bps is the global bps.
+	 * 	globalBps: false
+	 *
 	 * 	agent: customHttpAgent
+	 *
+	 * 	# You can hack the header before the proxy send it.
+	 * 	handleHeaders: (headers) -> headers
 	 * }
 	 * ```
 	 * @param {Function} err Custom error handler.
@@ -66,6 +73,7 @@ proxy = (opts = {}) ->
 			bps: null
 			globalBps: false
 			agent: self.agent
+			handleHeaders: (headers) -> headers
 		}
 
 		if not url
@@ -93,6 +101,8 @@ proxy = (opts = {}) ->
 		for k, v of req.headers
 			nk = k.replace(/(\w)(\w*)/g, (m, p1, p2) -> p1.toUpperCase() + p2)
 			headers[nk] = v
+
+		headers = opts.handleHeaders headers
 
 		stream = if opts.bps == null
 			res

@@ -1,3 +1,7 @@
+- v1.3.0
+
+  - `proxy.url` add new option `handleHeaders`.
+
 - v1.2.9
 
   - **API CHANGE** Now the `dependencyReg` of custom file handler should add
