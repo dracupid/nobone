@@ -1,6 +1,6 @@
 ###*
  * It is just a Express.js wrap.
- * @extends {Express} [Documentation][http://expressjs.com/4x/api.html]
+ * @extends {Express} [Documentation](http://expressjs.com/4x/api.html)
 ###
 Overview = 'service'
 
