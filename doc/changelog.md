@@ -1,6 +1,6 @@
 - v1.3.0
 
-  - `proxy.url` add new option `handleHeaders`.
+  - `proxy.url` add new options: `handleReqHeaders` and `handleResHeaders`.
 
 - v1.2.9
 

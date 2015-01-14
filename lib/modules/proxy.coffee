@@ -39,8 +39,9 @@ proxy = (opts = {}) ->
 	 *
 	 * 	agent: customHttpAgent
 	 *
-	 * 	# You can hack the header before the proxy send it.
-	 * 	handleHeaders: (headers) -> headers
+	 * 	# You can hack the headers before the proxy send it.
+	 * 	handleReqHeaders: (headers) -> headers
+	 * 	handleResHeaders: (headers) -> headers
 	 * }
 	 * ```
 	 * @param {Function} err Custom error handler.
@@ -73,7 +74,8 @@ proxy = (opts = {}) ->
 			bps: null
 			globalBps: false
 			agent: self.agent
-			handleHeaders: (headers) -> headers
+			handleReqHeaders: (headers) -> headers
+			handleResHeaders: (headers) -> headers
 		}
 
 		if not url
@@ -102,7 +104,7 @@ proxy = (opts = {}) ->
 			nk = k.replace(/(\w)(\w*)/g, (m, p1, p2) -> p1.toUpperCase() + p2)
 			headers[nk] = v
 
-		headers = opts.handleHeaders headers
+		headers = opts.handleReqHeaders headers
 
 		stream = if opts.bps == null
 			res
@@ -129,7 +131,10 @@ proxy = (opts = {}) ->
 		}
 
 		p.req.on 'response', (proxyRes) ->
-			res.writeHead proxyRes.statusCode, proxyRes.headers
+			res.writeHead(
+				proxyRes.statusCode
+				opts.handleResHeaders proxyRes.headers
+			)
 
 		p.catch error
 
