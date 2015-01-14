@@ -6,7 +6,7 @@ module.exports = (opts) ->
 	compileStylus()
 
 	if opts.bare
-		return
+		return Promise.resolve()
 
 	kit.compose(
 		lintCoffee
