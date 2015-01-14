@@ -261,7 +261,7 @@ module.exports = rendererWidgets =
 				if reqPath != '/'
 					list.unshift '..'
 
-				kit.async list.map (p) ->
+				Promise.all list.map (p) ->
 					fp = kit.path.join opts.rootDir, reqPath, p
 					kit.stat(fp).then (stats) ->
 						stats.isDir = stats.isDirectory()
@@ -294,7 +294,7 @@ module.exports = rendererWidgets =
 				assets = (name) ->
 					kit.path.join(__dirname, '../../assets/dir', name)
 
-				kit.async [
+				Promise.all [
 					renderer.render assets('index.html')
 					renderer.render assets('default.css')
 				]
