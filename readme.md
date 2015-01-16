@@ -129,7 +129,7 @@ nb.service.listen port, ->
 	nb.kit.log 'Listen port ' + port
 
 	# Open default browser.
-	nb.kit.open 'http://127.0.0.1:' + port
+	nb.kit.xopen 'http://127.0.0.1:' + port
 
 # Static folder for auto-service of coffeescript and stylus, etc.
 nb.service.use nb.renderer.static('examples/fixtures')

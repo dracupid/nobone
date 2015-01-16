@@ -23,5 +23,5 @@ service.listen port, host, ->
 	kit.log "Listen: " + "#{host}:#{port}".cyan
 
 	if JSON.parse openDir
-		kit.open 'http://127.0.0.1:' + port
+		kit.xopen 'http://127.0.0.1:' + port
 		.catch(->)

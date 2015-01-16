@@ -23,5 +23,5 @@ module.exports = (opts) ->
 		console.log "Please Visit: ".cyan + url
 
 		if opts.openDir
-			kit.open url
+			kit.xopen url
 			.catch(->)
