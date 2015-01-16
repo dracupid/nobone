@@ -80,7 +80,7 @@ nb -d
 
 0. How to disable that annoying nobone update warn?
 
-  > There's an option to do this: `nb = nobone, { checkUpgrade: false }`.
+  > There's an option to do this: `nb = nobone null, { checkUpgrade: false }`.
 
 
 *****************************************************************************
@@ -387,7 +387,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
  - **<u>extends</u>**:  { _Express_ }
 
-    [Documentation][http://expressjs.com/4x/api.html]
+    [Documentation](http://expressjs.com/4x/api.html)
 
 - #### <a href="lib/modules/service.coffee?source#L24" target="_blank"><b>service</b></a>
 
@@ -958,7 +958,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
  - **<u>return</u>**:  { _Proxy_ }
 
-- #### <a href="lib/modules/proxy.coffee?source#L60" target="_blank"><b>url</b></a>
+- #### <a href="lib/modules/proxy.coffee?source#L68" target="_blank"><b>url</b></a>
 
  Use it to proxy one url to another.
 
@@ -982,9 +982,17 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     Other options. Default:
     ```coffee
     {
-    	bps: null # Limit the bandwidth byte per second.
-    	globalBps: false # if the bps is the global bps.
+    	# Limit the bandwidth byte per second.
+    	bps: null
+    
+    	# if the bps is the global bps.
+    	globalBps: false
+    
     	agent: customHttpAgent
+    
+    	# You can hack the headers before the proxy send it.
+    	handleReqHeaders: (headers) -> headers
+    	handleResHeaders: (headers) -> headers
     }
     ```
 
@@ -1014,7 +1022,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     service.use proxy.url
     ```
 
-- #### <a href="lib/modules/proxy.coffee?source#L144" target="_blank"><b>connect</b></a>
+- #### <a href="lib/modules/proxy.coffee?source#L159" target="_blank"><b>connect</b></a>
 
  Http CONNECT method tunneling proxy helper.
  Most times used with https proxing.
@@ -1047,7 +1055,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     service.server.on 'connect', proxy.connect
     ```
 
-- #### <a href="lib/modules/proxy.coffee?source#L195" target="_blank"><b>pac</b></a>
+- #### <a href="lib/modules/proxy.coffee?source#L210" target="_blank"><b>pac</b></a>
 
  A pac helper.
 

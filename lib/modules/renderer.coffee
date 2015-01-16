@@ -610,16 +610,18 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		.then ->
 			return if _.keys(handler.newWatchList).length == 0
 
-			for path of handler.newWatchList
-				continue if _.isFunction(handler.watchedList[path])
-				handler.watchedList[path] = kit.watchFile path, watcher
-				emit self.e.watchFile, relate(path), handler.reqPath
+			Promise.all(_.map handler.newWatchList, (nil, path) ->
+				return if _.isFunction(handler.watchedList[path])
+				kit.watchFile path, watcher
+				.then (listener) ->
+					handler.watchedList[path] = listener
+					emit self.e.watchFile, relate(path), handler.reqPath
+			).then ->
+				delete handler.newWatchList
 
-			delete handler.newWatchList
-
-			# Save the cached files.
-			if handler.content
-				cacheToFile handler
+				# Save the cached files.
+				if handler.content
+					cacheToFile handler
 
 	# Parse the dependencies.
 	getDependencies = (handler, currPaths) ->

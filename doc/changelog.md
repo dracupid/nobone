@@ -1,6 +1,8 @@
 - v1.3.0
 
   - `proxy.url` add new options: `handleReqHeaders` and `handleResHeaders`.
+  - Update `nokit`, some APIs have been changed, goto to see its changelog.
+  - Update deps.
 
 - v1.2.9
 
