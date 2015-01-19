@@ -25,19 +25,7 @@ findPlugin = (name) ->
 		kit.path.join(libPath, name)
 	]
 
-	paths = []
-	for dir in searchDirs
-		if dir[-1..] == '*'
-			prefix = kit.path.basename(dir)[0...-1]
-			dirname = kit.path.dirname dir
-			try
-				ps = kit.fs.readdirSync(dirname)
-					.filter (p) ->
-						p.indexOf(prefix) == 0
-				paths = paths.concat ps.map((p) -> kit.path.join(dirname, p))
-		else
-			if kit.fs.existsSync dir
-				paths.push dir
+	paths = kit.fs.globSync searchDirs
 	kit._.uniq paths
 
 cmder
