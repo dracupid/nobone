@@ -271,14 +271,19 @@ module.exports = rendererWidgets =
 							stats.path = p
 						stats.ext = kit.path.extname p
 						stats.size = stats.size
-						stats
-					.then (stats) ->
+
 						if stats.isDir
 							kit.readdir(fp).then (list) ->
 								stats.dirCount = list.length
 								stats
 						else
 							stats
+					.catch (err) ->
+						if err.code == 'ENOENT'
+							{ path: p }
+						else
+							Promise.reject err
+
 			.then (list) ->
 				list.sort (a, b) -> a.path.localeCompare b.path
 

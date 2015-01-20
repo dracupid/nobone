@@ -53,10 +53,10 @@
 				<%= el.dirCount == undefined ? '' : el.dirCount %>
 			</div>
 			<div class="size">
-				<%= formatSize(el.size) %>
+				<%= el.size && formatSize(el.size) %>
 			</div>
 			<div class="mtime">
-				<%= formatTime(el.mtime) %>
+				<%= el.mtime && formatTime(el.mtime) %>
 			</div>
 		</div>
 
