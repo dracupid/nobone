@@ -539,7 +539,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	genHandler = (path, handler) ->
 		# TODO: This part is somehow too complex.
 
-		extBin = kit.path.extname path
+		extBin = kit.path.extname(path).toLowerCase()
 
 		if not handler
 			if extBin == ''
