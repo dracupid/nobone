@@ -7,14 +7,14 @@ file_path = './assets/img/nobone.png'
 
 service.get '/stream', (req, res) ->
 	kit.readFile file_path
-	.done (data) ->
+	.then (data) ->
 		res.type 'png'
 		res.send data
 
 mem_cache = kit.fs.readFileSync file_path
 service.get '/memory', (req, res) ->
 	renderer.render file_path
-	.done (data) ->
+	.then (data) ->
 		res.type 'png'
 		res.send data
 

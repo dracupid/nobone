@@ -72,7 +72,7 @@ nobone = (modules, opts = {}) ->
 			)
 
 	if opts.checkUpgrade
-		nobone.checkUpgrade()
+		nobone.checkUpgrade().catch(->)
 
 	###*
 	 * Release the resources.
@@ -108,7 +108,7 @@ _.extend nobone, {
 	###
 	checkUpgrade: ->
 		kit.request 'https://registry.npmjs.org/nobone/latest'
-		.done (data) ->
+		.then (data) ->
 			{ version: ver } = JSON.parse data
 			curr_ver = nobone.version()
 			if ver > curr_ver

@@ -21,6 +21,6 @@ kit.glob [
 	, false, ([str, stats]) ->
 		lineCount += str.split('\n').length
 		sizeCount += stats.size
-.done ->
+.then ->
 	kit.log 'Total Lines: '.cyan + lineCount
 	kit.log ' Total Size: '.cyan + (sizeCount / 1024).toFixed(2) + ' kb'

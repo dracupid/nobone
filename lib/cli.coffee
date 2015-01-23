@@ -91,7 +91,7 @@ init = ->
 			return
 
 	if cmder.interactive
-		nb = nobone()
+		nb = nobone(null, { checkUpgrade: false })
 		kit._.extend global, nb
 		kit._.extend global, {
 			nobone

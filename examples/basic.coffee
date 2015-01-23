@@ -29,7 +29,7 @@ nb.service.get '/', (req, res) ->
 	# or define custom handlers.
 	# When you modify the `examples/fixtures/index.tpl`, the page will auto-reload.
 	nb.renderer.render('examples/fixtures/index.html')
-	.done (tplFn) ->
+	.then (tplFn) ->
 		res.send tplFn({ name: 'nobone' })
 
 # Launch express.js
@@ -47,11 +47,11 @@ nb.service.use nb.renderer.static('examples/fixtures')
 # Database
 # Nobone has a build-in file database.
 # Here we save 'a' as value 1.
-nb.db.loaded.done ->
+nb.db.loaded.then ->
 	nb.db.exec (db) ->
 		db.doc.a = 1
 		db.save('DB OK')
-	.done (data) ->
+	.then (data) ->
 		nb.kit.log data
 
 	# Get data 'a'.
@@ -72,5 +72,5 @@ nb.kit.log nb.lang('find %s men', [10], 'jp') # -> '10人が見付かる'
 
 close = ->
 	# Release all the resources.
-	nb.close().done ->
+	nb.close().then ->
 		nb.kit.log 'Peacefully closed.'

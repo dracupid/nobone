@@ -195,11 +195,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * ```coffee
 	 * # The 'a.ejs' file may not exists, it will auto-compile
 	 * # the 'a.ejs' or 'a.html' to html.
-	 * renderer.render('a.html').done (html) -> kit.log(html)
+	 * renderer.render('a.html').then (html) -> kit.log(html)
 	 *
 	 * # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
-	 * renderer.render('a.ejs', '.html').done (html) -> html == '10'
-	 * renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
+	 * renderer.render('a.ejs', '.html').then (html) -> html == '10'
+	 * renderer.render('a.ejs').then (str) -> str == '<% var a = 10 %><%= a %>'
 	 * ```
 	###
 	self.render = (path, ext, data, isCache, reqPath, handler) ->

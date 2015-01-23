@@ -19,7 +19,7 @@ nobone = require '../lib/nobone'
 
 srv.get '/', (req, res) ->
 	rr.render 'test/fixtures/index.html'
-	.done (tplFn) ->
+	.then (tplFn) ->
 		res.send tplFn({ name: 'test'.l })
 
 srv.use rr.static('test/fixtures')

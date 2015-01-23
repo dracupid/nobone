@@ -21,7 +21,7 @@ service.use (req, res) ->
 				url: req.url
 				headers: req.headers
 			}
-			.done (body) ->
+			.then (body) ->
 				res.send body.replace(/Example/g, 'ys')
 
 		# Limit other connections' max bandwidth to 30KB/s.

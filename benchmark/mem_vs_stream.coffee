@@ -25,7 +25,6 @@ get = (path, port, defer) ->
 		defer.resolve data
 	.catch (err) ->
 		defer.reject err
-	.done()
 
 suite
 
