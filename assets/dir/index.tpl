@@ -35,19 +35,21 @@
 		return s;
 	}
 
-	var renderList = function (list, source) {
+	var renderList = function (list, opts) {
+		opts = opts || {};
+		postFix = opts.isDir ? '/' : '';
 		_.each(list, function (el) {
 	%>
 
 		<div class='item'>
-			<% if (source) { %>
-				<a class='source' title='view source code' href="<%= el.path %>?source" target="_blank">
+			<% if (opts.isSource) { %>
+				<a class='source' title='view source code' href="<%= encodeURIComponent(el.path) %>?source" target="_blank">
 					&lt;&gt;&nbsp;
 				</a>
 			<% } %>
 
-			<a class="name" href="<%= el.path %>">
-				<%= el.path %>
+			<a class="name" href="<%= encodeURIComponent(el.path) + postFix %>">
+				<%= el.path + postFix %>
 			</a>
 			<div class="dirCount">
 				<%= el.dirCount == undefined ? '' : el.dirCount %>
@@ -87,11 +89,11 @@
 	</div>
 
 	<div class="dirs">
-		<% renderList(list.dirs) %>
+		<% renderList(list.dirs, { isDir: true }) %>
 	</div>
 
 	<div class="files">
-		<% renderList(list.files, true) %>
+		<% renderList(list.files, { isSource: true }) %>
 	</div>
 
 </body>

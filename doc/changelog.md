@@ -1,3 +1,7 @@
+- v1.3.3
+
+  - Fix a static dir name encoding bug.
+
 - v1.3.2
 
   - `proxy.url` add new options: `handleReqHeaders` and `handleResHeaders`.

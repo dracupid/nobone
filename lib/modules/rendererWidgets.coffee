@@ -266,7 +266,7 @@ module.exports = rendererWidgets =
 					kit.stat(fp).then (stats) ->
 						stats.isDir = stats.isDirectory()
 						if stats.isDir
-							stats.path = p + '/'
+							stats.path = p
 						else
 							stats.path = p
 						stats.ext = kit.path.extname p
