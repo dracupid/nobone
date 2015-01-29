@@ -100,6 +100,8 @@ You can use `?gotoDoc` to open a dependencies' markdown file. Such as `jdb/readm
 
 Install nobone globally: `npm install -g nobone`
 
+### nb
+
 ```bash
 # Help info
 nb -h
@@ -120,6 +122,23 @@ watchPersistent=off nb app.js
 nb bone -h
 
 ```
+
+### no
+
+This command is inherited from the `nokit`'s.
+For more information:
+
+- [API Documentation](https://github.com/ysmood/nokit)
+- [Offline Documentation](?gotoDoc=nokit/readme.md#cli)
+
+```bash
+# Run default task
+no
+
+# See help
+no -h
+```
+
 
 *****************************************************************************
 

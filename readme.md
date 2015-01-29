@@ -119,7 +119,7 @@ nb.service.get '/', (req, res) ->
 	# or define custom handlers.
 	# When you modify the `examples/fixtures/index.tpl`, the page will auto-reload.
 	nb.renderer.render('examples/fixtures/index.html')
-	.done (tplFn) ->
+	.then (tplFn) ->
 		res.send tplFn({ name: 'nobone' })
 
 # Launch express.js
@@ -137,11 +137,11 @@ nb.service.use nb.renderer.static('examples/fixtures')
 # Database
 # Nobone has a build-in file database.
 # Here we save 'a' as value 1.
-nb.db.loaded.done ->
+nb.db.loaded.then ->
 	nb.db.exec (db) ->
 		db.doc.a = 1
 		db.save('DB OK')
-	.done (data) ->
+	.then (data) ->
 		nb.kit.log data
 
 	# Get data 'a'.
@@ -162,7 +162,7 @@ nb.kit.log nb.lang('find %s men', [10], 'jp') # -> '10人が見付かる'
 
 close = ->
 	# Release all the resources.
-	nb.close().done ->
+	nb.close().then ->
 		nb.kit.log 'Peacefully closed.'
 
 ```
@@ -213,6 +213,8 @@ You can use `?gotoDoc` to open a dependencies' markdown file. Such as `jdb/readm
 
 Install nobone globally: `npm install -g nobone`
 
+### nb
+
 ```bash
 # Help info
 nb -h
@@ -233,6 +235,23 @@ watchPersistent=off nb app.js
 nb bone -h
 
 ```
+
+### no
+
+This command is inherited from the `nokit`'s.
+For more information:
+
+- [API Documentation](https://github.com/ysmood/nokit)
+- [Offline Documentation](?gotoDoc=nokit/readme.md#cli)
+
+```bash
+# Run default task
+no
+
+# See help
+no -h
+```
+
 
 *****************************************************************************
 
@@ -281,922 +300,914 @@ You can use `nb ls` to list all installed plugins.
 _It's highly recommended reading the API doc locally by command `nb --doc`_
 
 ### nobone
+- #### **[Overview](lib/nobone.coffee?source#L9)**
 
-- #### <a href="lib/nobone.coffee?source#L9" target="_blank"><b>Overview</b></a>
+    NoBone has several modules and a helper lib.
+    **All the modules are optional**.
+    Only the `kit` lib is loaded by default and is not optional.
 
- NoBone has several modules and a helper lib.
- **All the modules are optional**.
- Only the `kit` lib is loaded by default and is not optional.
- 
- Most of the async functions are implemented with [Promise][Promise].
- [Promise]: https://github.com/petkaantonov/bluebird
+    Most of the async functions are implemented with [Promise][Promise].
+    [Promise]: https://github.com/petkaantonov/bluebird
 
-- #### <a href="lib/nobone.coffee?source#L41" target="_blank"><b>nobone</b></a>
+- #### **[nobone](lib/nobone.coffee?source#L41)**
 
- Main constructor.
+    Main constructor.
 
- - **<u>param</u>**: `modules` { _Object_ }
+    - **<u>param</u>**: `modules` { _Object_ }
 
-    By default, it only load two modules,
-    `service` and `renderer`:
-    ```coffee
-    {
-    	service: {}
-    	renderer: {}
-    	db: null
-    	proxy: null
-    	lang: null
-    
-    	langPath: null # language set directory
-    }
-    ```
+        By default, it only load two modules,
+        `service` and `renderer`:
+        ```coffee
+        {
+        	service: {}
+        	renderer: {}
+        	db: null
+        	proxy: null
+        	lang: null
 
- - **<u>param</u>**: `opts` { _Object_ }
+        	langPath: null # language set directory
+        }
+        ```
 
-    Defaults:
-    ```coffee
-    {
-    	# Whether to auto-check the version of nobone.
-    	checkUpgrade: true
-    
-    # Whether to enable the sse live reload.
-    	autoReload: true
-    }
-    ```
+    - **<u>param</u>**: `opts` { _Object_ }
 
- - **<u>return</u>**:  { _Object_ }
+        Defaults:
+        ```coffee
+        {
+        	# Whether to auto-check the version of nobone.
+        	checkUpgrade: true
 
-    A nobone instance.
+        # Whether to enable the sse live reload.
+        	autoReload: true
+        }
+        ```
 
-- #### <a href="lib/nobone.coffee?source#L81" target="_blank"><b>close</b></a>
+    - **<u>return</u>**: { _Object_ }
 
- Release the resources.
+        A nobone instance.
 
- - **<u>return</u>**:  { _Promise_ }
+- #### **[close](lib/nobone.coffee?source#L81)**
 
-- #### <a href="lib/nobone.coffee?source#L102" target="_blank"><b>version</b></a>
+    Release the resources.
 
- Get current nobone version string.
+    - **<u>return</u>**: { _Promise_ }
 
- - **<u>return</u>**:  { _String_ }
+- #### **[version](lib/nobone.coffee?source#L102)**
 
-- #### <a href="lib/nobone.coffee?source#L109" target="_blank"><b>checkUpgrade</b></a>
+    Get current nobone version string.
 
- Check if nobone need to be upgraded.
+    - **<u>return</u>**: { _String_ }
 
- - **<u>return</u>**:  { _Promise_ }
+- #### **[checkUpgrade](lib/nobone.coffee?source#L109)**
 
-- #### <a href="lib/nobone.coffee?source#L134" target="_blank"><b>client</b></a>
+    Check if nobone need to be upgraded.
 
- The NoBone client helper.
+    - **<u>return</u>**: { _Promise_ }
 
- - **<u>static</u>**:
+- #### **[client](lib/nobone.coffee?source#L134)**
 
- - **<u>param</u>**: `opts` { _Object_ }
+    The NoBone client helper.
 
-    The options of the client, defaults:
-    ```coffee
-    {
-    	autoReload: kit.isDevelopment()
-    	host: '' # The host of the event source.
-    }
-    ```
+    - **<u>static</u>**:
 
- - **<u>param</u>**: `useJs` { _Boolean_ }
+    - **<u>param</u>**: `opts` { _Object_ }
 
-    By default use html. Default is false.
+        The options of the client, defaults:
+        ```coffee
+        {
+        	autoReload: kit.isDevelopment()
+        	host: '' # The host of the event source.
+        }
+        ```
 
- - **<u>return</u>**:  { _String_ }
+    - **<u>param</u>**: `useJs` { _Boolean_ }
 
-    The code of client helper.
+        By default use html. Default is false.
+
+    - **<u>return</u>**: { _String_ }
+
+        The code of client helper.
 
 ### kit
+- #### **[Overview](lib/kit.coffee?source#L8)**
 
-- #### <a href="lib/kit.coffee?source#L8" target="_blank"><b>Overview</b></a>
+    A collection of commonly used functions.
 
- A collection of commonly used functions.
- 
- - [API Documentation](https://github.com/ysmood/nokit)
- - [Offline Documentation](?gotoDoc=nokit/readme.md)
+    - [API Documentation](https://github.com/ysmood/nokit)
+    - [Offline Documentation](?gotoDoc=nokit/readme.md)
 
 ### service
+- #### **[Overview](lib/modules/service.coffee?source#L5)**
 
-- #### <a href="lib/modules/service.coffee?source#L5" target="_blank"><b>Overview</b></a>
+    It is just a Express.js wrap.
 
- It is just a Express.js wrap.
+    - **<u>extends</u>**: { _Express_ }
 
- - **<u>extends</u>**:  { _Express_ }
+        [Documentation](http://expressjs.com/4x/api.html)
 
-    [Documentation](http://expressjs.com/4x/api.html)
+- #### **[service](lib/modules/service.coffee?source#L24)**
 
-- #### <a href="lib/modules/service.coffee?source#L24" target="_blank"><b>service</b></a>
+    Create a Service instance.
 
- Create a Service instance.
+    - **<u>param</u>**: `opts` { _Object_ }
 
- - **<u>param</u>**: `opts` { _Object_ }
+        Defaults:
+        ```coffee
+        {
+        	autoLog: kit.isDevelopment()
+        	enableRemoteLog: kit.isDevelopment()
+        	enableSse: kit.isDevelopment()
+        	express: {}
+        }
+        ```
 
-    Defaults:
-    ```coffee
-    {
-    	autoLog: kit.isDevelopment()
-    	enableRemoteLog: kit.isDevelopment()
-    	enableSse: kit.isDevelopment()
-    	express: {}
-    }
-    ```
+    - **<u>return</u>**: { _Service_ }
 
- - **<u>return</u>**:  { _Service_ }
+- #### **[server](lib/modules/service.coffee?source#L40)**
 
-- #### <a href="lib/modules/service.coffee?source#L40" target="_blank"><b>server</b></a>
+    The server object of the express object.
 
- The server object of the express object.
+    - **<u>type</u>**: { _http.Server_ }
 
- - **<u>type</u>**:  { _http.Server_ }
+        [Documentation](http://nodejs.org/api/http.html#httpClassHttpServer)
 
-    [Documentation](http://nodejs.org/api/http.html#httpClassHttpServer)
+- #### **[sse](lib/modules/service.coffee?source#L130)**
 
-- #### <a href="lib/modules/service.coffee?source#L130" target="_blank"><b>sse</b></a>
+    A Server-Sent Event Manager.
+    The namespace of nobone sse is `/nobone-sse`.
+    For more info see [Using server-sent events][Using server-sent events].
+    NoBone use it to implement the live-reload of web assets.
+    [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sentEvents/UsingServer-sentEvents
 
- A Server-Sent Event Manager.
- The namespace of nobone sse is `/nobone-sse`.
- For more info see [Using server-sent events][Using server-sent events].
- NoBone use it to implement the live-reload of web assets.
- [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sentEvents/UsingServer-sentEvents
+    - **<u>type</u>**: { _SSE_ }
 
- - **<u>type</u>**:  { _SSE_ }
+    - **<u>property</u>**: `sessions` { _Array_ }
 
- - **<u>property</u>**: `sessions` { _Array_ }
+        The sessions of connected clients.
 
-    The sessions of connected clients.
+    - **<u>property</u>**: `retry` { _Integer_ }
 
- - **<u>property</u>**: `retry` { _Integer_ }
+        The reconnection time to use when attempting to send the event, unit is ms.
+        Default is 1000ms.
+        A session object is something like:
+        ```coffee
+        {
+        	req  # The express.js req object.
+        	res  # The express.js res object.
+        }
+        ```
 
-    The reconnection time to use when attempting to send the event, unit is ms.
-    Default is 1000ms.
-    A session object is something like:
-    ```coffee
-    {
-    	req  # The express.js req object.
-    	res  # The express.js res object.
-    }
-    ```
+    - **<u>example</u>**:
 
- - **<u>example</u>**:
+        You browser code should be something like this:
+        ```coffee
+        es = new EventSource('/nobone-sse')
+        es.addEventListener('eventName', (e) ->
+        	msg = JSON.parse(e.data)
+        	console.log(msg)
+        ```
 
-    You browser code should be something like this:
-    ```coffee
-    es = new EventSource('/nobone-sse')
-    es.addEventListener('eventName', (e) ->
-    	msg = JSON.parse(e.data)
-    	console.log(msg)
-    ```
+- #### **[e.sseConnected](lib/modules/service.coffee?source#L142)**
 
-- #### <a href="lib/modules/service.coffee?source#L142" target="_blank"><b>e.sseConnected</b></a>
+    This event will be triggered when a sse connection started.
+    The event name is a combination of sseConnected and req.path,
+    for example: "sseConnected/test"
 
- This event will be triggered when a sse connection started.
- The event name is a combination of sseConnected and req.path,
- for example: "sseConnected/test"
+    - **<u>event</u>**: { _sseConnected_ }
 
- - **<u>event</u>**:  { _sseConnected_ }
+    - **<u>param</u>**: `session` { _SSESession_ }
 
- - **<u>param</u>**: `session` { _SSESession_ }
+        The session object of current connection.
 
-    The session object of current connection.
+- #### **[e.sseClose](lib/modules/service.coffee?source#L149)**
 
-- #### <a href="lib/modules/service.coffee?source#L149" target="_blank"><b>e.sseClose</b></a>
+    This event will be triggered when a sse connection closed.
 
- This event will be triggered when a sse connection closed.
+    - **<u>event</u>**: { _sseClose_ }
 
- - **<u>event</u>**:  { _sseClose_ }
+    - **<u>param</u>**: `session` { _SSESession_ }
 
- - **<u>param</u>**: `session` { _SSESession_ }
+        The session object of current connection.
 
-    The session object of current connection.
+- #### **[sse.create](lib/modules/service.coffee?source#L157)**
 
-- #### <a href="lib/modules/service.coffee?source#L157" target="_blank"><b>sse.create</b></a>
+    Create a sse session.
 
- Create a sse session.
+    - **<u>param</u>**: `req` { _Express.req_ }
 
- - **<u>param</u>**: `req` { _Express.req_ }
+    - **<u>param</u>**: `res` { _Express.res_ }
 
- - **<u>param</u>**: `res` { _Express.res_ }
+    - **<u>return</u>**: { _SSESession_ }
 
- - **<u>return</u>**:  { _SSESession_ }
+- #### **[session.emit](lib/modules/service.coffee?source#L172)**
 
-- #### <a href="lib/modules/service.coffee?source#L172" target="_blank"><b>session.emit</b></a>
+    Emit message to client.
 
- Emit message to client.
+    - **<u>param</u>**: `event` { _String_ }
 
- - **<u>param</u>**: `event` { _String_ }
+        The event name.
 
-    The event name.
+    - **<u>param</u>**: `msg` { _Object | String_ }
 
- - **<u>param</u>**: `msg` { _Object | String_ }
+        The message to send to the client.
 
-    The message to send to the client.
+- #### **[sse.emit](lib/modules/service.coffee?source#L199)**
 
-- #### <a href="lib/modules/service.coffee?source#L199" target="_blank"><b>sse.emit</b></a>
+    Broadcast a event to clients.
 
- Broadcast a event to clients.
+    - **<u>param</u>**: `event` { _String_ }
 
- - **<u>param</u>**: `event` { _String_ }
+        The event name.
 
-    The event name.
+    - **<u>param</u>**: `msg` { _Object | String_ }
 
- - **<u>param</u>**: `msg` { _Object | String_ }
+        The data you want to emit to session.
 
-    The data you want to emit to session.
+    - **<u>param</u>**: { _String_ }
 
- - **<u>param</u>**:  { _String_ }
-
-    [path] The namespace of target sessions. If not set,
-    broadcast to all clients.
+        [path] The namespace of target sessions. If not set,
+        broadcast to all clients.
 
 ### renderer
+- #### **[Overview](lib/modules/renderer.coffee?source#L9)**
+
+    An abstract renderer for any content, such as source code or image files.
+    It automatically uses high performance memory cache.
+    This renderer helps nobone to build a **passive compilation architecture**.
+    You can run the benchmark to see the what differences it makes.
+    Even for huge project the memory usage is negligible.
 
-- #### <a href="lib/modules/renderer.coffee?source#L9" target="_blank"><b>Overview</b></a>
-
- An abstract renderer for any content, such as source code or image files.
- It automatically uses high performance memory cache.
- This renderer helps nobone to build a **passive compilation architecture**.
- You can run the benchmark to see the what differences it makes.
- Even for huge project the memory usage is negligible.
-
- - **<u>extends</u>**:  { _events.EventEmitter_ }
-
-    [Documentation](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
-
-- #### <a href="lib/modules/renderer.coffee?source#L73" target="_blank"><b>renderer</b></a>
-
- Create a Renderer instance.
-
- - **<u>param</u>**: `opts` { _Object_ }
-
-    Defaults:
-    ```coffee
-    {
-    	enableWatcher: kit.isDevelopment()
-    	autoLog: kit.isDevelopment()
-    
-    	# If renderer detects this pattern, it will auto-inject `noboneClient.js`
-    	# into the page.
-    	injectClientReg: /<html[^<>]*>[\s\S]*</html>/i
-    
-    	cacheDir: '.nobone/rendererCache'
-    	cacheLimit: 1024
-    
-    	fileHandlers: {
-    		'.html': {
-    			default: true
-    			extSrc: ['.tpl','.ejs', '.jade']
-    			# Extra files to watch.
-    			extraWatch: { path1: 'comment1', path2: 'comment2', ... }
-    			encoding: 'utf8' # optional, default is 'utf8'
-    			dependencyReg: {
-    				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/g
-    			}
-    			compiler: (str, path, data) -> ...
-    		}
-    
-    		# Simple coffee compiler
-    		'.js': {
-    			extSrc: '.coffee'
-    			compiler: (str, path) -> ...
-    		}
-    
-    		# Browserify a main entrance file.
-    		'.jsb': {
-    			type: '.js'
-    			extSrc: '.coffee'
-    			dependencyReg: /require\s+([^\r\n]+)/g
-    			compiler: (str, path) -> ...
-    		}
-    		'.css': {
-    			extSrc: ['.styl', '.less', '.sass', '.scss']
-    			compiler: (str, path) -> ...
-    		}
-    		'.md': {
-    			type: 'html' # Force type, optional.
-    			extSrc: ['.md', '.markdown']
-    			compiler: (str, path) -> ...
-    		}
-    	}
-    }
-    ```
-
- - **<u>return</u>**:  { _Renderer_ }
-
-- #### <a href="lib/modules/renderer.coffee?source#L114" target="_blank"><b>fileHandlers</b></a>
-
- You can access all the fileHandlers here.
- Manipulate them at runtime.
-
- - **<u>type</u>**:  { _Object_ }
-
- - **<u>example</u>**:
-
-    ```coffee
-    { renderer } = nobone()
-    renderer.fileHandlers['.css'].compiler = (str, path) ->
-    	stylus = kit.requireOptional 'stylus'
-    
-    	compile = stylus(str, data).set 'filename', path
-    	# Take advantage of the syntax parser.
-    	this.dependencyPaths = compile.deps()
-    	kit.promisify(compile.render, compile)()
-    ```
-
-- #### <a href="lib/modules/renderer.coffee?source#L120" target="_blank"><b>cachePool</b></a>
-
- The cache pool of the result of `fileHandlers.compiler`
-
- - **<u>type</u>**:  { _Object_ }
-
-    Key is the file path.
-
-- #### <a href="lib/modules/renderer.coffee?source#L127" target="_blank"><b>dir</b></a>
+    - **<u>extends</u>**: { _events.EventEmitter_ }
 
- Set a service for listing directory content, similar with the `serve-index` project.
+        [Documentation](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
 
- - **<u>param</u>**: `opts` { _String | Object_ }
+- #### **[renderer](lib/modules/renderer.coffee?source#L73)**
 
-    If it's a string it represents the rootDir.
+    Create a Renderer instance.
 
- - **<u>return</u>**:  { _Middleware_ }
+    - **<u>param</u>**: `opts` { _Object_ }
 
-    Experss.js middleware.
+        Defaults:
+        ```coffee
+        {
+        	enableWatcher: kit.isDevelopment()
+        	autoLog: kit.isDevelopment()
 
-- #### <a href="lib/modules/renderer.coffee?source#L153" target="_blank"><b>static</b></a>
+        	# If renderer detects this pattern, it will auto-inject `noboneClient.js`
+        	# into the page.
+        	injectClientReg: /<html[^<>]*>[\s\S]*</html>/i
 
- Set a static directory proxy.
- Automatically compile, cache and serve source files for both deveopment and production.
+        	cacheDir: '.nobone/rendererCache'
+        	cacheLimit: 1024
 
- - **<u>param</u>**: `opts` { _String | Object_ }
+        	fileHandlers: {
+        		'.html': {
+        			default: true
+        			extSrc: ['.tpl','.ejs', '.jade']
+        			# Extra files to watch.
+        			extraWatch: { path1: 'comment1', path2: 'comment2', ... }
+        			encoding: 'utf8' # optional, default is 'utf8'
+        			dependencyReg: {
+        				'.ejs': /<%[\n\r\s]*include\s+([^\r\n]+)\s*%>/g
+        			}
+        			compiler: (str, path, data) -> ...
+        		}
 
-    If it's a string it represents the rootDir.
-    of this static directory. Defaults:
-    ```coffee
-    {
-    	rootDir: '.'
-    
-    	# Whether enable serve direcotry index.
-    	index: kit.isDevelopment()
-    
-    	injectClient: kit.isDevelopment()
-    
-    	# Useful when mapping a normal path to a hashed file.
-    	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
-    	reqPathHandler: decodeURIComponent
-    
-    	# Check path such as '../../../../etc/passwd'.
-    	isMalicious: ->
-    }
-    ```
+        		# Simple coffee compiler
+        		'.js': {
+        			extSrc: '.coffee'
+        			compiler: (str, path) -> ...
+        		}
 
- - **<u>return</u>**:  { _Middleware_ }
+        		# Browserify a main entrance file.
+        		'.jsb': {
+        			type: '.js'
+        			extSrc: '.coffee'
+        			dependencyReg: /require\s+([^\r\n]+)/g
+        			compiler: (str, path) -> ...
+        		}
+        		'.css': {
+        			extSrc: ['.styl', '.less', '.sass', '.scss']
+        			compiler: (str, path) -> ...
+        		}
+        		'.md': {
+        			type: 'html' # Force type, optional.
+        			extSrc: ['.md', '.markdown']
+        			compiler: (str, path) -> ...
+        		}
+        	}
+        }
+        ```
 
-    Experss.js middleware.
+    - **<u>return</u>**: { _Renderer_ }
 
-- #### <a href="lib/modules/renderer.coffee?source#L177" target="_blank"><b>staticEx</b></a>
+- #### **[fileHandlers](lib/modules/renderer.coffee?source#L114)**
 
- An extra version of `renderer.static`.
- Better support for markdown and source file.
+    You can access all the fileHandlers here.
+    Manipulate them at runtime.
 
- - **<u>param</u>**: `opts` { _String | Object_ }
+    - **<u>type</u>**: { _Object_ }
 
-    If it's a string it represents the rootDir.
-    of this static directory. Defaults:
-    ```coffee
-    {
-    	rootDir: '.'
-    
-    	# Whether enable serve direcotry index.
-    	index: kit.isDevelopment()
-    
-    	injectClient: kit.isDevelopment()
-    
-    	# Useful when mapping a normal path to a hashed file.
-    	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
-    	reqPathHandler: decodeURIComponent
-    }
-    ```
+    - **<u>example</u>**:
 
- - **<u>return</u>**:  { _Middleware_ }
+        ```coffee
+        { renderer } = nobone()
+        renderer.fileHandlers['.css'].compiler = (str, path) ->
+        	stylus = kit.requireOptional 'stylus'
 
-    Experss.js middleware.
+        	compile = stylus(str, data).set 'filename', path
+        	# Take advantage of the syntax parser.
+        	this.dependencyPaths = compile.deps()
+        	kit.promisify(compile.render, compile)()
+        ```
 
-- #### <a href="lib/modules/renderer.coffee?source#L205" target="_blank"><b>render</b></a>
+- #### **[cachePool](lib/modules/renderer.coffee?source#L120)**
 
- Render a file. It will auto-detect the file extension and
- choose the right compiler to handle the content.
+    The cache pool of the result of `fileHandlers.compiler`
 
- - **<u>param</u>**: `path` { _String | Object_ }
+    - **<u>type</u>**: { _Object_ }
 
-    The file path. The path extension should be
-    the same with the compiled result file. If it's an object, it can contain
-    any number of following params.
+        Key is the file path.
 
- - **<u>param</u>**: `ext` { _String_ }
+- #### **[dir](lib/modules/renderer.coffee?source#L127)**
 
-    Force the extension. Optional.
+    Set a service for listing directory content, similar with the `serve-index` project.
 
- - **<u>param</u>**: `data` { _Object_ }
+    - **<u>param</u>**: `opts` { _String | Object_ }
 
-    Extra data you want to send to the compiler. Optional.
+        If it's a string it represents the rootDir.
 
- - **<u>param</u>**: `isCache` { _Boolean_ }
+    - **<u>return</u>**: { _Middleware_ }
 
-    Whether to cache the result,
-    default is true. Optional.
+        Experss.js middleware.
 
- - **<u>param</u>**: `reqPath` { _String_ }
+- #### **[static](lib/modules/renderer.coffee?source#L153)**
 
-    The http request path. Support it will make auto-reload
-    more efficient.
+    Set a static directory proxy.
+    Automatically compile, cache and serve source files for both deveopment and production.
 
- - **<u>param</u>**: `handler` { _FileHandler_ }
+    - **<u>param</u>**: `opts` { _String | Object_ }
 
-    A custom file handler.
+        If it's a string it represents the rootDir.
+        of this static directory. Defaults:
+        ```coffee
+        {
+        	rootDir: '.'
 
- - **<u>return</u>**:  { _Promise_ }
+        	# Whether enable serve direcotry index.
+        	index: kit.isDevelopment()
 
-    Contains the compiled content.
+        	injectClient: kit.isDevelopment()
 
- - **<u>example</u>**:
+        	# Useful when mapping a normal path to a hashed file.
+        	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
+        	reqPathHandler: decodeURIComponent
 
-    ```coffee
-    # The 'a.ejs' file may not exists, it will auto-compile
-    # the 'a.ejs' or 'a.html' to html.
-    renderer.render('a.html').done (html) -> kit.log(html)
-    
-    # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
-    renderer.render('a.ejs', '.html').done (html) -> html == '10'
-    renderer.render('a.ejs').done (str) -> str == '<% var a = 10 %><%= a %>'
-    ```
+        	# Check path such as '../../../../etc/passwd'.
+        	isMalicious: ->
+        }
+        ```
 
-- #### <a href="lib/modules/renderer.coffee?source#L251" target="_blank"><b>close</b></a>
+    - **<u>return</u>**: { _Middleware_ }
 
- Release the resources.
+        Experss.js middleware.
 
-- #### <a href="lib/modules/renderer.coffee?source#L259" target="_blank"><b>releaseCache</b></a>
+- #### **[staticEx](lib/modules/renderer.coffee?source#L177)**
 
- Release memory cache of a file.
+    An extra version of `renderer.static`.
+    Better support for markdown and source file.
 
- - **<u>param</u>**: `path` { _String_ }
+    - **<u>param</u>**: `opts` { _String | Object_ }
 
-- #### <a href="lib/modules/renderer.coffee?source#L275" target="_blank"><b>e.compiled</b></a>
+        If it's a string it represents the rootDir.
+        of this static directory. Defaults:
+        ```coffee
+        {
+        	rootDir: '.'
 
- - **<u>event</u>**:  { _compiled_ }
+        	# Whether enable serve direcotry index.
+        	index: kit.isDevelopment()
 
- - **<u>param</u>**: `path` { _String_ }
+        	injectClient: kit.isDevelopment()
 
-    The compiled file.
+        	# Useful when mapping a normal path to a hashed file.
+        	# Such as map 'lib/main.js' to 'lib/main-jk2x.js'.
+        	reqPathHandler: decodeURIComponent
+        }
+        ```
 
- - **<u>param</u>**: `content` { _String_ }
+    - **<u>return</u>**: { _Middleware_ }
 
-    Compiled content.
+        Experss.js middleware.
 
- - **<u>param</u>**: `handler` { _FileHandler_ }
+- #### **[render](lib/modules/renderer.coffee?source#L205)**
 
-    The current file handler.
+    Render a file. It will auto-detect the file extension and
+    choose the right compiler to handle the content.
 
-- #### <a href="lib/modules/renderer.coffee?source#L282" target="_blank"><b>e.compileError</b></a>
+    - **<u>param</u>**: `path` { _String | Object_ }
 
- - **<u>event</u>**:  { _compileError_ }
+        The file path. The path extension should be
+        the same with the compiled result file. If it's an object, it can contain
+        any number of following params.
 
- - **<u>param</u>**: `path` { _String_ }
+    - **<u>param</u>**: `ext` { _String_ }
 
-    The error file.
+        Force the extension. Optional.
 
- - **<u>param</u>**: `err` { _Error_ }
+    - **<u>param</u>**: `data` { _Object_ }
 
-    The error info.
+        Extra data you want to send to the compiler. Optional.
 
-- #### <a href="lib/modules/renderer.coffee?source#L290" target="_blank"><b>e.watchFile</b></a>
+    - **<u>param</u>**: `isCache` { _Boolean_ }
 
- - **<u>event</u>**:  { _watchFile_ }
+        Whether to cache the result,
+        default is true. Optional.
 
- - **<u>param</u>**: `path` { _String_ }
+    - **<u>param</u>**: `reqPath` { _String_ }
 
-    The path of the file.
+        The http request path. Support it will make auto-reload
+        more efficient.
 
- - **<u>param</u>**: `curr` { _fs.Stats_ }
+    - **<u>param</u>**: `handler` { _FileHandler_ }
 
-    Current state.
+        A custom file handler.
 
- - **<u>param</u>**: `prev` { _fs.Stats_ }
+    - **<u>return</u>**: { _Promise_ }
 
-    Previous state.
+        Contains the compiled content.
 
-- #### <a href="lib/modules/renderer.coffee?source#L296" target="_blank"><b>e.fileDeleted</b></a>
+    - **<u>example</u>**:
 
- - **<u>event</u>**:  { _fileDeleted_ }
+        ```coffee
+        # The 'a.ejs' file may not exists, it will auto-compile
+        # the 'a.ejs' or 'a.html' to html.
+        renderer.render('a.html').then (html) -> kit.log(html)
 
- - **<u>param</u>**: `path` { _String_ }
+        # if the content of 'a.ejs' is '<% var a = 10 %><%= a %>'
+        renderer.render('a.ejs', '.html').then (html) -> html == '10'
+        renderer.render('a.ejs').then (str) -> str == '<% var a = 10 %><%= a %>'
+        ```
 
-    The path of the file.
+- #### **[close](lib/modules/renderer.coffee?source#L251)**
 
-- #### <a href="lib/modules/renderer.coffee?source#L302" target="_blank"><b>e.fileModified</b></a>
+    Release the resources.
 
- - **<u>event</u>**:  { _fileModified_ }
+- #### **[releaseCache](lib/modules/renderer.coffee?source#L259)**
 
- - **<u>param</u>**: `path` { _String_ }
+    Release memory cache of a file.
 
-    The path of the file.
+    - **<u>param</u>**: `path` { _String_ }
 
-- #### <a href="lib/modules/renderer.coffee?source#L510" target="_blank"><b>getCache</b></a>
+- #### **[e.compiled](lib/modules/renderer.coffee?source#L275)**
 
- Set handler cache.
+    - **<u>event</u>**: { _compiled_ }
 
- - **<u>param</u>**: `handler` { _FileHandler_ }
+    - **<u>param</u>**: `path` { _String_ }
 
- - **<u>return</u>**:  { _Promise_ }
+        The compiled file.
 
-- #### <a href="lib/modules/renderer.coffee?source#L539" target="_blank"><b>genHandler</b></a>
+    - **<u>param</u>**: `content` { _String_ }
 
- Generate a file handler.
+        Compiled content.
 
- - **<u>param</u>**: `path` { _String_ }
+    - **<u>param</u>**: `handler` { _FileHandler_ }
 
- - **<u>param</u>**: `handler` { _FileHandler_ }
+        The current file handler.
 
- - **<u>return</u>**:  { _FileHandler_ }
+- #### **[e.compileError](lib/modules/renderer.coffee?source#L282)**
+
+    - **<u>event</u>**: { _compileError_ }
+
+    - **<u>param</u>**: `path` { _String_ }
+
+        The error file.
+
+    - **<u>param</u>**: `err` { _Error_ }
+
+        The error info.
+
+- #### **[e.watchFile](lib/modules/renderer.coffee?source#L290)**
+
+    - **<u>event</u>**: { _watchFile_ }
+
+    - **<u>param</u>**: `path` { _String_ }
+
+        The path of the file.
+
+    - **<u>param</u>**: `curr` { _fs.Stats_ }
+
+        Current state.
+
+    - **<u>param</u>**: `prev` { _fs.Stats_ }
+
+        Previous state.
+
+- #### **[e.fileDeleted](lib/modules/renderer.coffee?source#L296)**
+
+    - **<u>event</u>**: { _fileDeleted_ }
+
+    - **<u>param</u>**: `path` { _String_ }
+
+        The path of the file.
+
+- #### **[e.fileModified](lib/modules/renderer.coffee?source#L302)**
+
+    - **<u>event</u>**: { _fileModified_ }
+
+    - **<u>param</u>**: `path` { _String_ }
+
+        The path of the file.
+
+- #### **[getCache](lib/modules/renderer.coffee?source#L510)**
+
+    Set handler cache.
+
+    - **<u>param</u>**: `handler` { _FileHandler_ }
+
+    - **<u>return</u>**: { _Promise_ }
+
+- #### **[genHandler](lib/modules/renderer.coffee?source#L539)**
+
+    Generate a file handler.
+
+    - **<u>param</u>**: `path` { _String_ }
+
+    - **<u>param</u>**: `handler` { _FileHandler_ }
+
+    - **<u>return</u>**: { _FileHandler_ }
 
 ### rendererWidgets
+- #### **[Overview](lib/modules/rendererWidgets.coffee?source#L4)**
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L4" target="_blank"><b>Overview</b></a>
+    It use the renderer module to create some handy functions.
 
- It use the renderer module to create some handy functions.
+- #### **[compiler](lib/modules/rendererWidgets.coffee?source#L59)**
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L59" target="_blank"><b>compiler</b></a>
+    The compiler can handle any type of file.
 
- The compiler can handle any type of file.
+    - **<u>context</u>**: { _FileHandler_ }
 
- - **<u>context</u>**:  { _FileHandler_ }
+        Properties:
+        ```coffee
+        {
+        	ext: String # The current file's extension.
+        	opts: Object # The current options of renderer.
 
-    Properties:
-    ```coffee
-    {
-    	ext: String # The current file's extension.
-    	opts: Object # The current options of renderer.
-    
-    	# The file dependencies of current file.
-    	# If you set it in the `compiler`, the `dependencyReg`
-    	# and `dependencyRoots` should be left undefined.
-    	dependencyPaths: Array
-    
-    	# The regex to match dependency path. Regex or Table.
-    	dependencyReg: RegExp
-    
-    	# The root directories for searching dependencies.
-    	dependencyRoots: Array
-    
-    	# The source map informantion.
-    	# If you need source map support, the `sourceMap`property
-    	# must be set during the compile process.
-    	# If you use inline source map, this property shouldn't be set.
-    	sourceMap: String or Object
-    }
-    ```
+        	# The file dependencies of current file.
+        	# If you set it in the `compiler`, the `dependencyReg`
+        	# and `dependencyRoots` should be left undefined.
+        	dependencyPaths: Array
 
- - **<u>param</u>**: `str` { _String_ }
+        	# The regex to match dependency path. Regex or Table.
+        	dependencyReg: RegExp
 
-    Source content.
+        	# The root directories for searching dependencies.
+        	dependencyRoots: Array
 
- - **<u>param</u>**: `path` { _String_ }
+        	# The source map informantion.
+        	# If you need source map support, the `sourceMap`property
+        	# must be set during the compile process.
+        	# If you use inline source map, this property shouldn't be set.
+        	sourceMap: String or Object
+        }
+        ```
 
-    For debug info.
+    - **<u>param</u>**: `str` { _String_ }
 
- - **<u>param</u>**: `data` { _Any_ }
+        Source content.
 
-    The data sent from the `render` function.
-    when you call the `render` directly. Default is an object:
-    ```coffee
-    {
-    	_: lodash
-    	injectClient: kit.isDevelopment()
-    }
-    ```
+    - **<u>param</u>**: `path` { _String_ }
 
- - **<u>return</u>**:  { _Promise_ }
+        For debug info.
 
-    Promise that contains the compiled content.
+    - **<u>param</u>**: `data` { _Any_ }
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L231" target="_blank"><b>dir</b></a>
+        The data sent from the `render` function.
+        when you call the `render` directly. Default is an object:
+        ```coffee
+        {
+        	_: lodash
+        	injectClient: kit.isDevelopment()
+        }
+        ```
 
- Folder middleware.
+    - **<u>return</u>**: { _Promise_ }
 
- - **<u>param</u>**: `opts` { _Object_ }
+        Promise that contains the compiled content.
 
- - **<u>return</u>**:  { _Function_ }
+- #### **[dir](lib/modules/rendererWidgets.coffee?source#L231)**
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L318" target="_blank"><b>static</b></a>
+    Folder middleware.
 
- Static middleware.
+    - **<u>param</u>**: `opts` { _Object_ }
 
- - **<u>param</u>**: `renderer` { _Renderer_ }
+    - **<u>return</u>**: { _Function_ }
 
- - **<u>param</u>**: `opts` { _Object_ }
+- #### **[static](lib/modules/rendererWidgets.coffee?source#L323)**
 
- - **<u>return</u>**:  { _Function_ }
+    Static middleware.
 
-- #### <a href="lib/modules/rendererWidgets.coffee?source#L401" target="_blank"><b>staticEx</b></a>
+    - **<u>param</u>**: `renderer` { _Renderer_ }
 
- Static middleware. Don't use it in production.
+    - **<u>param</u>**: `opts` { _Object_ }
 
- - **<u>param</u>**: `renderer` { _Renderer_ }
+    - **<u>return</u>**: { _Function_ }
 
- - **<u>param</u>**: `opts` { _Object_ }
+- #### **[staticEx](lib/modules/rendererWidgets.coffee?source#L406)**
 
- - **<u>return</u>**:  { _Function_ }
+    Static middleware. Don't use it in production.
+
+    - **<u>param</u>**: `renderer` { _Renderer_ }
+
+    - **<u>param</u>**: `opts` { _Object_ }
+
+    - **<u>return</u>**: { _Function_ }
 
 ### db
+- #### **[Overview](lib/modules/db.coffee?source#L7)**
 
-- #### <a href="lib/modules/db.coffee?source#L7" target="_blank"><b>Overview</b></a>
+    See my [jdb][jdb] project.
 
- See my [jdb][jdb] project.
- 
- [Offline Documentation](?gotoDoc=jdb/readme.md)
- [jdb]: https://github.com/ysmood/jdb
+    [Offline Documentation](?gotoDoc=jdb/readme.md)
+    [jdb]: https://github.com/ysmood/jdb
 
-- #### <a href="lib/modules/db.coffee?source#L21" target="_blank"><b>db</b></a>
+- #### **[db](lib/modules/db.coffee?source#L21)**
 
- Create a JDB instance.
+    Create a JDB instance.
 
- - **<u>param</u>**: `opts` { _Object_ }
+    - **<u>param</u>**: `opts` { _Object_ }
 
-    Defaults:
-    ```coffee
-    {
-    	dbPath: './nobone.db'
-    }
-    ```
+        Defaults:
+        ```coffee
+        {
+        	dbPath: './nobone.db'
+        }
+        ```
 
- - **<u>return</u>**:  { _Jdb_ }
+    - **<u>return</u>**: { _Jdb_ }
 
-- #### <a href="lib/modules/db.coffee?source#L33" target="_blank"><b>jdb.loaded</b></a>
+- #### **[jdb.loaded](lib/modules/db.coffee?source#L33)**
 
- A promise object that help you to detect when
- the db is totally loaded.
+    A promise object that help you to detect when
+    the db is totally loaded.
 
- - **<u>type</u>**:  { _Promise_ }
+    - **<u>type</u>**: { _Promise_ }
 
 ### proxy
+- #### **[Overview](lib/modules/proxy.coffee?source#L5)**
 
-- #### <a href="lib/modules/proxy.coffee?source#L5" target="_blank"><b>Overview</b></a>
+    For test, page injection development.
+    A cross-platform programmable Fiddler alternative.
 
- For test, page injection development.
- A cross-platform programmable Fiddler alternative.
+- #### **[proxy](lib/modules/proxy.coffee?source#L16)**
 
-- #### <a href="lib/modules/proxy.coffee?source#L16" target="_blank"><b>proxy</b></a>
+    Create a Proxy instance.
 
- Create a Proxy instance.
+    - **<u>param</u>**: `opts` { _Object_ }
 
- - **<u>param</u>**: `opts` { _Object_ }
+        Defaults: `{ }`
 
-    Defaults: `{ }`
+    - **<u>return</u>**: { _Proxy_ }
 
- - **<u>return</u>**:  { _Proxy_ }
+- #### **[url](lib/modules/proxy.coffee?source#L68)**
 
-- #### <a href="lib/modules/proxy.coffee?source#L68" target="_blank"><b>url</b></a>
+    Use it to proxy one url to another.
 
- Use it to proxy one url to another.
+    - **<u>param</u>**: `req` { _http.IncomingMessage_ }
 
- - **<u>param</u>**: `req` { _http.IncomingMessage_ }
+        Also supports Express.js.
 
-    Also supports Express.js.
+    - **<u>param</u>**: `res` { _http.ServerResponse_ }
 
- - **<u>param</u>**: `res` { _http.ServerResponse_ }
+        Also supports Express.js.
 
-    Also supports Express.js.
+    - **<u>param</u>**: `url` { _String_ }
 
- - **<u>param</u>**: `url` { _String_ }
+        The target url forced to. Optional.
+        Such as force 'http://test.com/a' to 'http://test.com/b',
+        force 'http://test.com/a' to 'http://other.com/a',
+        force 'http://test.com' to 'other.com'.
 
-    The target url forced to. Optional.
-    Such as force 'http://test.com/a' to 'http://test.com/b',
-    force 'http://test.com/a' to 'http://other.com/a',
-    force 'http://test.com' to 'other.com'.
+    - **<u>param</u>**: `opts` { _Object_ }
 
- - **<u>param</u>**: `opts` { _Object_ }
+        Other options. Default:
+        ```coffee
+        {
+        	# Limit the bandwidth byte per second.
+        	bps: null
 
-    Other options. Default:
-    ```coffee
-    {
-    	# Limit the bandwidth byte per second.
-    	bps: null
-    
-    	# if the bps is the global bps.
-    	globalBps: false
-    
-    	agent: customHttpAgent
-    
-    	# You can hack the headers before the proxy send it.
-    	handleReqHeaders: (headers) -> headers
-    	handleResHeaders: (headers) -> headers
-    }
-    ```
+        	# if the bps is the global bps.
+        	globalBps: false
 
- - **<u>param</u>**: `err` { _Function_ }
+        	agent: customHttpAgent
 
-    Custom error handler.
+        	# You can hack the headers before the proxy send it.
+        	handleReqHeaders: (headers) -> headers
+        	handleResHeaders: (headers) -> headers
+        }
+        ```
 
- - **<u>return</u>**:  { _Promise_ }
+    - **<u>param</u>**: `err` { _Function_ }
 
- - **<u>example</u>**:
+        Custom error handler.
 
-    ```coffee
-    nobone = require 'nobone'
-    { proxy, service } = nobone { proxy:{}, service: {} }
-    
-    service.post '/a', (req, res) ->
-    	proxy.url req, res, 'a.com', (err) ->
-    		kit.log err
-    
-    service.get '/b', (req, res) ->
-    	proxy.url req, res, '/c'
-    
-    service.get '/a.js', (req, res) ->
-    	proxy.url req, res, 'http://b.com/c.js'
-    
-    # Transparent proxy.
-    service.use proxy.url
-    ```
+    - **<u>return</u>**: { _Promise_ }
 
-- #### <a href="lib/modules/proxy.coffee?source#L159" target="_blank"><b>connect</b></a>
+    - **<u>example</u>**:
 
- Http CONNECT method tunneling proxy helper.
- Most times used with https proxing.
+        ```coffee
+        nobone = require 'nobone'
+        { proxy, service } = nobone { proxy:{}, service: {} }
 
- - **<u>param</u>**: `req` { _http.IncomingMessage_ }
+        service.post '/a', (req, res) ->
+        	proxy.url req, res, 'a.com', (err) ->
+        		kit.log err
 
- - **<u>param</u>**: `sock` { _net.Socket_ }
+        service.get '/b', (req, res) ->
+        	proxy.url req, res, '/c'
 
- - **<u>param</u>**: `head` { _Buffer_ }
+        service.get '/a.js', (req, res) ->
+        	proxy.url req, res, 'http://b.com/c.js'
 
- - **<u>param</u>**: `host` { _String_ }
+        # Transparent proxy.
+        service.use proxy.url
+        ```
 
-    The host force to. It's optional.
+- #### **[connect](lib/modules/proxy.coffee?source#L159)**
 
- - **<u>param</u>**: `port` { _Int_ }
+    Http CONNECT method tunneling proxy helper.
+    Most times used with https proxing.
 
-    The port force to. It's optional.
+    - **<u>param</u>**: `req` { _http.IncomingMessage_ }
 
- - **<u>param</u>**: `err` { _Function_ }
+    - **<u>param</u>**: `sock` { _net.Socket_ }
 
-    Custom error handler.
+    - **<u>param</u>**: `head` { _Buffer_ }
 
- - **<u>example</u>**:
+    - **<u>param</u>**: `host` { _String_ }
 
-    ```coffee
-    nobone = require 'nobone'
-    { proxy, service } = nobone { proxy:{}, service: {} }
-    
-    # Directly connect to the original site.
-    service.server.on 'connect', proxy.connect
-    ```
+        The host force to. It's optional.
 
-- #### <a href="lib/modules/proxy.coffee?source#L210" target="_blank"><b>pac</b></a>
+    - **<u>param</u>**: `port` { _Int_ }
 
- A pac helper.
+        The port force to. It's optional.
 
- - **<u>param</u>**: `currHost` { _String_ }
+    - **<u>param</u>**: `err` { _Function_ }
 
-    The current host for proxy server. It's optional.
+        Custom error handler.
 
- - **<u>param</u>**: `ruleHandler` { _Function_ }
+    - **<u>example</u>**:
 
-    Your custom pac rules.
-    It gives you three helpers.
-    ```coffee
-    url # The current client request url.
-    host # The host name derived from the url.
-    currHost = 'PROXY host:port;' # Nobone server host address.
-    direct =  "DIRECT;"
-    match = (pattern) -> # A function use shExpMatch to match your url.
-    proxy = (target) -> # return 'PROXY target;'.
-    ```
+        ```coffee
+        nobone = require 'nobone'
+        { proxy, service } = nobone { proxy:{}, service: {} }
 
- - **<u>return</u>**:  { _Function_ }
+        # Directly connect to the original site.
+        service.server.on 'connect', proxy.connect
+        ```
 
-    Express Middleware.
-    ```coffee
-    nobone = require 'nobone'
-    { proxy, service } = nobone { proxy:{}, service: {} }
-    
-    service.get '/pac', proxy.pac ->
-    	if match 'http://a.com/*'
-    		currHost
-    	else if url == 'http://c.com'
-    		proxy 'd.com:8123'
-    	else
-    		direct
-    ```
+- #### **[pac](lib/modules/proxy.coffee?source#L210)**
+
+    A pac helper.
+
+    - **<u>param</u>**: `currHost` { _String_ }
+
+        The current host for proxy server. It's optional.
+
+    - **<u>param</u>**: `ruleHandler` { _Function_ }
+
+        Your custom pac rules.
+        It gives you three helpers.
+        ```coffee
+        url # The current client request url.
+        host # The host name derived from the url.
+        currHost = 'PROXY host:port;' # Nobone server host address.
+        direct =  "DIRECT;"
+        match = (pattern) -> # A function use shExpMatch to match your url.
+        proxy = (target) -> # return 'PROXY target;'.
+        ```
+
+    - **<u>return</u>**: { _Function_ }
+
+        Express Middleware.
+        ```coffee
+        nobone = require 'nobone'
+        { proxy, service } = nobone { proxy:{}, service: {} }
+
+        service.get '/pac', proxy.pac ->
+        	if match 'http://a.com/*'
+        		currHost
+        	else if url == 'http://c.com'
+        		proxy 'd.com:8123'
+        	else
+        		direct
+        ```
 
 ### lang
+- #### **[Overview](lib/modules/lang.coffee?source#L4)**
 
-- #### <a href="lib/modules/lang.coffee?source#L4" target="_blank"><b>Overview</b></a>
+    An string helper for globalization.
 
- An string helper for globalization.
+- #### **[self](lib/modules/lang.coffee?source#L58)**
 
-- #### <a href="lib/modules/lang.coffee?source#L58" target="_blank"><b>self</b></a>
+    It will find the right `key/value` pair in your defined `langSet`.
+    If it cannot find the one, it will output the key directly.
 
- It will find the right `key/value` pair in your defined `langSet`.
- If it cannot find the one, it will output the key directly.
+    - **<u>param</u>**: `cmd` { _String_ }
 
- - **<u>param</u>**: `cmd` { _String_ }
+        The original text.
 
-    The original text.
+    - **<u>param</u>**: `args` { _Array_ }
 
- - **<u>param</u>**: `args` { _Array_ }
+        The arguments for string format. Optional.
 
-    The arguments for string format. Optional.
+    - **<u>param</u>**: `name` { _String_ }
 
- - **<u>param</u>**: `name` { _String_ }
+        The target language name. Optional.
 
-    The target language name. Optional.
+    - **<u>return</u>**: { _String_ }
 
- - **<u>return</u>**:  { _String_ }
+    - **<u>example</u>**:
 
- - **<u>example</u>**:
+        ```coffee
+        { lang } = require('nobone')(lang: {})
+        lang.langSet =
+        	human:
+        		cn: '人类'
+        		jp: '人間'
 
-    ```coffee
-    { lang } = require('nobone')(lang: {})
-    lang.langSet =
-    	human:
-    		cn: '人类'
-    		jp: '人間'
-    
-    	open:
-    		cn:
-    			formal: '开启' # Formal way to say 'open'
-    			casual: '打开' # Casual way to say 'open'
-    
-    	'find %s men': '%s人が見付かる'
-    
-    lang('human', 'cn', langSet) # -> '人类'
-    lang('open|casual', 'cn', langSet) # -> '打开'
-    lang('find %s men', [10], 'jp', langSet) # -> '10人が見付かる'
-    ```
+        	open:
+        		cn:
+        			formal: '开启' # Formal way to say 'open'
+        			casual: '打开' # Casual way to say 'open'
 
- - **<u>example</u>**:
+        	'find %s men': '%s人が見付かる'
 
-    ```coffee
-    { lang } = require('nobone')(
-    	lang: { langPath: 'lang.coffee' }
-    	current: 'cn'
-    )
-    
-    'human'.l # '人类'
-    'Good weather.'.lang('jp') # '日和。'
-    
-    lang.current = 'en'
-    'human'.l # 'human'
-    'Good weather.'.lang('jp') # 'Good weather.'
-    ```
+        lang('human', 'cn', langSet) # -> '人类'
+        lang('open|casual', 'cn', langSet) # -> '打开'
+        lang('find %s men', [10], 'jp', langSet) # -> '10人が見付かる'
+        ```
 
-- #### <a href="lib/modules/lang.coffee?source#L109" target="_blank"><b>langSet</b></a>
+    - **<u>example</u>**:
 
- Language collections.
+        ```coffee
+        { lang } = require('nobone')(
+        	lang: { langPath: 'lang.coffee' }
+        	current: 'cn'
+        )
 
- - **<u>type</u>**:  { _Object_ }
+        'human'.l # '人类'
+        'Good weather.'.lang('jp') # '日和。'
 
- - **<u>example</u>**:
+        lang.current = 'en'
+        'human'.l # 'human'
+        'Good weather.'.lang('jp') # 'Good weather.'
+        ```
 
-    ```coffee
-    { lang } = require('nobone')(lang: {})
-    lang.langSet = {
-    	'cn': { 'human': '人类' }
-    }
-    ```
+- #### **[langSet](lib/modules/lang.coffee?source#L109)**
 
-- #### <a href="lib/modules/lang.coffee?source#L116" target="_blank"><b>current</b></a>
+    Language collections.
 
- Current default language.
+    - **<u>type</u>**: { _Object_ }
 
- - **<u>type</u>**:  { _String_ }
+    - **<u>example</u>**:
 
- - **<u>default</u>**:
+        ```coffee
+        { lang } = require('nobone')(lang: {})
+        lang.langSet = {
+        	'cn': { 'human': '人类' }
+        }
+        ```
 
-    'en'
+- #### **[current](lib/modules/lang.coffee?source#L116)**
 
-- #### <a href="lib/modules/lang.coffee?source#L132" target="_blank"><b>load</b></a>
+    Current default language.
 
- Load language set and save them into the `langSet`.
- Besides, it will also add properties `l` and `lang` to `String.prototype`.
+    - **<u>type</u>**: { _String_ }
 
- - **<u>param</u>**: `filePath` { _String_ }
+    - **<u>default</u>**:
 
-    js or coffee files.
+        'en'
 
- - **<u>example</u>**:
+- #### **[load](lib/modules/lang.coffee?source#L132)**
 
-    ```coffee
-    { lang } = require('nobone')(lang: {})
-    lang.load 'assets/lang'
-    lang.current = 'cn'
-    log 'test'.l # -> '测试'.
-    log '%s persons'.lang([10]) # -> '10 persons'
-    ```
+    Load language set and save them into the `langSet`.
+    Besides, it will also add properties `l` and `lang` to `String.prototype`.
+
+    - **<u>param</u>**: `filePath` { _String_ }
+
+        js or coffee files.
+
+    - **<u>example</u>**:
+
+        ```coffee
+        { lang } = require('nobone')(lang: {})
+        lang.load 'assets/lang'
+        lang.current = 'cn'
+        log 'test'.l # -> '测试'.
+        log '%s persons'.lang([10]) # -> '10 persons'
+        ```
 
 
 
@@ -1216,33 +1227,7 @@ npm test
 
 ## Benchmark
 
-
-<h3>Memory vs Stream</h3>
-Memory cache is faster than direct file streaming even on SSD machine.
-It's hard to test the real condition, because most of the file system
-will cache a file into memory if it being read lot of times.
-
-Type   | Performance
------- | ---------------
-memory | 1,225 ops/sec ±3.42% (74 runs sampled)
-stream | 933 ops/sec ±3.23% (71 runs sampled)
-
-<h3>crc32 vs jhash</h3>
-As we can see, jhash is about 1.5x faster than crc32.
-Their results of collision test are nearly the same.
-
-Type         | Performance
------------- | ----------------
-crc buffer   | 5,903 ops/sec ±0.52% (100 runs sampled)
-crc str      | 54,045 ops/sec ±6.67% (83 runs sampled)
-jhash buffer | 9,756 ops/sec ±0.67% (101 runs sampled)
-jhash str    | 72,056 ops/sec ±0.36% (94 runs sampled)
-
-Type   | Time    | Collision
------- | ------- | -------------
-jhash  | 10.002s | 0.004007480630510286% (15 / 374300)
-crc32  | 10.001s | 0.004445855827246745% (14 / 314900)
-
+Goto see [benchmark](benchmark)
 
 *****************************************************************************
 
