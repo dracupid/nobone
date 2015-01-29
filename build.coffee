@@ -5,7 +5,7 @@ module.exports = (opts) ->
 	if opts.bare
 		return Promise.resolve()
 
-	kit.compose(
+	kit.flow(
 		lintCoffee
 		buildDocs
 	)()
@@ -30,7 +30,7 @@ compileStylus = ->
 		kit.spawn 'stylus', list
 
 lintCoffee = ->
-	kit.compose(
+	kit.flow(
 		kit.glob([
 			'lib/**/*.coffee'
 			'test/**/*.coffee'

@@ -1,4 +1,4 @@
-- v1.4.1
+- v1.4.2
 
   - Fix a static dir name encoding bug.
   - **API CHANGE** see changelogs of project `nokit` and `nofs`.
