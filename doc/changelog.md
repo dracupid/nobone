@@ -1,6 +1,9 @@
-- v1.3.3
+- v1.4.0
 
   - Fix a static dir name encoding bug.
+  - **API CHANGE** see changelogs of project `nokit` and `nofs`.
+  - Add `no` CLI tool, see `nokit`'s CLI part.
+  - Fix a cache distruction bug.
 
 - v1.3.2
 
