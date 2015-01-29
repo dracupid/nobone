@@ -4,7 +4,6 @@
   "description": "A server library tries to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
-    "nobone": "bin/nobone.js",
     "nb": "bin/nobone.js"
   },
   "scripts": {
@@ -25,12 +24,12 @@
   },
   "license": "BSD",
   "dependencies": {
+    "bluebird": "2.9.3",
     "coffee-script": "1.8.0",
-    "commander": "2.6.0",
-    "express": "4.11.0",
-    "jdb": "0.4.2",
-    "marked": "0.3.2",
-    "nokit": "0.2.6"
+    "express": "4.11.1",
+    "jdb": "0.4.5",
+    "marked": "0.3.3",
+    "nokit": "0.2.9"
   },
   "devDependencies": {
     "benchmark": "*",
