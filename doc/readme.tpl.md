@@ -185,9 +185,7 @@ npm test
 
 ## Benchmark
 
-<% benchmark.forEach(function (el) { %>
-<%= el.description %>
-<% }) %>
+Goto see [benchmark](benchmark)
 
 *****************************************************************************
 
