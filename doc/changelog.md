@@ -1,9 +1,10 @@
-- v1.4.0
+- v1.4.1
 
   - Fix a static dir name encoding bug.
   - **API CHANGE** see changelogs of project `nokit` and `nofs`.
   - Add `no` CLI tool, see `nokit`'s CLI part.
   - Fix a cache distruction bug.
+  - Update "coffee-script" to "1.9.0"
 
 - v1.3.2
 
