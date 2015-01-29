@@ -258,6 +258,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.releaseCache = (path) ->
 		handler = cachePool[path]
+		return if not handler
 		handler.deleted = true
 		if handler.watchedList
 			for wpath, watcher of handler.watchedList

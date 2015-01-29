@@ -759,7 +759,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>param</u>**: `path` { _String_ }
 
-- #### **[e.compiled](lib/modules/renderer.coffee?source#L275)**
+- #### **[e.compiled](lib/modules/renderer.coffee?source#L276)**
 
     - **<u>event</u>**: { _compiled_ }
 
@@ -775,7 +775,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The current file handler.
 
-- #### **[e.compileError](lib/modules/renderer.coffee?source#L282)**
+- #### **[e.compileError](lib/modules/renderer.coffee?source#L283)**
 
     - **<u>event</u>**: { _compileError_ }
 
@@ -787,7 +787,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The error info.
 
-- #### **[e.watchFile](lib/modules/renderer.coffee?source#L290)**
+- #### **[e.watchFile](lib/modules/renderer.coffee?source#L291)**
 
     - **<u>event</u>**: { _watchFile_ }
 
@@ -803,7 +803,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Previous state.
 
-- #### **[e.fileDeleted](lib/modules/renderer.coffee?source#L296)**
+- #### **[e.fileDeleted](lib/modules/renderer.coffee?source#L297)**
 
     - **<u>event</u>**: { _fileDeleted_ }
 
@@ -811,7 +811,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The path of the file.
 
-- #### **[e.fileModified](lib/modules/renderer.coffee?source#L302)**
+- #### **[e.fileModified](lib/modules/renderer.coffee?source#L303)**
 
     - **<u>event</u>**: { _fileModified_ }
 
@@ -819,7 +819,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The path of the file.
 
-- #### **[getCache](lib/modules/renderer.coffee?source#L510)**
+- #### **[getCache](lib/modules/renderer.coffee?source#L511)**
 
     Set handler cache.
 
@@ -827,7 +827,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Promise_ }
 
-- #### **[genHandler](lib/modules/renderer.coffee?source#L539)**
+- #### **[genHandler](lib/modules/renderer.coffee?source#L540)**
 
     Generate a file handler.
 
