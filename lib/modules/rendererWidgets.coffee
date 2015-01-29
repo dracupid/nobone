@@ -447,7 +447,7 @@ module.exports = rendererWidgets =
 			else if req.query.gotoDoc?
 				currModulePath = reqPath.replace(/\/[^\/]+$/, '/')
 
-				paths = kit.generateNodeModulePaths(
+				paths = kit.genModulePaths(
 					req.query.gotoDoc.replace('/', kit.path.sep)
 					kit.path.join opts.rootDir, currModulePath
 				)

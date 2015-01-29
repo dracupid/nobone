@@ -18,7 +18,7 @@ opts = {
 
 
 findPlugin = (name) ->
-	searchDirs = kit.generateNodeModulePaths(name)[1..]
+	searchDirs = kit.genModulePaths(name)[1..]
 
 	searchDirs = searchDirs.concat [
 		kit.path.join(nodeLibPath, name)
