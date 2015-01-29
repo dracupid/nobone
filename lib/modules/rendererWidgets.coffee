@@ -220,7 +220,7 @@ module.exports = rendererWidgets =
 			type: '.html'
 			extSrc: ['.md','.markdown']
 			compiler: (str, path, data = {}) ->
-				marked = kit.require 'marked'
+				marked = kit.requireOptional 'marked'
 				marked str, data
 
 	###*
@@ -418,7 +418,7 @@ module.exports = rendererWidgets =
 		assetsRoot = kit.path.join noboneRoot, 'assets'
 
 		renderer.fileHandlers['.md'].compiler = (str, path) ->
-			marked = kit.require 'marked'
+			marked = kit.requireOptional 'marked'
 
 			try
 				md = marked str
