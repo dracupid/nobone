@@ -1,14 +1,12 @@
-process.env.NODE_ENV = 'development'
 process.chdir __dirname
-
-kit = require './lib/kit'
-{ Promise, _ } = kit
 
 build = require './build'
 
-option '-d', '--debug', 'Node debug mode.'
-option '-p', '--port [port]', 'Node debug mode.'
-option '-b', '--bare', 'Build source code without doc or lint.'
+option '-d, --debug', 'Node debug mode.'
+option '-p, --port [port]', 'Node debug mode.'
+option '-b, --bare', 'Build source code without doc or lint.'
+
+task 'default', ['build'], 'Default task is build'
 
 task 'dev', 'Dev Server', (opts) ->
 	appPath = 'test/lab.coffee'
@@ -23,7 +21,7 @@ task 'dev', 'Dev Server', (opts) ->
 		args
 	}
 
-option '-g', '--grep [grep]', 'Test pattern'
+option '-g, --grep [grep]', 'Test pattern', '.'
 task 'test', 'Basic test', (opts) ->
 	build opts
 	.then ->
@@ -36,7 +34,7 @@ task 'test', 'Basic test', (opts) ->
 				'-t', 10000
 				'-r', 'coffee-script/register'
 				'-R', 'spec'
-				'-g', opts.grep or '.'
+				'-g', opts.grep
 				file
 			]).catch ({ code }) ->
 				process.exit code

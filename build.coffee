@@ -1,6 +1,3 @@
-kit = require './lib/kit'
-{ Promise, _ } = kit
-
 module.exports = (opts) ->
 	compileCoffee()
 	compileStylus()

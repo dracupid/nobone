@@ -7,8 +7,8 @@
     "nb": "bin/nobone.js"
   },
   "scripts": {
-    "test": "cake test",
-    "prepublish": "cake build"
+    "test": "no test",
+    "prepublish": "no build"
   },
   "keywords": [
     "server",
@@ -26,10 +26,11 @@
   "dependencies": {
     "bluebird": "2.9.3",
     "coffee-script": "1.8.0",
+    "commander": "2.6.0",
     "express": "4.11.1",
     "jdb": "0.4.5",
     "marked": "0.3.3",
-    "nokit": "0.2.9"
+    "nokit": "0.3.1"
   },
   "devDependencies": {
     "benchmark": "*",
