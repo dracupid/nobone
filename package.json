@@ -8,6 +8,7 @@
     "nb": "bin/nobone.js"
   },
   "scripts": {
+    "no": "no",
     "test": "no test",
     "prepublish": "no build"
   },

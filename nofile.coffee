@@ -2,16 +2,16 @@ process.chdir __dirname
 
 build = require './build'
 
-option '-d, --debug', 'Node debug mode.'
-option '-p, --port [port]', 'Node debug mode.'
-option '-b, --bare', 'Build source code without doc or lint.'
+option '-d, --debug', 'node debug mode'
+option '-p, --port [8283]', 'node debug mode', 8283
+option '-b, --bare', 'build source code without doc or lint'
 
-task 'default', ['build'], 'Default task is build'
+task 'default', ['build'], 'default task is "build"'
 
-task 'dev', 'Dev Server', (opts) ->
+task 'dev', 'run and monitor "test/lab.coffee"', (opts) ->
 	appPath = 'test/lab.coffee'
 	if opts.debug
-		port = opts.port or 8283
+		port = opts.port
 		args = ['--nodejs', '--debug-brk=' + port, appPath]
 	else
 		args = [appPath]
@@ -21,8 +21,8 @@ task 'dev', 'Dev Server', (opts) ->
 		args
 	}
 
-option '-g, --grep [grep]', 'Test pattern', '.'
-task 'test', 'Basic test', (opts) ->
+option '-g, --grep ["."]', 'test pattern', '.'
+task 'test', 'run unit tests', (opts) ->
 	build opts
 	.then ->
 		kit.remove '.nobone'
@@ -42,10 +42,10 @@ task 'test', 'Basic test', (opts) ->
 		kit.err err.stack
 		process.exit 1
 
-task 'build', 'Compile coffee and Docs', (opts) ->
+task 'build', 'compile coffee and docs', (opts) ->
 	build opts
 
-task 'clean', 'Clean js', ->
+task 'clean', 'clean js', ->
 	kit.log ">> Clean js & css..."
 
 	kit.glob('assets/**/*.css')
@@ -55,10 +55,10 @@ task 'clean', 'Clean js', ->
 
 	kit.remove('dist')
 
-task 'hotfix', 'Hotfix third dependencies\' bugs', ->
+task 'hotfix', 'hotfix third dependencies\' bugs', ->
 	# ys: Node break again and again.
 
-task 'benchmark', 'Some basic benchmarks', ->
+task 'benchmark', 'run some basic benchmarks', ->
 	{ process: server } = kit.spawn 'coffee', ['benchmark/load_test_server.coffee']
 
 	setTimeout ->
