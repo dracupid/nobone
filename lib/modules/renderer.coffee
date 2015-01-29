@@ -612,7 +612,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 			Promise.all(_.map handler.newWatchList, (nil, path) ->
 				return if _.isFunction(handler.watchedList[path])
-				kit.watchFile path, watcher
+				kit.watchPath path, {
+					handler: watcher
+				}
 				.then (listener) ->
 					handler.watchedList[path] = listener
 					emit self.e.watchFile, relate(path), handler.reqPath

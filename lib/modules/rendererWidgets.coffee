@@ -60,7 +60,7 @@ module.exports = rendererWidgets =
 				self = @
 				switch @ext
 					when '.tpl'
-						tplFn = _.template str, null, { sourceURL: path }
+						tplFn = _.template str, { sourceURL: path }
 
 					when '.ejs'
 						compiler = kit.requireOptional 'ejs'
@@ -430,7 +430,7 @@ module.exports = rendererWidgets =
 			kit.readFile tplPath, 'utf8'
 			.then (str) ->
 				try
-					_.template str, { path, body: md, sourceURL: tplPath }
+					_.template(str, { sourceURL: tplPath }) { path, body: md }
 				catch err
 					Promise.reject err
 
