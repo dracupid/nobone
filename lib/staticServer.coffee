@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'development'
 
 nobone = require './nobone'
+os = require 'os'
 
 { kit, renderer, service } = nobone {
 	service: {}
@@ -8,11 +9,20 @@ nobone = require './nobone'
 		enableWatcher: true
 	}
 }
+{ _ } = kit
 
 [ host, port, rootDir, openDir ] = process.argv[2..]
 
+guessIP = ->
+	ifaces = _.reduce(os.networkInterfaces(), (s, v, k) ->
+		s.concat _.filter v, (el) ->
+			el.family == 'IPv4' and !el.internal
+	, [])
+
+	_.map(ifaces, (el) -> el.address.cyan).join ', '
+
 service.use renderer.staticEx(rootDir)
-kit.log "Static folder: " + rootDir.cyan
+kit.log "Static folder: " + rootDir
 
 # Favicon.
 service.get '/favicon.ico', (req, res) ->
@@ -20,6 +30,7 @@ service.get '/favicon.ico', (req, res) ->
 	res.sendFile noboneFavicon
 
 service.listen port, host, ->
+	kit.log "Public IP: " + guessIP().cyan
 	kit.log "Listen: " + "#{host}:#{port}".cyan
 
 	if JSON.parse openDir
