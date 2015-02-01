@@ -316,10 +316,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 
 	emit = (args...) ->
 		if opts.autoLog
+			cs = kit.require 'colors/safe'
 			if args[0] == 'compileError'
-				kit.err args[1].yellow + '\n' + (args[2] + '').red
+				kit.err cs.yellow args[1] + '\n' + cs.red args[2]
 			else
-				kit.log [args[0].cyan].concat(args[1..]).join(' | '.grey)
+				kit.log [cs.cyan args[0]].concat(args[1..]).join cs.grey ' | '
 
 		self.emit.apply self, args
 
@@ -589,10 +590,11 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		watcher = (path, curr, prev, isDeletion) ->
 			# If moved or deleted
 			if isDeletion
+				cs = kit.require 'colors/safe'
 				self.releaseCache path
 				emit(
 					self.e.fileDeleted
-					relate(path) + ' -> '.cyan + relate(handler.path)
+					relate(path) + cs.cyan(' -> ') + relate(handler.path)
 				)
 
 			else if curr.mtime != prev.mtime

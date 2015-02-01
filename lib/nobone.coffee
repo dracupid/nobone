@@ -109,14 +109,15 @@ _.extend nobone, {
 	checkUpgrade: ->
 		kit.request 'https://registry.npmjs.org/nobone/latest'
 		.then (data) ->
+			cs = kit.require 'colors/safe'
 			{ version: ver } = JSON.parse data
 			curr_ver = nobone.version()
 			if ver > curr_ver
 				path = kit.path.normalize kit.path.join(__dirname, '..')
-				info = "nobone@#{ver}".green
-				console.warn "[ A new version of ".grey +
-					info + " is available. ".grey +
-					"Current is v#{curr_ver} (#{path})]".grey
+				info = cs.green "nobone@#{ver}"
+				console.warn cs.grey("[ A new version of ") +
+					info + cs.grey(" is available. " +
+					"Current is v#{curr_ver} (#{path})]")
 
 	###*
 	 * The NoBone client helper.

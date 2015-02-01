@@ -28,4 +28,4 @@ srv.listen 8122, ->
 	]
 	.then (res) ->
 		assert.equal res[0], res[1]
-		kit.log 'Done'.green
+		kit.log 'Done'

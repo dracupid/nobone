@@ -371,9 +371,11 @@ module.exports = rendererWidgets =
 					when 'Function'
 						body = content()
 					else
-						body = 'The compiler should produce a number,
-							string, buffer or function: '.red +
-							path.cyan + '\n' + kit.inspect(content).yellow
+						cs = kit.require 'colors/safe'
+						body = cs.red('The compiler should produce a number,
+							string, buffer or function: ') +
+							cs.cyan(path) + '\n' +
+							cs.yellow kit.inspect content
 						err = new Error(body)
 						err.name = 'unknownType'
 						Promise.reject err

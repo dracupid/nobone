@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'development'
 
 nobone = require './nobone'
 { kit, service, renderer } = nobone()
+cs = kit.require 'colors/safe'
 
 noboneDir = kit.path.join __dirname, '..'
 
@@ -20,7 +21,7 @@ module.exports = (opts) ->
 
 		url = "http://127.0.0.1:#{port}/readme.md?offlineMarkdown"
 
-		console.log "Please Visit: ".cyan + url
+		console.log cs.cyan("Please Visit: ") + url
 
 		if opts.openDir
 			kit.xopen url

@@ -98,7 +98,8 @@ proxy = (opts = {}) ->
 					url = 'http://' + url + path
 
 		error = err or (e) ->
-			kit.log e.toString() + ' -> ' + req.url.red
+			cs = kit.require 'colors/safe'
+			kit.log e.toString() + ' -> ' + cs.red req.url
 
 		# Normalize the headers
 		headers = {}
@@ -174,7 +175,8 @@ proxy = (opts = {}) ->
 		psock.pipe sock
 
 		error = err or (err, socket) ->
-			kit.log err.toString() + ' -> ' + req.url.red
+			cs = kit.require 'colors/safe'
+			kit.log err.toString() + ' -> ' + cs.red req.url
 			socket.end()
 
 		sock.on 'error', (err) ->

@@ -10,16 +10,17 @@ os = require 'os'
 	}
 }
 { _ } = kit
+cs = kit.require 'colors/safe'
 
 [ host, port, rootDir, openDir ] = process.argv[2..]
 
-guessIP = ->
+guessIP = (port) ->
 	ifaces = _.reduce(os.networkInterfaces(), (s, v, k) ->
 		s.concat _.filter v, (el) ->
 			el.family == 'IPv4' and !el.internal
 	, [])
 
-	_.map(ifaces, (el) -> el.address.cyan).join ', '
+	_.map(ifaces, (el) -> cs.cyan el.address + ":#{port}").join ', '
 
 service.use renderer.staticEx(rootDir)
 kit.log "Static folder: " + rootDir
@@ -30,8 +31,8 @@ service.get '/favicon.ico', (req, res) ->
 	res.sendFile noboneFavicon
 
 service.listen port, host, ->
-	kit.log "Public IP: " + guessIP().cyan
-	kit.log "Listen: " + "#{host}:#{port}".cyan
+	kit.log "Public: " + cs.cyan guessIP(port)
+	kit.log "Listen: " + cs.cyan "#{host}:#{port}"
 
 	if JSON.parse openDir
 		kit.xopen 'http://127.0.0.1:' + port

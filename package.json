@@ -1,6 +1,6 @@
 {
   "name": "nobone",
-  "version": "1.4.4",
+  "version": "1.4.3",
   "description": "A server library tries to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
@@ -31,7 +31,7 @@
     "commander": "2.6.0",
     "express": "4.11.1",
     "jdb": "0.4.6",
-    "nokit": "0.4.3"
+    "nokit": "0.4.5"
   },
   "devDependencies": {
     "benchmark": "*",

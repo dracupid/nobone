@@ -1,6 +1,7 @@
 cmder = require 'commander'
 nobone = require './nobone'
 { kit } = nobone
+cs = kit.require 'colors/safe'
 
 # These are nobone's dependencies.
 libPath = kit.path.normalize "#{__dirname}/../node_modules"
@@ -64,11 +65,11 @@ cmder
 
 		list = findPlugin('nobone-*').map (path) ->
 			conf = require path + '/package'
-			name = kit.path.basename(path).replace('nobone-', '').cyan
-			ver = ('@' + conf.version).green
-			"#{name}#{ver} #{conf.description} [#{path.grey}]"
+			name = cs.cyan kit.path.basename(path).replace('nobone-', '')
+			ver = cs.green '@' + conf.version
+			"#{name}#{ver} #{conf.description} [#{cs.grey path}]"
 		console.log """
-		\n#{'Available Plugins:'.grey}
+		\n#{cs.grey 'Available Plugins:'}
 
 		#{list.join('\n\n')}
 		"""
@@ -87,7 +88,7 @@ init = ->
 			runApp paths[0]
 			return
 		else
-			kit.err 'Nothing executable: '.red + cmder.args[0]
+			kit.err cs.red('Nothing executable: ') + cmder.args[0]
 			return
 
 	if cmder.interactive
@@ -105,7 +106,7 @@ init = ->
 
 	if cmder.ver
 		path = require.resolve('./nobone')
-		console.log "#{nobone.version()} ".green + "(#{path})".grey
+		console.log "#{cs.green nobone.version()} (#{cs.grey path})"
 		return
 
 	if cmder.doc

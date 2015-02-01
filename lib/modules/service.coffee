@@ -43,15 +43,17 @@ service = (opts = {}) ->
 
 	self._emit = (args...) ->
 		if opts.autoLog
+			cs = kit.require 'colors/safe'
 			switch args[0]
 				when self.e.sseConnected
 					kit.log [
-						args[0].cyan
+						cs.cyan args[0]
 						args[1].req.path
 						args[1].req.headers.referer
-					].join(' | '.grey)
+					].join cs.grey ' | '
 				else
-					kit.log [args[0].cyan].concat(args[1..]).join(' | '.grey)
+					kit.log ([cs.cyan args[0]]
+						.concat(args[1..]).join cs.grey ' | ')
 
 		self.emit.apply self, args
 

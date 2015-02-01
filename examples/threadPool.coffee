@@ -39,7 +39,7 @@ producer = ->
 	url = tasks.pop()
 
 	kit.request(url).then (page) ->
-		kit.log "Produce: #{url}".cyan
+		kit.log "Produce: #{url}"
 
 		store.push page
 

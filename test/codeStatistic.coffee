@@ -9,7 +9,7 @@ kit.glob [
 .then (paths) ->
 	paths.push 'Cakefile'
 
-	kit.log ' File Count: '.cyan + paths.length
+	kit.log ' File Count: ' + paths.length
 
 	kit.async 20, (i) ->
 		if i >= paths.length
@@ -22,5 +22,5 @@ kit.glob [
 		lineCount += str.split('\n').length
 		sizeCount += stats.size
 .then ->
-	kit.log 'Total Lines: '.cyan + lineCount
-	kit.log ' Total Size: '.cyan + (sizeCount / 1024).toFixed(2) + ' kb'
+	kit.log 'Total Lines: ' + lineCount
+	kit.log ' Total Size: ' + (sizeCount / 1024).toFixed(2) + ' kb'
