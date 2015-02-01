@@ -1,5 +1,7 @@
 - v1.4.3
 
+  - **API CHANGE** Your pervious string color won't work any more.
+    Use `kit.require 'colors'` to re-enable it.
   - Fix a static dir name encoding bug.
   - **API CHANGE** see changelogs of project `nokit` and `nofs`.
   - Add `no` CLI tool, see `nokit`'s CLI part.
