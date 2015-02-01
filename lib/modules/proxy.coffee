@@ -66,6 +66,8 @@ proxy = (opts = {}) ->
 	 * ```
 	###
 	self.url = (req, res, url, opts = {}, err) ->
+		kit.require 'url'
+
 		if _.isObject url
 			opts = url
 			url = undefined
@@ -208,6 +210,8 @@ proxy = (opts = {}) ->
 	 * ```
 	###
 	self.pac = (currHost, ruleHandler) ->
+		kit.require 'url'
+
 		if _.isFunction currHost
 			ruleHandler = currHost
 			currHost = null

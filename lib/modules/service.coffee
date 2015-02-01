@@ -66,6 +66,7 @@ service = (opts = {}) ->
 			server.close callback
 	}
 
+	kit.require 'jhash'
 	jhash = new kit.jhash.constructor
 	self.set 'etag', (body) ->
 		hash = jhash.hash body

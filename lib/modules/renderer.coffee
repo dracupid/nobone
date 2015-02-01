@@ -302,6 +302,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	###
 	self.e.fileModified = 'fileModified'
 
+	kit.require 'jhash'
 	jhash = new kit.jhash.constructor
 
 	relate = (p) ->

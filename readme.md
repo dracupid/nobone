@@ -431,7 +431,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         [Documentation](http://nodejs.org/api/http.html#httpClassHttpServer)
 
-- #### **[sse](lib/modules/service.coffee?source#L130)**
+- #### **[sse](lib/modules/service.coffee?source#L131)**
 
     A Server-Sent Event Manager.
     The namespace of nobone sse is `/nobone-sse`.
@@ -467,7 +467,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         	console.log(msg)
         ```
 
-- #### **[e.sseConnected](lib/modules/service.coffee?source#L142)**
+- #### **[e.sseConnected](lib/modules/service.coffee?source#L143)**
 
     This event will be triggered when a sse connection started.
     The event name is a combination of sseConnected and req.path,
@@ -479,7 +479,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[e.sseClose](lib/modules/service.coffee?source#L149)**
+- #### **[e.sseClose](lib/modules/service.coffee?source#L150)**
 
     This event will be triggered when a sse connection closed.
 
@@ -489,7 +489,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[sse.create](lib/modules/service.coffee?source#L157)**
+- #### **[sse.create](lib/modules/service.coffee?source#L158)**
 
     Create a sse session.
 
@@ -499,7 +499,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _SSESession_ }
 
-- #### **[session.emit](lib/modules/service.coffee?source#L172)**
+- #### **[session.emit](lib/modules/service.coffee?source#L173)**
 
     Emit message to client.
 
@@ -511,7 +511,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The message to send to the client.
 
-- #### **[sse.emit](lib/modules/service.coffee?source#L199)**
+- #### **[sse.emit](lib/modules/service.coffee?source#L200)**
 
     Broadcast a event to clients.
 
@@ -819,7 +819,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The path of the file.
 
-- #### **[getCache](lib/modules/renderer.coffee?source#L511)**
+- #### **[getCache](lib/modules/renderer.coffee?source#L512)**
 
     Set handler cache.
 
@@ -827,7 +827,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Promise_ }
 
-- #### **[genHandler](lib/modules/renderer.coffee?source#L540)**
+- #### **[genHandler](lib/modules/renderer.coffee?source#L541)**
 
     Generate a file handler.
 
@@ -1034,7 +1034,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         service.use proxy.url
         ```
 
-- #### **[connect](lib/modules/proxy.coffee?source#L159)**
+- #### **[connect](lib/modules/proxy.coffee?source#L161)**
 
     Http CONNECT method tunneling proxy helper.
     Most times used with https proxing.
@@ -1067,7 +1067,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         service.server.on 'connect', proxy.connect
         ```
 
-- #### **[pac](lib/modules/proxy.coffee?source#L210)**
+- #### **[pac](lib/modules/proxy.coffee?source#L212)**
 
     A pac helper.
 

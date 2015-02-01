@@ -353,6 +353,8 @@ describe 'Basic:', ->
 describe 'Proxy: ', ->
 
 	it 'url', (tdone) ->
+		kit.require 'url'
+
 		nbInstance = nobone { proxy: {} }
 
 		server = http.createServer (req, res) ->
