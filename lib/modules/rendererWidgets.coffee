@@ -75,8 +75,9 @@ module.exports = rendererWidgets =
 						else
 							opts =
 								compileDebug: false
+						opts.filename = path
 
-						tplFn = compiler.compileFile path, opts
+						tplFn = compiler.compile str, opts
 						@dependencyPaths = tplFn.dependencies
 
 				render = (data) ->
