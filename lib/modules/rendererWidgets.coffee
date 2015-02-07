@@ -68,8 +68,15 @@ module.exports = rendererWidgets =
 						tplFn = compiler.compile str, { filename: path }
 					when '.jade'
 						compiler = kit.requireOptional 'jade'
+						if kit.isDevelopment()
+							opts =
+								pretty: '    ' # Use 4 spaces as indention
+								compileDebug: true
+						else
+							opts =
+								compileDebug: false
 
-						tplFn = compiler.compile str, { filename: path }
+						tplFn = compiler.compileFile path, opts
 						@dependencyPaths = tplFn.dependencies
 
 				render = (data) ->

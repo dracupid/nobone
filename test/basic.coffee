@@ -102,7 +102,7 @@ describe 'Basic:', ->
 			{ port } = server.address()
 			get '/jade.html', port
 			.then (body) ->
-				assert.equal body.indexOf('Nobone'), 44
+				assert.equal body.indexOf('Nobone'), 78
 
 				server.close ->
 					tdone()
