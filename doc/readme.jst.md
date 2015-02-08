@@ -49,14 +49,14 @@ nb -d
 
 ## FAQ
 
-<%= faq %>
+<%= doc.faq %>
 
 *****************************************************************************
 
 ## Quick Start
 
 ```coffee
-<%= basic %>
+<%= doc.basic %>
 ```
 
 *****************************************************************************
@@ -67,7 +67,7 @@ nb -d
 
 See the [examples](examples).
 
-<%= examples %>
+<%= doc.examples %>
 
 ### CLI Usage
 
@@ -186,7 +186,38 @@ You can use `nb ls` to list all installed plugins.
 
 _It's highly recommended reading the API doc locally by command `nb --doc`_
 
-<%= modsApi %>
+### nobone
+
+<%= doc['lib/nobone.coffee'] %>
+
+### kit
+
+<%= doc['lib/kit.coffee'] %>
+
+### service
+
+<%= doc['lib/modules/service.coffee'] %>
+
+### renderer
+
+<%= doc['lib/modules/renderer.coffee'] %>
+
+### rendererWidgets
+
+<%= doc['lib/modules/rendererWidgets.coffee'] %>
+
+### db
+
+<%= doc['lib/modules/db.coffee'] %>
+
+### proxy
+
+<%= doc['lib/modules/proxy.coffee'] %>
+
+### lang
+
+<%= doc['lib/modules/lang.coffee'] %>
+
 
 ## Changelog
 
