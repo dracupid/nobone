@@ -63,11 +63,11 @@ module.exports = rendererWidgets =
 						tplFn = _.template str, { sourceURL: path }
 
 					when '.ejs'
-						compiler = kit.requireOptional 'ejs'
+						compiler = kit.requireOptional 'ejs', __dirname
 
 						tplFn = compiler.compile str, { filename: path }
 					when '.jade'
-						compiler = kit.requireOptional 'jade'
+						compiler = kit.requireOptional 'jade', __dirname
 						if kit.isDevelopment()
 							opts =
 								pretty: '    ' # Use 4 spaces as indention
@@ -105,7 +105,7 @@ module.exports = rendererWidgets =
 		'.js':
 			extSrc: '.coffee'
 			compiler: (str, path, data = {}) ->
-				coffee = kit.require 'coffee-script'
+				coffee = kit.require 'coffee-script', __dirname
 				coffee.compile str, _.defaults(data, {
 					bare: true
 					compress: kit.isProduction()
@@ -117,10 +117,10 @@ module.exports = rendererWidgets =
 			dependencyReg: /require\s+([^\r\n]+)/g
 			extSrc: '.coffee'
 			compiler: (nil, path, data = {}) ->
-				browserify = kit.requireOptional 'browserify'
-				through = kit.requireOptional 'through'
+				browserify = kit.requireOptional 'browserify', __dirname
+				through = kit.requireOptional 'through', __dirname
 
-				coffee = kit.require 'coffee-script'
+				coffee = kit.require 'coffee-script', __dirname
 
 				_.defaults(data, {
 					bare: true
@@ -156,7 +156,7 @@ module.exports = rendererWidgets =
 				}
 				switch @ext
 					when '.styl'
-						stylus = kit.requireOptional 'stylus'
+						stylus = kit.requireOptional 'stylus', __dirname
 
 						_.defaults data, {
 							sourcemap:
@@ -169,7 +169,7 @@ module.exports = rendererWidgets =
 					when '.less'
 						return '' if str == ''
 
-						less = kit.requireOptional 'less'
+						less = kit.requireOptional 'less', __dirname
 
 						if less.version[0] < 2 # old API for less < 2.0.0
 							parser = new less.Parser(_.defaults data, {
@@ -212,7 +212,7 @@ module.exports = rendererWidgets =
 								Promise.reject err
 
 					when '.sass', '.scss'
-						sass = kit.requireOptional 'node-sass'
+						sass = kit.requireOptional 'node-sass', __dirname
 						sass.renderSync _.defaults data, {
 							outputStyle:
 								if kit.isProduction()
@@ -228,7 +228,7 @@ module.exports = rendererWidgets =
 			type: '.html'
 			extSrc: ['.md','.markdown']
 			compiler: (str, path, data = {}) ->
-				marked = kit.requireOptional 'marked'
+				marked = kit.requireOptional 'marked', __dirname
 				marked str, data
 
 	###*
@@ -329,7 +329,7 @@ module.exports = rendererWidgets =
 	 * @return {Function}
 	###
 	static: (renderer, opts = {}) ->
-		express = kit.require 'express'
+		express = kit.require 'express', __dirname
 
 		if _.isString opts
 			opts = { rootDir: opts }
@@ -428,7 +428,7 @@ module.exports = rendererWidgets =
 		assetsRoot = kit.path.join noboneRoot, 'assets'
 
 		renderer.fileHandlers['.md'].compiler = (str, path) ->
-			marked = kit.requireOptional 'marked'
+			marked = kit.requireOptional 'marked', __dirname
 
 			try
 				md = marked str

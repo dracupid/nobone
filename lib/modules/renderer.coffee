@@ -103,7 +103,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 	 * ```coffee
 	 * { renderer } = nobone()
 	 * renderer.fileHandlers['.css'].compiler = (str, path) ->
-	 * 	stylus = kit.requireOptional 'stylus'
+	 * 	stylus = kit.requireOptional 'stylus', __dirname
 	 *
 	 * 	compile = stylus(str, data).set 'filename', path
 	 * 	# Take advantage of the syntax parser.

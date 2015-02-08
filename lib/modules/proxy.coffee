@@ -118,7 +118,7 @@ proxy = (opts = {}) ->
 			else
 				bps = opts.bps
 
-			throttle = new kit.requireOptional('throttle')(bps)
+			throttle = new kit.requireOptional('throttle', __dirname)(bps)
 
 			throttle.pipe res
 			throttle
@@ -160,7 +160,7 @@ proxy = (opts = {}) ->
 	 * ```
 	###
 	self.connect = (req, sock, head, host, port, err) ->
-		net = kit.require 'net'
+		net = kit.require 'net', __dirname
 		h = host or req.headers.host
 		p = port or req.url.match(/:(\d+)$/)[1] or 443
 
@@ -212,7 +212,7 @@ proxy = (opts = {}) ->
 	 * ```
 	###
 	self.pac = (currHost, ruleHandler) ->
-		kit.require 'url'
+		kit.require 'url', __dirname
 
 		if _.isFunction currHost
 			ruleHandler = currHost

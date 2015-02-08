@@ -10,7 +10,7 @@ delete renderer.fileHandlers['.jpg']
 # The css with extra comment will be sent back.
 renderer
 .fileHandlers['.css'].compiler = (str) ->
-	stylus = kit.require 'stylus'
+	stylus = require 'stylus'
 	compile = stylus(str)
 	kit.promisify(compile.render, compile)()
 	.then (str) ->
@@ -33,7 +33,7 @@ renderer.fileHandlers['.js'] = {
 	compiler: (str) ->
 		return str if @ext == '.js'
 
-		coffee = kit.require 'coffee-script'
+		coffee = require 'coffee-script'
 		coffee.compile str
 }
 

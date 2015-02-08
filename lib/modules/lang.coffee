@@ -89,7 +89,7 @@ module.exports = (opts = {}) ->
 			key
 
 		if args.length > 0
-			util = kit.require 'util'
+			util = kit.require 'util', __dirname
 			args.unshift out
 			util.format.apply util, args
 		else
