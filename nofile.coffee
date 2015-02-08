@@ -1,59 +1,77 @@
 process.chdir __dirname
 
-build = require './build'
+require 'nokit/global'
 
 option '-d, --debug', 'node debug mode'
 option '-p, --port [8283]', 'node debug mode', 8283
-option '-b, --bare', 'build source code without doc or lint'
 
-task 'default', ['build'], 'default task is "build"'
+task 'default', ['build', 'test'], true
 
-task 'dev', 'run and monitor "test/lab.coffee"', (opts) ->
-	appPath = 'test/lab.coffee'
+task 'lab l', 'run and monitor "test/lab.coffee"', (opts) ->
+	args = ['test/lab.coffee']
+
 	if opts.debug
-		port = opts.port
-		args = ['--nodejs', '--debug-brk=' + port, appPath]
-	else
-		args = [appPath]
+		args.splice 0, 0, '--nodejs', '--debug-brk=' + opts.port
 
-	kit.monitorApp {
-		bin: 'coffee'
-		args
-	}
+	kit.monitorApp { bin: 'coffee', args }
 
 option '-g, --grep ["."]', 'test pattern', '.'
-task 'test', 'run unit tests', (opts) ->
-	build opts
-	.then ->
-		kit.remove '.nobone'
-	.then ->
-		[
-			'test/basic.coffee'
-		].forEach (file) ->
-			kit.spawn('mocha', [
-				'-t', 10000
-				'-r', 'coffee-script/register'
-				'-R', 'spec'
-				'-g', opts.grep
-				file
-			]).catch ({ code }) ->
-				process.exit code
+option '-t, --timeout [3000]', 'test timeout', 3000
+task 'test t', ['build'], 'run unit tests', (opts) ->
+	kit.warp 'test/basic.coffee'
+	.load kit.drives.mocha {
+		timeout: opts.timeout
+		grep: opts.grep
+	}
+	.run()
 	.catch (err) ->
-		kit.err err.stack
-		process.exit 1
+		if err.code
+			process.exit err.code
+		else
+			Promise.reject err
 
-task 'build', 'compile coffee and docs', (opts) ->
-	build opts
+option '-a, --all', 'rebuild all without cache'
+task 'build b', ['clean'], 'build project', (opts) ->
+	compile = kit.async [
+		warp 'lib/**/*.coffee'
+			.load drives.auto 'lint'
+			.load drives.auto 'compile'
+			.run 'dist'
+		warp 'assets/**/*.{coffee,styl}'
+			.load drives.auto 'compile'
+			.run 'assets'
+	]
 
-task 'clean', 'clean js', ->
-	kit.log ">> Clean js & css..."
+	buildDocs = Promise.all [
+			'doc/faq.md'
+			'examples/basic.coffee'
+		].map (path) ->
+			kit.readFile path, 'utf8'
+		.then (rets) ->
+			kit.glob 'examples/*.coffee'
+			.then (paths) ->
+				rets.push paths.map(
+					(l) -> "- [#{kit.path.basename(l, '.coffee')}](#{l}?source)"
+				).join('\n')
+				rets
+		.then ([faq, basic, examples]) ->
+			warp 'lib/**/*.coffee'
+			.load drives.comment2md
+				doc: { faq, basic, examples }
+				h: 4, tpl: 'doc/readme.jst.md'
+			.run()
 
-	kit.glob('assets/**/*.css')
-	.then (list) ->
-		for path in list
-			kit.remove path
+	kit.async [compile, buildDocs]
 
-	kit.remove('dist')
+task 'clean', 'clean js', (opts) ->
+	list = [
+		'.nobone'
+		'dist'
+		'assets/**/*.css'
+	]
+	if opts.all
+		list.push '.nokit'
+	kit.async list.map _.ary kit.remove, 1
 
 task 'hotfix', 'hotfix third dependencies\' bugs', ->
 	# ys: Node break again and again.
