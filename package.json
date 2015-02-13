@@ -29,8 +29,8 @@
     "coffee-script": "1.9.0",
     "commander": "2.6.0",
     "express": "4.11.2",
-    "jdb": "0.4.8",
-    "nokit": "0.4.5"
+    "jdb": "0.4.9",
+    "nokit": "0.5.0"
   },
   "devDependencies": {
     "benchmark": "*",
