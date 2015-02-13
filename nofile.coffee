@@ -20,12 +20,13 @@ module.exports = (task, option) ->
 	option '-g, --grep ["."]', 'test pattern', '.'
 	option '-t, --timeout [3000]', 'test timeout', 3000
 	task 'test t', 'run unit tests', (opts) ->
-		warp 'test/basic.coffee'
-		.load drives.mocha {
-			timeout: opts.timeout
-			grep: opts.grep
-		}
-		.run()
+		kit.spawn('mocha', [
+			'-t', opts.timeout
+			'-r', 'coffee-script/register'
+			'-R', 'spec'
+			'-g', opts.grep
+			'test/basic.coffee'
+		])
 		.catch (err) ->
 			if err.code
 				process.exit err.code

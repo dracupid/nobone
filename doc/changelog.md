@@ -1,3 +1,9 @@
+- v1.4.4
+
+  - **API CHANGE** The second argument of
+    `kit.require` and `kit.requireOptional` should be `__dirname`.
+  - Update deps: `nokit`.
+
 - v1.4.3
 
   - **API CHANGE** Your pervious string color won't work any more.

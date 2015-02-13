@@ -5,8 +5,22 @@
 assert = require 'assert'
 nobone = require '../lib/nobone'
 http = require 'http'
+net = require 'net'
 { kit } = nobone
 { Promise, _ } = kit
+
+
+shouldEqual = (args...) ->
+	try
+		assert.strictEqual.apply assert, args
+	catch err
+		Promise.reject err
+
+shouldDeepEqual = (args...) ->
+	try
+		assert.deepEqual.apply assert, args
+	catch err
+		Promise.reject err
 
 get = (path, port, headers) ->
 	wait = (span = 100) ->
@@ -29,8 +43,9 @@ get = (path, port, headers) ->
 		else
 			Promise.reject err
 
+serverList = []
+
 freePort = ->
-	net = kit.require 'net'
 	server = net.createServer()
 
 	new Promise (resolve) ->
@@ -41,23 +56,21 @@ freePort = ->
 				resolve port
 
 describe 'Basic:', ->
+	after ->
+		for s in serverList
+			try s.close()
 
 	it 'render main.coffee', (tdone) ->
 		{ service, renderer } = nobone { service: {}, renderer: {} }
 
 		service.use renderer.static('test/fixtures')
 
-		server = service.listen 0, ->
+		serverList.push server = service.listen 0, ->
 			{ port } = server.address()
 			get '/main.js', port
 			.then (body) ->
 				assert.equal body.indexOf("document.body.appendChild(elem);"), 77
-
-				server.close ->
-					tdone()
-			.catch (err) ->
-				server.close ->
-					tdone err.stack or err
+				tdone()
 
 	it 'render errSample.styl', (tdone) ->
 		{ service, renderer } = nobone { service: {}, renderer: {} }
@@ -174,31 +187,27 @@ describe 'Basic:', ->
 				final().then ->
 					tdone err.stack or err
 
-	it 'render force html', (tdone) ->
+	it 'render force html', ->
 		{ renderer } = nobone { renderer: {} }
 
 		kit.glob 'test/fixtures/inde*.ejs'
 		.then ([path]) ->
 			renderer.render(path, '.html')
 		.then (tpl) ->
-			assert.equal(
+			shouldEqual(
 				tpl({ name: 'nobone' }).indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t'), 0
 			)
-			tdone()
-		.catch tdone
 
-	it 'render tpl', (tdone) ->
+	it 'render tpl', ->
 		{ renderer } = nobone { renderer: {} }
 
 		renderer.render 'test/fixtures/tpl.html'
 		.then (fn) ->
-			assert.equal(
+			shouldEqual(
 				fn({ name: 'nobone' }).indexOf('nobone') > 0, true
 			)
-			tdone()
-		.catch tdone
 
-	it 'render raw', (tdone) ->
+	it 'render raw', ->
 		{ renderer } = nobone { renderer: {} }
 
 		kit.glob 'test/fixtures/include.ejs'
@@ -206,33 +215,27 @@ describe 'Basic:', ->
 			renderer.render(path)
 		.then (func) ->
 			str = func.toString().replace /\r\n/g, '\n'
-			assert.equal str.indexOf('include-content'), 77
-			tdone()
-		.catch tdone
+			shouldEqual str.indexOf('include-content'), 77
 
-	it 'render js directly', (tdone) ->
+	it 'render js directly', ->
 		{ renderer } = nobone { renderer: {} }
 
 		renderer.render('test/fixtures/test.js')
 		.then (str) ->
-			assert.equal str, 'var a = 10;'
-			tdone()
-		.catch tdone
+			shouldEqual str, 'var a = 10;'
 
-	it 'renderer with data', (tdone) ->
+	it 'renderer with data', ->
 		{ renderer: rr } = nobone()
 
 		rr.render(
 			'test/fixtures/index.html'
 			{ name: 'nobone' }
 		).then (page) ->
-			assert.equal(
+			shouldEqual(
 				page.indexOf('<!DOCTYPE html>\n<html>\n<head>\n\t<title>nobone</title>'), 0
 			)
-			tdone()
-		.catch tdone
 
-	it 'database', (tdone) ->
+	it 'database', ->
 		{ db } = nobone { db: { dbPath: '.nobone/db_test.db' } }
 
 		db.loaded.then ->
@@ -245,10 +248,9 @@ describe 'Basic:', ->
 					command: (jdb) ->
 						jdb.send jdb.doc.a
 				}).then (d) ->
-					assert.equal d, 1
-					tdone()
+					shouldEqual d, 1
 
-	it 'custom codeHandler', (tdone) ->
+	it 'custom codeHandler', ->
 		{ renderer: rr } = nobone {
 			renderer: {
 				cacheDir: '.nobone/customCodeHandler'
@@ -260,18 +262,13 @@ describe 'Basic:', ->
 
 		rr.render 'test/fixtures/main.js'
 		.then (str) ->
-			assert.equal str, 'elem'
-			tdone()
-		.catch tdone
+			shouldEqual str, 'elem'
 
-	it 'nobone.close', (tdone) ->
+	it 'nobone.close', ->
 		nbInstance = nobone { service: {} }
 		{ service } = nbInstance
 		service.listen 0, ->
 			nbInstance.close()
-			.then ->
-				tdone()
-			.catch tdone
 
 	it 'cli', (tdone) ->
 		freePort().then (port) ->
@@ -353,7 +350,7 @@ describe 'Basic:', ->
 describe 'Proxy: ', ->
 
 	it 'url', (tdone) ->
-		kit.require 'url'
+		require 'url'
 
 		nbInstance = nobone { proxy: {} }
 

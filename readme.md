@@ -10,7 +10,7 @@ telling developers what they should do. All the default behaviors are
 just examples of how to use NoBone. All the APIs should work together
 without pain.
 
-[![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/5puu5bouyhrmcymj)](https://ci.appveyor.com/project/ysmood/nobone-956) [![Deps Up to Date](https://david-dm.org/ysmood/nobone.svg?style=flat)](https://david-dm.org/ysmood/nobone)
+[![NPM version](https://badge.fury.io/js/nobone.svg)](http://badge.fury.io/js/nobone) [![Build Status](https://travis-ci.org/ysmood/nobone.svg)](https://travis-ci.org/ysmood/nobone) [![Build status](https://ci.appveyor.com/api/projects/status/github/ysmood/nobone?svg=true)](https://ci.appveyor.com/project/ysmood/nobone-956) [![Deps Up to Date](https://david-dm.org/ysmood/nobone.svg?style=flat)](https://david-dm.org/ysmood/nobone)
 
 *****************************************************************************
 
@@ -300,6 +300,7 @@ You can use `nb ls` to list all installed plugins.
 _It's highly recommended reading the API doc locally by command `nb --doc`_
 
 ### nobone
+
 - #### **[Overview](lib/nobone.coffee?source#L9)**
 
     NoBone has several modules and a helper lib.
@@ -388,7 +389,10 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The code of client helper.
 
+
+
 ### kit
+
 - #### **[Overview](lib/kit.coffee?source#L8)**
 
     A collection of commonly used functions.
@@ -396,7 +400,10 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     - [API Documentation](https://github.com/ysmood/nokit)
     - [Offline Documentation](?gotoDoc=nokit/readme.md)
 
+
+
 ### service
+
 - #### **[Overview](lib/modules/service.coffee?source#L5)**
 
     It is just a Express.js wrap.
@@ -528,7 +535,10 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         [path] The namespace of target sessions. If not set,
         broadcast to all clients.
 
+
+
 ### renderer
+
 - #### **[Overview](lib/modules/renderer.coffee?source#L9)**
 
     An abstract renderer for any content, such as source code or image files.
@@ -613,7 +623,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         ```coffee
         { renderer } = nobone()
         renderer.fileHandlers['.css'].compiler = (str, path) ->
-        	stylus = kit.requireOptional 'stylus'
+        	stylus = kit.requireOptional 'stylus', __dirname
 
         	compile = stylus(str, data).set 'filename', path
         	# Take advantage of the syntax parser.
@@ -837,7 +847,10 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _FileHandler_ }
 
+
+
 ### rendererWidgets
+
 - #### **[Overview](lib/modules/rendererWidgets.coffee?source#L4)**
 
     It use the renderer module to create some handy functions.
@@ -896,7 +909,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Promise that contains the compiled content.
 
-- #### **[dir](lib/modules/rendererWidgets.coffee?source#L231)**
+- #### **[dir](lib/modules/rendererWidgets.coffee?source#L239)**
 
     Folder middleware.
 
@@ -904,7 +917,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Function_ }
 
-- #### **[static](lib/modules/rendererWidgets.coffee?source#L323)**
+- #### **[static](lib/modules/rendererWidgets.coffee?source#L331)**
 
     Static middleware.
 
@@ -914,7 +927,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Function_ }
 
-- #### **[staticEx](lib/modules/rendererWidgets.coffee?source#L408)**
+- #### **[staticEx](lib/modules/rendererWidgets.coffee?source#L416)**
 
     Static middleware. Don't use it in production.
 
@@ -924,7 +937,10 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Function_ }
 
+
+
 ### db
+
 - #### **[Overview](lib/modules/db.coffee?source#L7)**
 
     See my [jdb][jdb] project.
@@ -954,7 +970,10 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>type</u>**: { _Promise_ }
 
+
+
 ### proxy
+
 - #### **[Overview](lib/modules/proxy.coffee?source#L5)**
 
     For test, page injection development.
@@ -1104,7 +1123,10 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         		direct
         ```
 
+
+
 ### lang
+
 - #### **[Overview](lib/modules/lang.coffee?source#L4)**
 
     An string helper for globalization.
@@ -1208,6 +1230,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         log 'test'.l # -> '测试'.
         log '%s persons'.lang([10]) # -> '10 persons'
         ```
+
 
 
 
