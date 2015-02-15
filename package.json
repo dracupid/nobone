@@ -26,6 +26,7 @@
   },
   "license": "BSD",
   "dependencies": {
+    "bluebird": "2.9.7",
     "coffee-script": "1.9.0",
     "commander": "2.6.0",
     "express": "4.11.2",
@@ -38,7 +39,6 @@
     "ejs": "*",
     "marked": "*",
     "through": "*",
-    "coffee-cache": "*",
     "coffeelint": "*",
     "jade": "*",
     "less": "*",
