@@ -10,7 +10,7 @@
   "scripts": {
     "no": "no",
     "test": "no test -t 10000",
-    "prepublish": "no build"
+    "prepublish": "no build -a"
   },
   "keywords": [
     "server",
@@ -24,6 +24,10 @@
     "type": "git",
     "url": "https://github.com/ysmood/nobone.git"
   },
+  "files": [
+    "assets", "benchmark", "bin", "doc/changelog.md",
+    "examples", "lib", "dist"
+  ],
   "license": "BSD",
   "dependencies": {
     "bluebird": "2.9.7",
