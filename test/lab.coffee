@@ -2,8 +2,6 @@
  * This file is used for testing new features.
 ###
 
-require 'coffee-cache'
-
 nobone = require '../lib/nobone'
 
 { kit, renderer: rr, service: srv, lang } = nobone({

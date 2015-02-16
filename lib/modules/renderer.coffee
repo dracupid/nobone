@@ -615,7 +615,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 			return if _.keys(handler.newWatchList).length == 0
 
 			Promise.all(_.map handler.newWatchList, (nil, path) ->
-				return if _.isFunction(handler.watchedList[path])
+				return if _.isObject(handler.watchedList[path])
 				kit.watchPath path, {
 					handler: watcher
 				}
@@ -647,7 +647,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		path = handler.path
 
 		# Add the src file to watch list.
-		if not _.isFunction(handler.watchedList[path])
+		if not _.isObject(handler.watchedList[path])
 			handler.watchedList[path] = null
 
 		# Make sure the dependencyRoots is string.
