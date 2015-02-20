@@ -1,6 +1,6 @@
 {
   "name": "nobone",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A server library tries to understand what developers really need.",
   "main": "dist/nobone.js",
   "bin": {
@@ -25,17 +25,22 @@
     "url": "https://github.com/ysmood/nobone.git"
   },
   "files": [
-    "assets/**/*.{css,ttf,png,js,tpl}", "benchmark", "bin",
-    "doc/changelog.md", "examples", "lib", "dist"
+    "assets/**/*.{css,ttf,png,js,tpl}",
+    "benchmark",
+    "bin",
+    "doc/changelog.md",
+    "examples",
+    "lib",
+    "dist"
   ],
   "license": "BSD",
   "dependencies": {
-    "bluebird": "2.9.7",
-    "coffee-script": "1.9.0",
+    "bluebird": "2.9.12",
+    "coffee-script": "1.9.1",
     "commander": "2.6.0",
     "express": "4.11.2",
-    "jdb": "0.4.9",
-    "nokit": "0.5.2"
+    "jdb": "0.5.0",
+    "nokit": "0.5.4"
   },
   "devDependencies": {
     "benchmark": "*",

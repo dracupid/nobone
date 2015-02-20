@@ -1,4 +1,4 @@
-- v1.4.6
+- v1.4.7
 
   - **API CHANGE** The second argument of
     `kit.require` and `kit.requireOptional` should be `__dirname`.
