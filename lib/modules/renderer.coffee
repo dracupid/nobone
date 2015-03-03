@@ -318,7 +318,7 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 		if opts.autoLog
 			cs = kit.require 'colors/safe'
 			if args[0] == 'compileError'
-				kit.err cs.yellow args[1] + '\n' + cs.red args[2]
+				kit.err cs.yellow args[1] + '\n' + cs.red(args[2].stack or args[2])
 			else
 				kit.log [cs.cyan args[0]].concat(args[1..]).join cs.grey ' | '
 
