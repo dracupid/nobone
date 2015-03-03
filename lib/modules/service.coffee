@@ -91,6 +91,7 @@ service = (opts = {}) ->
 
 initRemoteLog = (self) ->
 	self.post '/nobone-log', (req, res) ->
+		cs = kit.require 'colors/safe'
 		data = ''
 
 		req.on 'data', (chunk) ->
@@ -98,10 +99,13 @@ initRemoteLog = (self) ->
 
 		req.on 'end', ->
 			try
-				kit.log JSON.parse(data)
+				kit.log cs.cyan('client') + cs.grey(' | ') + if data
+					JSON.parse(data)
+				else
+					data
 				res.status(200).end()
 			catch e
-				res.status(500).end()
+				res.status(500).end(e.stack)
 
 
 initSse = (self) ->
