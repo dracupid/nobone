@@ -438,7 +438,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         [Documentation](http://nodejs.org/api/http.html#httpClassHttpServer)
 
-- #### **[sse](lib/modules/service.coffee?source#L133)**
+- #### **[sse](lib/modules/service.coffee?source#L137)**
 
     A Server-Sent Event Manager.
     The namespace of nobone sse is `/nobone-sse`.
@@ -474,7 +474,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         	console.log(msg)
         ```
 
-- #### **[e.sseConnected](lib/modules/service.coffee?source#L145)**
+- #### **[e.sseConnected](lib/modules/service.coffee?source#L149)**
 
     This event will be triggered when a sse connection started.
     The event name is a combination of sseConnected and req.path,
@@ -486,7 +486,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[e.sseClose](lib/modules/service.coffee?source#L152)**
+- #### **[e.sseClose](lib/modules/service.coffee?source#L156)**
 
     This event will be triggered when a sse connection closed.
 
@@ -496,7 +496,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[sse.create](lib/modules/service.coffee?source#L160)**
+- #### **[sse.create](lib/modules/service.coffee?source#L164)**
 
     Create a sse session.
 
@@ -506,7 +506,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _SSESession_ }
 
-- #### **[session.emit](lib/modules/service.coffee?source#L175)**
+- #### **[session.emit](lib/modules/service.coffee?source#L179)**
 
     Emit message to client.
 
@@ -518,7 +518,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The message to send to the client.
 
-- #### **[sse.emit](lib/modules/service.coffee?source#L202)**
+- #### **[sse.emit](lib/modules/service.coffee?source#L206)**
 
     Broadcast a event to clients.
 

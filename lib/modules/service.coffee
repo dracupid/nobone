@@ -100,7 +100,7 @@ initRemoteLog = (self) ->
 		req.on 'end', ->
 			try
 				kit.log cs.cyan('client') + cs.grey(' | ') + if data
-					JSON.parse(data)
+					kit.xinspect JSON.parse(data)
 				else
 					data
 				res.status(200).end()
