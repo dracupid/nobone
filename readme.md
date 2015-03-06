@@ -438,13 +438,12 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         [Documentation](http://nodejs.org/api/http.html#httpClassHttpServer)
 
-- #### **[sse](lib/modules/service.coffee?source#L137)**
+- #### **[sse](lib/modules/service.coffee?source#L136)**
 
     A Server-Sent Event Manager.
     The namespace of nobone sse is `/nobone-sse`.
-    For more info see [Using server-sent events][Using server-sent events].
+    For more info see [Using server-sent events](https://developer.mozilla.org/en-US/docs/Server-sentEvents/UsingServer-sentEvents).
     NoBone use it to implement the live-reload of web assets.
-    [Using server-sent events]: https://developer.mozilla.org/en-US/docs/Server-sentEvents/UsingServer-sentEvents
 
     - **<u>type</u>**: { _SSE_ }
 
@@ -474,7 +473,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         	console.log(msg)
         ```
 
-- #### **[e.sseConnected](lib/modules/service.coffee?source#L149)**
+- #### **[e.sseConnected](lib/modules/service.coffee?source#L148)**
 
     This event will be triggered when a sse connection started.
     The event name is a combination of sseConnected and req.path,
@@ -486,7 +485,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[e.sseClose](lib/modules/service.coffee?source#L156)**
+- #### **[e.sseClose](lib/modules/service.coffee?source#L155)**
 
     This event will be triggered when a sse connection closed.
 
@@ -496,7 +495,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[sse.create](lib/modules/service.coffee?source#L164)**
+- #### **[sse.create](lib/modules/service.coffee?source#L163)**
 
     Create a sse session.
 
@@ -506,7 +505,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _SSESession_ }
 
-- #### **[session.emit](lib/modules/service.coffee?source#L179)**
+- #### **[session.emit](lib/modules/service.coffee?source#L178)**
 
     Emit message to client.
 
@@ -518,7 +517,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The message to send to the client.
 
-- #### **[sse.emit](lib/modules/service.coffee?source#L206)**
+- #### **[sse.emit](lib/modules/service.coffee?source#L205)**
 
     Broadcast a event to clients.
 
