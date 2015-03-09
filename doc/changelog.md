@@ -1,3 +1,7 @@
+- v1.4.8
+
+  - Update deps.
+
 - v1.4.7
 
   - **API CHANGE** The second argument of
