@@ -1,6 +1,7 @@
-- v1.4.9
+- v1.5.0
 
   - Update deps.
+  - Fix a renderer race condition bug.
 
 - v1.4.7
 
