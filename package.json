@@ -35,12 +35,12 @@
   ],
   "license": "BSD",
   "dependencies": {
-    "bluebird": "2.9.13",
+    "bluebird": "2.9.12",
     "coffee-script": "1.9.1",
-    "commander": "2.7.0",
+    "commander": "2.7.1",
     "express": "4.12.2",
     "jdb": "0.5.0",
-    "nokit": "0.5.7"
+    "nokit": "0.5.8"
   },
   "devDependencies": {
     "benchmark": "*",
