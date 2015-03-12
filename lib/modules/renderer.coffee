@@ -639,8 +639,9 @@ class Renderer extends EventEmitter then constructor: (opts = {}) ->
 				path.replace(/^[\s'"]+/, '').replace(/[\s'";]+$/, '')
 		}
 		.then (paths) ->
-			for p in paths
-				handler.newWatchList[p] = null
+			if handler.newWatchList
+				for p in paths
+					handler.newWatchList[p] = null
 			handler
 
 	genWatchList = (handler) ->
