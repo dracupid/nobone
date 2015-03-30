@@ -159,8 +159,10 @@ module.exports = rendererWidgets =
 						stylus = kit.requireOptional 'stylus', __dirname
 
 						_.defaults data, {
-							sourcemap:
-								inline: kit.isDevelopment()
+							sourcemap: (if kit.isDevelopment()
+								{ inline: true }
+							else
+								false)
 						}
 						styl = stylus(str, data)
 						@dependencyPaths = styl.deps()
