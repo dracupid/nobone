@@ -310,7 +310,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     Most of the async functions are implemented with [Promise][Promise].
     [Promise]: https://github.com/petkaantonov/bluebird
 
-- #### **[nobone](lib/nobone.coffee?source#L41)**
+- #### **[nobone(modules, opts)](lib/nobone.coffee?source#L41)**
 
     Main constructor.
 
@@ -347,25 +347,25 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         A nobone instance.
 
-- #### **[close](lib/nobone.coffee?source#L81)**
+- #### **[close()](lib/nobone.coffee?source#L81)**
 
     Release the resources.
 
     - **<u>return</u>**: { _Promise_ }
 
-- #### **[version](lib/nobone.coffee?source#L102)**
+- #### **[version()](lib/nobone.coffee?source#L102)**
 
     Get current nobone version string.
 
     - **<u>return</u>**: { _String_ }
 
-- #### **[checkUpgrade](lib/nobone.coffee?source#L109)**
+- #### **[checkUpgrade()](lib/nobone.coffee?source#L109)**
 
     Check if nobone need to be upgraded.
 
     - **<u>return</u>**: { _Promise_ }
 
-- #### **[client](lib/nobone.coffee?source#L135)**
+- #### **[client(opts, useJs)](lib/nobone.coffee?source#L145)**
 
     The NoBone client helper.
 
@@ -388,6 +388,18 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     - **<u>return</u>**: { _String_ }
 
         The code of client helper.
+
+    - **<u>example</u>**:
+
+        When the client code is loaded on the browser, you can use
+        the `nb.log` to log anything to server's terminal.
+        Nobone server will auto-format and log the information to the terminal.
+        It's convinient for mobile development when remote debug is not possible.
+        ```coffee
+        # The nb is assigned to the "window" object.
+        nb.log { a: 10 }
+        nb.log 10
+        ```
 
 
 
@@ -412,7 +424,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         [Documentation](http://expressjs.com/4x/api.html)
 
-- #### **[service](lib/modules/service.coffee?source#L24)**
+- #### **[service(opts)](lib/modules/service.coffee?source#L24)**
 
     Create a Service instance.
 
@@ -473,7 +485,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         	console.log(msg)
         ```
 
-- #### **[e.sseConnected](lib/modules/service.coffee?source#L148)**
+- #### **[e.sseConnected(session)](lib/modules/service.coffee?source#L148)**
 
     This event will be triggered when a sse connection started.
     The event name is a combination of sseConnected and req.path,
@@ -485,7 +497,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[e.sseClose](lib/modules/service.coffee?source#L155)**
+- #### **[e.sseClose(session)](lib/modules/service.coffee?source#L155)**
 
     This event will be triggered when a sse connection closed.
 
@@ -495,7 +507,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The session object of current connection.
 
-- #### **[sse.create](lib/modules/service.coffee?source#L163)**
+- #### **[sse.create(req, res)](lib/modules/service.coffee?source#L163)**
 
     Create a sse session.
 
@@ -505,7 +517,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _SSESession_ }
 
-- #### **[session.emit](lib/modules/service.coffee?source#L178)**
+- #### **[session.emit(event, msg)](lib/modules/service.coffee?source#L178)**
 
     Emit message to client.
 
@@ -517,7 +529,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The message to send to the client.
 
-- #### **[sse.emit](lib/modules/service.coffee?source#L205)**
+- #### **[sse.emit(event, msg, )](lib/modules/service.coffee?source#L205)**
 
     Broadcast a event to clients.
 
@@ -550,7 +562,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         [Documentation](http://nodejs.org/api/events.html#eventsClassEventsEventemitter)
 
-- #### **[renderer](lib/modules/renderer.coffee?source#L73)**
+- #### **[renderer(opts)](lib/modules/renderer.coffee?source#L73)**
 
     Create a Renderer instance.
 
@@ -638,7 +650,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Key is the file path.
 
-- #### **[dir](lib/modules/renderer.coffee?source#L127)**
+- #### **[dir(opts)](lib/modules/renderer.coffee?source#L127)**
 
     Set a service for listing directory content, similar with the `serve-index` project.
 
@@ -650,7 +662,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Experss.js middleware.
 
-- #### **[static](lib/modules/renderer.coffee?source#L153)**
+- #### **[static(opts)](lib/modules/renderer.coffee?source#L153)**
 
     Set a static directory proxy.
     Automatically compile, cache and serve source files for both deveopment and production.
@@ -681,7 +693,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Experss.js middleware.
 
-- #### **[staticEx](lib/modules/renderer.coffee?source#L177)**
+- #### **[staticEx(opts)](lib/modules/renderer.coffee?source#L177)**
 
     An extra version of `renderer.static`.
     Better support for markdown and source file.
@@ -709,7 +721,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Experss.js middleware.
 
-- #### **[render](lib/modules/renderer.coffee?source#L205)**
+- #### **[render(path, ext, data, isCache, reqPath, handler)](lib/modules/renderer.coffee?source#L205)**
 
     Render a file. It will auto-detect the file extension and
     choose the right compiler to handle the content.
@@ -762,13 +774,13 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     Release the resources.
 
-- #### **[releaseCache](lib/modules/renderer.coffee?source#L259)**
+- #### **[releaseCache(path)](lib/modules/renderer.coffee?source#L259)**
 
     Release memory cache of a file.
 
     - **<u>param</u>**: `path` { _String_ }
 
-- #### **[e.compiled](lib/modules/renderer.coffee?source#L276)**
+- #### **[e.compiled(path, content, handler)](lib/modules/renderer.coffee?source#L276)**
 
     - **<u>event</u>**: { _compiled_ }
 
@@ -784,7 +796,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The current file handler.
 
-- #### **[e.compileError](lib/modules/renderer.coffee?source#L283)**
+- #### **[e.compileError(path, err)](lib/modules/renderer.coffee?source#L283)**
 
     - **<u>event</u>**: { _compileError_ }
 
@@ -796,7 +808,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The error info.
 
-- #### **[e.watchFile](lib/modules/renderer.coffee?source#L291)**
+- #### **[e.watchFile(path, curr, prev)](lib/modules/renderer.coffee?source#L291)**
 
     - **<u>event</u>**: { _watchFile_ }
 
@@ -812,7 +824,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Previous state.
 
-- #### **[e.fileDeleted](lib/modules/renderer.coffee?source#L297)**
+- #### **[e.fileDeleted(path)](lib/modules/renderer.coffee?source#L297)**
 
     - **<u>event</u>**: { _fileDeleted_ }
 
@@ -820,7 +832,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The path of the file.
 
-- #### **[e.fileModified](lib/modules/renderer.coffee?source#L303)**
+- #### **[e.fileModified(path)](lib/modules/renderer.coffee?source#L303)**
 
     - **<u>event</u>**: { _fileModified_ }
 
@@ -828,7 +840,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         The path of the file.
 
-- #### **[getCache](lib/modules/renderer.coffee?source#L513)**
+- #### **[getCache(handler)](lib/modules/renderer.coffee?source#L513)**
 
     Set handler cache.
 
@@ -836,7 +848,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Promise_ }
 
-- #### **[genHandler](lib/modules/renderer.coffee?source#L542)**
+- #### **[genHandler(path, handler)](lib/modules/renderer.coffee?source#L542)**
 
     Generate a file handler.
 
@@ -854,7 +866,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     It use the renderer module to create some handy functions.
 
-- #### **[compiler](lib/modules/rendererWidgets.coffee?source#L59)**
+- #### **[compiler(str, path, data)](lib/modules/rendererWidgets.coffee?source#L59)**
 
     The compiler can handle any type of file.
 
@@ -908,7 +920,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Promise that contains the compiled content.
 
-- #### **[dir](lib/modules/rendererWidgets.coffee?source#L239)**
+- #### **[dir(opts)](lib/modules/rendererWidgets.coffee?source#L241)**
 
     Folder middleware.
 
@@ -916,7 +928,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Function_ }
 
-- #### **[static](lib/modules/rendererWidgets.coffee?source#L331)**
+- #### **[static(renderer, opts)](lib/modules/rendererWidgets.coffee?source#L333)**
 
     Static middleware.
 
@@ -926,7 +938,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Function_ }
 
-- #### **[staticEx](lib/modules/rendererWidgets.coffee?source#L416)**
+- #### **[staticEx(renderer, opts)](lib/modules/rendererWidgets.coffee?source#L418)**
 
     Static middleware. Don't use it in production.
 
@@ -947,7 +959,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     [Offline Documentation](?gotoDoc=jdb/readme.md)
     [jdb]: https://github.com/ysmood/jdb
 
-- #### **[db](lib/modules/db.coffee?source#L21)**
+- #### **[db(opts)](lib/modules/db.coffee?source#L21)**
 
     Create a JDB instance.
 
@@ -978,7 +990,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
     For test, page injection development.
     A cross-platform programmable Fiddler alternative.
 
-- #### **[proxy](lib/modules/proxy.coffee?source#L16)**
+- #### **[proxy(opts)](lib/modules/proxy.coffee?source#L16)**
 
     Create a Proxy instance.
 
@@ -988,7 +1000,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Proxy_ }
 
-- #### **[url](lib/modules/proxy.coffee?source#L68)**
+- #### **[url(req, res, url, opts, err)](lib/modules/proxy.coffee?source#L68)**
 
     Use it to proxy one url to another.
 
@@ -1052,7 +1064,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         service.use proxy.url
         ```
 
-- #### **[connect](lib/modules/proxy.coffee?source#L162)**
+- #### **[connect(req, sock, head, host, port, err)](lib/modules/proxy.coffee?source#L162)**
 
     Http CONNECT method tunneling proxy helper.
     Most times used with https proxing.
@@ -1085,7 +1097,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         service.server.on 'connect', proxy.connect
         ```
 
-- #### **[pac](lib/modules/proxy.coffee?source#L214)**
+- #### **[pac(currHost, ruleHandler)](lib/modules/proxy.coffee?source#L214)**
 
     A pac helper.
 
@@ -1130,7 +1142,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     An string helper for globalization.
 
-- #### **[self](lib/modules/lang.coffee?source#L58)**
+- #### **[self(cmd, args, name)](lib/modules/lang.coffee?source#L58)**
 
     It will find the right `key/value` pair in your defined `langSet`.
     If it cannot find the one, it will output the key directly.
@@ -1211,7 +1223,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         'en'
 
-- #### **[load](lib/modules/lang.coffee?source#L132)**
+- #### **[load(filePath)](lib/modules/lang.coffee?source#L132)**
 
     Load language set and save them into the `langSet`.
     Besides, it will also add properties `l` and `lang` to `String.prototype`.

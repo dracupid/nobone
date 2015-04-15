@@ -131,6 +131,16 @@ _.extend nobone, {
 	 * ```
 	 * @param {Boolean} useJs By default use html. Default is false.
 	 * @return {String} The code of client helper.
+	 * @example
+	 * When the client code is loaded on the browser, you can use
+	 * the `nb.log` to log anything to server's terminal.
+	 * Nobone server will auto-format and log the information to the terminal.
+	 * It's convinient for mobile development when remote debug is not possible.
+	 * ```coffee
+	 * # The nb is assigned to the "window" object.
+	 * nb.log { a: 10 }
+	 * nb.log 10
+	 * ```
 	###
 	client: (opts = {}, useJs = false) ->
 		if nobone.clientJsCache
