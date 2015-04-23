@@ -24,10 +24,12 @@ proxy = (opts = {}) ->
 	 * Use it to proxy one url to another.
 	 * @param {http.IncomingMessage} req Also supports Express.js.
 	 * @param {http.ServerResponse} res Also supports Express.js.
-	 * @param {String} url The target url forced to. Optional.
+	 * @param {String | Object} url The target url forced to. Optional.
 	 * Such as force 'http://test.com/a' to 'http://test.com/b',
 	 * force 'http://test.com/a' to 'http://other.com/a',
 	 * force 'http://test.com' to 'other.com'.
+	 * It can also be an url object. Such as
+	 * `{ protocol: 'http:', host: 'test.com:8123', pathname: '/a/b', query: 's=1' }`.
 	 * @param {Object} opts Other options. Default:
 	 * ```coffee
 	 * {
@@ -67,10 +69,6 @@ proxy = (opts = {}) ->
 	###
 	self.url = (req, res, url, opts = {}, err) ->
 		kit.require 'url'
-
-		if _.isObject url
-			opts = url
-			url = undefined
 
 		_.defaults opts, {
 			bps: null
