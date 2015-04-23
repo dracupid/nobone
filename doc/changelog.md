@@ -1,7 +1,8 @@
-- v1.5.0
+- v1.5.1
 
   - Update deps.
   - Fix a renderer race condition bug.
+  - Fix a `proxy.url` bug.
 
 - v1.4.7
 

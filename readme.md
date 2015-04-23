@@ -1000,7 +1000,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Proxy_ }
 
-- #### **[url(req, res, url, opts, err)](lib/modules/proxy.coffee?source#L68)**
+- #### **[url(req, res, url, opts, err)](lib/modules/proxy.coffee?source#L70)**
 
     Use it to proxy one url to another.
 
@@ -1012,12 +1012,14 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Also supports Express.js.
 
-    - **<u>param</u>**: `url` { _String_ }
+    - **<u>param</u>**: `url` { _String | Object_ }
 
         The target url forced to. Optional.
         Such as force 'http://test.com/a' to 'http://test.com/b',
         force 'http://test.com/a' to 'http://other.com/a',
         force 'http://test.com' to 'other.com'.
+        It can also be an url object. Such as
+        `{ protocol: 'http:', host: 'test.com:8123', pathname: '/a/b', query: 's=1' }`.
 
     - **<u>param</u>**: `opts` { _Object_ }
 
@@ -1064,7 +1066,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         service.use proxy.url
         ```
 
-- #### **[connect(req, sock, head, host, port, err)](lib/modules/proxy.coffee?source#L162)**
+- #### **[connect(req, sock, head, host, port, err)](lib/modules/proxy.coffee?source#L160)**
 
     Http CONNECT method tunneling proxy helper.
     Most times used with https proxing.
@@ -1097,7 +1099,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
         service.server.on 'connect', proxy.connect
         ```
 
-- #### **[pac(currHost, ruleHandler)](lib/modules/proxy.coffee?source#L214)**
+- #### **[pac(currHost, ruleHandler)](lib/modules/proxy.coffee?source#L212)**
 
     A pac helper.
 
