@@ -1,3 +1,7 @@
+- v1.5.2
+
+  - **BIG CHANGE** Now use `Yaku` instead of Bluebird.
+
 - v1.5.1
 
   - Update deps.
