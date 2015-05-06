@@ -1,4 +1,4 @@
-- v1.5.2
+- v1.5.3
 
   - **BIG CHANGE** Now use `Yaku` instead of Bluebird.
 

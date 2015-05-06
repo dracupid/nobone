@@ -176,9 +176,9 @@ close = ->
 See the [examples](examples).
 
 - [basic](examples/basic.coffee?source)
+- [customCompiler](examples/customCompiler.coffee?source)
 - [pac](examples/pac.coffee?source)
 - [proxy](examples/proxy.coffee?source)
-- [customCompiler](examples/customCompiler.coffee?source)
 - [proxyGlobalBandwidth](examples/proxyGlobalBandwidth.coffee?source)
 - [threadPool](examples/threadPool.coffee?source)
 
