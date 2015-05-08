@@ -1,6 +1,7 @@
-- v1.5.4
+- v1.5.5
 
   - **BIG CHANGE** Now use `Yaku` instead of Bluebird.
+  - opt: print style for markdown
 
 - v1.5.1
 
