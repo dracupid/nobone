@@ -53,7 +53,7 @@ module.exports = (task, option) ->
 			.then (rets) ->
 				kit.glob 'examples/*.coffee'
 				.then (paths) ->
-					rets.push paths.map(
+					rets.push paths.sort().map(
 						(l) -> "- [#{kit.path.basename(l, '.coffee')}](#{l}?source)"
 					).join('\n')
 					rets
