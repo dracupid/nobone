@@ -1,3 +1,7 @@
+- v1.5.8
+
+  - upd: nokit
+
 - v1.5.7
 
   - **BIG CHANGE** Now use `Yaku` instead of Bluebird.
