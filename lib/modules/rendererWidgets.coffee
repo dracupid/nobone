@@ -215,7 +215,7 @@ module.exports = rendererWidgets =
 
 					when '.sass', '.scss'
 						sass = kit.requireOptional 'node-sass', __dirname
-						sass.renderSync _.defaults data, {
+						ret = sass.renderSync _.defaults data, {
 							outputStyle:
 								if kit.isProduction()
 									'compressed'
@@ -225,6 +225,8 @@ module.exports = rendererWidgets =
 							data: str
 							includePaths: [kit.path.dirname(path)]
 						}
+
+						ret.css or ret
 
 		'.md':
 			type: '.html'
@@ -385,7 +387,7 @@ module.exports = rendererWidgets =
 						body = cs.red('The compiler should produce a number,
 							string, buffer or function: ') +
 							cs.cyan(path) + '\n' +
-							cs.yellow kit.inspect content
+							cs.yellow kit.xinspect content
 						err = new Error(body)
 						err.name = 'unknownType'
 						Promise.reject err
