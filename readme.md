@@ -920,7 +920,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
         Promise that contains the compiled content.
 
-- #### **[dir(opts)](lib/modules/rendererWidgets.coffee?source#L241)**
+- #### **[dir(opts)](lib/modules/rendererWidgets.coffee?source#L243)**
 
     Folder middleware.
 
@@ -928,7 +928,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Function_ }
 
-- #### **[static(renderer, opts)](lib/modules/rendererWidgets.coffee?source#L333)**
+- #### **[static(renderer, opts)](lib/modules/rendererWidgets.coffee?source#L335)**
 
     Static middleware.
 
@@ -938,7 +938,7 @@ _It's highly recommended reading the API doc locally by command `nb --doc`_
 
     - **<u>return</u>**: { _Function_ }
 
-- #### **[staticEx(renderer, opts)](lib/modules/rendererWidgets.coffee?source#L418)**
+- #### **[staticEx(renderer, opts)](lib/modules/rendererWidgets.coffee?source#L420)**
 
     Static middleware. Don't use it in production.
 

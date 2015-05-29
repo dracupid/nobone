@@ -1,3 +1,8 @@
+- v1.6.4
+
+  - upd: deps
+  - fix: #21
+
 - v1.6.3
 
   - upd: nokit
